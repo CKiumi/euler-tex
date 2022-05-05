@@ -13,7 +13,7 @@ const render = (title: string, latex: string) => {
   h1.innerText = title;
   const line = document.createElement("span");
   line.classList.add("ruler");
-  main.append(h1, line);
+  main && main.append(h1, line);
   katex.render(latex, line, { displayMode: true });
 };
 
