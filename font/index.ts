@@ -1,3 +1,4 @@
+import { SIGMAS } from "./src/sigma";
 import { Font } from "./src/spec";
 import METRICS from "./src/data";
 
@@ -22,4 +23,8 @@ export function getCharMetrics(char: string, font: Font): CharMetric {
   } catch (error) {
     throw new Error(`Font metrics not found for font: ${font}.`);
   }
+}
+
+export function getSigma(name: keyof typeof SIGMAS): number {
+  return SIGMAS[name][0];
 }
