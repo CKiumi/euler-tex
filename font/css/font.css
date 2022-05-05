@@ -1,8 +1,6 @@
 @font-face {
   font-family: "AMS-R";
   src: url("/font/AMS-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .ams-r {
@@ -12,8 +10,6 @@
 @font-face {
   font-family: "Cal-B";
   src: url("/font/Cal-B.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .cal-b {
@@ -23,8 +19,6 @@
 @font-face {
   font-family: "Cal-R";
   src: url("/font/Cal-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .cal-r {
@@ -34,8 +28,6 @@
 @font-face {
   font-family: "Frak-B";
   src: url("/font/Frak-B.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .frak-b {
@@ -45,8 +37,6 @@
 @font-face {
   font-family: "Frak-R";
   src: url("/font/Frak-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .frak-r {
@@ -56,8 +46,6 @@
 @font-face {
   font-family: "Main-B";
   src: url("/font/Main-B.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .main-b {
@@ -67,8 +55,6 @@
 @font-face {
   font-family: "Main-BI";
   src: url("/font/Main-BI.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .main-bi {
@@ -78,8 +64,6 @@
 @font-face {
   font-family: "Main-I";
   src: url("/font/Main-I.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .main-i {
@@ -89,8 +73,6 @@
 @font-face {
   font-family: "Main-R";
   src: url("/font/Main-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .main-r {
@@ -100,8 +82,6 @@
 @font-face {
   font-family: "Math-BI";
   src: url("/font/Math-BI.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .math-bi {
@@ -111,8 +91,6 @@
 @font-face {
   font-family: "Math-I";
   src: url("/font/Math-I.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .math-i {
@@ -122,8 +100,6 @@
 @font-face {
   font-family: "San-B";
   src: url("/font/San-B.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .san-b {
@@ -133,8 +109,6 @@
 @font-face {
   font-family: "San-I";
   src: url("/font/San-I.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .san-i {
@@ -144,8 +118,6 @@
 @font-face {
   font-family: "San-R";
   src: url("/font/San-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .san-r {
@@ -155,8 +127,6 @@
 @font-face {
   font-family: "Script-R";
   src: url("/font/Script-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .script-r {
@@ -166,8 +136,6 @@
 @font-face {
   font-family: "Size1";
   src: url("/font/Size1.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .size1 {
@@ -177,8 +145,6 @@
 @font-face {
   font-family: "Size2";
   src: url("/font/Size2.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .size2 {
@@ -188,8 +154,6 @@
 @font-face {
   font-family: "Size3";
   src: url("/font/Size3.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .size3 {
@@ -199,8 +163,6 @@
 @font-face {
   font-family: "Size4";
   src: url("/font/Size4.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .size4 {
@@ -210,8 +172,6 @@
 @font-face {
   font-family: "Type-R";
   src: url("/font/Type-R.woff2") format("woff2");
-  font-weight: normal;
-  font-display: "swap";
 }
 
 .type-r {

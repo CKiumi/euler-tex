@@ -24,8 +24,6 @@ const main = async () => {
     css += `@font-face {
       font-family: "${fontName}";
       src: url("/font/${fontName}.woff2") format("woff2");
-      font-weight: normal;
-      font-display: "swap";
     }\n
     .${fontName.toLowerCase()} {
       font-family: "${fontName}";
