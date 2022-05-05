@@ -1,4 +1,4 @@
-import { getCharMetrics } from "../font/index";
+import { getCharMetrics } from "../../font/index";
 import { expect, test } from "vitest";
 
 test("getCharMetrics", () => {

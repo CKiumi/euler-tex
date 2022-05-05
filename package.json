@@ -6,6 +6,7 @@
     "dev": "vite",
     "test": "tsc --noEmit && eslint . && vitest",
     "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots",
     "coverage": "vitest run --coverage",
     "build": "tsc && vite build",
     "preview": "vite preview"
