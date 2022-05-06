@@ -23,7 +23,7 @@ const main = async () => {
     type += `|"${fontName}"`;
     css += `@font-face {
       font-family: "${fontName}";
-      src: url("/font/${fontName}.woff2") format("woff2");
+      src: url("/font/woff/${fontName}.woff2") format("woff2");
     }\n
     .${fontName.toLowerCase()} {
       font-family: "${fontName}";

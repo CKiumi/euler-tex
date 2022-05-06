@@ -1,6 +1,7 @@
 import { SIGMAS } from "./src/sigma";
-import { Font } from "./src/spec";
+import { Font, SPEC } from "./src/spec";
 import METRICS from "./src/data";
+export { SPEC };
 
 export type CharMetric = {
   depth: number;

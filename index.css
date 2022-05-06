@@ -40,4 +40,5 @@ button:hover {
 
 .katex-display > .katex {
   text-align: left !important;
+  font-size: 1em !important;
 }

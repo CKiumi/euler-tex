@@ -1,6 +1,6 @@
 @font-face {
   font-family: "AMS-R";
-  src: url("/font/AMS-R.woff2") format("woff2");
+  src: url("/font/woff/AMS-R.woff2") format("woff2");
 }
 
 .ams-r {
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "Cal-B";
-  src: url("/font/Cal-B.woff2") format("woff2");
+  src: url("/font/woff/Cal-B.woff2") format("woff2");
 }
 
 .cal-b {
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: "Cal-R";
-  src: url("/font/Cal-R.woff2") format("woff2");
+  src: url("/font/woff/Cal-R.woff2") format("woff2");
 }
 
 .cal-r {
@@ -27,7 +27,7 @@
 
 @font-face {
   font-family: "Frak-B";
-  src: url("/font/Frak-B.woff2") format("woff2");
+  src: url("/font/woff/Frak-B.woff2") format("woff2");
 }
 
 .frak-b {
@@ -36,7 +36,7 @@
 
 @font-face {
   font-family: "Frak-R";
-  src: url("/font/Frak-R.woff2") format("woff2");
+  src: url("/font/woff/Frak-R.woff2") format("woff2");
 }
 
 .frak-r {
@@ -45,7 +45,7 @@
 
 @font-face {
   font-family: "Main-B";
-  src: url("/font/Main-B.woff2") format("woff2");
+  src: url("/font/woff/Main-B.woff2") format("woff2");
 }
 
 .main-b {
@@ -54,7 +54,7 @@
 
 @font-face {
   font-family: "Main-BI";
-  src: url("/font/Main-BI.woff2") format("woff2");
+  src: url("/font/woff/Main-BI.woff2") format("woff2");
 }
 
 .main-bi {
@@ -63,7 +63,7 @@
 
 @font-face {
   font-family: "Main-I";
-  src: url("/font/Main-I.woff2") format("woff2");
+  src: url("/font/woff/Main-I.woff2") format("woff2");
 }
 
 .main-i {
@@ -72,7 +72,7 @@
 
 @font-face {
   font-family: "Main-R";
-  src: url("/font/Main-R.woff2") format("woff2");
+  src: url("/font/woff/Main-R.woff2") format("woff2");
 }
 
 .main-r {
@@ -81,7 +81,7 @@
 
 @font-face {
   font-family: "Math-BI";
-  src: url("/font/Math-BI.woff2") format("woff2");
+  src: url("/font/woff/Math-BI.woff2") format("woff2");
 }
 
 .math-bi {
@@ -90,7 +90,7 @@
 
 @font-face {
   font-family: "Math-I";
-  src: url("/font/Math-I.woff2") format("woff2");
+  src: url("/font/woff/Math-I.woff2") format("woff2");
 }
 
 .math-i {
@@ -99,7 +99,7 @@
 
 @font-face {
   font-family: "San-B";
-  src: url("/font/San-B.woff2") format("woff2");
+  src: url("/font/woff/San-B.woff2") format("woff2");
 }
 
 .san-b {
@@ -108,7 +108,7 @@
 
 @font-face {
   font-family: "San-I";
-  src: url("/font/San-I.woff2") format("woff2");
+  src: url("/font/woff/San-I.woff2") format("woff2");
 }
 
 .san-i {
@@ -117,7 +117,7 @@
 
 @font-face {
   font-family: "San-R";
-  src: url("/font/San-R.woff2") format("woff2");
+  src: url("/font/woff/San-R.woff2") format("woff2");
 }
 
 .san-r {
@@ -126,7 +126,7 @@
 
 @font-face {
   font-family: "Script-R";
-  src: url("/font/Script-R.woff2") format("woff2");
+  src: url("/font/woff/Script-R.woff2") format("woff2");
 }
 
 .script-r {
@@ -135,7 +135,7 @@
 
 @font-face {
   font-family: "Size1";
-  src: url("/font/Size1.woff2") format("woff2");
+  src: url("/font/woff/Size1.woff2") format("woff2");
 }
 
 .size1 {
@@ -144,7 +144,7 @@
 
 @font-face {
   font-family: "Size2";
-  src: url("/font/Size2.woff2") format("woff2");
+  src: url("/font/woff/Size2.woff2") format("woff2");
 }
 
 .size2 {
@@ -153,7 +153,7 @@
 
 @font-face {
   font-family: "Size3";
-  src: url("/font/Size3.woff2") format("woff2");
+  src: url("/font/woff/Size3.woff2") format("woff2");
 }
 
 .size3 {
@@ -162,7 +162,7 @@
 
 @font-face {
   font-family: "Size4";
-  src: url("/font/Size4.woff2") format("woff2");
+  src: url("/font/woff/Size4.woff2") format("woff2");
 }
 
 .size4 {
@@ -171,7 +171,7 @@
 
 @font-face {
   font-family: "Type-R";
-  src: url("/font/Type-R.woff2") format("woff2");
+  src: url("/font/woff/Type-R.woff2") format("woff2");
 }
 
 .type-r {

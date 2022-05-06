@@ -1,7 +1,10 @@
 // Vitest Snapshot v1
 
-exports[`first 1`] = `
-<span>
-  F
+exports[`symbol box 1`] = `
+<span
+  class="box math-i"
+  style="height: 0.8540em; padding-right: 0.0572em; line-height: 0.8200em;"
+>
+  j
 </span>
 `;
