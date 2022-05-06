@@ -1,4 +1,4 @@
-import { tests } from "src/lib";
+import { tests } from "/src/lib";
 import { expect, test } from "vitest";
 
 test("first", () => {

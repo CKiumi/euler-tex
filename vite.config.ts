@@ -10,7 +10,9 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, "test/e2e/*"],
     coverage: { reportsDirectory: "test/coverage" },
   },
-  alias: {
-    src: path.resolve("src/"),
+  resolve: {
+    alias: {
+      "/": path.resolve(__dirname),
+    },
   },
 } as UserConfigExport);

@@ -8,7 +8,7 @@
     "e2e": "playwright test",
     "e2e:update": "playwright test --update-snapshots",
     "coverage": "vitest run --coverage",
-    "check": "tsc --noEmit && eslint . && vitest && playwright test",
+    "test:all": "tsc --noEmit && eslint . && vitest && playwright test",
     "lint": "tsc --noEmit && eslint .",
     "build": "tsc && vite build",
     "preview": "vite preview"
