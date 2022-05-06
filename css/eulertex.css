@@ -1,0 +1,9 @@
+.box {
+  display: inline-block;
+  background: rgba(206, 233, 254, 0.507);
+}
+
+.hbox {
+  display: inline-block;
+  line-height: 0;
+}

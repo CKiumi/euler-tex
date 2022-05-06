@@ -1,7 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`first 1`] = `
-<span>
-  F
-</span>
-`;

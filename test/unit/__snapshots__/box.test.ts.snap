@@ -1,7 +1,47 @@
 // Vitest Snapshot v1
 
-exports[`first 1`] = `
-<span>
-  F
+exports[`symbol box 1`] = `
+<span
+  class="box math-i"
+  style="height: 0.8540em; padding-right: 0.0572em; line-height: 0.8200em;"
+>
+  j
+</span>
+`;
+
+exports[`symbol box 2`] = `
+<span
+  class="hbox"
+>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    a
+  </span>
+  <span
+    class="box main-r"
+    style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+  >
+    +
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
+  >
+    f
+  </span>
+  <span
+    class="box main-r"
+    style="height: 0.2337em; margin-left: 0.2778em; line-height: 0.1027em;"
+  >
+    =
+  </span>
+  <span
+    class="box size2"
+    style="height: 2.2222em; padding-right: 0.4445em; margin-left: 0.2778em; line-height: 2.2220em;"
+  >
+    ∫
+  </span>
 </span>
 `;

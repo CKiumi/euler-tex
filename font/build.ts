@@ -2,7 +2,7 @@ import fontkit from "fontkit";
 import { promises as fs } from "fs";
 
 const fontDir = "./woff";
-const cssDir = "./css/font.css";
+const cssDir = "../css/font.css";
 const srcDir = "./src/spec.ts";
 const result: { [key: string]: { ascent: number; descent: number } } = {};
 
@@ -23,7 +23,7 @@ const main = async () => {
     type += `|"${fontName}"`;
     css += `@font-face {
       font-family: "${fontName}";
-      src: url("/font/${fontName}.woff2") format("woff2");
+      src: url("/font/woff/${fontName}.woff2") format("woff2");
     }\n
     .${fontName.toLowerCase()} {
       font-family: "${fontName}";
