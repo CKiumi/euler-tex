@@ -8,3 +8,76 @@ exports[`symbol box 1`] = `
   j
 </span>
 `;
+
+exports[`symbol box 2`] = `
+<span
+  class="hbox"
+>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    a
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6944em; line-height: 0.8899em;"
+  >
+    b
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    c
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6944em; line-height: 0.8899em;"
+  >
+    d
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    e
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
+  >
+    f
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6250em; padding-right: 0.0359em; line-height: 0.3621em;"
+  >
+    g
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6944em; line-height: 0.8899em;"
+  >
+    h
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6595em; line-height: 0.8200em;"
+  >
+    i
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.8540em; padding-right: 0.0572em; line-height: 0.8200em;"
+  >
+    j
+  </span>
+  <span
+    class="box math-i"
+    style="height: 0.6944em; padding-right: 0.0315em; line-height: 0.8899em;"
+  >
+    k
+  </span>
+</span>
+`;

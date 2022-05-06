@@ -1,13 +1,18 @@
 import { expect, test } from "vitest";
-import { charAtom } from "../../src/atom";
-import { buildCharBox } from "/src/builder";
+import { SymBox, toHBox, toSymBox } from "/src/box";
+import { buildHBox, buildSymBox } from "/src/builder";
 
 test("symbol box", () => {
-  expect(charAtom("j", "Math-I")).toMatchObject({
+  expect(toSymBox({ char: "j", font: "Math-I" })).toMatchObject({
     char: "j",
     font: "Math-I",
-    italic: 0.05724,
-    box: { depth: 0.19444, height: 0.65952, width: 0.41181 },
+    depth: 0.19444,
+    height: 0.65952,
+    width: 0.41181 + 0.05724,
   });
-  expect(buildCharBox(charAtom("j", "Math-I"))).matchSnapshot();
+  expect(buildSymBox(toSymBox({ char: "j", font: "Math-I" }))).matchSnapshot();
+  const atoms = "abcdefghijk"
+    .split("")
+    .map((char) => ({ char, font: "Math-I" } as SymBox));
+  expect(buildHBox(toHBox(atoms))).matchSnapshot();
 });
