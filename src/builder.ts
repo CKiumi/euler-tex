@@ -17,6 +17,7 @@ export const buildSymBox = ({
   height,
   depth,
   italic,
+  spacing,
 }: SymBox): HTMLSpanElement => {
   const span = document.createElement("span");
   span.innerText = char;
@@ -24,6 +25,9 @@ export const buildSymBox = ({
   span.style.height = em(height + depth);
   if (italic) {
     span.style.paddingRight = em(italic);
+  }
+  if (spacing) {
+    span.style.marginLeft = em(spacing);
   }
   span.style.lineHeight = em(
     (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2

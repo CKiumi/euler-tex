@@ -2,7 +2,7 @@ import fontkit from "fontkit";
 import { promises as fs } from "fs";
 
 const fontDir = "./woff";
-const cssDir = "./css/font.css";
+const cssDir = "../css/font.css";
 const srcDir = "./src/spec.ts";
 const result: { [key: string]: { ascent: number; descent: number } } = {};
 

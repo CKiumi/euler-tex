@@ -56,3 +56,25 @@ export const SIGMAS = {
   fboxsep: [0.3, 0.3, 0.3], //        3 pt / ptPerEm
   fboxrule: [0.04, 0.04, 0.04], // 0.4 pt / ptPerEm
 };
+
+export const INTER_ATOM_SPACING: Partial<
+  Record<AtomKind, Partial<Record<AtomKind, number>>>
+> = {
+  ord: { op: 3, bin: 4, rel: 5, inner: 3 },
+  op: { ord: 3, op: 3, rel: 5, inner: 3 },
+  bin: { ord: 4, op: 4, open: 4, inner: 4 },
+  rel: { ord: 5, op: 5, open: 5, inner: 5 },
+  close: { op: 3, bin: 4, rel: 5, inner: 3 },
+  punct: { ord: 3, op: 3, rel: 3, open: 3, punct: 3, inner: 3 },
+  inner: { ord: 3, op: 3, bin: 4, rel: 5, open: 3, punct: 3, inner: 3 },
+};
+
+export type AtomKind =
+  | "ord"
+  | "op"
+  | "bin"
+  | "rel"
+  | "open"
+  | "close"
+  | "punct"
+  | "inner";

@@ -20,64 +20,28 @@ exports[`symbol box 2`] = `
     a
   </span>
   <span
-    class="box math-i"
-    style="height: 0.6944em; line-height: 0.8899em;"
+    class="box main-r"
+    style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
   >
-    b
+    +
   </span>
   <span
     class="box math-i"
-    style="height: 0.4306em; line-height: 0.3621em;"
-  >
-    c
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.6944em; line-height: 0.8899em;"
-  >
-    d
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.4306em; line-height: 0.3621em;"
-  >
-    e
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
+    style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
   >
     f
   </span>
   <span
-    class="box math-i"
-    style="height: 0.6250em; padding-right: 0.0359em; line-height: 0.3621em;"
+    class="box main-r"
+    style="height: 0.2337em; margin-left: 0.2778em; line-height: 0.1027em;"
   >
-    g
+    =
   </span>
   <span
-    class="box math-i"
-    style="height: 0.6944em; line-height: 0.8899em;"
+    class="box size2"
+    style="height: 2.2222em; padding-right: 0.4445em; margin-left: 0.2778em; line-height: 2.2220em;"
   >
-    h
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.6595em; line-height: 0.8200em;"
-  >
-    i
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.8540em; padding-right: 0.0572em; line-height: 0.8200em;"
-  >
-    j
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.6944em; padding-right: 0.0315em; line-height: 0.8899em;"
-  >
-    k
+    ∫
   </span>
 </span>
 `;
