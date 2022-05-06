@@ -1,5 +1,21 @@
 // Vitest Snapshot v1
 
+exports[`accent box 1`] = `
+<span
+  class="vlist"
+>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    a
+  </span>
+  <span
+    style="height: 0.0400em; background: black; width: 100%; margin-bottom: 0.1200em; margin-top: 0.0400em;"
+  />
+</span>
+`;
+
 exports[`symbol box 1`] = `
 <span
   class="box math-i"

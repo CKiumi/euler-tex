@@ -1,5 +1,5 @@
 import { Atom, SymAtom } from "./atom";
-import { getCharMetrics, getSpacing } from "/font";
+import { getCharMetrics, getSigma, getSpacing } from "/font";
 import { AtomKind } from "/font/src/sigma";
 import { Font } from "/font/src/spec";
 export interface Box {
@@ -7,25 +7,43 @@ export interface Box {
   depth: number;
   width: number;
   spacing?: number;
+  spacingBelow?: number;
+  spacingTop?: number;
 }
 
 export interface SymBox extends Box {
   char: string;
   font: Font;
-  height: number;
-  depth: number;
-  width: number;
   italic: number;
-  spacing?: number;
 }
 
 export interface HBox extends Box {
   children: Box[];
-  height: number;
-  depth: number;
-  width: number;
-  spacing?: number;
 }
+export interface VBox extends Box {
+  children: { box: Box; shift: number }[];
+}
+export interface VStackBox extends Box {
+  children: Box[];
+  shift: number;
+}
+
+export const toVBox = (children: Box[], newDepth: number): VStackBox => {
+  const height =
+    children
+      .map((box) => box.height + box.depth)
+      .reduce((partialSum, a) => partialSum + a, 0) - newDepth;
+  const width = Math.max(...children.map((box) => box.width));
+  const revChildren = children.slice().reverse();
+  const oldDepth = revChildren[0].depth;
+  return {
+    children,
+    depth: newDepth,
+    height,
+    width,
+    shift: -(newDepth - oldDepth),
+  };
+};
 
 export const toHBox = (atoms: Atom[]): HBox => {
   let prevKind: AtomKind | undefined;
@@ -46,4 +64,19 @@ export const toHBox = (atoms: Atom[]): HBox => {
 export const toSymBox = ({ char, font }: SymAtom): SymBox => {
   const { depth, height, italic, width } = getCharMetrics(char, font);
   return { char, font, depth, height, width: width + italic, italic };
+};
+
+export const toBox = ({ char }: SymAtom): Box => {
+  if (char === "line")
+    return {
+      depth: 0,
+      height: getSigma("defaultRuleThickness"),
+      width: 0,
+    };
+  else
+    return {
+      depth: 0,
+      height: getSigma("defaultRuleThickness"),
+      width: 0,
+    };
 };

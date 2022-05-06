@@ -7,3 +7,13 @@
   display: inline-block;
   line-height: 0;
 }
+
+.vlist {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.vlist > span {
+  position: relative;
+}
