@@ -1,5 +1,7 @@
-import { Box, HBox, SymBox, VStackBox } from "./box";
-import { em } from "./util";
+import { Box, HBox, DelimInnerBox, SymBox, VStackBox } from "../box/box";
+import { innerPath } from "./svg/inner";
+import { PathNode, SvgNode } from "./svg/pathNode";
+import { em } from "../util";
 import { SPEC } from "/font/src/spec";
 
 export const buildVBox = (vBox: VStackBox) => {
@@ -19,6 +21,7 @@ export const buildHBox = (hbox: HBox) => {
   hbox.children.forEach((box) => {
     span.append(buildBox(box));
   });
+  if (hbox.spacing) span.style.marginLeft = em(hbox.spacing);
   return span;
 };
 
@@ -30,8 +33,10 @@ export const buildBox = (box: Box): HTMLSpanElement => {
     return buildVBox(box as VStackBox);
   }
   if ((box as HBox).children) {
-    console.log(box);
     return buildHBox(box as HBox);
+  }
+  if ((box as DelimInnerBox).repeat) {
+    return buildDelimInnerBox(box as DelimInnerBox);
   }
   const span = document.createElement("span");
   span.style.height = em(box.height);
@@ -63,5 +68,30 @@ export const buildSymBox = ({
   span.style.lineHeight = em(
     (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2
   );
+  return span;
+};
+
+export const buildDelimInnerBox = ({
+  height,
+  width,
+  repeat,
+}: DelimInnerBox) => {
+  const path = new PathNode(
+    "inner",
+    innerPath(repeat, Math.round(1000 * height))
+  );
+  const svgNode = new SvgNode([path], {
+    width: em(width),
+    height: em(height),
+    // Override CSS rule `.katex svg { width: 100% }`
+    style: "width:" + em(width),
+    viewBox: "0 0 " + 1000 * width + " " + Math.round(1000 * height),
+    preserveAspectRatio: "xMinYMin",
+  });
+  const span = document.createElement("span");
+  span.innerHTML = svgNode.toMarkup();
+  span.style.height = em(height);
+  span.style.width = em(width);
+  span.style.background = "green";
   return span;
 };
