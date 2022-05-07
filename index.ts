@@ -11,9 +11,11 @@ import {
   SymAtom,
 } from "./src/atom/atom";
 import { buildBox } from "./src/html/builder";
+import { FracAtom } from "./src/atom/frac";
 const main = () => {
   const a: SymAtom = { char: "a", font: "Math-I", kind: "ord", type: "sym" };
   const f: SymAtom = { char: "f", font: "Math-I", kind: "ord", type: "sym" };
+  const j: SymAtom = { char: "j", font: "Math-I", kind: "ord", type: "sym" };
   const K: SymAtom = { char: "K", font: "Math-I", kind: "ord", type: "sym" };
   const plus: SymAtom = { char: "+", font: "Main-R", kind: "bin", type: "sym" };
   const plusOrd: SymAtom = {
@@ -62,7 +64,6 @@ const main = () => {
   render(
     "Accent",
     "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}",
-    // buildVBox(parseAccentAtom(aHat)),
     buildBox(parseAtoms([aHat, fOverline, kTilde, intHat]))
   );
   const left: SymAtom = {
@@ -81,11 +82,18 @@ const main = () => {
   const inner2: Atom[] = [int, plusOrd, f];
   const lr: LRAtom = { left, right, body: inner, kind: "inner", type: "lr" };
   const lr2: LRAtom = { left, right, body: inner2, kind: "inner", type: "lr" };
+  const frac: FracAtom = {
+    numer: [a, plus, f],
+    denom: [K, plus, j],
+    kind: "ord",
+    type: "frac",
+  };
   render(
     "Left Right Parentheses",
     "\\left(a+f\\right) \\left(\\int+f\\right)",
     buildBox(parseAtoms([lr, lr2]))
   );
+  render("Frac", "\\frac{a+f}{K+j}", buildBox(parseAtoms([frac])));
   render(
     "Square Root",
     "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ",
