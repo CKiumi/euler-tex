@@ -5,9 +5,18 @@ import { Font } from "/font/src/spec";
 import { makeLeftRightDelim } from "./leftright";
 import { parseSqrt, SqrtAtom } from "./sqrt";
 import { FracAtom, parseFrac } from "./frac";
+import { parseSub, parseSup, parseSupSub, SupSubAtom } from "./supsub";
 
 export interface Atom {
-  type: "sym" | "accent" | "overline" | "line" | "lr" | "sqrt" | "frac";
+  type:
+    | "sym"
+    | "accent"
+    | "overline"
+    | "line"
+    | "lr"
+    | "sqrt"
+    | "frac"
+    | "supsub";
   kind: AtomKind;
 }
 
@@ -71,6 +80,15 @@ export const parseAtom = (atom: Atom): Box => {
   if (atom.type === "accent") return parseAccentAtom(atom as AccentAtom);
   if (atom.type === "sqrt") return parseSqrt(atom as SqrtAtom);
   if (atom.type === "frac") return parseFrac(atom as FracAtom);
+  if (atom.type === "supsub") {
+    if ((atom as SupSubAtom).sup && (atom as SupSubAtom).sub) {
+      return parseSupSub(atom as SupSubAtom, 0.7);
+    } else if ((atom as SupSubAtom).sup) {
+      return parseSup(atom as SupSubAtom, 0.7);
+    } else {
+      return parseSub(atom as SupSubAtom, 0.7);
+    }
+  }
   throw new Error("No Atom Type Specified");
 };
 
