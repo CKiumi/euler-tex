@@ -4,9 +4,10 @@ import { AtomKind } from "/font/src/sigma";
 import { Font } from "/font/src/spec";
 import { makeLeftRightDelim } from "./leftright";
 import { parseSqrt, SqrtAtom } from "./sqrt";
+import { FracAtom, parseFrac } from "./frac";
 
 export interface Atom {
-  type: "sym" | "accent" | "overline" | "line" | "lr" | "sqrt";
+  type: "sym" | "accent" | "overline" | "line" | "lr" | "sqrt" | "frac";
   kind: AtomKind;
 }
 
@@ -69,6 +70,7 @@ export const parseAtom = (atom: Atom): Box => {
   if (atom.type === "line") return parseLine();
   if (atom.type === "accent") return parseAccentAtom(atom as AccentAtom);
   if (atom.type === "sqrt") return parseSqrt(atom as SqrtAtom);
+  if (atom.type === "frac") return parseFrac(atom as FracAtom);
   throw new Error("No Atom Type Specified");
 };
 
