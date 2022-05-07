@@ -26,8 +26,12 @@ export const buildBox = (box: Box): HTMLSpanElement => {
   if ((box as SymBox).char) {
     return buildSymBox(box as SymBox);
   }
-  if ((box as VStackBox).shift) {
+  if ((box as VStackBox).shift !== undefined) {
     return buildVBox(box as VStackBox);
+  }
+  if ((box as HBox).children) {
+    console.log(box);
+    return buildHBox(box as HBox);
   }
   const span = document.createElement("span");
   span.style.height = em(box.height);
