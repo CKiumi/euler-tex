@@ -25,6 +25,10 @@ export interface VStackBox extends Box {
   shift: number;
 }
 
+export interface DelimInnerBox extends Box {
+  repeat: "⎜" | "⎟";
+}
+
 export const toVBox = (children: Box[], newDepth: number): VStackBox => {
   const height =
     children

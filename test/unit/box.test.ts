@@ -6,9 +6,9 @@ import {
   parseAtom,
   parseAtoms,
   SymAtom,
-} from "/src/atom";
-import { SymBox } from "/src/box";
-import { buildHBox, buildSymBox } from "/src/builder";
+} from "../../src/atom/atom";
+import { SymBox } from "../../src/box/box";
+import { buildHBox, buildSymBox } from "../../src/html/builder";
 
 test("symbol box", () => {
   const j: SymAtom = { char: "j", font: "Math-I", kind: "ord", type: "sym" };
