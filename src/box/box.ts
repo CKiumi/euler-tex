@@ -4,8 +4,10 @@ export interface Box {
   depth: number;
   width: number;
   spacing?: number;
+  spacingRight?: number;
   spacingBelow?: number;
   spacingTop?: number;
+  multiplier?: number;
 }
 
 export interface SymBox extends Box {
@@ -19,6 +21,7 @@ export interface HBox extends Box {
 }
 export interface VBox extends Box {
   children: { box: Box; shift: number }[];
+  align?: "center" | "start";
 }
 export interface VStackBox extends Box {
   children: Box[];
@@ -43,12 +46,22 @@ export const toVBox = (children: Box[], newDepth: number): VStackBox => {
       .reduce((partialSum, a) => partialSum + a, 0) - newDepth;
   const width = Math.max(...children.map((box) => box.width));
   const revChildren = children.slice().reverse();
-  const oldDepth = revChildren[0].depth;
+  const oldDepth = revChildren[0].depth + (revChildren[0].spacingBelow ?? 0);
   return {
     children,
     depth: newDepth,
     height,
     width,
     shift: -(newDepth - oldDepth),
+  };
+};
+
+export const multiplyBox = (box: Box, multiplier: number): Box => {
+  return {
+    multiplier,
+    ...box,
+    height: box.height * multiplier,
+    depth: box.depth * multiplier,
+    width: box.width * multiplier,
   };
 };

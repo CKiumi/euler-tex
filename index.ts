@@ -12,6 +12,7 @@ import {
 } from "./src/atom/atom";
 import { buildBox } from "./src/html/builder";
 import { FracAtom } from "./src/atom/frac";
+import { SupSubAtom } from "./src/atom/supsub";
 const main = () => {
   const a: SymAtom = { char: "a", font: "Math-I", kind: "ord", type: "sym" };
   const f: SymAtom = { char: "f", font: "Math-I", kind: "ord", type: "sym" };
@@ -26,6 +27,7 @@ const main = () => {
   };
   const eq: SymAtom = { char: "=", font: "Main-R", kind: "rel", type: "sym" };
   const int: SymAtom = { char: "∫", font: "Size2", kind: "op", type: "sym" };
+  const sigma: SymAtom = { char: "∑", font: "Size2", kind: "op", type: "sym" };
   const hat: Accent = {
     char: "^",
     font: "Main-R",
@@ -88,6 +90,58 @@ const main = () => {
     kind: "ord",
     type: "frac",
   };
+  const sup: SupSubAtom = {
+    sup: [a, j],
+    nuc: a,
+    kind: "ord",
+    type: "supsub",
+  };
+  const sup2: SupSubAtom = {
+    sup: [K],
+    nuc: f,
+    kind: "ord",
+    type: "supsub",
+  };
+  const sub: SupSubAtom = {
+    sub: [a],
+    nuc: K,
+    kind: "ord",
+    type: "supsub",
+  };
+  const sub2: SupSubAtom = {
+    sub: [f],
+    nuc: a,
+    kind: "ord",
+    type: "supsub",
+  };
+  const supsub: SupSubAtom = {
+    sub: [f],
+    sup: [a],
+    nuc: a,
+    kind: "ord",
+    type: "supsub",
+  };
+  const supsub2: SupSubAtom = {
+    sub: [a],
+    sup: [a],
+    nuc: f,
+    kind: "ord",
+    type: "supsub",
+  };
+  const opSupsub: SupSubAtom = {
+    sub: [a],
+    sup: [a],
+    nuc: sigma,
+    kind: "ord",
+    type: "supsub",
+  };
+  const intSupsub: SupSubAtom = {
+    sub: [a],
+    sup: [a],
+    nuc: int,
+    kind: "ord",
+    type: "supsub",
+  };
   render(
     "Left Right Parentheses",
     "\\left(a+f\\right) \\left(\\int+f\\right)",
@@ -99,7 +153,35 @@ const main = () => {
     "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ",
     buildBox(parseAtoms([sqrt, sqrtK, sqrtInt]))
   );
-  render("Superscript Subscript", "x^a f^G K_s s_f x_a^b \\sum_x^y \\int_x^y");
+  render(
+    "Superscript Subscript",
+    "a^{aj} f^K K_a a_f a_f^a f^a_a",
+    buildBox(parseAtoms([sup, sup2, sub, sub2, supsub, supsub2]))
+  );
+  const lrsup: SupSubAtom = {
+    sup: [a],
+    nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
+    kind: "inner",
+    type: "supsub",
+  };
+  const lrsub: SupSubAtom = {
+    sub: [a],
+    nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
+    kind: "inner",
+    type: "supsub",
+  };
+  const lrsupsub: SupSubAtom = {
+    sub: [a],
+    sup: [a],
+    nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
+    kind: "inner",
+    type: "supsub",
+  };
+  render(
+    "Superscript Subscript 2",
+    "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a",
+    buildBox(parseAtoms([lrsup, lrsub, lrsupsub, opSupsub, intSupsub]))
+  );
 };
 const render = (title: string, latex: string, result?: HTMLElement) => {
   const main = document.getElementById("main");

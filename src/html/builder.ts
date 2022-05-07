@@ -25,6 +25,10 @@ export const buildHBox = (hbox: HBox) => {
     span.append(buildBox(box));
   });
   if (hbox.spacing) span.style.marginLeft = em(hbox.spacing);
+  if (hbox.spacingRight) span.style.marginRight = em(hbox.spacingRight);
+  if (hbox.spacingBelow) span.style.marginBottom = em(hbox.spacingBelow);
+  if (hbox.spacingTop) span.style.marginTop = em(hbox.spacingTop);
+  if (hbox.multiplier) span.style.fontSize = em(hbox.multiplier);
   return span;
 };
 
@@ -35,7 +39,6 @@ export const buildBox = (box: Box): HTMLSpanElement => {
   if ((box as SqrtBox).size) {
     return buildSqrtBox(box as SqrtBox);
   }
-
   if ((box as VBox).children && (box as VBox).children[0].box !== undefined) {
     return buildVBox(box as VBox);
   }
@@ -48,6 +51,7 @@ export const buildBox = (box: Box): HTMLSpanElement => {
   if ((box as DelimInnerBox).repeat) {
     return buildDelimInnerBox(box as DelimInnerBox);
   }
+
   const span = document.createElement("span");
   span.style.height = em(box.height);
   span.style.background = "black";
@@ -64,6 +68,7 @@ export const buildSymBox = ({
   depth,
   italic,
   spacing,
+  spacingRight,
   spacingBelow,
   spacingTop,
 }: SymBox): HTMLSpanElement => {
@@ -73,6 +78,7 @@ export const buildSymBox = ({
   span.style.height = em(height + depth);
   if (italic) span.style.paddingRight = em(italic);
   if (spacing) span.style.marginLeft = em(spacing);
+  if (spacingRight) span.style.marginRight = em(spacingRight);
   if (spacingBelow) span.style.marginBottom = em(spacingBelow);
   if (spacingTop) span.style.marginTop = em(spacingTop);
   span.style.lineHeight = em(
@@ -81,7 +87,7 @@ export const buildSymBox = ({
   return span;
 };
 
-export const buildVBox = ({ children }: VBox): HTMLSpanElement => {
+export const buildVBox = ({ children, align }: VBox): HTMLSpanElement => {
   const span = document.createElement("span");
   const depth = Math.min(
     ...children.map(({ shift, box }) => shift - box.depth)
@@ -105,6 +111,7 @@ export const buildVBox = ({ children }: VBox): HTMLSpanElement => {
   const oldDepth = children[children.length - 1].box.depth;
   span.classList.add("vlist");
   span.style.height = em(height - depth);
+  if (align) span.style.alignItems = align;
   span.style.verticalAlign = em(depth + oldDepth);
   return span;
 };
