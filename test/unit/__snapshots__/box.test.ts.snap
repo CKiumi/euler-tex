@@ -250,6 +250,124 @@ exports[`leftright 1`] = `
 </span>
 `;
 
+exports[`matrix 1`] = `
+<span
+  class="hbox"
+>
+  <span
+    class="hbox"
+  >
+    <span
+      class="box size3"
+      style="height: 2.4000em; line-height: 2.4000em;"
+    >
+      (
+    </span>
+    <span
+      class="hbox"
+    >
+      <span
+        class="hbox"
+      >
+        <span
+          class="vlist"
+          style="height: 1.6306em; vertical-align: -0.5900em; margin-right: 0.5000em;"
+        >
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em;"
+          >
+            a
+          </span>
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em; bottom: 0.7694em;"
+          >
+            a
+          </span>
+        </span>
+        <span
+          class="vlist"
+          style="height: 1.6306em; vertical-align: -0.5900em; margin-left: 0.5000em;"
+        >
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em;"
+          >
+            a
+          </span>
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em; bottom: 0.7694em;"
+          >
+            a
+          </span>
+        </span>
+      </span>
+    </span>
+    <span
+      class="box size3"
+      style="height: 2.4000em; line-height: 2.4000em;"
+    >
+      )
+    </span>
+  </span>
+  <span
+    class="hbox"
+    style="margin-left: 0.1667em;"
+  >
+    <span
+      class="box size3"
+      style="height: 2.4000em; line-height: 2.4000em;"
+    >
+      (
+    </span>
+    <span
+      class="hbox"
+    >
+      <span
+        class="hbox"
+      >
+        <span
+          class="vlist"
+          style="height: 1.6306em; vertical-align: -0.5900em; margin-right: 0.5000em;"
+        >
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em;"
+          >
+            a
+          </span>
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em; bottom: 0.7694em;"
+          >
+            a
+          </span>
+        </span>
+        <span
+          class="vlist"
+          style="height: 0.4306em; vertical-align: -0.5900em; margin-left: 0.5000em;"
+        >
+          <span
+            class="box math-i"
+            style="height: 0.4306em; line-height: 0.3621em;"
+          >
+            a
+          </span>
+        </span>
+      </span>
+    </span>
+    <span
+      class="box size3"
+      style="height: 2.4000em; line-height: 2.4000em;"
+    >
+      )
+    </span>
+  </span>
+</span>
+`;
+
 exports[`sqrt 1`] = `
 <span
   class="hbox"

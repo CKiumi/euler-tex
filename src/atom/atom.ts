@@ -6,6 +6,7 @@ import { makeLeftRightDelim } from "./leftright";
 import { parseSqrt, SqrtAtom } from "./sqrt";
 import { FracAtom, parseFrac } from "./frac";
 import { parseSub, parseSup, parseSupSub, SupSubAtom } from "./supsub";
+import { MatrixAtom, parseMatrix } from "./matrix";
 
 export interface Atom {
   type:
@@ -16,7 +17,8 @@ export interface Atom {
     | "lr"
     | "sqrt"
     | "frac"
-    | "supsub";
+    | "supsub"
+    | "matrix";
   kind: AtomKind;
 }
 
@@ -88,6 +90,9 @@ export const parseAtom = (atom: Atom): Box => {
     } else {
       return parseSub(atom as SupSubAtom, 0.7);
     }
+  }
+  if (atom.type === "matrix") {
+    return parseMatrix(atom as MatrixAtom);
   }
   throw new Error("No Atom Type Specified");
 };
