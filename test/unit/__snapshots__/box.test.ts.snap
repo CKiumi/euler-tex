@@ -1,5 +1,90 @@
 // Vitest Snapshot v1
 
+exports[`accent box 1`] = `
+{
+  "children": [
+    {
+      "children": [
+        {
+          "char": "~",
+          "depth": 0.35,
+          "font": "Main-R",
+          "height": 0.31786,
+          "italic": 0,
+          "spacingBelow": -0.43056,
+          "width": 0.5,
+        },
+        {
+          "char": "a",
+          "depth": 0,
+          "font": "Math-I",
+          "height": 0.43056,
+          "italic": 0,
+          "width": 0.52859,
+        },
+      ],
+      "depth": 0,
+      "height": 1.09842,
+      "shift": -0,
+      "width": 0.52859,
+    },
+    {
+      "children": [
+        {
+          "depth": 0,
+          "height": 0.04,
+          "spacingBelow": 0.12,
+          "spacingTop": 0.04,
+          "width": 0,
+        },
+        {
+          "char": "a",
+          "depth": 0,
+          "font": "Math-I",
+          "height": 0.43056,
+          "italic": 0,
+          "width": 0.52859,
+        },
+      ],
+      "depth": 0,
+      "height": 0.47056,
+      "shift": -0,
+      "spacing": 0,
+      "width": 0.52859,
+    },
+    {
+      "children": [
+        {
+          "char": "^",
+          "depth": 0,
+          "font": "Main-R",
+          "height": 0.69444,
+          "italic": 0,
+          "spacingBelow": -0.431,
+          "width": 0.5,
+        },
+        {
+          "char": "∫",
+          "depth": 0.86225,
+          "font": "Size2",
+          "height": 1.36,
+          "italic": 0.44445,
+          "width": 1.00001,
+        },
+      ],
+      "depth": 0.86225,
+      "height": 2.05444,
+      "shift": -0,
+      "spacing": 0,
+      "width": 1.00001,
+    },
+  ],
+  "depth": 0.86225,
+  "height": 2.05444,
+  "width": 2.0571900000000003,
+}
+`;
+
 exports[`symbol box 1`] = `
 <span
   class="box math-i"

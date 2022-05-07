@@ -1,1 +1,4 @@
-export const em = (n: number): string => n.toFixed(4) + "em";
+export const em = (n?: number): string => {
+  if (n) return n.toFixed(4) + "em";
+  else return "";
+};

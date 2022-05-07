@@ -92,7 +92,7 @@ const config: PlaywrightTestConfig = {
     // },
   ],
 
-  outputDir: "test/screenshot/",
+  outputDir: "test/e2e/screenshot/",
 
   /* Run your local dev server before starting the tests */
   webServer: {
