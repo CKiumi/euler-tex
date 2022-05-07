@@ -13,6 +13,7 @@ import { Atom, LRAtom } from "/src/atom/atom";
 import { FracAtom } from "/src/atom/frac";
 import { SqrtAtom } from "/src/atom/sqrt";
 import { SupSubAtom } from "/src/atom/supsub";
+import { MatrixAtom } from "/src/atom/matrix";
 const a: SymAtom = { char: "a", font: "Math-I", kind: "ord", type: "sym" };
 const f: SymAtom = { char: "f", font: "Math-I", kind: "ord", type: "sym" };
 const plus: SymAtom = { char: "+", font: "Main-R", kind: "bin", type: "sym" };
@@ -155,6 +156,35 @@ const lrsupsub: SupSubAtom = {
   kind: "inner",
   type: "supsub",
 };
+
+const matrix: MatrixAtom = {
+  type: "matrix",
+  children: [
+    [a, a],
+    [a, a],
+  ],
+  kind: "ord",
+};
+const matrix2: MatrixAtom = {
+  type: "matrix",
+  children: [[a], [a, a]],
+  kind: "ord",
+};
+const pMatrix: LRAtom = {
+  kind: "inner",
+  type: "lr",
+  body: [matrix],
+  left,
+  right,
+};
+export const pMatrix2: LRAtom = {
+  kind: "inner",
+  type: "lr",
+  body: [matrix2],
+  left,
+  right,
+};
+
 test("symbol box", () => {
   const j: SymAtom = { char: "j", font: "Math-I", kind: "ord", type: "sym" };
   expect(parseAtom(j)).toMatchObject({
@@ -198,4 +228,8 @@ test("supsub", () => {
   expect(
     buildBox(parseAtoms([lrsup, lrsub, lrsupsub, opSupsub, intSupsub]))
   ).matchSnapshot();
+});
+
+test("matrix", () => {
+  expect(buildBox(parseAtoms([pMatrix, pMatrix2]))).matchSnapshot();
 });

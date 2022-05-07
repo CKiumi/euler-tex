@@ -87,7 +87,12 @@ export const buildSymBox = ({
   return span;
 };
 
-export const buildVBox = ({ children, align }: VBox): HTMLSpanElement => {
+export const buildVBox = ({
+  children,
+  align,
+  spacingRight,
+  spacing,
+}: VBox): HTMLSpanElement => {
   const span = document.createElement("span");
   const depth = Math.min(
     ...children.map(({ shift, box }) => shift - box.depth)
@@ -113,6 +118,8 @@ export const buildVBox = ({ children, align }: VBox): HTMLSpanElement => {
   span.style.height = em(height - depth);
   if (align) span.style.alignItems = align;
   span.style.verticalAlign = em(depth + oldDepth);
+  if (spacing) span.style.marginLeft = em(spacing);
+  if (spacingRight) span.style.marginRight = em(spacingRight);
   return span;
 };
 
