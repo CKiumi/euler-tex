@@ -1,3 +1,4 @@
+import { SqrtAtom } from "./src/atom/sqrt";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import {
@@ -53,6 +54,9 @@ const main = () => {
     kind: "ord",
     type: "accent",
   };
+  const sqrt: SqrtAtom = { body: [a], type: "sqrt", kind: "ord" };
+  const sqrtK: SqrtAtom = { body: [K, plus, a], type: "sqrt", kind: "ord" };
+  const sqrtInt: SqrtAtom = { body: [int], type: "sqrt", kind: "ord" };
   const fOverline: OverlineAtom = { body: f, kind: "ord", type: "overline" };
   render("Symbols", "a+f=\\int", buildBox(parseAtoms([a, plus, f, eq, int])));
   render(
@@ -82,7 +86,11 @@ const main = () => {
     "\\left(a+f\\right) \\left(\\int+f\\right)",
     buildBox(parseAtoms([lr, lr2]))
   );
-  render("Square Root", "\\sqrt{a} \\sqrt{K} \\sqrt{\\int} ");
+  render(
+    "Square Root",
+    "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ",
+    buildBox(parseAtoms([sqrt, sqrtK, sqrtInt]))
+  );
   render("Superscript Subscript", "x^a f^G K_s s_f x_a^b \\sum_x^y \\int_x^y");
 };
 const render = (title: string, latex: string, result?: HTMLElement) => {

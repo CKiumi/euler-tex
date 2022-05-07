@@ -3,9 +3,10 @@ import { getCharMetrics, getSigma, getSpacing } from "/font";
 import { AtomKind } from "/font/src/sigma";
 import { Font } from "/font/src/spec";
 import { makeLeftRightDelim } from "./leftright";
+import { parseSqrt, SqrtAtom } from "./sqrt";
 
 export interface Atom {
-  type: "sym" | "accent" | "overline" | "line" | "lr";
+  type: "sym" | "accent" | "overline" | "line" | "lr" | "sqrt";
   kind: AtomKind;
 }
 
@@ -52,7 +53,10 @@ export const parseAtoms = (atoms: Atom[]): HBox => {
     prevKind = atom.kind;
     return box;
   });
-  const width = children.reduce((acc, a) => acc + a.width, 0);
+  const width = children.reduce(
+    (acc, a) => acc + a.width + (a.spacing ?? 0),
+    0
+  );
   const depth = Math.max(...children.map((child) => child.depth));
   const height = Math.max(...children.map((child) => child.height));
   return { children, width, height, depth };
@@ -64,6 +68,7 @@ export const parseAtom = (atom: Atom): Box => {
   if (atom.type === "overline") return parseOverline(atom as OverlineAtom);
   if (atom.type === "line") return parseLine();
   if (atom.type === "accent") return parseAccentAtom(atom as AccentAtom);
+  if (atom.type === "sqrt") return parseSqrt(atom as SqrtAtom);
   throw new Error("No Atom Type Specified");
 };
 

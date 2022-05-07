@@ -1,10 +1,13 @@
-import { Box, HBox, DelimInnerBox, SymBox, VStackBox } from "../box/box";
+import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import { em } from "../util";
+import { SqrtBox, VBox } from "./../box/box";
 import { innerPath } from "./svg/inner";
 import { PathNode, SvgNode } from "./svg/pathNode";
-import { em } from "../util";
+import { sqrtSvg } from "./svg/sqrt";
+import { getSigma } from "/font";
 import { SPEC } from "/font/src/spec";
 
-export const buildVBox = (vBox: VStackBox) => {
+export const buildVStackBox = (vBox: VStackBox) => {
   const span = document.createElement("span");
   span.classList.add("vlist");
   vBox.children
@@ -29,8 +32,15 @@ export const buildBox = (box: Box): HTMLSpanElement => {
   if ((box as SymBox).char) {
     return buildSymBox(box as SymBox);
   }
+  if ((box as SqrtBox).size) {
+    return buildSqrtBox(box as SqrtBox);
+  }
+
+  if ((box as VBox).children && (box as VBox).children[0].box !== undefined) {
+    return buildVBox(box as VBox);
+  }
   if ((box as VStackBox).shift !== undefined) {
-    return buildVBox(box as VStackBox);
+    return buildVStackBox(box as VStackBox);
   }
   if ((box as HBox).children) {
     return buildHBox(box as HBox);
@@ -71,6 +81,34 @@ export const buildSymBox = ({
   return span;
 };
 
+export const buildVBox = ({ children }: VBox): HTMLSpanElement => {
+  const span = document.createElement("span");
+  const depth = Math.min(
+    ...children.map(({ shift, box }) => shift - box.depth)
+  );
+  const height = Math.max(
+    ...children.map(({ shift, box }) => shift + box.height)
+  );
+  let stackHeight = 0;
+  children
+    .slice()
+    .reverse()
+    .forEach(({ box, shift }) => {
+      const html = buildBox(box);
+      span.append(html);
+      const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
+      html.style.bottom = em(
+        (-depth - stackHeight - box.depth + shift) / multiplier
+      );
+      stackHeight += box.depth + box.height;
+    });
+  const oldDepth = children[children.length - 1].box.depth;
+  span.classList.add("vlist");
+  span.style.height = em(height - depth);
+  span.style.verticalAlign = em(depth + oldDepth);
+  return span;
+};
+
 export const buildDelimInnerBox = ({
   height,
   width,
@@ -93,5 +131,61 @@ export const buildDelimInnerBox = ({
   span.style.height = em(height);
   span.style.width = em(width);
   span.style.background = "green";
+  return span;
+};
+
+const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
+
+const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
+  const { width, innerHeight: height } = box;
+  let sizeMultiplier = 1;
+  const extraViniculum = Math.max(0, 0 - getSigma("sqrtRuleThickness"));
+  const span = document.createElement("span");
+  let spanHeight = 0;
+  let viewBoxHeight = 0;
+  if (box.size === "small") {
+    viewBoxHeight = 1000 + 1000 * extraViniculum;
+    if (height < 1.0) sizeMultiplier = 1.0;
+    else if (height < 1.4) sizeMultiplier = 0.7;
+    spanHeight = (1.0 + extraViniculum) / sizeMultiplier;
+    span.innerHTML = sqrtSvg(
+      "sqrtMain",
+      width,
+      spanHeight,
+      viewBoxHeight,
+      extraViniculum
+    );
+    span.style.minWidth = "0.853em";
+  } else if (
+    box.size === 1 ||
+    box.size === 2 ||
+    box.size === 3 ||
+    box.size === 4
+  ) {
+    viewBoxHeight = 1000 * sizeToMaxHeight[box.size];
+    spanHeight = (sizeToMaxHeight[box.size] + extraViniculum) / sizeMultiplier;
+    span.innerHTML = sqrtSvg(
+      "sqrtSize" + box.size,
+      width,
+      spanHeight,
+      viewBoxHeight,
+      extraViniculum
+    );
+    span.style.minWidth = "1.02em";
+  } else {
+    spanHeight = height + extraViniculum;
+    viewBoxHeight = Math.floor(1000 * height + extraViniculum);
+    span.innerHTML = sqrtSvg(
+      "sqrtTall",
+      width,
+      spanHeight,
+      viewBoxHeight,
+      extraViniculum
+    );
+    span.style.minWidth = "0.742em";
+  }
+  span.style.height = em(spanHeight);
+  span.style.background = "#31121355";
+  span.style.display = "inline-block";
   return span;
 };

@@ -29,6 +29,13 @@ export interface DelimInnerBox extends Box {
   repeat: "⎜" | "⎟";
 }
 
+export interface SqrtBox extends Box {
+  size: 1 | 2 | 3 | 4 | "small" | "Tall";
+  shift: number;
+  innerHeight: number;
+}
+export type SqrtSize = 1 | 2 | 3 | 4 | "small" | "Tall";
+
 export const toVBox = (children: Box[], newDepth: number): VStackBox => {
   const height =
     children
