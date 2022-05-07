@@ -53,7 +53,10 @@ export const parseAtoms = (atoms: Atom[]): HBox => {
     prevKind = atom.kind;
     return box;
   });
-  const width = children.reduce((acc, a) => acc + a.width, 0);
+  const width = children.reduce(
+    (acc, a) => acc + a.width + (a.spacing ?? 0),
+    0
+  );
   const depth = Math.max(...children.map((child) => child.depth));
   const height = Math.max(...children.map((child) => child.height));
   return { children, width, height, depth };
