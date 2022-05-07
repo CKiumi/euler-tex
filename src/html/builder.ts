@@ -1,13 +1,13 @@
-import { SqrtBox } from "./../box/box";
-import { Box, HBox, DelimInnerBox, SymBox, VStackBox } from "../box/box";
+import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import { em } from "../util";
+import { SqrtBox, VBox } from "./../box/box";
 import { innerPath } from "./svg/inner";
 import { PathNode, SvgNode } from "./svg/pathNode";
-import { em } from "../util";
-import { SPEC } from "/font/src/spec";
 import { sqrtSvg } from "./svg/sqrt";
 import { getSigma } from "/font";
+import { SPEC } from "/font/src/spec";
 
-export const buildVBox = (vBox: VStackBox) => {
+export const buildVStackBox = (vBox: VStackBox) => {
   const span = document.createElement("span");
   span.classList.add("vlist");
   vBox.children
@@ -35,8 +35,12 @@ export const buildBox = (box: Box): HTMLSpanElement => {
   if ((box as SqrtBox).size) {
     return buildSqrtBox(box as SqrtBox);
   }
+
+  if ((box as VBox).children && (box as VBox).children[0].box !== undefined) {
+    return buildVBox(box as VBox);
+  }
   if ((box as VStackBox).shift !== undefined) {
-    return buildVBox(box as VStackBox);
+    return buildVStackBox(box as VStackBox);
   }
   if ((box as HBox).children) {
     return buildHBox(box as HBox);
@@ -77,6 +81,34 @@ export const buildSymBox = ({
   return span;
 };
 
+export const buildVBox = ({ children }: VBox): HTMLSpanElement => {
+  const span = document.createElement("span");
+  const depth = Math.min(
+    ...children.map(({ shift, box }) => shift - box.depth)
+  );
+  const height = Math.max(
+    ...children.map(({ shift, box }) => shift + box.height)
+  );
+  let stackHeight = 0;
+  children
+    .slice()
+    .reverse()
+    .forEach(({ box, shift }) => {
+      const html = buildBox(box);
+      span.append(html);
+      const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
+      html.style.bottom = em(
+        (-depth - stackHeight - box.depth + shift) / multiplier
+      );
+      stackHeight += box.depth + box.height;
+    });
+  const oldDepth = children[children.length - 1].box.depth;
+  span.classList.add("vlist");
+  span.style.height = em(height - depth);
+  span.style.verticalAlign = em(depth + oldDepth);
+  return span;
+};
+
 export const buildDelimInnerBox = ({
   height,
   width,
@@ -111,16 +143,14 @@ const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
   const span = document.createElement("span");
   let spanHeight = 0;
   let viewBoxHeight = 0;
-  let advanceWidth;
   if (box.size === "small") {
     viewBoxHeight = 1000 + 1000 * extraViniculum;
     if (height < 1.0) sizeMultiplier = 1.0;
     else if (height < 1.4) sizeMultiplier = 0.7;
     spanHeight = (1.0 + extraViniculum) / sizeMultiplier;
-    advanceWidth = 0.777 / sizeMultiplier; // from the font.
     span.innerHTML = sqrtSvg(
       "sqrtMain",
-      width + advanceWidth,
+      width,
       spanHeight,
       viewBoxHeight,
       extraViniculum
@@ -134,11 +164,9 @@ const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
   ) {
     viewBoxHeight = 1000 * sizeToMaxHeight[box.size];
     spanHeight = (sizeToMaxHeight[box.size] + extraViniculum) / sizeMultiplier;
-    advanceWidth = 0.95 / sizeMultiplier; // 1.0 from the font.
-
     span.innerHTML = sqrtSvg(
       "sqrtSize" + box.size,
-      advanceWidth + width,
+      width,
       spanHeight,
       viewBoxHeight,
       extraViniculum
@@ -147,10 +175,9 @@ const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
   } else {
     spanHeight = height + extraViniculum;
     viewBoxHeight = Math.floor(1000 * height + extraViniculum);
-    advanceWidth = 0.67;
     span.innerHTML = sqrtSvg(
       "sqrtTall",
-      width + advanceWidth,
+      width,
       spanHeight,
       viewBoxHeight,
       extraViniculum
@@ -158,8 +185,7 @@ const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
     span.style.minWidth = "0.742em";
   }
   span.style.height = em(spanHeight);
-  span.style.background = "yellow";
+  span.style.background = "#31121355";
   span.style.display = "inline-block";
-  span.style.verticalAlign = em(box.shift);
   return span;
 };

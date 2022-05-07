@@ -1,4 +1,4 @@
-import { SqrtBox, SqrtSize } from "../box/box";
+import { SqrtBox, SqrtSize, VBox } from "../box/box";
 import { Atom, parseAtoms } from "./atom";
 import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 import { getSigma } from "/font";
@@ -10,7 +10,7 @@ export interface SqrtAtom extends Atom {
 }
 
 const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
-export const parseSqrt = (atom: SqrtAtom): SqrtBox => {
+export const parseSqrt = (atom: SqrtAtom): VBox => {
   const inner = parseAtoms(atom.body);
   const { width, depth } = inner;
   let { height } = inner;
@@ -31,13 +31,23 @@ export const parseSqrt = (atom: SqrtAtom): SqrtBox => {
     lineClearance = (lineClearance + delimDepth - height - depth) / 2;
   }
   const imgShift = totalHeight - height - lineClearance - ruleWidth;
-  return {
+  const sqrtBox: SqrtBox = {
     size: type,
+    width: totalWidth,
+    height: totalHeight - imgShift,
+    depth: imgShift,
+    shift: -imgShift,
+    innerHeight: minDelimiterHeight,
+  };
+  inner.spacing = totalWidth - width;
+  return {
+    children: [
+      { box: sqrtBox, shift: 0 },
+      { box: inner, shift: 0 },
+    ],
     width: totalWidth,
     height: totalHeight,
     depth: delimDepth,
-    shift: -imgShift,
-    innerHeight: minDelimiterHeight,
   };
 };
 
@@ -51,32 +61,32 @@ const sqrtImage = (
   totalHeight: number;
 } => {
   const delim = traverseSequence("\\surd", height, stackLargeDelimiterSequence);
-  let sizeMultiplier = 1;
   const extraViniculum = Math.max(0, 0 - getSigma("sqrtRuleThickness"));
-  const ruleWidth =
-    (getSigma("sqrtRuleThickness") + extraViniculum) * sizeMultiplier;
-
+  const ruleWidth = getSigma("sqrtRuleThickness") + extraViniculum;
   if (delim.type === "small") {
+    let sizeMultiplier = 1;
     if (height < 1.0) sizeMultiplier = 1.0;
     else if (height < 1.4) sizeMultiplier = 0.7;
+    const advanceWidth = 0.777 / sizeMultiplier;
     return {
       type: "small",
-      totalWidth: width,
+      totalWidth: width + advanceWidth,
       totalHeight: (1.0 + extraViniculum) / sizeMultiplier,
       ruleWidth,
     };
   } else if (delim.type === "large") {
+    const advanceWidth = 0.95;
     return {
       type: delim.size,
-      totalWidth: width,
-      totalHeight:
-        (sizeToMaxHeight[delim.size] + extraViniculum) / sizeMultiplier,
+      totalWidth: width + advanceWidth,
+      totalHeight: sizeToMaxHeight[delim.size] + extraViniculum,
       ruleWidth,
     };
   } else {
+    const advanceWidth = 0.67;
     return {
       type: "Tall",
-      totalWidth: width,
+      totalWidth: width + advanceWidth,
       totalHeight: height + extraViniculum,
       ruleWidth,
     };

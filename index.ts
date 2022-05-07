@@ -54,7 +54,8 @@ const main = () => {
     kind: "ord",
     type: "accent",
   };
-  const sqrt: SqrtAtom = { body: [int], type: "sqrt", kind: "ord" };
+  const sqrt: SqrtAtom = { body: [a], type: "sqrt", kind: "ord" };
+  const sqrtK: SqrtAtom = { body: [K], type: "sqrt", kind: "ord" };
   const fOverline: OverlineAtom = { body: f, kind: "ord", type: "overline" };
   render("Symbols", "a+f=\\int", buildBox(parseAtoms([a, plus, f, eq, int])));
   render(
@@ -87,7 +88,7 @@ const main = () => {
   render(
     "Square Root",
     "\\sqrt{a} \\sqrt{K} \\sqrt{\\int} ",
-    buildBox(parseAtoms([a, sqrt]))
+    buildBox(parseAtoms([a, sqrt, sqrtK]))
   );
   render("Superscript Subscript", "x^a f^G K_s s_f x_a^b \\sum_x^y \\int_x^y");
 };
