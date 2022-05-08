@@ -1,64 +1,23 @@
-import { Box, HBox, SymBox, toVBox, VStackBox } from "../box/box";
+import {
+  Box,
+  HBox,
+  SqrtBox,
+  SymBox,
+  toVBox,
+  VBox,
+  VStackBox,
+} from "./../box/box";
+import { makeLeftRightDelim } from "./leftright";
+import { sqrtImage } from "./sqrt";
 import { getCharMetrics, getSigma, getSpacing } from "/font";
 import { AtomKind } from "/font/src/sigma";
 import { Font } from "/font/src/spec";
-import { makeLeftRightDelim } from "./leftright";
-import { parseSqrt, SqrtAtom } from "./sqrt";
-import { FracAtom, parseFrac } from "./frac";
-import { parseSub, parseSup, parseSupSub, SupSubAtom } from "./supsub";
-import { MatrixAtom, parseMatrix } from "./matrix";
-
-export interface Atom {
-  type:
-    | "sym"
-    | "accent"
-    | "overline"
-    | "line"
-    | "lr"
-    | "sqrt"
-    | "frac"
-    | "supsub"
-    | "matrix";
-  kind: AtomKind;
-}
-
-export interface SymAtom extends Atom {
-  type: "sym";
-  char: string;
-  font: Font;
-}
-
-export interface AccentAtom extends Atom {
-  type: "accent";
-  body: Atom;
-  accent: Accent;
-}
-
-export interface Accent extends SymAtom {
-  char: "^" | "~";
-  font: "Main-R";
-  kind: "ord";
-}
-
-export interface OverlineAtom extends Atom {
-  type: "overline";
-  body: Atom;
-}
-export interface LineAtom extends Atom {
-  type: "line";
-}
-
-export interface LRAtom extends Atom {
-  type: "lr";
-  left: SymAtom;
-  right: SymAtom;
-  body: Atom[];
-}
+import Style from "/font/src/style";
 
 export const parseAtoms = (atoms: Atom[]): HBox => {
   let prevKind: AtomKind | undefined;
   const children = atoms.map((atom) => {
-    const box = parseAtom(atom);
+    const box = atom.parse();
     if (prevKind && atom.kind) {
       box.spaceL = getSpacing(prevKind, atom.kind);
     }
@@ -71,72 +30,122 @@ export const parseAtoms = (atoms: Atom[]): HBox => {
   return { children, width, height, depth };
 };
 
-export const parseAtom = (atom: Atom): Box => {
-  if (atom.type === "sym") return parseSymAtom(atom as SymAtom);
-  if (atom.type === "lr") return parseLRAtom(atom as LRAtom);
-  if (atom.type === "overline") return parseOverline(atom as OverlineAtom);
-  if (atom.type === "line") return parseLine();
-  if (atom.type === "accent") return parseAccentAtom(atom as AccentAtom);
-  if (atom.type === "sqrt") return parseSqrt(atom as SqrtAtom);
-  if (atom.type === "frac") return parseFrac(atom as FracAtom);
-  if (atom.type === "supsub") {
-    if ((atom as SupSubAtom).sup && (atom as SupSubAtom).sub) {
-      return parseSupSub(atom as SupSubAtom, 0.7);
-    } else if ((atom as SupSubAtom).sup) {
-      return parseSup(atom as SupSubAtom, 0.7);
-    } else {
-      return parseSub(atom as SupSubAtom, 0.7);
+export interface Atom {
+  kind: AtomKind;
+  parse(): Box;
+}
+
+export class SymAtom implements Atom {
+  constructor(public kind: AtomKind, public char: string, public font: Font) {}
+  parse(): SymBox {
+    const { char, font } = this;
+    const { depth, height, italic, width } = getCharMetrics(char, font);
+    return { char, font, depth, height, width: width + italic, italic };
+  }
+}
+
+export class AccentAtom implements Atom {
+  constructor(
+    public kind: AtomKind,
+    public body: SymAtom,
+    public accent: SymAtom
+  ) {}
+  parse(): VStackBox {
+    const { body, accent } = this;
+    const [box, accBox] = [body.parse(), accent.parse()];
+    const clearance = Math.min(box.height, getSigma("xHeight"));
+    accBox.spaceB = -clearance;
+    return toVBox([accBox, box], box.depth);
+  }
+}
+
+export class OverlineAtom implements Atom {
+  constructor(public kind: AtomKind, public body: SymAtom) {}
+  parse(): VStackBox {
+    const { body } = this;
+    const accBox = parseLine();
+    const box = body.parse();
+    const defaultRuleThickness = getSigma("defaultRuleThickness");
+    accBox.spaceT = defaultRuleThickness;
+    accBox.spaceB = 3 * defaultRuleThickness;
+    return toVBox([accBox, box], box.depth);
+  }
+}
+
+export class LRAtom implements Atom {
+  constructor(
+    public kind: AtomKind,
+    public left: SymAtom,
+    public right: SymAtom,
+    public body: Atom[]
+  ) {}
+  parse(): HBox {
+    const { left, right, body } = this;
+    const innerBox = parseAtoms(body);
+    const leftBox = makeLeftRightDelim(
+      left.char,
+      innerBox.height,
+      innerBox.depth
+    );
+    const rightBox = makeLeftRightDelim(
+      right.char,
+      innerBox.height,
+      innerBox.depth
+    );
+    const width = leftBox.width + innerBox.width + rightBox.width;
+    return {
+      children: [leftBox, innerBox, rightBox],
+      width,
+      height: leftBox.height,
+      depth: leftBox.depth,
+    };
+  }
+}
+
+export class SqrtAtom implements Atom {
+  constructor(public kind: AtomKind, public body: Atom[]) {}
+  parse(): VBox {
+    const inner = parseAtoms(this.body);
+    const { width, depth } = inner;
+    let { height } = inner;
+    if (height === 0) height = getSigma("xHeight");
+    const theta = getSigma("defaultRuleThickness");
+    let phi = theta;
+    if (Style.DISPLAY.id < Style.TEXT.id) phi = getSigma("xHeight");
+    // Calculate the clearance between the body and line
+    let lineClearance = theta + phi / 4;
+    const minDelimiterHeight = height + depth + lineClearance + theta;
+    // Create a sqrt SVG of the required minimum size
+    const { type, totalWidth, ruleWidth, totalHeight } = sqrtImage(
+      minDelimiterHeight,
+      width
+    );
+    const delimDepth = totalHeight - ruleWidth;
+    if (delimDepth > height + depth + lineClearance) {
+      lineClearance = (lineClearance + delimDepth - height - depth) / 2;
     }
+    const imgShift = totalHeight - height - lineClearance - ruleWidth;
+    const sqrtBox: SqrtBox = {
+      size: type,
+      width: totalWidth,
+      height: totalHeight - imgShift,
+      depth: imgShift,
+      shift: -imgShift,
+      innerHeight: minDelimiterHeight,
+    };
+    inner.spaceL = totalWidth - width;
+    return {
+      children: [
+        { box: sqrtBox, shift: 0 },
+        { box: inner, shift: 0 },
+      ],
+      width: totalWidth,
+      height: totalHeight,
+      depth: delimDepth,
+    };
   }
-  if (atom.type === "matrix") {
-    return parseMatrix(atom as MatrixAtom);
-  }
-  throw new Error("No Atom Type Specified");
-};
-
-export const parseSymAtom = ({ char, font }: SymAtom): SymBox => {
-  const { depth, height, italic, width } = getCharMetrics(char, font);
-  return { char, font, depth, height, width: width + italic, italic };
-};
-
-export const parseAccentAtom = (atom: AccentAtom): VStackBox => {
-  const box = parseSymAtom(atom.body as SymAtom);
-  const accBox = parseSymAtom(atom.accent);
-  const clearance = Math.min(box.height, getSigma("xHeight"));
-  accBox.spaceB = -clearance;
-  return toVBox([accBox, box], box.depth);
-};
-
-export const parseOverline = (body: OverlineAtom): VStackBox => {
-  const accBox = parseAtom({ type: "line", kind: "ord" });
-  const box = parseSymAtom(body.body as SymAtom);
-  const defaultRuleThickness = getSigma("defaultRuleThickness");
-  accBox.spaceT = defaultRuleThickness;
-  accBox.spaceB = 3 * defaultRuleThickness;
-  return toVBox([accBox, box], box.depth);
-};
+}
 
 export const parseLine = (): Box => {
   return { width: 0, height: getSigma("defaultRuleThickness"), depth: 0 };
-};
-
-export const parseLRAtom = (atom: LRAtom): HBox => {
-  const innerBox = parseAtoms(atom.body);
-  const leftBox = makeLeftRightDelim(
-    atom.left.char,
-    innerBox.height,
-    innerBox.depth
-  );
-  const rightBox = makeLeftRightDelim(
-    atom.right.char,
-    innerBox.height,
-    innerBox.depth
-  );
-  const width = leftBox.width + innerBox.width + rightBox.width;
-  return {
-    children: [leftBox, innerBox, rightBox],
-    width,
-    height: leftBox.height,
-    depth: leftBox.depth,
-  };
 };

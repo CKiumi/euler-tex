@@ -1,5 +1,5 @@
 import { Box, DelimInnerBox, SymBox, toVBox, VStackBox } from "../box/box";
-import { parseSymAtom } from "./atom";
+import { SymAtom } from "./atom";
 import { getCharMetrics, getSigma } from "/font";
 import METRICS from "/font/src/data";
 import { Font } from "/font/src/spec";
@@ -80,21 +80,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
 };
 
 const makeSmallDelim = (delim: string): SymBox => {
-  return parseSymAtom({
-    char: delim,
-    font: "Main-R",
-    kind: "open",
-    type: "sym",
-  });
+  return new SymAtom("open", delim, "Main-R").parse();
 };
 
 const makeLargeDelim = (delim: string, size: number): SymBox => {
-  return parseSymAtom({
-    char: delim,
-    font: ("Size" + size) as Font,
-    kind: "open",
-    type: "sym",
-  });
+  return new SymAtom("open", delim, ("Size" + size) as Font).parse();
 };
 
 export const makeStackedDelim = function (
@@ -143,14 +133,14 @@ export const makeStackedDelim = function (
 
   return toVBox(
     [
-      parseSymAtom({ char: top, font: "Size4", kind: "ord", type: "sym" }),
+      new SymAtom("ord", top, "Size4").parse(),
       {
         repeat,
         width: METRICS["Size4"][repeat.charCodeAt(0)][4],
         height: innerHeight,
         depth: 0,
       } as DelimInnerBox,
-      parseSymAtom({ char: bottom, font: "Size4", kind: "open", type: "sym" }),
+      new SymAtom("open", bottom, "Size4").parse(),
     ],
     depth
   );

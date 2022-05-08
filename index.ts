@@ -1,191 +1,62 @@
-import { SqrtAtom } from "./src/atom/sqrt";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import {
-  Accent,
   AccentAtom,
-  Atom,
   LRAtom,
   OverlineAtom,
   parseAtoms,
+  SqrtAtom,
   SymAtom,
 } from "./src/atom/atom";
-import { buildBox } from "./src/html/builder";
 import { FracAtom } from "./src/atom/frac";
-import { SupSubAtom } from "./src/atom/supsub";
 import { MatrixAtom } from "./src/atom/matrix";
-const a: SymAtom = { char: "a", font: "Math-I", kind: "ord", type: "sym" };
-const f: SymAtom = { char: "f", font: "Math-I", kind: "ord", type: "sym" };
-const plus: SymAtom = { char: "+", font: "Main-R", kind: "bin", type: "sym" };
-const eq: SymAtom = { char: "=", font: "Main-R", kind: "rel", type: "sym" };
-const int: SymAtom = { char: "∫", font: "Size2", kind: "op", type: "sym" };
-const j: SymAtom = { char: "j", font: "Math-I", kind: "ord", type: "sym" };
-const K: SymAtom = { char: "K", font: "Math-I", kind: "ord", type: "sym" };
-const plusOrd: SymAtom = {
-  char: "+",
-  font: "Main-R",
-  kind: "ord",
-  type: "sym",
-};
-
-const sigma: SymAtom = { char: "∑", font: "Size2", kind: "op", type: "sym" };
-const hat: Accent = {
-  char: "^",
-  font: "Main-R",
-  kind: "ord",
-  type: "sym",
-};
-const tilde: Accent = {
-  char: "~",
-  font: "Main-R",
-  kind: "ord",
-  type: "sym",
-};
-const aHat: AccentAtom = {
-  accent: hat,
-  body: a,
-  kind: "ord",
-  type: "accent",
-};
-const intHat: AccentAtom = {
-  accent: hat,
-  body: int,
-  kind: "ord",
-  type: "accent",
-};
-const kTilde: AccentAtom = {
-  accent: tilde,
-  body: K,
-  kind: "ord",
-  type: "accent",
-};
-const sqrt: SqrtAtom = { body: [a], type: "sqrt", kind: "ord" };
-const sqrtK: SqrtAtom = { body: [K, plus, a], type: "sqrt", kind: "ord" };
-const sqrtInt: SqrtAtom = { body: [int], type: "sqrt", kind: "ord" };
-const fOverline: OverlineAtom = { body: f, kind: "ord", type: "overline" };
-const left: SymAtom = {
-  char: "(",
-  kind: "open",
-  type: "sym",
-  font: "Main-R",
-};
-const right: SymAtom = {
-  char: ")",
-  kind: "open",
-  type: "sym",
-  font: "Main-R",
-};
-const inner: Atom[] = [a, plus, f];
-const inner2: Atom[] = [int, plusOrd, f];
-const lr: LRAtom = { left, right, body: inner, kind: "inner", type: "lr" };
-const lr2: LRAtom = { left, right, body: inner2, kind: "inner", type: "lr" };
-const frac: FracAtom = {
-  numer: [a, plus, f],
-  denom: [K, plus, j],
-  kind: "ord",
-  type: "frac",
-};
-const sup: SupSubAtom = {
-  sup: [a, j],
-  nuc: a,
-  kind: "ord",
-  type: "supsub",
-};
-const sup2: SupSubAtom = {
-  sup: [K],
-  nuc: f,
-  kind: "ord",
-  type: "supsub",
-};
-const sub: SupSubAtom = {
-  sub: [a],
-  nuc: K,
-  kind: "ord",
-  type: "supsub",
-};
-const sub2: SupSubAtom = {
-  sub: [f],
-  nuc: a,
-  kind: "ord",
-  type: "supsub",
-};
-const supsub: SupSubAtom = {
-  sub: [f],
-  sup: [a],
-  nuc: a,
-  kind: "ord",
-  type: "supsub",
-};
-const supsub2: SupSubAtom = {
-  sub: [a],
-  sup: [a],
-  nuc: f,
-  kind: "ord",
-  type: "supsub",
-};
-const opSupsub: SupSubAtom = {
-  sub: [a],
-  sup: [a],
-  nuc: sigma,
-  kind: "ord",
-  type: "supsub",
-};
-const intSupsub: SupSubAtom = {
-  sub: [a],
-  sup: [a],
-  nuc: int,
-  kind: "ord",
-  type: "supsub",
-};
-const lrsup: SupSubAtom = {
-  sup: [a],
-  nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
-  kind: "inner",
-  type: "supsub",
-};
-const lrsub: SupSubAtom = {
-  sub: [a],
-  nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
-  kind: "inner",
-  type: "supsub",
-};
-const lrsupsub: SupSubAtom = {
-  sub: [a],
-  sup: [a],
-  nuc: { left, right, body: [a], kind: "inner", type: "lr" } as Atom,
-  kind: "inner",
-  type: "supsub",
-};
-
-const matrix: MatrixAtom = {
-  type: "matrix",
-  children: [
-    [a, a],
-    [a, a],
-  ],
-  kind: "ord",
-};
-const matrix2: MatrixAtom = {
-  type: "matrix",
-  children: [[a], [a, a]],
-  kind: "ord",
-};
-const pMatrix: LRAtom = {
-  kind: "inner",
-  type: "lr",
-  body: [matrix],
-  left,
-  right,
-};
-export const pMatrix2: LRAtom = {
-  kind: "inner",
-  type: "lr",
-  body: [matrix2],
-  left,
-  right,
-};
+import { SupSubAtom } from "./src/atom/supsub";
+import { buildBox } from "./src/html/builder";
 
 const main = () => {
+  const a = new SymAtom("ord", "a", "Math-I");
+  const f = new SymAtom("ord", "f", "Math-I");
+  const j = new SymAtom("ord", "j", "Math-I");
+  const K = new SymAtom("ord", "K", "Math-I");
+  const plus = new SymAtom("bin", "+", "Main-R");
+  const plusOrd = new SymAtom("ord", "+", "Main-R");
+  const eq = new SymAtom("rel", "=", "Main-R");
+  const int = new SymAtom("op", "∫", "Size2");
+  const sigma = new SymAtom("op", "∑", "Size2");
+  const left = new SymAtom("open", "(", "Main-R");
+  const right = new SymAtom("open", ")", "Main-R");
+  const hat = new SymAtom("ord", "^", "Main-R");
+  const tilde = new SymAtom("ord", "~", "Main-R");
+  const aHat = new AccentAtom("ord", a, hat);
+  const kTilde = new AccentAtom("ord", K, tilde);
+  const intHat = new AccentAtom("ord", int, hat);
+  const fOverline = new OverlineAtom("ord", f);
+  const lr = new LRAtom("inner", left, right, [a, plus, f]);
+  const lr2 = new LRAtom("inner", left, right, [int, plusOrd, f]);
+  const sqrt = new SqrtAtom("ord", [a]);
+  const sqrtK = new SqrtAtom("ord", [K, plus, a]);
+  const sqrtInt = new SqrtAtom("ord", [int]);
+  const frac = new FracAtom("ord", [a, plus, f], [K, plus, j]);
+  const sup = new SupSubAtom("ord", a, [a, j], undefined);
+  const sup2 = new SupSubAtom("ord", f, [K], undefined);
+  const sub = new SupSubAtom("ord", K, undefined, [a]);
+  const sub2 = new SupSubAtom("ord", a, undefined, [f]);
+  const supsub = new SupSubAtom("ord", a, [a], [f]);
+  const supsub2 = new SupSubAtom("ord", f, [a], [a]);
+  const opSupsub = new SupSubAtom("op", sigma, [a], [a]);
+  const intSupsub = new SupSubAtom("op", int, [a], [a]);
+  const lra = new LRAtom("inner", left, right, [a]);
+  const lrsup = new SupSubAtom("inner", lra, [a], undefined);
+  const lrsub = new SupSubAtom("inner", lra, undefined, [a]);
+  const lrsupsub = new SupSubAtom("inner", lra, [a], [a]);
+  const matrix = new MatrixAtom("ord", [
+    [a, a],
+    [a, a],
+  ]);
+  const matrix2 = new MatrixAtom("ord", [[a], [a, a]]);
+  const pMatrix = new LRAtom("inner", left, right, [matrix]);
+  const pMatrix2 = new LRAtom("inner", left, right, [matrix2]);
+
   render(
     "sym",
     "Symbols",

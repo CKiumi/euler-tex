@@ -1,19 +1,38 @@
+import {
+  Box,
+  HBox,
+  multiplyBox,
+  SymBox,
+  VBox,
+  VStackBox,
+  toVBox,
+} from "../box/box";
+import { parseAtoms, SymAtom, Atom } from "./atom";
 import { getSigma } from "/font";
-import { HBox, multiplyBox, SymBox, toVBox, VBox, VStackBox } from "../box/box";
-import { Atom, parseAtom, parseAtoms, SymAtom } from "./atom";
-import { SIGMAS } from "/font/src/sigma";
+import { AtomKind, SIGMAS } from "/font/src/sigma";
 
-export interface SupSubAtom extends Atom {
-  type: "supsub";
-  sup?: Atom[];
-  sub?: Atom[];
-  nuc: Atom;
+export class SupSubAtom implements Atom {
+  constructor(
+    public kind: AtomKind,
+    public nuc: Atom,
+    public sup?: Atom[],
+    public sub?: Atom[]
+  ) {}
+  parse(): Box {
+    if (this.sup && this.sub) {
+      return parseSupSub(this, 0.7);
+    } else if (this.sup) {
+      return parseSup(this, 0.7);
+    } else {
+      return parseSub(this, 0.7);
+    }
+  }
 }
 
 export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   let supShift = 0;
   const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
-  const nuc = parseAtom(atom.nuc);
+  const nuc = atom.nuc.parse();
   if (!(nuc as SymBox).char) {
     supShift = nuc.height - (SIGMAS.supDrop[1] * multiplier) / 1;
   }
@@ -45,7 +64,7 @@ export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   let subShift = 0;
   const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
   //   const marginRight = 0.5 / getSigma("ptPerEm") / multiplier;
-  const nuc = parseAtom(atom.nuc);
+  const nuc = atom.nuc.parse();
   if (!(nuc as SymBox).char) {
     subShift = nuc.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
   }
@@ -87,7 +106,7 @@ export const parseSupSub = (
       multiplier
     );
   }
-  const nuc = parseAtom(atom.nuc);
+  const nuc = atom.nuc.parse();
   const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
   const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
   const minSupShift = getSigma("sup1");
@@ -149,7 +168,7 @@ export const parseLimitSupSub = (
 ): VStackBox => {
   let supBox;
   let subBox;
-  const nucBox = parseAtom(nuc);
+  const nucBox = nuc.parse();
   if (supAtom) {
     supBox = multiplyBox(parseAtoms(supAtom), multiplier);
     supBox.spaceT = getSigma("bigOpSpacing5") / multiplier;

@@ -1,0 +1,310 @@
+// Vitest Snapshot v1
+
+exports[`accent atom 1`] = `
+{
+  "children": [
+    {
+      "char": "^",
+      "depth": 0,
+      "font": "Main-R",
+      "height": 0.69444,
+      "italic": 0,
+      "spaceB": -0.431,
+      "width": 0.5,
+    },
+    {
+      "char": "j",
+      "depth": 0.19444,
+      "font": "Math-I",
+      "height": 0.65952,
+      "italic": 0.05724,
+      "width": 0.46905,
+    },
+  ],
+  "depth": 0.19444,
+  "height": 1.35396,
+  "shift": -0,
+  "width": 0.5,
+}
+`;
+
+exports[`frac atom 1`] = `
+{
+  "children": [
+    {
+      "box": {
+        "children": [
+          {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+        ],
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "shift": 0.677,
+    },
+    {
+      "box": {
+        "depth": 0,
+        "height": 0.04,
+        "width": 0,
+      },
+      "shift": 0.23,
+    },
+    {
+      "box": {
+        "children": [
+          {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+        ],
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "shift": -0.686,
+    },
+  ],
+  "depth": 0,
+  "height": 0,
+  "width": 0.46905,
+}
+`;
+
+exports[`leftright atom 1`] = `
+{
+  "children": [
+    {
+      "char": "(",
+      "depth": 0.25,
+      "font": "Main-R",
+      "height": 0.75,
+      "italic": 0,
+      "width": 0.38889,
+    },
+    {
+      "children": [
+        {
+          "char": "j",
+          "depth": 0.19444,
+          "font": "Math-I",
+          "height": 0.65952,
+          "italic": 0.05724,
+          "width": 0.46905,
+        },
+      ],
+      "depth": 0.19444,
+      "height": 0.65952,
+      "width": 0.46905,
+    },
+    {
+      "char": ")",
+      "depth": 0.25,
+      "font": "Main-R",
+      "height": 0.75,
+      "italic": 0,
+      "width": 0.38889,
+    },
+  ],
+  "depth": 0.25,
+  "height": 0.75,
+  "width": 1.24683,
+}
+`;
+
+exports[`matrix atom 1`] = `
+{
+  "children": [
+    {
+      "children": [
+        {
+          "box": {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+          "shift": 0.6099999999999999,
+        },
+        {
+          "box": {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+          "shift": -0.5900000000000001,
+        },
+      ],
+      "spaceR": 0.5,
+    },
+    {
+      "children": [
+        {
+          "box": {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+          "shift": 0.6099999999999999,
+        },
+      ],
+      "spaceL": 0.5,
+    },
+  ],
+  "depth": 0.95,
+  "height": 1.45,
+  "width": NaN,
+}
+`;
+
+exports[`overline atom 1`] = `
+{
+  "children": [
+    {
+      "depth": 0,
+      "height": 0.04,
+      "spaceB": 0.12,
+      "spaceT": 0.04,
+      "width": 0,
+    },
+    {
+      "char": "j",
+      "depth": 0.19444,
+      "font": "Math-I",
+      "height": 0.65952,
+      "italic": 0.05724,
+      "width": 0.46905,
+    },
+  ],
+  "depth": 0.19444,
+  "height": 0.6995200000000001,
+  "shift": -0,
+  "width": 0.46905,
+}
+`;
+
+exports[`sqrt atom 1`] = `
+{
+  "children": [
+    {
+      "box": {
+        "depth": 0.273585,
+        "height": 0.926415,
+        "innerHeight": 1.0417100000000001,
+        "shift": -0.273585,
+        "size": 1,
+        "width": 1.41905,
+      },
+      "shift": 0,
+    },
+    {
+      "box": {
+        "children": [
+          {
+            "char": "j",
+            "depth": 0.19444,
+            "font": "Math-I",
+            "height": 0.65952,
+            "italic": 0.05724,
+            "width": 0.46905,
+          },
+        ],
+        "depth": 0.19444,
+        "height": 0.65952,
+        "spaceL": 0.95,
+        "width": 0.46905,
+      },
+      "shift": 0,
+    },
+  ],
+  "depth": 1.16,
+  "height": 1.2,
+  "width": 1.41905,
+}
+`;
+
+exports[`supsub atom 1`] = `
+{
+  "children": [
+    {
+      "char": "j",
+      "depth": 0.19444,
+      "font": "Math-I",
+      "height": 0.65952,
+      "italic": 0.05724,
+      "width": 0.46905,
+    },
+    {
+      "align": "start",
+      "children": [
+        {
+          "box": {
+            "children": [
+              {
+                "char": "j",
+                "depth": 0.19444,
+                "font": "Math-I",
+                "height": 0.65952,
+                "italic": 0.05724,
+                "width": 0.46905,
+              },
+            ],
+            "depth": 0.13610799999999998,
+            "height": 0.46166399999999996,
+            "multiplier": 0.7,
+            "spaceR": 0.07142857142857144,
+            "width": 0.328335,
+          },
+          "shift": 0.48090799999999995,
+        },
+        {
+          "box": {
+            "children": [
+              {
+                "char": "j",
+                "depth": 0.19444,
+                "font": "Math-I",
+                "height": 0.65952,
+                "italic": 0.05724,
+                "width": 0.46905,
+              },
+            ],
+            "depth": 0.13610799999999998,
+            "height": 0.46166399999999996,
+            "multiplier": 0.7,
+            "spaceL": -0.08177142857142858,
+            "spaceR": 0.07142857142857144,
+            "width": 0.328335,
+          },
+          "shift": -0.276864,
+        },
+      ],
+      "depth": 0,
+      "height": 0,
+      "width": 0.328335,
+    },
+  ],
+  "depth": 0.19444,
+  "height": 0,
+  "width": 0.797385,
+}
+`;
