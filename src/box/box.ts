@@ -3,10 +3,10 @@ export interface Box {
   height: number;
   depth: number;
   width: number;
-  spacing?: number;
-  spacingRight?: number;
-  spacingBelow?: number;
-  spacingTop?: number;
+  spaceL?: number;
+  spaceR?: number;
+  spaceB?: number;
+  spaceT?: number;
   multiplier?: number;
 }
 
@@ -46,7 +46,7 @@ export const toVBox = (children: Box[], newDepth: number): VStackBox => {
       .reduce((partialSum, a) => partialSum + a, 0) - newDepth;
   const width = Math.max(...children.map((box) => box.width));
   const revChildren = children.slice().reverse();
-  const oldDepth = revChildren[0].depth + (revChildren[0].spacingBelow ?? 0);
+  const oldDepth = revChildren[0].depth + (revChildren[0].spaceB ?? 0);
   return {
     children,
     depth: newDepth,

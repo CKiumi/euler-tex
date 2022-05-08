@@ -60,15 +60,12 @@ export const parseAtoms = (atoms: Atom[]): HBox => {
   const children = atoms.map((atom) => {
     const box = parseAtom(atom);
     if (prevKind && atom.kind) {
-      box.spacing = getSpacing(prevKind, atom.kind);
+      box.spaceL = getSpacing(prevKind, atom.kind);
     }
     prevKind = atom.kind;
     return box;
   });
-  const width = children.reduce(
-    (acc, a) => acc + a.width + (a.spacing ?? 0),
-    0
-  );
+  const width = children.reduce((acc, a) => acc + a.width + (a.spaceL ?? 0), 0);
   const depth = Math.max(...children.map((child) => child.depth));
   const height = Math.max(...children.map((child) => child.height));
   return { children, width, height, depth };
@@ -106,7 +103,7 @@ export const parseAccentAtom = (atom: AccentAtom): VStackBox => {
   const box = parseSymAtom(atom.body as SymAtom);
   const accBox = parseSymAtom(atom.accent);
   const clearance = Math.min(box.height, getSigma("xHeight"));
-  accBox.spacingBelow = -clearance;
+  accBox.spaceB = -clearance;
   return toVBox([accBox, box], box.depth);
 };
 
@@ -114,8 +111,8 @@ export const parseOverline = (body: OverlineAtom): VStackBox => {
   const accBox = parseAtom({ type: "line", kind: "ord" });
   const box = parseSymAtom(body.body as SymAtom);
   const defaultRuleThickness = getSigma("defaultRuleThickness");
-  accBox.spacingTop = defaultRuleThickness;
-  accBox.spacingBelow = 3 * defaultRuleThickness;
+  accBox.spaceT = defaultRuleThickness;
+  accBox.spaceB = 3 * defaultRuleThickness;
   return toVBox([accBox, box], box.depth);
 };
 

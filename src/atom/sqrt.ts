@@ -39,7 +39,7 @@ export const parseSqrt = (atom: SqrtAtom): VBox => {
     shift: -imgShift,
     innerHeight: minDelimiterHeight,
   };
-  inner.spacing = totalWidth - width;
+  inner.spaceL = totalWidth - width;
   return {
     children: [
       { box: sqrtBox, shift: 0 },

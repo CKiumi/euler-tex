@@ -7,8 +7,7 @@ import { sqrtSvg } from "./svg/sqrt";
 import { getSigma } from "/font";
 import { SPEC } from "/font/src/spec";
 
-export const buildVStackBox = (vBox: VStackBox) => {
-  const span = document.createElement("span");
+export const buildVStackBox = (span: HTMLSpanElement, vBox: VStackBox) => {
   span.classList.add("vlist");
   vBox.children
     .slice()
@@ -18,82 +17,63 @@ export const buildVStackBox = (vBox: VStackBox) => {
   return span;
 };
 
-export const buildHBox = (hbox: HBox) => {
-  const span = document.createElement("span");
+export const buildHBox = (span: HTMLSpanElement, hbox: HBox) => {
   span.classList.add("hbox");
   hbox.children.forEach((box) => {
     span.append(buildBox(box));
   });
-  if (hbox.spacing) span.style.marginLeft = em(hbox.spacing);
-  if (hbox.spacingRight) span.style.marginRight = em(hbox.spacingRight);
-  if (hbox.spacingBelow) span.style.marginBottom = em(hbox.spacingBelow);
-  if (hbox.spacingTop) span.style.marginTop = em(hbox.spacingTop);
   if (hbox.multiplier) span.style.fontSize = em(hbox.multiplier);
   return span;
 };
 
 export const buildBox = (box: Box): HTMLSpanElement => {
+  const span = document.createElement("span");
+  span.style.marginLeft = em(box.spaceL);
+  span.style.marginRight = em(box.spaceR);
+  span.style.marginBottom = em(box.spaceB);
+  span.style.marginTop = em(box.spaceT);
   if ((box as SymBox).char) {
-    return buildSymBox(box as SymBox);
+    return buildSymBox(span, box as SymBox);
   }
   if ((box as SqrtBox).size) {
-    return buildSqrtBox(box as SqrtBox);
+    return buildSqrtBox(span, box as SqrtBox);
   }
   if ((box as VBox).children && (box as VBox).children[0].box !== undefined) {
-    return buildVBox(box as VBox);
+    return buildVBox(span, box as VBox);
   }
   if ((box as VStackBox).shift !== undefined) {
-    return buildVStackBox(box as VStackBox);
+    return buildVStackBox(span, box as VStackBox);
   }
   if ((box as HBox).children) {
-    return buildHBox(box as HBox);
+    return buildHBox(span, box as HBox);
   }
   if ((box as DelimInnerBox).repeat) {
-    return buildDelimInnerBox(box as DelimInnerBox);
+    return buildDelimInnerBox(span, box as DelimInnerBox);
   }
-
-  const span = document.createElement("span");
   span.style.height = em(box.height);
   span.style.background = "black";
   span.style.width = "100%";
-  span.style.marginBottom = em(box.spacingBelow);
-  span.style.marginTop = em(box.spacingTop);
   return span;
 };
 
-export const buildSymBox = ({
-  char,
-  font,
-  height,
-  depth,
-  italic,
-  spacing,
-  spacingRight,
-  spacingBelow,
-  spacingTop,
-}: SymBox): HTMLSpanElement => {
-  const span = document.createElement("span");
+export const buildSymBox = (
+  span: HTMLSpanElement,
+  { char, font, height, depth, italic }: SymBox
+): HTMLSpanElement => {
   span.innerText = char;
   span.classList.add("box", font.toLowerCase());
   span.style.height = em(height + depth);
   if (italic) span.style.paddingRight = em(italic);
-  if (spacing) span.style.marginLeft = em(spacing);
-  if (spacingRight) span.style.marginRight = em(spacingRight);
-  if (spacingBelow) span.style.marginBottom = em(spacingBelow);
-  if (spacingTop) span.style.marginTop = em(spacingTop);
   span.style.lineHeight = em(
     (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2
   );
   return span;
 };
 
-export const buildVBox = ({
-  children,
-  align,
-  spacingRight,
-  spacing,
-}: VBox): HTMLSpanElement => {
-  const span = document.createElement("span");
+export const buildVBox = (
+  span: HTMLSpanElement,
+  { children, align }: VBox
+): HTMLSpanElement => {
   const depth = Math.min(
     ...children.map(({ shift, box }) => shift - box.depth)
   );
@@ -118,16 +98,13 @@ export const buildVBox = ({
   span.style.height = em(height - depth);
   if (align) span.style.alignItems = align;
   span.style.verticalAlign = em(depth + oldDepth);
-  if (spacing) span.style.marginLeft = em(spacing);
-  if (spacingRight) span.style.marginRight = em(spacingRight);
   return span;
 };
 
-export const buildDelimInnerBox = ({
-  height,
-  width,
-  repeat,
-}: DelimInnerBox) => {
+export const buildDelimInnerBox = (
+  span: HTMLSpanElement,
+  { height, width, repeat }: DelimInnerBox
+) => {
   const path = new PathNode(
     "inner",
     innerPath(repeat, Math.round(1000 * height))
@@ -135,12 +112,10 @@ export const buildDelimInnerBox = ({
   const svgNode = new SvgNode([path], {
     width: em(width),
     height: em(height),
-    // Override CSS rule `.katex svg { width: 100% }`
     style: "width:" + em(width),
     viewBox: "0 0 " + 1000 * width + " " + Math.round(1000 * height),
     preserveAspectRatio: "xMinYMin",
   });
-  const span = document.createElement("span");
   span.innerHTML = svgNode.toMarkup();
   span.style.height = em(height);
   span.style.width = em(width);
@@ -150,11 +125,10 @@ export const buildDelimInnerBox = ({
 
 const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
 
-const buildSqrtBox = (box: SqrtBox): HTMLSpanElement => {
+const buildSqrtBox = (span: HTMLSpanElement, box: SqrtBox): HTMLSpanElement => {
   const { width, innerHeight: height } = box;
   let sizeMultiplier = 1;
   const extraViniculum = Math.max(0, 0 - getSigma("sqrtRuleThickness"));
-  const span = document.createElement("span");
   let spanHeight = 0;
   let viewBoxHeight = 0;
   if (box.size === "small") {

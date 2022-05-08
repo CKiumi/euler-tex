@@ -52,8 +52,8 @@ export const parseMatrix = function (atom: MatrixAtom): HBox {
       .filter((row) => !!row.children[c])
       .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
     cols.push({ children: col } as VBox);
-    if (c > 0) cols[c].spacing = arraycolsep;
-    if (c < nc - 1) cols[c].spacingRight = arraycolsep;
+    if (c > 0) cols[c].spaceL = arraycolsep;
+    if (c < nc - 1) cols[c].spaceR = arraycolsep;
   }
   const mat = document.createElement("span");
   mat.classList.add("box");

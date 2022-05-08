@@ -1,19 +1,20 @@
 import { expect, test } from "vitest";
+import { SymBox } from "../../src/box/box";
+import { buildBox } from "../../src/html/builder";
 import {
   Accent,
   AccentAtom,
+  Atom,
+  LRAtom,
   OverlineAtom,
   parseAtom,
   parseAtoms,
   SymAtom,
 } from "/src/atom/atom";
-import { SymBox } from "../../src/box/box";
-import { buildBox, buildHBox, buildSymBox } from "../../src/html/builder";
-import { Atom, LRAtom } from "/src/atom/atom";
 import { FracAtom } from "/src/atom/frac";
+import { MatrixAtom } from "/src/atom/matrix";
 import { SqrtAtom } from "/src/atom/sqrt";
 import { SupSubAtom } from "/src/atom/supsub";
-import { MatrixAtom } from "/src/atom/matrix";
 const a: SymAtom = { char: "a", font: "Math-I", kind: "ord", type: "sym" };
 const f: SymAtom = { char: "f", font: "Math-I", kind: "ord", type: "sym" };
 const plus: SymAtom = { char: "+", font: "Main-R", kind: "bin", type: "sym" };
@@ -194,9 +195,9 @@ test("symbol box", () => {
     height: 0.65952,
     width: 0.41181 + 0.05724,
   });
-  expect(buildSymBox(parseAtom(j) as SymBox)).matchSnapshot();
+  expect(buildBox(parseAtom(j) as SymBox)).matchSnapshot();
 
-  expect(buildHBox(parseAtoms([a, plus, f, eq, int]))).matchSnapshot();
+  expect(buildBox(parseAtoms([a, plus, f, eq, int]))).matchSnapshot();
 });
 
 test("accent box", () => {

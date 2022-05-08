@@ -15,7 +15,7 @@ exports[`accent box 1`] = `
     </span>
     <span
       class="box main-r"
-      style="height: 0.6944em; margin-bottom: -0.4306em; line-height: 0.7579em;"
+      style="margin-bottom: -0.4306em; height: 0.6944em; line-height: 0.7579em;"
     >
       ^
     </span>
@@ -30,7 +30,7 @@ exports[`accent box 1`] = `
       f
     </span>
     <span
-      style="height: 0.0400em; background: black; width: 100%; margin-bottom: 0.1200em; margin-top: 0.0400em;"
+      style="margin-bottom: 0.1200em; margin-top: 0.0400em; height: 0.0400em; background: black; width: 100%;"
     />
   </span>
   <span
@@ -44,7 +44,7 @@ exports[`accent box 1`] = `
     </span>
     <span
       class="box main-r"
-      style="height: 0.6679em; margin-bottom: -0.4310em; line-height: 0.0047em;"
+      style="margin-bottom: -0.4310em; height: 0.6679em; line-height: 0.0047em;"
     >
       ~
     </span>
@@ -60,7 +60,7 @@ exports[`accent box 1`] = `
     </span>
     <span
       class="box main-r"
-      style="height: 0.6944em; margin-bottom: -0.4310em; line-height: 0.7579em;"
+      style="margin-bottom: -0.4310em; height: 0.6944em; line-height: 0.7579em;"
     >
       ^
     </span>
@@ -88,13 +88,13 @@ exports[`frac 1`] = `
       </span>
       <span
         class="box main-r"
-        style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+        style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
       >
         +
       </span>
       <span
         class="box math-i"
-        style="height: 0.8540em; padding-right: 0.0572em; margin-left: 0.2222em; line-height: 0.8200em;"
+        style="margin-left: 0.2222em; height: 0.8540em; padding-right: 0.0572em; line-height: 0.8200em;"
       >
         j
       </span>
@@ -114,13 +114,13 @@ exports[`frac 1`] = `
       </span>
       <span
         class="box main-r"
-        style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+        style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
       >
         +
       </span>
       <span
         class="box math-i"
-        style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
+        style="margin-left: 0.2222em; height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
       >
         f
       </span>
@@ -141,25 +141,25 @@ exports[`hbox 1`] = `
   </span>
   <span
     class="box main-r"
-    style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+    style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
   >
     +
   </span>
   <span
     class="box math-i"
-    style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
+    style="margin-left: 0.2222em; height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
   >
     f
   </span>
   <span
     class="box main-r"
-    style="height: 0.2337em; margin-left: 0.2778em; line-height: 0.1027em;"
+    style="margin-left: 0.2778em; height: 0.2337em; line-height: 0.1027em;"
   >
     =
   </span>
   <span
     class="box size2"
-    style="height: 2.2222em; padding-right: 0.4445em; margin-left: 0.2778em; line-height: 2.2220em;"
+    style="margin-left: 0.2778em; height: 2.2222em; padding-right: 0.4445em; line-height: 2.2220em;"
   >
     ∫
   </span>
@@ -190,13 +190,13 @@ exports[`leftright 1`] = `
       </span>
       <span
         class="box main-r"
-        style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+        style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
       >
         +
       </span>
       <span
         class="box math-i"
-        style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
+        style="margin-left: 0.2222em; height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
       >
         f
       </span>
@@ -229,7 +229,7 @@ exports[`leftright 1`] = `
       </span>
       <span
         class="box main-r"
-        style="height: 0.6667em; margin-left: 0.1667em; line-height: 0.5357em;"
+        style="margin-left: 0.1667em; height: 0.6667em; line-height: 0.5357em;"
       >
         +
       </span>
@@ -271,7 +271,7 @@ exports[`matrix 1`] = `
       >
         <span
           class="vlist"
-          style="height: 1.6306em; vertical-align: -0.5900em; margin-right: 0.5000em;"
+          style="margin-right: 0.5000em; height: 1.6306em; vertical-align: -0.5900em;"
         >
           <span
             class="box math-i"
@@ -288,7 +288,7 @@ exports[`matrix 1`] = `
         </span>
         <span
           class="vlist"
-          style="height: 1.6306em; vertical-align: -0.5900em; margin-left: 0.5000em;"
+          style="margin-left: 0.5000em; height: 1.6306em; vertical-align: -0.5900em;"
         >
           <span
             class="box math-i"
@@ -330,7 +330,7 @@ exports[`matrix 1`] = `
       >
         <span
           class="vlist"
-          style="height: 1.6306em; vertical-align: -0.5900em; margin-right: 0.5000em;"
+          style="margin-right: 0.5000em; height: 1.6306em; vertical-align: -0.5900em;"
         >
           <span
             class="box math-i"
@@ -347,7 +347,7 @@ exports[`matrix 1`] = `
         </span>
         <span
           class="vlist"
-          style="height: 0.4306em; vertical-align: -0.5900em; margin-left: 0.5000em;"
+          style="margin-left: 0.5000em; height: 0.4306em; vertical-align: -0.5900em;"
         >
           <span
             class="box math-i"
@@ -430,13 +430,13 @@ exports[`sqrt 1`] = `
       </span>
       <span
         class="box main-r"
-        style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+        style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
       >
         +
       </span>
       <span
         class="box math-i"
-        style="height: 0.4306em; margin-left: 0.2222em; line-height: 0.3621em;"
+        style="margin-left: 0.2222em; height: 0.4306em; line-height: 0.3621em;"
       >
         a
       </span>
@@ -857,7 +857,7 @@ exports[`supsub 2`] = `
   </span>
   <span
     class="vlist"
-    style="vertical-align: -1.2351em;"
+    style="margin-left: 0.1667em; vertical-align: -1.2351em;"
   >
     <span
       class="hbox"
@@ -949,25 +949,25 @@ exports[`symbol box 2`] = `
   </span>
   <span
     class="box main-r"
-    style="height: 0.6667em; margin-left: 0.2222em; line-height: 0.5357em;"
+    style="margin-left: 0.2222em; height: 0.6667em; line-height: 0.5357em;"
   >
     +
   </span>
   <span
     class="box math-i"
-    style="height: 0.8889em; padding-right: 0.1076em; margin-left: 0.2222em; line-height: 0.8899em;"
+    style="margin-left: 0.2222em; height: 0.8889em; padding-right: 0.1076em; line-height: 0.8899em;"
   >
     f
   </span>
   <span
     class="box main-r"
-    style="height: 0.2337em; margin-left: 0.2778em; line-height: 0.1027em;"
+    style="margin-left: 0.2778em; height: 0.2337em; line-height: 0.1027em;"
   >
     =
   </span>
   <span
     class="box size2"
-    style="height: 2.2222em; padding-right: 0.4445em; margin-left: 0.2778em; line-height: 2.2220em;"
+    style="margin-left: 0.2778em; height: 2.2222em; padding-right: 0.4445em; line-height: 2.2220em;"
   >
     ∫
   </span>

@@ -25,7 +25,7 @@ export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   );
 
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sup.spacingRight = marginRight;
+  sup.spaceR = marginRight;
   const vbox: VBox = {
     children: [{ box: sup, shift: supShift }],
     width: sup.width,
@@ -56,8 +56,8 @@ export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   );
 
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sub.spacingRight = marginRight;
-  sub.spacing = -(nuc as SymBox).italic / multiplier;
+  sub.spaceR = marginRight;
+  sub.spaceL = -(nuc as SymBox).italic / multiplier;
   const vbox: VBox = {
     children: [{ box: sub, shift: -subShift }],
     width: sub.width,
@@ -118,10 +118,10 @@ export const parseSupSub = (
       subShift -= psi;
     }
   }
-  sub.spacing = -(nuc as SymBox).italic / multiplier;
+  sub.spaceL = -(nuc as SymBox).italic / multiplier;
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sup.spacingRight = marginRight;
-  sub.spacingRight = marginRight;
+  sup.spaceR = marginRight;
+  sub.spaceR = marginRight;
   const supsub: VBox = {
     children: [
       { box: sup, shift: supShift },
@@ -152,8 +152,8 @@ export const parseLimitSupSub = (
   const nucBox = parseAtom(nuc);
   if (supAtom) {
     supBox = multiplyBox(parseAtoms(supAtom), multiplier);
-    supBox.spacingTop = getSigma("bigOpSpacing5") / multiplier;
-    supBox.spacingBelow =
+    supBox.spaceT = getSigma("bigOpSpacing5") / multiplier;
+    supBox.spaceB =
       Math.max(
         getSigma("bigOpSpacing1"),
         getSigma("bigOpSpacing3") - supBox.depth
@@ -162,8 +162,8 @@ export const parseLimitSupSub = (
 
   if (subAtom) {
     subBox = multiplyBox(parseAtoms(subAtom), multiplier);
-    subBox.spacingBelow = getSigma("bigOpSpacing5") / multiplier;
-    subBox.spacingTop =
+    subBox.spaceB = getSigma("bigOpSpacing5") / multiplier;
+    subBox.spaceT =
       Math.max(
         getSigma("bigOpSpacing2"),
         getSigma("bigOpSpacing4") - subBox.height
@@ -174,7 +174,7 @@ export const parseLimitSupSub = (
       getSigma("bigOpSpacing5") +
       subBox.height +
       subBox.depth +
-      (subBox.spacingTop ?? 0) +
+      (subBox.spaceT ?? 0) +
       nucBox.depth;
     return toVBox([supBox, nucBox, subBox], bottom);
   } else if (subBox) {
