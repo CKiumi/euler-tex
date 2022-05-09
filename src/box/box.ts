@@ -64,8 +64,12 @@ export class HBox implements Box {
       (t, a) => t + a.rect.width + (a.space.left ?? 0),
       0
     );
-    const depth = Math.max(...children.map((child) => child.rect.depth));
-    const height = Math.max(...children.map((child) => child.rect.height));
+    const depth = Math.max(
+      ...children.map((child) => child.rect.depth + (child.space.bottom ?? 0))
+    );
+    const height = Math.max(
+      ...children.map((child) => child.rect.height + (child.space.top ?? 0))
+    );
     this.rect = { depth, height, width };
   }
   toHtml(): HTMLSpanElement {
@@ -88,8 +92,8 @@ export class VBox implements Box {
     public multiplier?: number,
     public align?: string
   ) {
-    const depth = Math.min(
-      ...children.map(({ shift, box: { rect } }) => shift - rect.depth)
+    const depth = Math.max(
+      ...children.map(({ shift, box: { rect } }) => rect.depth - shift)
     );
     const height = Math.max(
       ...children.map(({ shift, box: { rect } }) => shift + rect.height)
@@ -110,15 +114,15 @@ export class VBox implements Box {
         span.append(html);
         const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
         html.style.bottom = em(
-          (-this.rect.depth - stackHeight - rect.depth + shift) / multiplier
+          (this.rect.depth - stackHeight - rect.depth + shift) / multiplier
         );
         stackHeight += rect.depth + rect.height;
       });
     const oldDepth = this.children[this.children.length - 1].box.rect.depth;
     span.classList.add("vlist");
-    span.style.height = em(this.rect.height - this.rect.depth);
+    span.style.height = em(this.rect.height + this.rect.depth);
     if (this.align) span.style.alignItems = this.align;
-    span.style.verticalAlign = em(this.rect.depth + oldDepth);
+    span.style.verticalAlign = em(-this.rect.depth + oldDepth);
     return span;
   }
 }

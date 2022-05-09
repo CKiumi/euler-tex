@@ -52,8 +52,8 @@ export class MatrixAtom implements Atom {
       if (c < nc - 1) cols[c].space.right = arraycolsep;
     }
     const hbox = new HBox(cols);
-    hbox.rect.depth = totalHeight - offset;
-    hbox.rect.height = offset;
+    hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
+    hbox.space.top = offset - hbox.rect.height;
     return hbox;
   }
 }
