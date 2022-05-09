@@ -34,30 +34,28 @@ export class FracAtom implements Atom {
     // Rule 15d
     const axisHeight = getSigma("axisHeight");
 
-    if (numShift - numBox.depth - (axisHeight + 0.5 * ruleWidth) < clearance) {
+    if (
+      numShift - numBox.rect.depth - (axisHeight + 0.5 * ruleWidth) <
+      clearance
+    ) {
       numShift +=
-        clearance - (numShift - numBox.depth - (axisHeight + 0.5 * ruleWidth));
+        clearance -
+        (numShift - numBox.rect.depth - (axisHeight + 0.5 * ruleWidth));
     }
 
     if (
-      axisHeight - 0.5 * ruleWidth - (denBox.height - denomShift) <
+      axisHeight - 0.5 * ruleWidth - (denBox.rect.height - denomShift) <
       clearance
     ) {
       denomShift +=
         clearance -
-        (axisHeight - 0.5 * ruleWidth - (denBox.height - denomShift));
+        (axisHeight - 0.5 * ruleWidth - (denBox.rect.height - denomShift));
     }
     const midShift = -(axisHeight - 0.5 * ruleWidth);
-
-    return {
-      children: [
-        { box: numBox, shift: numShift },
-        { box: rule, shift: -midShift },
-        { box: denBox, shift: -denomShift },
-      ],
-      width: Math.max(numBox.width, denBox.width),
-      height: 0,
-      depth: 0,
-    };
+    return new VBox([
+      { box: numBox, shift: numShift },
+      { box: rule, shift: -midShift },
+      { box: denBox, shift: -denomShift },
+    ]);
   }
 }

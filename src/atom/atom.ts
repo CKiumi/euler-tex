@@ -1,15 +1,15 @@
 import {
   Box,
   HBox,
+  RectBox,
   SqrtBox,
   SymBox,
-  toVBox,
   VBox,
   VStackBox,
-} from "./../box/box";
+} from "../box/box";
 import { makeLeftRightDelim } from "./leftright";
 import { sqrtImage } from "./sqrt";
-import { getCharMetrics, getSigma, getSpacing } from "/font";
+import { getSigma, getSpacing } from "/font";
 import { AtomKind } from "/font/src/sigma";
 import { Font } from "/font/src/spec";
 import Style from "/font/src/style";
@@ -19,15 +19,12 @@ export const parseAtoms = (atoms: Atom[]): HBox => {
   const children = atoms.map((atom) => {
     const box = atom.parse();
     if (prevKind && atom.kind) {
-      box.spaceL = getSpacing(prevKind, atom.kind);
+      box.space.left = getSpacing(prevKind, atom.kind);
     }
     prevKind = atom.kind;
     return box;
   });
-  const width = children.reduce((acc, a) => acc + a.width + (a.spaceL ?? 0), 0);
-  const depth = Math.max(...children.map((child) => child.depth));
-  const height = Math.max(...children.map((child) => child.height));
-  return { children, width, height, depth };
+  return new HBox(children);
 };
 
 export interface Atom {
@@ -39,8 +36,7 @@ export class SymAtom implements Atom {
   constructor(public kind: AtomKind, public char: string, public font: Font) {}
   parse(): SymBox {
     const { char, font } = this;
-    const { depth, height, italic, width } = getCharMetrics(char, font);
-    return { char, font, depth, height, width: width + italic, italic };
+    return new SymBox(char, font);
   }
 }
 
@@ -53,9 +49,9 @@ export class AccentAtom implements Atom {
   parse(): VStackBox {
     const { body, accent } = this;
     const [box, accBox] = [body.parse(), accent.parse()];
-    const clearance = Math.min(box.height, getSigma("xHeight"));
-    accBox.spaceB = -clearance;
-    return toVBox([accBox, box], box.depth);
+    const clearance = Math.min(box.rect.height, getSigma("xHeight"));
+    accBox.space.bottom = -clearance;
+    return new VStackBox([accBox, box], box.rect.depth);
   }
 }
 
@@ -66,9 +62,9 @@ export class OverlineAtom implements Atom {
     const accBox = parseLine();
     const box = body.parse();
     const defaultRuleThickness = getSigma("defaultRuleThickness");
-    accBox.spaceT = defaultRuleThickness;
-    accBox.spaceB = 3 * defaultRuleThickness;
-    return toVBox([accBox, box], box.depth);
+    accBox.space.top = defaultRuleThickness;
+    accBox.space.bottom = 3 * defaultRuleThickness;
+    return new VStackBox([accBox, box], box.rect.depth);
   }
 }
 
@@ -84,21 +80,15 @@ export class LRAtom implements Atom {
     const innerBox = parseAtoms(body);
     const leftBox = makeLeftRightDelim(
       left.char,
-      innerBox.height,
-      innerBox.depth
+      innerBox.rect.height,
+      innerBox.rect.depth
     );
     const rightBox = makeLeftRightDelim(
       right.char,
-      innerBox.height,
-      innerBox.depth
+      innerBox.rect.height,
+      innerBox.rect.depth
     );
-    const width = leftBox.width + innerBox.width + rightBox.width;
-    return {
-      children: [leftBox, innerBox, rightBox],
-      width,
-      height: leftBox.height,
-      depth: leftBox.depth,
-    };
+    return new HBox([leftBox, innerBox, rightBox]);
   }
 }
 
@@ -106,8 +96,8 @@ export class SqrtAtom implements Atom {
   constructor(public kind: AtomKind, public body: Atom[]) {}
   parse(): VBox {
     const inner = parseAtoms(this.body);
-    const { width, depth } = inner;
-    let { height } = inner;
+    const { width, depth } = inner.rect;
+    let { height } = inner.rect;
     if (height === 0) height = getSigma("xHeight");
     const theta = getSigma("defaultRuleThickness");
     let phi = theta;
@@ -125,27 +115,23 @@ export class SqrtAtom implements Atom {
       lineClearance = (lineClearance + delimDepth - height - depth) / 2;
     }
     const imgShift = totalHeight - height - lineClearance - ruleWidth;
-    const sqrtBox: SqrtBox = {
-      size: type,
+    const sqrtBox = new SqrtBox(type, -imgShift, minDelimiterHeight, {
       width: totalWidth,
       height: totalHeight - imgShift,
       depth: imgShift,
-      shift: -imgShift,
-      innerHeight: minDelimiterHeight,
-    };
-    inner.spaceL = totalWidth - width;
-    return {
-      children: [
-        { box: sqrtBox, shift: 0 },
-        { box: inner, shift: 0 },
-      ],
-      width: totalWidth,
-      height: totalHeight,
-      depth: delimDepth,
-    };
+    });
+    inner.space.left = totalWidth - width;
+    return new VBox([
+      { box: sqrtBox, shift: 0 },
+      { box: inner, shift: 0 },
+    ]);
   }
 }
 
-export const parseLine = (): Box => {
-  return { width: 0, height: getSigma("defaultRuleThickness"), depth: 0 };
+export const parseLine = (): RectBox => {
+  return new RectBox({
+    width: 0,
+    height: getSigma("defaultRuleThickness"),
+    depth: 0,
+  });
 };

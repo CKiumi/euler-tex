@@ -1,4 +1,4 @@
-import { Box, DelimInnerBox, SymBox, toVBox, VStackBox } from "../box/box";
+import { Box, DelimInnerBox, SymBox, VStackBox } from "../box/box";
 import { SymAtom } from "./atom";
 import { getCharMetrics, getSigma } from "/font";
 import METRICS from "/font/src/data";
@@ -94,9 +94,9 @@ export const makeStackedDelim = function (
   // There are four parts, the top, an optional middle, a repeated part, and a
   // bottom.
   let top;
-  let repeat;
+  let repeat: "⎜" | "⎟" = "⎜";
   let bottom;
-  top = repeat = bottom = delim;
+  top = bottom = delim;
   if (delim === "(") {
     top = "⎛";
     repeat = "⎜";
@@ -130,16 +130,14 @@ export const makeStackedDelim = function (
   const depth = realHeightTotal / 2 - axisHeight;
   const innerHeight =
     realHeightTotal - topHeightTotal - bottomHeightTotal + 2 * lapInEms;
-
-  return toVBox(
+  return new VStackBox(
     [
       new SymAtom("ord", top, "Size4").parse(),
-      {
-        repeat,
+      new DelimInnerBox(repeat, {
         width: METRICS["Size4"][repeat.charCodeAt(0)][4],
         height: innerHeight,
         depth: 0,
-      } as DelimInnerBox,
+      }),
       new SymAtom("open", bottom, "Size4").parse(),
     ],
     depth

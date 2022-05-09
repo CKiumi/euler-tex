@@ -11,7 +11,6 @@ import {
 import { FracAtom } from "./src/atom/frac";
 import { MatrixAtom } from "./src/atom/matrix";
 import { SupSubAtom } from "./src/atom/supsub";
-import { buildBox } from "./src/html/builder";
 
 const main = () => {
   const a = new SymAtom("ord", "a", "Math-I");
@@ -61,45 +60,45 @@ const main = () => {
     "sym",
     "Symbols",
     "a+f=\\int",
-    buildBox(parseAtoms([a, plus, f, eq, int]))
+    parseAtoms([a, plus, f, eq, int]).toHtml()
   );
   render(
     "acc",
     "Accent",
     "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}",
-    buildBox(parseAtoms([aHat, fOverline, kTilde, intHat]))
+    parseAtoms([aHat, fOverline, kTilde, intHat]).toHtml()
   );
   render(
     "lr",
     "Left Right Parentheses",
     "\\left(a+f\\right) \\left(\\int+f\\right)",
-    buildBox(parseAtoms([lr, lr2]))
+    parseAtoms([lr, lr2]).toHtml()
   );
-  render("frac", "Frac", "\\frac{a+f}{K+j}", buildBox(parseAtoms([frac])));
+  render("frac", "Frac", "\\frac{a+f}{K+j}", parseAtoms([frac]).toHtml());
   render(
     "sqrt",
     "Square Root",
     "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ",
-    buildBox(parseAtoms([sqrt, sqrtK, sqrtInt]))
+    parseAtoms([sqrt, sqrtK, sqrtInt]).toHtml()
   );
   render(
     "supsub",
     "Superscript Subscript",
     "a^{aj} f^K K_a a_f a_f^a f^a_a",
-    buildBox(parseAtoms([sup, sup2, sub, sub2, supsub, supsub2]))
+    parseAtoms([sup, sup2, sub, sub2, supsub, supsub2]).toHtml()
   );
 
   render(
     "supsub2",
     "Superscript Subscript special",
     "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a",
-    buildBox(parseAtoms([lrsup, lrsub, lrsupsub, opSupsub, intSupsub]))
+    parseAtoms([lrsup, lrsub, lrsupsub, opSupsub, intSupsub]).toHtml()
   );
   render(
     "mat",
     "Matrix",
     String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix}`,
-    buildBox(parseAtoms([pMatrix, pMatrix2]))
+    parseAtoms([pMatrix, pMatrix2]).toHtml()
   );
 };
 const render = (

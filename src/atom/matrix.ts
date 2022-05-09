@@ -18,7 +18,6 @@ export class MatrixAtom implements Atom {
     const nr = children.length;
     let nc = children[0].length;
     const body: Outrow[] = [];
-    let totalWidth = 0;
     let totalHeight = 0;
     for (r = 0; r < nr; ++r) {
       const inrow = children[r];
@@ -27,8 +26,8 @@ export class MatrixAtom implements Atom {
       const outrow: Outrow = { children: [], pos: 0, height: 0, depth: 0 };
       for (c = 0; c < inrow.length; c++) {
         [height, depth] = [
-          Math.max(height, children[r][c].height),
-          Math.max(depth, children[r][c].depth),
+          Math.max(height, children[r][c].rect.height),
+          Math.max(depth, children[r][c].rect.depth),
         ];
         outrow.children.push(children[r][c]);
       }
@@ -45,24 +44,17 @@ export class MatrixAtom implements Atom {
     const cols: VBox[] = [];
     for (c = 0; c < nc; c++) {
       if (c >= nc) continue;
-      const col: { box: Box; shift: number }[] = body
+      const col = body
         .filter((row) => !!row.children[c])
         .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
-      cols.push({ children: col } as VBox);
-      if (c > 0) cols[c].spaceL = arraycolsep;
-      if (c < nc - 1) cols[c].spaceR = arraycolsep;
+      cols.push(new VBox(col));
+      if (c > 0) cols[c].space.left = arraycolsep;
+      if (c < nc - 1) cols[c].space.right = arraycolsep;
     }
-    const mat = document.createElement("span");
-    mat.classList.add("box");
-    cols.forEach((e) => {
-      totalWidth += e.width;
-    });
-    return {
-      children: cols,
-      width: totalWidth,
-      height: offset,
-      depth: totalHeight - offset,
-    };
+    const hbox = new HBox(cols);
+    hbox.rect.depth = totalHeight - offset;
+    hbox.rect.height = offset;
+    return hbox;
   }
 }
 

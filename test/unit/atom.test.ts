@@ -18,9 +18,7 @@ test("symbol atom", () => {
   expect(j.parse()).toMatchObject({
     char: "j",
     font: "Math-I",
-    depth: 0.19444,
-    height: 0.65952,
-    width: 0.41181 + 0.05724,
+    rect: { depth: 0.19444, height: 0.65952, width: 0.41181 + 0.05724 },
   });
 });
 
