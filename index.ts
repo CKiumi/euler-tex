@@ -5,7 +5,6 @@ import {
   LRAtom,
   OverlineAtom,
   parseAtoms,
-  SqrtAtom,
   SymAtom,
 } from "./src/atom/atom";
 import { FracAtom } from "./src/atom/frac";
@@ -19,7 +18,6 @@ const main = () => {
   const j = new SymAtom("ord", "j", "Math-I");
   const K = new SymAtom("ord", "K", "Math-I");
   const plus = new SymAtom("bin", "+", "Main-R");
-  const plusOrd = new SymAtom("ord", "+", "Main-R");
   const int = new SymAtom("op", "∫", "Size2");
   const sigma = new SymAtom("op", "∑", "Size2");
   const hat = new SymAtom("ord", "^", "Main-R");
@@ -28,18 +26,7 @@ const main = () => {
   const kTilde = new AccentAtom(K, tilde);
   const intHat = new AccentAtom(int, hat);
   const fOverline = new OverlineAtom(f);
-  const lr = new LRAtom("(", ")", [a, plus, f]);
-  const lr2 = new LRAtom("(", ")", [int, plusOrd, f]);
-  const sqrt = new SqrtAtom([a]);
-  const sqrtK = new SqrtAtom([K, plus, a]);
-  const sqrtInt = new SqrtAtom([int]);
   const frac = new FracAtom([a, plus, f], [K, plus, j]);
-  const sup = new SupSubAtom(a, [a, j], undefined);
-  const sup2 = new SupSubAtom(f, [K], undefined);
-  const sub = new SupSubAtom(K, undefined, [a]);
-  const sub2 = new SupSubAtom(a, undefined, [f]);
-  const supsub = new SupSubAtom(a, [a], [f]);
-  const supsub2 = new SupSubAtom(f, [a], [a]);
   const opSupsub = new SupSubAtom(sigma, [a], [a]);
   const intSupsub = new SupSubAtom(int, [a], [a]);
   const lra = new LRAtom("(", ")", [a]);
@@ -53,37 +40,25 @@ const main = () => {
   const matrix2 = new MatrixAtom([[a], [a, a]]);
   const pMatrix = new LRAtom("(", ")", [matrix]);
   const pMatrix2 = new LRAtom("(", ")", [matrix2]);
-
-  render(
-    "sym",
-    "Symbols",
-    "a+f=\\int",
-    parseAtoms(parse("a+f=\\int")).toHtml()
-  );
+  const sym = "a+f=\\int";
+  render("sym", "Symbols", sym, parseAtoms(parse(sym)).toHtml());
   render(
     "acc",
     "Accent",
     "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}",
     parseAtoms([aHat, fOverline, kTilde, intHat]).toHtml()
   );
-  render(
-    "lr",
-    "Left Right Parentheses",
-    "\\left(a+f\\right) \\left(\\int+f\\right)",
-    parseAtoms([lr, lr2]).toHtml()
-  );
+  const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
+  render("lr", "Left Right Parentheses", lr, parseAtoms(parse(lr)).toHtml());
   render("frac", "Frac", "\\frac{a+f}{K+j}", parseAtoms([frac]).toHtml());
-  render(
-    "sqrt",
-    "Square Root",
-    "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ",
-    parseAtoms([sqrt, sqrtK, sqrtInt]).toHtml()
-  );
+  const sqr = "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
+  render("sqrt", "Square Root", sqr, parseAtoms(parse(sqr)).toHtml());
+  const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
   render(
     "supsub",
     "Superscript Subscript",
-    "a^{aj} f^K K_a a_f a_f^a f^a_a",
-    parseAtoms([sup, sup2, sub, sub2, supsub, supsub2]).toHtml()
+    supsub1,
+    parseAtoms(parse(supsub1)).toHtml()
   );
 
   render(
