@@ -1,5 +1,5 @@
 import { Box, HBox, VBox } from "../box/box";
-import { Atom } from "./atom";
+import { Atom, parseAtoms } from "./atom";
 import { SIGMAS, AtomKind } from "/font/src/sigma";
 
 const pt = 1 / SIGMAS.ptPerEm[0];
@@ -11,12 +11,15 @@ const arstrutDepth = 0.3 * arrayskip;
 
 export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
-  constructor(public children: Atom[][]) {}
+  constructor(public children: Atom[][][]) {}
   parse(): HBox {
-    const children = this.children.map((child) => child.map((e) => e.parse()));
+    const children = this.children.map((child) =>
+      child.map((e) => parseAtoms(e))
+    );
     let r;
     let c: number;
     const nr = children.length;
+    if (!children[0]) return new HBox([]);
     let nc = children[0].length;
     const body: Outrow[] = [];
     let totalHeight = 0;

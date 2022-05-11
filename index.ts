@@ -1,78 +1,26 @@
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import {
-  AccentAtom,
-  LRAtom,
-  OverlineAtom,
-  parseAtoms,
-  SymAtom,
-} from "./src/atom/atom";
-import { FracAtom } from "./src/atom/frac";
-import { MatrixAtom } from "./src/atom/matrix";
-import { SupSubAtom } from "./src/atom/supsub";
-import { parse } from "./src/parser";
+import { parseAtoms } from "./src/atom/atom";
+import { parse } from "./src/parser/parser";
 
 const main = () => {
-  const a = new SymAtom("ord", "a", "Math-I");
-  const f = new SymAtom("ord", "f", "Math-I");
-  const j = new SymAtom("ord", "j", "Math-I");
-  const K = new SymAtom("ord", "K", "Math-I");
-  const plus = new SymAtom("bin", "+", "Main-R");
-  const int = new SymAtom("op", "∫", "Size2");
-  const sigma = new SymAtom("op", "∑", "Size2");
-  const hat = new SymAtom("ord", "^", "Main-R");
-  const tilde = new SymAtom("ord", "~", "Main-R");
-  const aHat = new AccentAtom(a, hat);
-  const kTilde = new AccentAtom(K, tilde);
-  const intHat = new AccentAtom(int, hat);
-  const fOverline = new OverlineAtom(f);
-  const frac = new FracAtom([a, plus, f], [K, plus, j]);
-  const opSupsub = new SupSubAtom(sigma, [a], [a]);
-  const intSupsub = new SupSubAtom(int, [a], [a]);
-  const lra = new LRAtom("(", ")", [a]);
-  const lrsup = new SupSubAtom(lra, [a], undefined);
-  const lrsub = new SupSubAtom(lra, undefined, [a]);
-  const lrsupsub = new SupSubAtom(lra, [a], [a]);
-  const matrix = new MatrixAtom([
-    [a, a],
-    [a, a],
-  ]);
-  const matrix2 = new MatrixAtom([[a], [a, a]]);
-  const pMatrix = new LRAtom("(", ")", [matrix]);
-  const pMatrix2 = new LRAtom("(", ")", [matrix2]);
   const sym = "a+f=\\int";
   render("sym", "Symbols", sym, parseAtoms(parse(sym)).toHtml());
-  render(
-    "acc",
-    "Accent",
-    "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}",
-    parseAtoms([aHat, fOverline, kTilde, intHat]).toHtml()
-  );
+  const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
+  render("acc", "Accent", accent, parseAtoms(parse(accent)).toHtml());
   const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
   render("lr", "Left Right Parentheses", lr, parseAtoms(parse(lr)).toHtml());
-  render("frac", "Frac", "\\frac{a+f}{K+j}", parseAtoms([frac]).toHtml());
+  const frac = "\\frac{a+f}{K+j}";
+  render("frac", "Frac", frac, parseAtoms(parse(frac)).toHtml());
   const sqr = "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
   render("sqrt", "Square Root", sqr, parseAtoms(parse(sqr)).toHtml());
   const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
-  render(
-    "supsub",
-    "Superscript Subscript",
-    supsub1,
-    parseAtoms(parse(supsub1)).toHtml()
-  );
-
-  render(
-    "supsub2",
-    "Superscript Subscript special",
-    "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a",
-    parseAtoms([lrsup, lrsub, lrsupsub, opSupsub, intSupsub]).toHtml()
-  );
-  render(
-    "mat",
-    "Matrix",
-    String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix}`,
-    parseAtoms([pMatrix, pMatrix2]).toHtml()
-  );
+  render("supsub", "SupSub", supsub1, parseAtoms(parse(supsub1)).toHtml());
+  const supsub2 =
+    "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a";
+  render("supsub2", "SupSub", supsub2, parseAtoms(parse(supsub2)).toHtml());
+  const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix}`;
+  render("mat", "Matrix", matrix, parseAtoms(parse(matrix)).toHtml());
 };
 const render = (
   id: string,

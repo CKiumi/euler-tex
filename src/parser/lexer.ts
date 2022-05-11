@@ -7,6 +7,8 @@ export enum Escape {
   UnderScore = "<_>",
   LCurly = "<{>",
   RCurly = "<}>",
+  And = "<&>",
+  Newline = "<\\\\>",
 }
 
 export type Token = string | Escape;
@@ -35,8 +37,13 @@ export class Lexer {
     if (cur === "_") return Escape.UnderScore;
     if (cur === "{") return Escape.LCurly;
     if (cur === "}") return Escape.RCurly;
+    if (cur === "&") return Escape.And;
     if (cur === "\\") {
       let command = "\\";
+      if (this.peek() === "\\") {
+        this.readChar();
+        return Escape.Newline;
+      }
       while (!this.end() && /^[a-z*]+/.test(this.peek())) {
         this.readChar();
         command += this.cur();

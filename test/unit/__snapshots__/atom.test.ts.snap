@@ -18,10 +18,21 @@ VStackBox {
         "bottom": -0.431,
       },
     },
-    SymBox {
-      "char": "j",
-      "font": "Math-I",
-      "italic": 0.05724,
+    HBox {
+      "children": [
+        SymBox {
+          "char": "j",
+          "font": "Math-I",
+          "italic": 0.05724,
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0.19444,
+            "height": 0.65952,
+            "width": 0.46905,
+          },
+          "space": {},
+        },
+      ],
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -190,10 +201,21 @@ HBox {
       "align": undefined,
       "children": [
         {
-          "box": SymBox {
-            "char": "j",
-            "font": "Math-I",
-            "italic": 0.05724,
+          "box": HBox {
+            "children": [
+              SymBox {
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
             "multiplier": undefined,
             "rect": {
               "depth": 0.19444,
@@ -205,10 +227,21 @@ HBox {
           "shift": 0.6099999999999999,
         },
         {
-          "box": SymBox {
-            "char": "j",
-            "font": "Math-I",
-            "italic": 0.05724,
+          "box": HBox {
+            "children": [
+              SymBox {
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
             "multiplier": undefined,
             "rect": {
               "depth": 0.19444,
@@ -234,10 +267,21 @@ HBox {
       "align": undefined,
       "children": [
         {
-          "box": SymBox {
-            "char": "j",
-            "font": "Math-I",
-            "italic": 0.05724,
+          "box": HBox {
+            "children": [
+              SymBox {
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
             "multiplier": undefined,
             "rect": {
               "depth": 0.19444,
@@ -289,10 +333,21 @@ VStackBox {
         "top": 0.04,
       },
     },
-    SymBox {
-      "char": "j",
-      "font": "Math-I",
-      "italic": 0.05724,
+    HBox {
+      "children": [
+        SymBox {
+          "char": "j",
+          "font": "Math-I",
+          "italic": 0.05724,
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0.19444,
+            "height": 0.65952,
+            "width": 0.46905,
+          },
+          "space": {},
+        },
+      ],
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,

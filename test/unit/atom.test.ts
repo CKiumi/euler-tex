@@ -22,12 +22,12 @@ test("symbol atom", () => {
 
 test("accent atom", () => {
   const accent = new SymAtom("ord", "^", "Main-R");
-  const accAtom = new AccentAtom(j, accent);
+  const accAtom = new AccentAtom([j], accent);
   expect(accAtom.parse()).matchSnapshot();
 });
 
 test("overline atom", () => {
-  expect(new OverlineAtom(j).parse()).matchSnapshot();
+  expect(new OverlineAtom([j]).parse()).matchSnapshot();
 });
 
 test("leftright atom", () => {
@@ -43,7 +43,7 @@ test("frac atom", () => {
 });
 
 test("matrix atom", () => {
-  expect(new MatrixAtom([[j, j], [j]]).parse()).matchSnapshot();
+  expect(new MatrixAtom([[[j], [j]], [[j]]]).parse()).matchSnapshot();
 });
 
 test("supsub atom", () => {
