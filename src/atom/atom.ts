@@ -41,11 +41,8 @@ export class SymAtom implements Atom {
 }
 
 export class AccentAtom implements Atom {
-  constructor(
-    public kind: AtomKind,
-    public body: SymAtom,
-    public accent: SymAtom
-  ) {}
+  kind: AtomKind = "ord";
+  constructor(public body: SymAtom, public accent: SymAtom) {}
   parse(): VStackBox {
     const { body, accent } = this;
     const [box, accBox] = [body.parse(), accent.parse()];
@@ -56,7 +53,8 @@ export class AccentAtom implements Atom {
 }
 
 export class OverlineAtom implements Atom {
-  constructor(public kind: AtomKind, public body: SymAtom) {}
+  kind: AtomKind = "ord";
+  constructor(public body: SymAtom) {}
   parse(): VStackBox {
     const { body } = this;
     const accBox = parseLine();
@@ -69,12 +67,14 @@ export class OverlineAtom implements Atom {
 }
 
 export class LRAtom implements Atom {
-  constructor(
-    public kind: AtomKind,
-    public left: SymAtom,
-    public right: SymAtom,
-    public body: Atom[]
-  ) {}
+  kind: AtomKind;
+  left: SymAtom;
+  right: SymAtom;
+  constructor(left: string, right: string, public body: Atom[]) {
+    this.kind = "inner";
+    this.left = new SymAtom("open", left, "Main-R");
+    this.right = new SymAtom("open", right, "Main-R");
+  }
   parse(): HBox {
     const { left, right, body } = this;
     const innerBox = parseAtoms(body);
@@ -93,7 +93,10 @@ export class LRAtom implements Atom {
 }
 
 export class SqrtAtom implements Atom {
-  constructor(public kind: AtomKind, public body: Atom[]) {}
+  kind: AtomKind;
+  constructor(public body: Atom[]) {
+    this.kind = "ord";
+  }
   parse(): VBox {
     const inner = parseAtoms(this.body);
     const { width, depth } = inner.rect;

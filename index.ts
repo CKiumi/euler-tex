@@ -11,6 +11,7 @@ import {
 import { FracAtom } from "./src/atom/frac";
 import { MatrixAtom } from "./src/atom/matrix";
 import { SupSubAtom } from "./src/atom/supsub";
+import { parse } from "./src/parser";
 
 const main = () => {
   const a = new SymAtom("ord", "a", "Math-I");
@@ -19,48 +20,45 @@ const main = () => {
   const K = new SymAtom("ord", "K", "Math-I");
   const plus = new SymAtom("bin", "+", "Main-R");
   const plusOrd = new SymAtom("ord", "+", "Main-R");
-  const eq = new SymAtom("rel", "=", "Main-R");
   const int = new SymAtom("op", "∫", "Size2");
   const sigma = new SymAtom("op", "∑", "Size2");
-  const left = new SymAtom("open", "(", "Main-R");
-  const right = new SymAtom("open", ")", "Main-R");
   const hat = new SymAtom("ord", "^", "Main-R");
   const tilde = new SymAtom("ord", "~", "Main-R");
-  const aHat = new AccentAtom("ord", a, hat);
-  const kTilde = new AccentAtom("ord", K, tilde);
-  const intHat = new AccentAtom("ord", int, hat);
-  const fOverline = new OverlineAtom("ord", f);
-  const lr = new LRAtom("inner", left, right, [a, plus, f]);
-  const lr2 = new LRAtom("inner", left, right, [int, plusOrd, f]);
-  const sqrt = new SqrtAtom("ord", [a]);
-  const sqrtK = new SqrtAtom("ord", [K, plus, a]);
-  const sqrtInt = new SqrtAtom("ord", [int]);
-  const frac = new FracAtom("ord", [a, plus, f], [K, plus, j]);
-  const sup = new SupSubAtom("ord", a, [a, j], undefined);
-  const sup2 = new SupSubAtom("ord", f, [K], undefined);
-  const sub = new SupSubAtom("ord", K, undefined, [a]);
-  const sub2 = new SupSubAtom("ord", a, undefined, [f]);
-  const supsub = new SupSubAtom("ord", a, [a], [f]);
-  const supsub2 = new SupSubAtom("ord", f, [a], [a]);
-  const opSupsub = new SupSubAtom("op", sigma, [a], [a]);
-  const intSupsub = new SupSubAtom("op", int, [a], [a]);
-  const lra = new LRAtom("inner", left, right, [a]);
-  const lrsup = new SupSubAtom("inner", lra, [a], undefined);
-  const lrsub = new SupSubAtom("inner", lra, undefined, [a]);
-  const lrsupsub = new SupSubAtom("inner", lra, [a], [a]);
-  const matrix = new MatrixAtom("ord", [
+  const aHat = new AccentAtom(a, hat);
+  const kTilde = new AccentAtom(K, tilde);
+  const intHat = new AccentAtom(int, hat);
+  const fOverline = new OverlineAtom(f);
+  const lr = new LRAtom("(", ")", [a, plus, f]);
+  const lr2 = new LRAtom("(", ")", [int, plusOrd, f]);
+  const sqrt = new SqrtAtom([a]);
+  const sqrtK = new SqrtAtom([K, plus, a]);
+  const sqrtInt = new SqrtAtom([int]);
+  const frac = new FracAtom([a, plus, f], [K, plus, j]);
+  const sup = new SupSubAtom(a, [a, j], undefined);
+  const sup2 = new SupSubAtom(f, [K], undefined);
+  const sub = new SupSubAtom(K, undefined, [a]);
+  const sub2 = new SupSubAtom(a, undefined, [f]);
+  const supsub = new SupSubAtom(a, [a], [f]);
+  const supsub2 = new SupSubAtom(f, [a], [a]);
+  const opSupsub = new SupSubAtom(sigma, [a], [a]);
+  const intSupsub = new SupSubAtom(int, [a], [a]);
+  const lra = new LRAtom("(", ")", [a]);
+  const lrsup = new SupSubAtom(lra, [a], undefined);
+  const lrsub = new SupSubAtom(lra, undefined, [a]);
+  const lrsupsub = new SupSubAtom(lra, [a], [a]);
+  const matrix = new MatrixAtom([
     [a, a],
     [a, a],
   ]);
-  const matrix2 = new MatrixAtom("ord", [[a], [a, a]]);
-  const pMatrix = new LRAtom("inner", left, right, [matrix]);
-  const pMatrix2 = new LRAtom("inner", left, right, [matrix2]);
+  const matrix2 = new MatrixAtom([[a], [a, a]]);
+  const pMatrix = new LRAtom("(", ")", [matrix]);
+  const pMatrix2 = new LRAtom("(", ")", [matrix2]);
 
   render(
     "sym",
     "Symbols",
     "a+f=\\int",
-    parseAtoms([a, plus, f, eq, int]).toHtml()
+    parseAtoms(parse("a+f=\\int")).toHtml()
   );
   render(
     "acc",

@@ -4,12 +4,10 @@ import { getSigma } from "/font";
 import { AtomKind, SIGMAS } from "/font/src/sigma";
 
 export class SupSubAtom implements Atom {
-  constructor(
-    public kind: AtomKind,
-    public nuc: Atom,
-    public sup?: Atom[],
-    public sub?: Atom[]
-  ) {}
+  kind: AtomKind;
+  constructor(public nuc: Atom, public sup?: Atom[], public sub?: Atom[]) {
+    this.kind = nuc.kind;
+  }
   parse(): Box {
     if (this.sup && this.sub) {
       return parseSupSub(this, 0.7);
