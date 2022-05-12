@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # For vitest
-coverage
+test/coverage
 test-results/
-playwright-report/
+test/e2e/report
 test/screenshot
