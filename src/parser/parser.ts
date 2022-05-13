@@ -10,7 +10,7 @@ import { FracAtom } from "../atom/frac";
 import { MatrixAtom } from "../atom/matrix";
 import { SupSubAtom } from "../atom/supsub";
 import { Escape, Lexer, Token } from "./lexer";
-import { AtomKind } from "/font/src/sigma";
+import { AtomKind } from "../lib";
 
 export class Parser {
   lexer: Lexer;

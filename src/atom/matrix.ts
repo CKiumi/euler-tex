@@ -1,6 +1,6 @@
 import { Box, HBox, VBox } from "../box/box";
 import { Atom, parseAtoms } from "./atom";
-import { SIGMAS, AtomKind } from "/font/src/sigma";
+import { SIGMAS, AtomKind } from "../font";
 
 const pt = 1 / SIGMAS.ptPerEm[0];
 const arraycolsep = 5 * pt;

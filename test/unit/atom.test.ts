@@ -1,14 +1,14 @@
 import { expect, test } from "vitest";
 import {
+  SupSubAtom,
+  MatrixAtom,
+  FracAtom,
   AccentAtom,
   LRAtom,
   OverlineAtom,
   SqrtAtom,
   SymAtom,
-} from "/src/atom/atom";
-import { FracAtom } from "/src/atom/frac";
-import { MatrixAtom } from "/src/atom/matrix";
-import { SupSubAtom } from "/src/atom/supsub";
+} from "/src/lib";
 
 const j = new SymAtom("ord", "j", "Math-I");
 

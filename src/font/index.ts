@@ -1,7 +1,8 @@
-import { AtomKind, INTER_ATOM_SPACING, SIGMAS } from "./src/sigma";
-import { Font, SPEC } from "./src/spec";
-import METRICS from "./src/data";
-export { SPEC };
+import { INTER_ATOM_SPACING, SIGMAS, AtomKind } from "./sigma";
+import { Font, SPEC } from "./spec";
+import METRICS from "./data";
+export { SPEC, SIGMAS };
+export type { Font, AtomKind };
 
 export type CharMetric = {
   depth: number;

@@ -1,7 +1,6 @@
 import { VBox } from "../box/box";
 import { Atom, parseAtoms, parseLine } from "./atom";
-import { getSigma } from "/font";
-import { AtomKind } from "/font/src/sigma";
+import { getSigma, AtomKind } from "../font";
 
 export class FracAtom implements Atom {
   kind: AtomKind = "ord";

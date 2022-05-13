@@ -1,12 +1,10 @@
-import { innerPath } from "../html/svg/inner";
-import { PathNode, SvgNode } from "../html/svg/pathNode";
-import { sqrtSvg } from "../html/svg/sqrt";
+import { Font, getCharMetrics, getSigma, SPEC } from "../lib";
+import { PathNode, SvgNode, innerPath, sqrtSvg } from "../html";
 import { em } from "../util";
-import { getCharMetrics, getSigma } from "/font";
-import { Font, SPEC } from "/font/src/spec";
 
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
 type Rect = { height: number; depth: number; width: number };
+
 export interface Box {
   rect: Rect;
   space: Space;

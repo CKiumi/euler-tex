@@ -1,7 +1,6 @@
 import { Box, HBox, SymBox, VBox, VStackBox, multiplyBox } from "../box/box";
 import { parseAtoms, SymAtom, Atom } from "./atom";
-import { getSigma } from "/font";
-import { AtomKind, SIGMAS } from "/font/src/sigma";
+import { getSigma, AtomKind, SIGMAS } from "../font";
 
 export class SupSubAtom implements Atom {
   kind: AtomKind;

@@ -1,9 +1,35 @@
-import { Box, DelimInnerBox, SymBox, VStackBox } from "../box/box";
-import { SymAtom } from "./atom";
-import { getCharMetrics, getSigma } from "/font";
-import METRICS from "/font/src/data";
-import { Font } from "/font/src/spec";
-import Style, { StyleInterface } from "/font/src/style";
+import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import { Atom, parseAtoms, SymAtom } from "./atom";
+import { getCharMetrics, getSigma } from "../font";
+import METRICS from "../font/data";
+import { AtomKind, Font } from "../lib";
+import Style, { StyleInterface } from "../font/style";
+
+export class LRAtom implements Atom {
+  kind: AtomKind;
+  left: SymAtom;
+  right: SymAtom;
+  constructor(left: string, right: string, public body: Atom[]) {
+    this.kind = "inner";
+    this.left = new SymAtom("open", left, "Main-R");
+    this.right = new SymAtom("open", right, "Main-R");
+  }
+  parse(): HBox {
+    const { left, right, body } = this;
+    const innerBox = parseAtoms(body);
+    const leftBox = makeLeftRightDelim(
+      left.char,
+      innerBox.rect.height,
+      innerBox.rect.depth
+    );
+    const rightBox = makeLeftRightDelim(
+      right.char,
+      innerBox.rect.height,
+      innerBox.rect.depth
+    );
+    return new HBox([leftBox, innerBox, rightBox]);
+  }
+}
 
 export const makeLeftRightDelim = function (
   delim: string,
