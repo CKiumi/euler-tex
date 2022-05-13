@@ -5,12 +5,12 @@ import {
   OverlineAtom,
   SqrtAtom,
   SymAtom,
+  FracAtom,
+  MatrixAtom,
+  SupSubAtom,
 } from "../atom/atom";
-import { FracAtom } from "../atom/frac";
-import { MatrixAtom } from "../atom/matrix";
-import { SupSubAtom } from "../atom/supsub";
 import { Escape, Lexer, Token } from "./lexer";
-import { AtomKind } from "../lib";
+import { AtomKind } from "../font";
 
 export class Parser {
   lexer: Lexer;

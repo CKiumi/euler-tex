@@ -14,7 +14,7 @@ export class LRAtom implements Atom {
     this.left = new SymAtom("open", left, "Main-R");
     this.right = new SymAtom("open", right, "Main-R");
   }
-  parse(): HBox {
+  toBox(): HBox {
     const { left, right, body } = this;
     const innerBox = parseAtoms(body);
     const leftBox = makeLeftRightDelim(
@@ -106,11 +106,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
 };
 
 const makeSmallDelim = (delim: string): SymBox => {
-  return new SymAtom("open", delim, "Main-R").parse();
+  return new SymAtom("open", delim, "Main-R").toBox();
 };
 
 const makeLargeDelim = (delim: string, size: number): SymBox => {
-  return new SymAtom("open", delim, ("Size" + size) as Font).parse();
+  return new SymAtom("open", delim, ("Size" + size) as Font).toBox();
 };
 
 export const makeStackedDelim = function (
@@ -158,13 +158,13 @@ export const makeStackedDelim = function (
     realHeightTotal - topHeightTotal - bottomHeightTotal + 2 * lapInEms;
   return new VStackBox(
     [
-      new SymAtom("ord", top, "Size4").parse(),
+      new SymAtom("ord", top, "Size4").toBox(),
       new DelimInnerBox(repeat, {
         width: METRICS["Size4"][repeat.charCodeAt(0)][4],
         height: innerHeight,
         depth: 0,
       }),
-      new SymAtom("open", bottom, "Size4").parse(),
+      new SymAtom("open", bottom, "Size4").toBox(),
     ],
     depth
   );

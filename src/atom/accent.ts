@@ -5,9 +5,9 @@ import { Atom, parseAtoms, SymAtom, parseLine } from "./atom";
 export class AccentAtom implements Atom {
   kind: AtomKind = "ord";
   constructor(public body: Atom[], public accent: SymAtom) {}
-  parse(): VStackBox {
+  toBox(): VStackBox {
     const { body, accent } = this;
-    const [box, accBox] = [parseAtoms(body), accent.parse()];
+    const [box, accBox] = [parseAtoms(body), accent.toBox()];
     const clearance = Math.min(box.rect.height, getSigma("xHeight"));
     accBox.space.bottom = -clearance;
     return new VStackBox([accBox, box], box.rect.depth);
@@ -17,7 +17,7 @@ export class AccentAtom implements Atom {
 export class OverlineAtom implements Atom {
   kind: AtomKind = "ord";
   constructor(public body: Atom[]) {}
-  parse(): VStackBox {
+  toBox(): VStackBox {
     const { body } = this;
     const accBox = parseLine();
     const box = parseAtoms(body);

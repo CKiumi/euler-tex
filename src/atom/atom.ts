@@ -10,13 +10,13 @@ export * from "./accent";
 
 export interface Atom {
   kind: AtomKind;
-  parse(): Box;
+  toBox(): Box;
 }
 
 export const parseAtoms = (atoms: Atom[]): HBox => {
   let prevKind: AtomKind | undefined;
   const children = atoms.map((atom) => {
-    const box = atom.parse();
+    const box = atom.toBox();
     if (prevKind && atom.kind) {
       box.space.left = getSpacing(prevKind, atom.kind);
     }

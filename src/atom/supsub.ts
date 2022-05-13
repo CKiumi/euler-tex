@@ -7,7 +7,7 @@ export class SupSubAtom implements Atom {
   constructor(public nuc: Atom, public sup?: Atom[], public sub?: Atom[]) {
     this.kind = nuc.kind;
   }
-  parse(): Box {
+  toBox(): Box {
     if (this.sup && this.sub) {
       return parseSupSub(this, 0.7);
     } else if (this.sup) {
@@ -21,7 +21,7 @@ export class SupSubAtom implements Atom {
 export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   let supShift = 0;
   const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
-  const nuc = atom.nuc.parse();
+  const nuc = atom.nuc.toBox();
   if (!(nuc as SymBox).char) {
     supShift = nuc.rect.height - (SIGMAS.supDrop[1] * multiplier) / 1;
   }
@@ -41,7 +41,7 @@ export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   let subShift = 0;
   const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
   //   const marginRight = 0.5 / getSigma("ptPerEm") / multiplier;
-  const nuc = atom.nuc.parse();
+  const nuc = atom.nuc.toBox();
   if (!(nuc as SymBox).char) {
     subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
   }
@@ -73,7 +73,7 @@ export const parseSupSub = (
       multiplier
     );
   }
-  const nuc = atom.nuc.parse();
+  const nuc = atom.nuc.toBox();
   const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
   const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
   const minSupShift = getSigma("sup1");
@@ -127,7 +127,7 @@ export const parseLimitSupSub = (
 ): VStackBox => {
   let supBox;
   let subBox;
-  const nucBox = nuc.parse();
+  const nucBox = nuc.toBox();
   if (supAtom) {
     supBox = multiplyBox(parseAtoms(supAtom), multiplier);
     supBox.space.top = getSigma("bigOpSpacing5") / multiplier;

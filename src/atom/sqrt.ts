@@ -9,7 +9,7 @@ export class SqrtAtom implements Atom {
   constructor(public body: Atom[]) {
     this.kind = "ord";
   }
-  parse(): VBox {
+  toBox(): VBox {
     const inner = parseAtoms(this.body);
     const { width, depth } = inner.rect;
     let { height } = inner.rect;

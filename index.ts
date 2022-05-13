@@ -1,26 +1,25 @@
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import { parseAtoms } from "./src/atom/atom";
-import { parse } from "./src/parser/parser";
+import { latexToHtml } from "./src/lib";
 
 const main = () => {
   const sym = "a+f=\\int";
-  render("sym", "Symbols", sym, parseAtoms(parse(sym)).toHtml());
+  render("sym", "Symbols", sym, latexToHtml(sym));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
-  render("acc", "Accent", accent, parseAtoms(parse(accent)).toHtml());
+  render("acc", "Accent", accent, latexToHtml(accent));
   const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
-  render("lr", "Left Right Parentheses", lr, parseAtoms(parse(lr)).toHtml());
+  render("lr", "Left Right Parentheses", lr, latexToHtml(lr));
   const frac = "\\frac{a+f}{K+j}";
-  render("frac", "Frac", frac, parseAtoms(parse(frac)).toHtml());
+  render("frac", "Frac", frac, latexToHtml(frac));
   const sqr = "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
-  render("sqrt", "Square Root", sqr, parseAtoms(parse(sqr)).toHtml());
+  render("sqrt", "Square Root", sqr, latexToHtml(sqr));
   const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
-  render("supsub", "SupSub", supsub1, parseAtoms(parse(supsub1)).toHtml());
+  render("supsub", "SupSub", supsub1, latexToHtml(supsub1));
   const supsub2 =
     "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a";
-  render("supsub2", "SupSub", supsub2, parseAtoms(parse(supsub2)).toHtml());
+  render("supsub2", "SupSub", supsub2, latexToHtml(supsub2));
   const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix}`;
-  render("mat", "Matrix", matrix, parseAtoms(parse(matrix)).toHtml());
+  render("mat", "Matrix", matrix, latexToHtml(matrix));
 };
 const render = (
   id: string,

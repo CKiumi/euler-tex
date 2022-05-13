@@ -5,7 +5,7 @@ import { getSigma, AtomKind } from "../font";
 export class FracAtom implements Atom {
   kind: AtomKind = "ord";
   constructor(public numer: Atom[], public denom: Atom[]) {}
-  parse(): VBox {
+  toBox(): VBox {
     const { numer, denom } = this;
     const numBox = parseAtoms(numer);
     const denBox = parseAtoms(denom);

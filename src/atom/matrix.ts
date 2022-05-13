@@ -12,7 +12,7 @@ const arstrutDepth = 0.3 * arrayskip;
 export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
   constructor(public children: Atom[][][]) {}
-  parse(): HBox {
+  toBox(): HBox {
     const children = this.children.map((child) =>
       child.map((e) => parseAtoms(e))
     );
