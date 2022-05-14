@@ -1,57 +1,55 @@
 import { SqrtBox, SqrtSize, VBox } from "../box/box";
-import { Atom, parseAtoms } from "./atom";
+import { AtomKind, getSigma } from "../font";
+import Style from "../font/style";
+import { Atom, GroupAtom } from "./atom";
 import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
-import { getSigma } from "/font";
-import Style from "/font/src/style";
 
-export interface SqrtAtom extends Atom {
-  type: "sqrt";
-  body: Atom[];
+export class SqrtAtom implements Atom {
+  kind: AtomKind;
+  elem: HTMLSpanElement | null = null;
+  constructor(public body: GroupAtom) {
+    this.kind = "ord";
+  }
+  toBox(): VBox {
+    const inner = this.body.toBox();
+    const { width, depth } = inner.rect;
+    let { height } = inner.rect;
+    if (height === 0) height = getSigma("xHeight");
+    const theta = getSigma("defaultRuleThickness");
+    let phi = theta;
+    if (Style.DISPLAY.id < Style.TEXT.id) phi = getSigma("xHeight");
+    // Calculate the clearance between the body and line
+    let lineClearance = theta + phi / 4;
+    const minDelimiterHeight = height + depth + lineClearance + theta;
+    // Create a sqrt SVG of the required minimum size
+    const { type, totalWidth, ruleWidth, totalHeight } = sqrtImage(
+      minDelimiterHeight,
+      width
+    );
+    const delimDepth = totalHeight - ruleWidth;
+    if (delimDepth > height + depth + lineClearance) {
+      lineClearance = (lineClearance + delimDepth - height - depth) / 2;
+    }
+    const imgShift = totalHeight - height - lineClearance - ruleWidth;
+    const sqrtBox = new SqrtBox(type, -imgShift, minDelimiterHeight, {
+      width: totalWidth,
+      height: totalHeight - imgShift,
+      depth: imgShift,
+    });
+    inner.space.left = totalWidth - width;
+    return new VBox(
+      [
+        { box: sqrtBox, shift: 0 },
+        { box: inner, shift: 0 },
+      ],
+      this
+    );
+  }
 }
 
 const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
-export const parseSqrt = (atom: SqrtAtom): VBox => {
-  const inner = parseAtoms(atom.body);
-  const { width, depth } = inner;
-  let { height } = inner;
-  if (height === 0) height = getSigma("xHeight");
-  const theta = getSigma("defaultRuleThickness");
-  let phi = theta;
-  if (Style.DISPLAY.id < Style.TEXT.id) phi = getSigma("xHeight");
-  // Calculate the clearance between the body and line
-  let lineClearance = theta + phi / 4;
-  const minDelimiterHeight = height + depth + lineClearance + theta;
-  // Create a sqrt SVG of the required minimum size
-  const { type, totalWidth, ruleWidth, totalHeight } = sqrtImage(
-    minDelimiterHeight,
-    width
-  );
-  const delimDepth = totalHeight - ruleWidth;
-  if (delimDepth > height + depth + lineClearance) {
-    lineClearance = (lineClearance + delimDepth - height - depth) / 2;
-  }
-  const imgShift = totalHeight - height - lineClearance - ruleWidth;
-  const sqrtBox: SqrtBox = {
-    size: type,
-    width: totalWidth,
-    height: totalHeight - imgShift,
-    depth: imgShift,
-    shift: -imgShift,
-    innerHeight: minDelimiterHeight,
-  };
-  inner.spacing = totalWidth - width;
-  return {
-    children: [
-      { box: sqrtBox, shift: 0 },
-      { box: inner, shift: 0 },
-    ],
-    width: totalWidth,
-    height: totalHeight,
-    depth: delimDepth,
-  };
-};
 
-const sqrtImage = (
+export const sqrtImage = (
   height: number,
   width: number
 ): {

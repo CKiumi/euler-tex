@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`symbol box 1`] = `
+{
+  "char": "j",
+  "depth": 0.19444,
+  "font": "Math-I",
+  "height": 0.65952,
+  "italic": 0.05724,
+  "width": 0.46905,
+}
+`;

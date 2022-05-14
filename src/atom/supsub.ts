@@ -1,76 +1,69 @@
-import { getSigma } from "/font";
-import { HBox, multiplyBox, SymBox, toVBox, VBox, VStackBox } from "../box/box";
-import { Atom, parseAtom, parseAtoms, SymAtom } from "./atom";
-import { SIGMAS } from "/font/src/sigma";
+import { Box, HBox, multiplyBox, SymBox, VBox, VStackBox } from "../box/box";
+import { AtomKind, getSigma, SIGMAS } from "../font";
+import { Atom, GroupAtom, SymAtom } from "./atom";
 
-export interface SupSubAtom extends Atom {
-  type: "supsub";
-  sup?: Atom[];
-  sub?: Atom[];
-  nuc: Atom;
+export class SupSubAtom implements Atom {
+  elem: HTMLSpanElement | null = null;
+  kind: AtomKind | null;
+  constructor(
+    public nuc: Atom,
+    public sup?: GroupAtom,
+    public sub?: GroupAtom
+  ) {
+    this.kind = nuc.kind;
+  }
+  toBox(): Box {
+    if (this.sup && this.sub) {
+      return parseSupSub(this, 0.7);
+    } else if (this.sup) {
+      return parseSup(this, 0.7);
+    } else {
+      return parseSub(this, 0.7);
+    }
+  }
 }
 
 export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   let supShift = 0;
-  const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
-  const nuc = parseAtom(atom.nuc);
+  if (!atom.sup) throw new Error("Sup must exist");
+  const sup = multiplyBox(atom.sup.toBox(), multiplier);
+  const nuc = atom.nuc.toBox();
   if (!(nuc as SymBox).char) {
-    supShift = nuc.height - (SIGMAS.supDrop[1] * multiplier) / 1;
+    supShift = nuc.rect.height - (SIGMAS.supDrop[1] * multiplier) / 1;
   }
   const minSupShift = getSigma("sup1");
   supShift = Math.max(
     supShift,
     minSupShift,
-    sup.depth + 0.25 * getSigma("xHeight")
+    sup.rect.depth + 0.25 * getSigma("xHeight")
   );
-
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sup.spacingRight = marginRight;
-  const vbox: VBox = {
-    children: [{ box: sup, shift: supShift }],
-    width: sup.width,
-    height: sup.height,
-    depth: sup.depth,
-  };
-
-  return {
-    children: [nuc, vbox],
-    width: nuc.width + sup.width,
-    depth: nuc.depth,
-    height: supShift / multiplier + sup.height,
-  };
+  sup.space.right = marginRight;
+  const vbox = new VBox([{ box: sup, shift: supShift }]);
+  return new HBox([nuc, vbox], atom);
 };
 
 export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   let subShift = 0;
-  const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
+  if (!atom.sub) throw new Error("Sup must exist");
+  const sub = multiplyBox(atom.sub.toBox(), multiplier);
   //   const marginRight = 0.5 / getSigma("ptPerEm") / multiplier;
-  const nuc = parseAtom(atom.nuc);
+  const nuc = atom.nuc.toBox();
   if (!(nuc as SymBox).char) {
-    subShift = nuc.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
+    subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
   }
   subShift = Math.max(
     subShift,
     getSigma("sub1"),
-    sub.height - 0.8 * getSigma("xHeight")
+    sub.rect.height - 0.8 * getSigma("xHeight")
   );
 
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sub.spacingRight = marginRight;
-  sub.spacing = -(nuc as SymBox).italic / multiplier;
-  const vbox: VBox = {
-    children: [{ box: sub, shift: -subShift }],
-    width: sub.width,
-    height: sub.height,
-    depth: sub.depth,
-  };
+  sub.space.right = marginRight;
+  sub.space.left = -(nuc as SymBox).italic / multiplier;
+  const vbox = new VBox([{ box: sub, shift: -subShift }]);
 
-  return {
-    children: [nuc, vbox],
-    width: nuc.width + sub.width,
-    depth: nuc.depth,
-    height: subShift / multiplier + sub.height,
-  };
+  return new HBox([nuc, vbox], atom);
 };
 
 export const parseSupSub = (
@@ -79,28 +72,25 @@ export const parseSupSub = (
 ): HBox | VStackBox => {
   let supShift = 0;
   let subShift = 0;
+  if (!atom.sup) throw new Error("Sup must exist");
+  if (!atom.sub) throw new Error("Sub must exist");
   if (atom.nuc.kind === "op" && (atom.nuc as SymAtom).char === "∑") {
-    return parseLimitSupSub(
-      atom.nuc,
-      atom.sup as Atom[],
-      atom.sub as Atom[],
-      multiplier
-    );
+    return parseLimitSupSub(atom.nuc, atom.sup, atom.sub, multiplier);
   }
-  const nuc = parseAtom(atom.nuc);
-  const sup = multiplyBox(parseAtoms(atom.sup as Atom[]), multiplier);
-  const sub = multiplyBox(parseAtoms(atom.sub as Atom[]), multiplier);
+  const nuc = atom.nuc.toBox();
+  const sup = multiplyBox(atom.sup.toBox(), multiplier);
+  const sub = multiplyBox(atom.sub.toBox(), multiplier);
   const minSupShift = getSigma("sup1");
   supShift = Math.max(
     supShift,
     minSupShift,
-    sup.depth + 0.25 * getSigma("xHeight")
+    sup.rect.depth + 0.25 * getSigma("xHeight")
   );
   if (!(nuc as SymBox).char || atom.nuc.kind === "op") {
-    subShift = nuc.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
+    subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
   }
   if (!(nuc as SymBox).char || atom.nuc.kind === "op") {
-    supShift = nuc.height - (SIGMAS.supDrop[1] * multiplier) / 1;
+    supShift = nuc.rect.height - (SIGMAS.supDrop[1] * multiplier) / 1;
   }
 
   subShift = Math.max(subShift, getSigma("sub2"));
@@ -110,79 +100,72 @@ export const parseSupSub = (
   // Rule 18e
   const maxWidth = 4 * ruleWidth;
 
-  if (supShift - sup.depth - (sub.height - subShift) < maxWidth) {
-    subShift = maxWidth - (supShift - sup.depth) + sub.height;
-    const psi = 0.8 * getSigma("xHeight") - (supShift - sup.depth);
+  if (supShift - sup.rect.depth - (sub.rect.height - subShift) < maxWidth) {
+    subShift = maxWidth - (supShift - sup.rect.depth) + sub.rect.height;
+    const psi = 0.8 * getSigma("xHeight") - (supShift - sup.rect.depth);
     if (psi > 0) {
       supShift += psi;
       subShift -= psi;
     }
   }
-  sub.spacing = -(nuc as SymBox).italic / multiplier;
+  sub.space.left = -(nuc as SymBox).italic / multiplier;
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
-  sup.spacingRight = marginRight;
-  sub.spacingRight = marginRight;
-  const supsub: VBox = {
-    children: [
+  sup.space.right = marginRight;
+  sub.space.right = marginRight;
+  const supsub = new VBox(
+    [
       { box: sup, shift: supShift },
       { box: sub, shift: -subShift },
     ],
-    width: Math.max(sup.width, sub.width),
-    height: 0,
-    depth: 0,
-    align: "start",
-  };
-
-  return {
-    children: [nuc, supsub],
-    width: nuc.width + supsub.width,
-    depth: nuc.depth,
-    height: supsub.height,
-  };
+    undefined,
+    undefined,
+    "start"
+  );
+  return new HBox([nuc, supsub], atom);
 };
 
 export const parseLimitSupSub = (
   nuc: Atom,
-  supAtom: Atom[],
-  subAtom: Atom[],
+  supAtom: GroupAtom,
+  subAtom: GroupAtom,
   multiplier: number
 ): VStackBox => {
   let supBox;
   let subBox;
-  const nucBox = parseAtom(nuc);
+  const nucBox = nuc.toBox();
   if (supAtom) {
-    supBox = multiplyBox(parseAtoms(supAtom), multiplier);
-    supBox.spacingTop = getSigma("bigOpSpacing5") / multiplier;
-    supBox.spacingBelow =
+    supBox = multiplyBox(supAtom.toBox(), multiplier);
+    supBox.space.top = getSigma("bigOpSpacing5") / multiplier;
+    supBox.space.bottom =
       Math.max(
         getSigma("bigOpSpacing1"),
-        getSigma("bigOpSpacing3") - supBox.depth
+        getSigma("bigOpSpacing3") - supBox.rect.depth
       ) / multiplier;
   }
 
   if (subAtom) {
-    subBox = multiplyBox(parseAtoms(subAtom), multiplier);
-    subBox.spacingBelow = getSigma("bigOpSpacing5") / multiplier;
-    subBox.spacingTop =
+    subBox = multiplyBox(subAtom.toBox(), multiplier);
+    subBox.space.bottom = getSigma("bigOpSpacing5") / multiplier;
+    subBox.space.top =
       Math.max(
         getSigma("bigOpSpacing2"),
-        getSigma("bigOpSpacing4") - subBox.height
+        getSigma("bigOpSpacing4") - subBox.rect.height
       ) / multiplier;
   }
   if (supBox && subBox) {
     const bottom =
       getSigma("bigOpSpacing5") +
-      subBox.height +
-      subBox.depth +
-      (subBox.spacingTop ?? 0) +
-      nucBox.depth;
-    return toVBox([supBox, nucBox, subBox], bottom);
+      subBox.rect.height +
+      subBox.rect.depth +
+      (subBox.space.top ?? 0) +
+      nucBox.rect.depth;
+    return new VStackBox([supBox, nucBox, subBox], bottom);
   } else if (subBox) {
-    const top = nucBox.height;
-    return toVBox([nucBox, subBox], top);
+    const top = nucBox.rect.height;
+    return new VStackBox([nucBox, subBox], top);
   } else if (supBox) {
-    const bottom = nucBox.depth;
-    return toVBox([supBox, nucBox], bottom);
+    const bottom = nucBox.rect.depth;
+    return new VStackBox([supBox, nucBox], bottom);
   } else {
     throw new Error("Sup or Sub must specified");
   }

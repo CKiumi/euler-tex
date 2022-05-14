@@ -1,9 +1,36 @@
-import { Box, DelimInnerBox, SymBox, toVBox, VStackBox } from "../box/box";
-import { parseSymAtom } from "./atom";
-import { getCharMetrics, getSigma } from "/font";
-import METRICS from "/font/src/data";
-import { Font } from "/font/src/spec";
-import Style, { StyleInterface } from "/font/src/style";
+import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import { getCharMetrics, getSigma } from "../font";
+import METRICS from "../font/data";
+import Style, { StyleInterface } from "../font/style";
+import { AtomKind, Font } from "../lib";
+import { Atom, GroupAtom, SymAtom } from "./atom";
+
+export class LRAtom implements Atom {
+  kind: AtomKind;
+  left: SymAtom;
+  right: SymAtom;
+  elem: HTMLSpanElement | null = null;
+  constructor(left: string, right: string, public body: GroupAtom) {
+    this.kind = "inner";
+    this.left = new SymAtom("open", left, "Main-R");
+    this.right = new SymAtom("open", right, "Main-R");
+  }
+  toBox(): HBox {
+    const { left, right, body } = this;
+    const innerBox = body.toBox();
+    const leftBox = makeLeftRightDelim(
+      left.char,
+      innerBox.rect.height,
+      innerBox.rect.depth
+    );
+    const rightBox = makeLeftRightDelim(
+      right.char,
+      innerBox.rect.height,
+      innerBox.rect.depth
+    );
+    return new HBox([leftBox, innerBox, rightBox], this);
+  }
+}
 
 export const makeLeftRightDelim = function (
   delim: string,
@@ -80,21 +107,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
 };
 
 const makeSmallDelim = (delim: string): SymBox => {
-  return parseSymAtom({
-    char: delim,
-    font: "Main-R",
-    kind: "open",
-    type: "sym",
-  });
+  return new SymAtom("open", delim, "Main-R").toBox();
 };
 
 const makeLargeDelim = (delim: string, size: number): SymBox => {
-  return parseSymAtom({
-    char: delim,
-    font: ("Size" + size) as Font,
-    kind: "open",
-    type: "sym",
-  });
+  return new SymAtom("open", delim, ("Size" + size) as Font).toBox();
 };
 
 export const makeStackedDelim = function (
@@ -104,9 +121,9 @@ export const makeStackedDelim = function (
   // There are four parts, the top, an optional middle, a repeated part, and a
   // bottom.
   let top;
-  let repeat;
+  let repeat: "⎜" | "⎟" = "⎜";
   let bottom;
-  top = repeat = bottom = delim;
+  top = bottom = delim;
   if (delim === "(") {
     top = "⎛";
     repeat = "⎜";
@@ -140,17 +157,15 @@ export const makeStackedDelim = function (
   const depth = realHeightTotal / 2 - axisHeight;
   const innerHeight =
     realHeightTotal - topHeightTotal - bottomHeightTotal + 2 * lapInEms;
-
-  return toVBox(
+  return new VStackBox(
     [
-      parseSymAtom({ char: top, font: "Size4", kind: "ord", type: "sym" }),
-      {
-        repeat,
+      new SymAtom("ord", top, "Size4").toBox(),
+      new DelimInnerBox(repeat, {
         width: METRICS["Size4"][repeat.charCodeAt(0)][4],
         height: innerHeight,
         depth: 0,
-      } as DelimInnerBox,
-      parseSymAtom({ char: bottom, font: "Size4", kind: "open", type: "sym" }),
+      }),
+      new SymAtom("open", bottom, "Size4").toBox(),
     ],
     depth
   );

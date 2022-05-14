@@ -1,0 +1,1007 @@
+// Vitest Snapshot v1
+
+exports[`accent atom 1`] = `
+VStackBox {
+  "align": undefined,
+  "atom": AccentAtom {
+    "accent": SymAtom {
+      "char": "^",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "ord",
+    },
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
+  "children": [
+    SymBox {
+      "atom": SymAtom {
+        "char": "^",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "ord",
+      },
+      "char": "^",
+      "font": "Main-R",
+      "italic": 0,
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0,
+        "height": 0.69444,
+        "width": 0.5,
+      },
+      "space": {
+        "bottom": -0.431,
+      },
+    },
+    HBox {
+      "atom": undefined,
+      "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
+        SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
+          "char": "j",
+          "font": "Math-I",
+          "italic": 0.05724,
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0.19444,
+            "height": 0.65952,
+            "width": 0.46905,
+          },
+          "space": {},
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "space": {},
+    },
+  ],
+  "multiplier": undefined,
+  "newDepth": 0.19444,
+  "rect": {
+    "depth": 0.19444,
+    "height": 1.35396,
+    "width": 0.5,
+  },
+  "shift": -0,
+  "space": {},
+}
+`;
+
+exports[`frac atom 1`] = `
+VBox {
+  "align": undefined,
+  "atom": FracAtom {
+    "denom": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+    "numer": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+  },
+  "children": [
+    {
+      "box": HBox {
+        "atom": undefined,
+        "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
+          SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+            "char": "j",
+            "font": "Math-I",
+            "italic": 0.05724,
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+        ],
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.19444,
+          "height": 0.65952,
+          "width": 0.46905,
+        },
+        "space": {},
+      },
+      "shift": 0.677,
+    },
+    {
+      "box": RectBox {
+        "atom": undefined,
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0,
+          "height": 0.04,
+          "width": 0,
+        },
+        "space": {},
+      },
+      "shift": 0.23,
+    },
+    {
+      "box": HBox {
+        "atom": undefined,
+        "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
+          SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+            "char": "j",
+            "font": "Math-I",
+            "italic": 0.05724,
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+        ],
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.19444,
+          "height": 0.65952,
+          "width": 0.46905,
+        },
+        "space": {},
+      },
+      "shift": -0.686,
+    },
+  ],
+  "multiplier": undefined,
+  "rect": {
+    "depth": 0.8804400000000001,
+    "height": 1.3365200000000002,
+    "width": 0.9381,
+  },
+  "space": {},
+}
+`;
+
+exports[`leftright atom 1`] = `
+HBox {
+  "atom": LRAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "inner",
+    "left": SymAtom {
+      "char": "(",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "open",
+    },
+    "right": SymAtom {
+      "char": ")",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "open",
+    },
+  },
+  "children": [
+    SymBox {
+      "atom": SymAtom {
+        "char": "(",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "open",
+      },
+      "char": "(",
+      "font": "Main-R",
+      "italic": 0,
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.25,
+        "height": 0.75,
+        "width": 0.38889,
+      },
+      "space": {},
+    },
+    HBox {
+      "atom": undefined,
+      "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
+        SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
+          "char": "j",
+          "font": "Math-I",
+          "italic": 0.05724,
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0.19444,
+            "height": 0.65952,
+            "width": 0.46905,
+          },
+          "space": {},
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "space": {},
+    },
+    SymBox {
+      "atom": SymAtom {
+        "char": ")",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "open",
+      },
+      "char": ")",
+      "font": "Main-R",
+      "italic": 0,
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.25,
+        "height": 0.75,
+        "width": 0.38889,
+      },
+      "space": {},
+    },
+  ],
+  "multiplier": undefined,
+  "rect": {
+    "depth": 0.25,
+    "height": 0.75,
+    "width": 1.24683,
+  },
+  "space": {},
+}
+`;
+
+exports[`matrix atom 1`] = `
+HBox {
+  "atom": MatrixAtom {
+    "children": [
+      [
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+      ],
+      [
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+      ],
+    ],
+    "elem": null,
+    "kind": "ord",
+  },
+  "children": [
+    VBox {
+      "align": undefined,
+      "atom": undefined,
+      "children": [
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
+              SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+          "shift": 0.6099999999999999,
+        },
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
+              SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+          "shift": -0.5900000000000001,
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.78444,
+        "height": 1.26952,
+        "width": 0.9381,
+      },
+      "space": {
+        "right": 0.5,
+      },
+    },
+    VBox {
+      "align": undefined,
+      "atom": undefined,
+      "children": [
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
+              SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+          "shift": 0.6099999999999999,
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": -0.4155599999999999,
+        "height": 1.26952,
+        "width": 0.46905,
+      },
+      "space": {
+        "left": 0.5,
+      },
+    },
+  ],
+  "multiplier": undefined,
+  "rect": {
+    "depth": 0.78444,
+    "height": 1.26952,
+    "width": 1.9071500000000001,
+  },
+  "space": {
+    "bottom": 0.16555999999999993,
+    "top": 0.18047999999999997,
+  },
+}
+`;
+
+exports[`overline atom 1`] = `
+VStackBox {
+  "align": undefined,
+  "atom": OverlineAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
+  "children": [
+    RectBox {
+      "atom": undefined,
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0,
+        "height": 0.04,
+        "width": 0,
+      },
+      "space": {
+        "bottom": 0.12,
+        "top": 0.04,
+      },
+    },
+    HBox {
+      "atom": undefined,
+      "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
+        SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
+          "char": "j",
+          "font": "Math-I",
+          "italic": 0.05724,
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0.19444,
+            "height": 0.65952,
+            "width": 0.46905,
+          },
+          "space": {},
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "space": {},
+    },
+  ],
+  "multiplier": undefined,
+  "newDepth": 0.19444,
+  "rect": {
+    "depth": 0.19444,
+    "height": 0.6995200000000001,
+    "width": 0.46905,
+  },
+  "shift": -0,
+  "space": {},
+}
+`;
+
+exports[`sqrt atom 1`] = `
+VBox {
+  "align": undefined,
+  "atom": SqrtAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
+  "children": [
+    {
+      "box": SqrtBox {
+        "atom": undefined,
+        "innerHeight": 1.0417100000000001,
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.273585,
+          "height": 0.926415,
+          "width": 1.41905,
+        },
+        "shift": -0.273585,
+        "size": 1,
+        "space": {},
+      },
+      "shift": 0,
+    },
+    {
+      "box": HBox {
+        "atom": undefined,
+        "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
+          SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+            "char": "j",
+            "font": "Math-I",
+            "italic": 0.05724,
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.19444,
+              "height": 0.65952,
+              "width": 0.46905,
+            },
+            "space": {},
+          },
+        ],
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.19444,
+          "height": 0.65952,
+          "width": 0.46905,
+        },
+        "space": {
+          "left": 0.95,
+        },
+      },
+      "shift": 0,
+    },
+  ],
+  "multiplier": undefined,
+  "rect": {
+    "depth": 0.273585,
+    "height": 0.926415,
+    "width": 1.8881,
+  },
+  "space": {},
+}
+`;
+
+exports[`supsub atom 1`] = `
+HBox {
+  "atom": SupSubAtom {
+    "elem": null,
+    "kind": "ord",
+    "nuc": SymAtom {
+      "char": "j",
+      "elem": null,
+      "font": "Math-I",
+      "kind": "ord",
+    },
+    "sub": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "sup": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+  },
+  "children": [
+    SymBox {
+      "atom": SymAtom {
+        "char": "j",
+        "elem": null,
+        "font": "Math-I",
+        "kind": "ord",
+      },
+      "char": "j",
+      "font": "Math-I",
+      "italic": 0.05724,
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.19444,
+        "height": 0.65952,
+        "width": 0.46905,
+      },
+      "space": {},
+    },
+    VBox {
+      "align": "start",
+      "atom": undefined,
+      "children": [
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
+              SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
+            "multiplier": 0.7,
+            "rect": {
+              "depth": 0.13610799999999998,
+              "height": 0.46166399999999996,
+              "width": 0.328335,
+            },
+            "space": {
+              "right": 0.07142857142857144,
+            },
+          },
+          "shift": 0.48090799999999995,
+        },
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
+              SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
+                "char": "j",
+                "font": "Math-I",
+                "italic": 0.05724,
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0.19444,
+                  "height": 0.65952,
+                  "width": 0.46905,
+                },
+                "space": {},
+              },
+            ],
+            "multiplier": 0.7,
+            "rect": {
+              "depth": 0.13610799999999998,
+              "height": 0.46166399999999996,
+              "width": 0.328335,
+            },
+            "space": {
+              "left": -0.08177142857142858,
+              "right": 0.07142857142857144,
+            },
+          },
+          "shift": -0.276864,
+        },
+      ],
+      "multiplier": undefined,
+      "rect": {
+        "depth": 0.412972,
+        "height": 0.942572,
+        "width": 0.65667,
+      },
+      "space": {},
+    },
+  ],
+  "multiplier": undefined,
+  "rect": {
+    "depth": 0.412972,
+    "height": 0.942572,
+    "width": 1.12572,
+  },
+  "space": {},
+}
+`;
