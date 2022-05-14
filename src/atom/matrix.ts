@@ -1,6 +1,6 @@
 import { Box, HBox, VBox } from "../box/box";
-import { Atom, parseAtoms } from "./atom";
-import { SIGMAS, AtomKind } from "../font";
+import { AtomKind, SIGMAS } from "../font";
+import { Atom, GroupAtom } from "./atom";
 
 const pt = 1 / SIGMAS.ptPerEm[0];
 const arraycolsep = 5 * pt;
@@ -11,11 +11,9 @@ const arstrutDepth = 0.3 * arrayskip;
 
 export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
-  constructor(public children: Atom[][][]) {}
+  constructor(public children: GroupAtom[][]) {}
   toBox(): HBox {
-    const children = this.children.map((child) =>
-      child.map((e) => parseAtoms(e))
-    );
+    const children = this.children.map((child) => child.map((e) => e.toBox()));
     let r;
     let c: number;
     const nr = children.length;

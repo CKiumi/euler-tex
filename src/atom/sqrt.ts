@@ -1,16 +1,16 @@
 import { SqrtBox, SqrtSize, VBox } from "../box/box";
-import { Atom, parseAtoms } from "./atom";
-import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
-import { getSigma, AtomKind } from "../font";
+import { AtomKind, getSigma } from "../font";
 import Style from "../font/style";
+import { Atom, GroupAtom } from "./atom";
+import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 
 export class SqrtAtom implements Atom {
   kind: AtomKind;
-  constructor(public body: Atom[]) {
+  constructor(public body: GroupAtom) {
     this.kind = "ord";
   }
   toBox(): VBox {
-    const inner = parseAtoms(this.body);
+    const inner = this.body.toBox();
     const { width, depth } = inner.rect;
     let { height } = inner.rect;
     if (height === 0) height = getSigma("xHeight");

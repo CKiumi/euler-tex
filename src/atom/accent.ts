@@ -1,13 +1,13 @@
 import { VStackBox } from "../box/box";
 import { AtomKind, getSigma } from "../lib";
-import { Atom, parseAtoms, SymAtom, parseLine } from "./atom";
+import { Atom, SymAtom, parseLine, GroupAtom } from "./atom";
 
 export class AccentAtom implements Atom {
   kind: AtomKind = "ord";
-  constructor(public body: Atom[], public accent: SymAtom) {}
+  constructor(public body: GroupAtom, public accent: SymAtom) {}
   toBox(): VStackBox {
     const { body, accent } = this;
-    const [box, accBox] = [parseAtoms(body), accent.toBox()];
+    const [box, accBox] = [body.toBox(), accent.toBox()];
     const clearance = Math.min(box.rect.height, getSigma("xHeight"));
     accBox.space.bottom = -clearance;
     return new VStackBox([accBox, box], box.rect.depth);
@@ -16,11 +16,11 @@ export class AccentAtom implements Atom {
 
 export class OverlineAtom implements Atom {
   kind: AtomKind = "ord";
-  constructor(public body: Atom[]) {}
+  constructor(public body: GroupAtom) {}
   toBox(): VStackBox {
     const { body } = this;
     const accBox = parseLine();
-    const box = parseAtoms(body);
+    const box = body.toBox();
     const defaultRuleThickness = getSigma("defaultRuleThickness");
     accBox.space.top = defaultRuleThickness;
     accBox.space.bottom = 3 * defaultRuleThickness;

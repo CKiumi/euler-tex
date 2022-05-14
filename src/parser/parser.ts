@@ -8,6 +8,7 @@ import {
   FracAtom,
   MatrixAtom,
   SupSubAtom,
+  GroupAtom,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind } from "../font";
@@ -75,7 +76,7 @@ export class Parser {
       }
       if (token === "\\begin") {
         this.parseEnvName();
-        atoms.push(new LRAtom("(", ")", [this.parseMatrix()]));
+        atoms.push(new LRAtom("(", ")", new GroupAtom([this.parseMatrix()])));
       }
       const key = Object.keys(LETTER).find((l) => token === l);
       if (key) atoms.push(new SymAtom("ord", LETTER[key], "Math-I"));
@@ -86,12 +87,13 @@ export class Parser {
     const left = this.lexer.tokenize();
     const body = this.parse(Escape.Right);
     this.lexer.tokenize();
-    return new LRAtom(left, ")", body) as Atom;
+    return new LRAtom(left, ")", new GroupAtom(body)) as Atom;
   }
   parseArg(atoms: Atom[]) {
     const token = this.lexer.tokenize();
-    if (token === Escape.LCurly) return this.parse(Escape.RCurly);
-    else return [this.parseSingle(atoms, token)];
+    if (token === Escape.LCurly)
+      return new GroupAtom(this.parse(Escape.RCurly));
+    else return new GroupAtom([this.parseSingle(atoms, token)]);
   }
 
   parseEnvName(): string {
@@ -113,24 +115,24 @@ export class Parser {
   }
 
   parseMatrix() {
-    const element: Atom[][][] = [[[]]];
+    const element: GroupAtom[][] = [[new GroupAtom([])]];
     for (;;) {
       let row = element[element.length - 1];
       const token = this.lexer.tokenize();
       if (token === Escape.EOF) throw new Error("\\end expected");
       if (token === "\\end") {
-        if (row.length === 1 && row[0].length === 0) {
+        if (row.length === 1 && row[0].body.length === 0) {
           element.pop();
         }
         this.parseEnvName();
         return new MatrixAtom(element);
       }
-      if (token === Escape.And) row.push([]);
+      if (token === Escape.And) row.push(new GroupAtom([]));
       if (token === Escape.Newline) {
-        row = [[]];
+        row = [new GroupAtom([])];
         element.push(row);
       }
-      this.parseOne(token, row[row.length - 1]);
+      this.parseOne(token, row[row.length - 1].body);
     }
   }
 }

@@ -1,14 +1,14 @@
 import { VBox } from "../box/box";
-import { Atom, parseAtoms, parseLine } from "./atom";
-import { getSigma, AtomKind } from "../font";
+import { AtomKind, getSigma } from "../font";
+import { Atom, GroupAtom, parseLine } from "./atom";
 
 export class FracAtom implements Atom {
   kind: AtomKind = "ord";
-  constructor(public numer: Atom[], public denom: Atom[]) {}
+  constructor(public numer: GroupAtom, public denom: GroupAtom) {}
   toBox(): VBox {
     const { numer, denom } = this;
-    const numBox = parseAtoms(numer);
-    const denBox = parseAtoms(denom);
+    const numBox = numer.toBox();
+    const denBox = denom.toBox();
     const height = getSigma("defaultRuleThickness");
     const rule = parseLine();
     const ruleWidth = height;

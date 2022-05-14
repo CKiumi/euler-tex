@@ -8,10 +8,11 @@ import {
   OverlineAtom,
   SqrtAtom,
   SymAtom,
+  GroupAtom,
 } from "/src/lib";
 
 const j = new SymAtom("ord", "j", "Math-I");
-
+const group = new GroupAtom([j]);
 test("symbol atom", () => {
   expect(j.toBox()).toMatchObject({
     char: "j",
@@ -22,30 +23,32 @@ test("symbol atom", () => {
 
 test("accent atom", () => {
   const accent = new SymAtom("ord", "^", "Main-R");
-  const accAtom = new AccentAtom([j], accent);
+  const accAtom = new AccentAtom(group, accent);
   expect(accAtom.toBox()).matchSnapshot();
 });
 
 test("overline atom", () => {
-  expect(new OverlineAtom([j]).toBox()).matchSnapshot();
+  expect(new OverlineAtom(group).toBox()).matchSnapshot();
 });
 
 test("leftright atom", () => {
-  expect(new LRAtom("(", ")", [j]).toBox()).matchSnapshot();
+  expect(new LRAtom("(", ")", group).toBox()).matchSnapshot();
 });
 
 test("sqrt atom", () => {
-  expect(new SqrtAtom([j]).toBox()).matchSnapshot();
+  expect(new SqrtAtom(group).toBox()).matchSnapshot();
 });
 
 test("frac atom", () => {
-  expect(new FracAtom([j], [j]).toBox()).matchSnapshot();
+  expect(
+    new FracAtom(new GroupAtom([j]), new GroupAtom([j])).toBox()
+  ).matchSnapshot();
 });
 
 test("matrix atom", () => {
-  expect(new MatrixAtom([[[j], [j]], [[j]]]).toBox()).matchSnapshot();
+  expect(new MatrixAtom([[group, group], [group]]).toBox()).matchSnapshot();
 });
 
 test("supsub atom", () => {
-  expect(new SupSubAtom(j, [j], [j]).toBox()).matchSnapshot();
+  expect(new SupSubAtom(j, group, group).toBox()).matchSnapshot();
 });
