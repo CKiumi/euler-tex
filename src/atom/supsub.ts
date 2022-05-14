@@ -3,7 +3,8 @@ import { AtomKind, getSigma, SIGMAS } from "../font";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 
 export class SupSubAtom implements Atom {
-  kind: AtomKind;
+  elem: HTMLSpanElement | null = null;
+  kind: AtomKind | null;
   constructor(
     public nuc: Atom,
     public sup?: GroupAtom,
@@ -39,7 +40,7 @@ export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / multiplier;
   sup.space.right = marginRight;
   const vbox = new VBox([{ box: sup, shift: supShift }]);
-  return new HBox([nuc, vbox]);
+  return new HBox([nuc, vbox], atom);
 };
 
 export const parseSub = (atom: SupSubAtom, multiplier: number) => {
@@ -62,7 +63,7 @@ export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   sub.space.left = -(nuc as SymBox).italic / multiplier;
   const vbox = new VBox([{ box: sub, shift: -subShift }]);
 
-  return new HBox([nuc, vbox]);
+  return new HBox([nuc, vbox], atom);
 };
 
 export const parseSupSub = (
@@ -117,9 +118,10 @@ export const parseSupSub = (
       { box: sub, shift: -subShift },
     ],
     undefined,
+    undefined,
     "start"
   );
-  return new HBox([nuc, supsub]);
+  return new HBox([nuc, supsub], atom);
 };
 
 export const parseLimitSupSub = (

@@ -6,6 +6,7 @@ import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 
 export class SqrtAtom implements Atom {
   kind: AtomKind;
+  elem: HTMLSpanElement | null = null;
   constructor(public body: GroupAtom) {
     this.kind = "ord";
   }
@@ -36,10 +37,13 @@ export class SqrtAtom implements Atom {
       depth: imgShift,
     });
     inner.space.left = totalWidth - width;
-    return new VBox([
-      { box: sqrtBox, shift: 0 },
-      { box: inner, shift: 0 },
-    ]);
+    return new VBox(
+      [
+        { box: sqrtBox, shift: 0 },
+        { box: inner, shift: 0 },
+      ],
+      this
+    );
   }
 }
 

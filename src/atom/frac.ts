@@ -4,6 +4,7 @@ import { Atom, GroupAtom, parseLine } from "./atom";
 
 export class FracAtom implements Atom {
   kind: AtomKind = "ord";
+  elem: HTMLSpanElement | null = null;
   constructor(public numer: GroupAtom, public denom: GroupAtom) {}
   toBox(): VBox {
     const { numer, denom } = this;
@@ -48,10 +49,13 @@ export class FracAtom implements Atom {
         (axisHeight - 0.5 * ruleWidth - (denBox.rect.height - denomShift));
     }
     const midShift = -(axisHeight - 0.5 * ruleWidth);
-    return new VBox([
-      { box: numBox, shift: numShift },
-      { box: rule, shift: -midShift },
-      { box: denBox, shift: -denomShift },
-    ]);
+    return new VBox(
+      [
+        { box: numBox, shift: numShift },
+        { box: rule, shift: -midShift },
+        { box: denBox, shift: -denomShift },
+      ],
+      this
+    );
   }
 }

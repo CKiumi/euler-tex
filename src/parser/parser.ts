@@ -137,9 +137,9 @@ export class Parser {
   }
 }
 
-const binOrOrd = (atoms: Atom[]): AtomKind => {
+export const binOrOrd = (atoms: Atom[]): AtomKind => {
   const kind = /bin|op|rel|open|punct/.test(
-    atoms[atoms.length - 1].kind ?? "bin"
+    atoms[atoms.length - 1]?.kind ?? "bin"
   )
     ? "ord"
     : "bin";

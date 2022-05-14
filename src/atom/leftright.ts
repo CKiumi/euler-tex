@@ -9,6 +9,7 @@ export class LRAtom implements Atom {
   kind: AtomKind;
   left: SymAtom;
   right: SymAtom;
+  elem: HTMLSpanElement | null = null;
   constructor(left: string, right: string, public body: GroupAtom) {
     this.kind = "inner";
     this.left = new SymAtom("open", left, "Main-R");
@@ -27,7 +28,7 @@ export class LRAtom implements Atom {
       innerBox.rect.height,
       innerBox.rect.depth
     );
-    return new HBox([leftBox, innerBox, rightBox]);
+    return new HBox([leftBox, innerBox, rightBox], this);
   }
 }
 

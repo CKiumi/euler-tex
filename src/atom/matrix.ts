@@ -11,6 +11,7 @@ const arstrutDepth = 0.3 * arrayskip;
 
 export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
+  elem: HTMLSpanElement | null = null;
   constructor(public children: GroupAtom[][]) {}
   toBox(): HBox {
     const children = this.children.map((child) => child.map((e) => e.toBox()));
@@ -53,7 +54,7 @@ export class MatrixAtom implements Atom {
       if (c > 0) cols[c].space.left = arraycolsep;
       if (c < nc - 1) cols[c].space.right = arraycolsep;
     }
-    const hbox = new HBox(cols);
+    const hbox = new HBox(cols, this);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     return hbox;

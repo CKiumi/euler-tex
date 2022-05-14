@@ -3,8 +3,40 @@
 exports[`accent atom 1`] = `
 VStackBox {
   "align": undefined,
+  "atom": AccentAtom {
+    "accent": SymAtom {
+      "char": "^",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "ord",
+    },
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
   "children": [
     SymBox {
+      "atom": SymAtom {
+        "char": "^",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "ord",
+      },
       "char": "^",
       "font": "Main-R",
       "italic": 0,
@@ -19,8 +51,28 @@ VStackBox {
       },
     },
     HBox {
+      "atom": undefined,
       "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
         SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
           "char": "j",
           "font": "Math-I",
           "italic": 0.05724,
@@ -57,11 +109,67 @@ VStackBox {
 exports[`frac atom 1`] = `
 VBox {
   "align": undefined,
+  "atom": FracAtom {
+    "denom": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+    "numer": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+  },
   "children": [
     {
       "box": HBox {
+        "atom": undefined,
         "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
           SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
             "char": "j",
             "font": "Math-I",
             "italic": 0.05724,
@@ -86,6 +194,7 @@ VBox {
     },
     {
       "box": RectBox {
+        "atom": undefined,
         "multiplier": undefined,
         "rect": {
           "depth": 0,
@@ -98,8 +207,28 @@ VBox {
     },
     {
       "box": HBox {
+        "atom": undefined,
         "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
           SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
             "char": "j",
             "font": "Math-I",
             "italic": 0.05724,
@@ -135,8 +264,46 @@ VBox {
 
 exports[`leftright atom 1`] = `
 HBox {
+  "atom": LRAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "inner",
+    "left": SymAtom {
+      "char": "(",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "open",
+    },
+    "right": SymAtom {
+      "char": ")",
+      "elem": null,
+      "font": "Main-R",
+      "kind": "open",
+    },
+  },
   "children": [
     SymBox {
+      "atom": SymAtom {
+        "char": "(",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "open",
+      },
       "char": "(",
       "font": "Main-R",
       "italic": 0,
@@ -149,8 +316,28 @@ HBox {
       "space": {},
     },
     HBox {
+      "atom": undefined,
       "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
         SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
           "char": "j",
           "font": "Math-I",
           "italic": 0.05724,
@@ -172,6 +359,12 @@ HBox {
       "space": {},
     },
     SymBox {
+      "atom": SymAtom {
+        "char": ")",
+        "elem": null,
+        "font": "Main-R",
+        "kind": "open",
+      },
       "char": ")",
       "font": "Main-R",
       "italic": 0,
@@ -196,14 +389,93 @@ HBox {
 
 exports[`matrix atom 1`] = `
 HBox {
+  "atom": MatrixAtom {
+    "children": [
+      [
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+      ],
+      [
+        GroupAtom {
+          "body": [
+            FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
+          ],
+          "elem": null,
+          "kind": "ord",
+        },
+      ],
+    ],
+    "elem": null,
+    "kind": "ord",
+  },
   "children": [
     VBox {
       "align": undefined,
+      "atom": undefined,
       "children": [
         {
           "box": HBox {
+            "atom": undefined,
             "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
               SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
                 "char": "j",
                 "font": "Math-I",
                 "italic": 0.05724,
@@ -228,8 +500,28 @@ HBox {
         },
         {
           "box": HBox {
+            "atom": undefined,
             "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
               SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
                 "char": "j",
                 "font": "Math-I",
                 "italic": 0.05724,
@@ -265,11 +557,32 @@ HBox {
     },
     VBox {
       "align": undefined,
+      "atom": undefined,
       "children": [
         {
           "box": HBox {
+            "atom": undefined,
             "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
               SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
                 "char": "j",
                 "font": "Math-I",
                 "italic": 0.05724,
@@ -320,8 +633,29 @@ HBox {
 exports[`overline atom 1`] = `
 VStackBox {
   "align": undefined,
+  "atom": OverlineAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
   "children": [
     RectBox {
+      "atom": undefined,
       "multiplier": undefined,
       "rect": {
         "depth": 0,
@@ -334,8 +668,28 @@ VStackBox {
       },
     },
     HBox {
+      "atom": undefined,
       "children": [
+        RectBox {
+          "atom": FirstAtom {
+            "elem": null,
+            "kind": null,
+          },
+          "multiplier": undefined,
+          "rect": {
+            "depth": 0,
+            "height": 0,
+            "width": 0,
+          },
+          "space": {},
+        },
         SymBox {
+          "atom": SymAtom {
+            "char": "j",
+            "elem": null,
+            "font": "Math-I",
+            "kind": "ord",
+          },
           "char": "j",
           "font": "Math-I",
           "italic": 0.05724,
@@ -372,9 +726,30 @@ VStackBox {
 exports[`sqrt atom 1`] = `
 VBox {
   "align": undefined,
+  "atom": SqrtAtom {
+    "body": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "elem": null,
+    "kind": "ord",
+  },
   "children": [
     {
       "box": SqrtBox {
+        "atom": undefined,
         "innerHeight": 1.0417100000000001,
         "multiplier": undefined,
         "rect": {
@@ -390,8 +765,28 @@ VBox {
     },
     {
       "box": HBox {
+        "atom": undefined,
         "children": [
+          RectBox {
+            "atom": FirstAtom {
+              "elem": null,
+              "kind": null,
+            },
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0,
+              "height": 0,
+              "width": 0,
+            },
+            "space": {},
+          },
           SymBox {
+            "atom": SymAtom {
+              "char": "j",
+              "elem": null,
+              "font": "Math-I",
+              "kind": "ord",
+            },
             "char": "j",
             "font": "Math-I",
             "italic": 0.05724,
@@ -429,8 +824,56 @@ VBox {
 
 exports[`supsub atom 1`] = `
 HBox {
+  "atom": SupSubAtom {
+    "elem": null,
+    "kind": "ord",
+    "nuc": SymAtom {
+      "char": "j",
+      "elem": null,
+      "font": "Math-I",
+      "kind": "ord",
+    },
+    "sub": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+    "sup": GroupAtom {
+      "body": [
+        FirstAtom {
+          "elem": null,
+          "kind": null,
+        },
+        SymAtom {
+          "char": "j",
+          "elem": null,
+          "font": "Math-I",
+          "kind": "ord",
+        },
+      ],
+      "elem": null,
+      "kind": "ord",
+    },
+  },
   "children": [
     SymBox {
+      "atom": SymAtom {
+        "char": "j",
+        "elem": null,
+        "font": "Math-I",
+        "kind": "ord",
+      },
       "char": "j",
       "font": "Math-I",
       "italic": 0.05724,
@@ -444,11 +887,32 @@ HBox {
     },
     VBox {
       "align": "start",
+      "atom": undefined,
       "children": [
         {
           "box": HBox {
+            "atom": undefined,
             "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
               SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
                 "char": "j",
                 "font": "Math-I",
                 "italic": 0.05724,
@@ -475,8 +939,28 @@ HBox {
         },
         {
           "box": HBox {
+            "atom": undefined,
             "children": [
+              RectBox {
+                "atom": FirstAtom {
+                  "elem": null,
+                  "kind": null,
+                },
+                "multiplier": undefined,
+                "rect": {
+                  "depth": 0,
+                  "height": 0,
+                  "width": 0,
+                },
+                "space": {},
+              },
               SymBox {
+                "atom": SymAtom {
+                  "char": "j",
+                  "elem": null,
+                  "font": "Math-I",
+                  "kind": "ord",
+                },
                 "char": "j",
                 "font": "Math-I",
                 "italic": 0.05724,

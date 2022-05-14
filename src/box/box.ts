@@ -1,4 +1,4 @@
-import { Font, getCharMetrics, getSigma, SPEC } from "../lib";
+import { Atom, FirstAtom, Font, getCharMetrics, getSigma, SPEC } from "../lib";
 import { PathNode, SvgNode, innerPath, sqrtSvg } from "../html";
 import { em } from "../util";
 
@@ -9,14 +9,21 @@ export interface Box {
   rect: Rect;
   space: Space;
   multiplier?: number;
+  atom?: Atom;
   toHtml(): HTMLSpanElement;
 }
 
 export class RectBox implements Box {
   space: Space = {};
-  constructor(public rect: Rect, public multiplier?: number) {}
+  constructor(
+    public rect: Rect,
+    public atom?: Atom,
+    public multiplier?: number
+  ) {}
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
+    if (this.atom) this.atom.elem = span;
+    if (this.atom instanceof FirstAtom) return span;
     addSpace(span, this);
     span.style.height = em(this.rect.height);
     span.style.background = "black";
@@ -32,6 +39,7 @@ export class SymBox implements Box {
   constructor(
     public char: string,
     public font: Font,
+    public atom?: Atom,
     public multiplier?: number
   ) {
     const { depth, height, italic, width } = getCharMetrics(char, font);
@@ -50,6 +58,7 @@ export class SymBox implements Box {
     span.style.lineHeight = em(
       (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2
     );
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -57,7 +66,11 @@ export class SymBox implements Box {
 export class HBox implements Box {
   rect: Rect;
   space: Space = {};
-  constructor(public children: Box[], public multiplier?: number) {
+  constructor(
+    public children: Box[],
+    public atom?: Atom,
+    public multiplier?: number
+  ) {
     const width = children.reduce(
       (t, a) => t + a.rect.width + (a.space.left ?? 0),
       0
@@ -78,6 +91,7 @@ export class HBox implements Box {
       span.append(box.toHtml());
     });
     if (this.multiplier) span.style.fontSize = em(this.multiplier);
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -87,6 +101,7 @@ export class VBox implements Box {
   space: Space = {};
   constructor(
     public children: { box: Box; shift: number }[],
+    public atom?: Atom,
     public multiplier?: number,
     public align?: string
   ) {
@@ -121,6 +136,7 @@ export class VBox implements Box {
     span.style.height = em(this.rect.height + this.rect.depth);
     if (this.align) span.style.alignItems = this.align;
     span.style.verticalAlign = em(-this.rect.depth + oldDepth);
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -132,6 +148,7 @@ export class VStackBox implements Box {
   constructor(
     public children: Box[],
     public newDepth: number,
+    public atom?: Atom,
     public multiplier?: number,
     public align?: string
   ) {
@@ -155,6 +172,7 @@ export class VStackBox implements Box {
       .reverse()
       .forEach((child) => span.append(child.toHtml()));
     span.style.verticalAlign = em(this.shift);
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -195,7 +213,8 @@ export class SqrtBox implements Box {
     public size: 1 | 2 | 3 | 4 | "small" | "Tall",
     public shift: number,
     public innerHeight: number,
-    public rect: Rect
+    public rect: Rect,
+    public atom?: Atom
   ) {}
   toHtml(): HTMLSpanElement {
     const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
@@ -252,6 +271,7 @@ export class SqrtBox implements Box {
     span.style.height = em(spanHeight);
     span.style.background = "#31121355";
     span.style.display = "inline-block";
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }

@@ -3,9 +3,10 @@ import { Atom } from "./atom";
 import { AtomKind, Font } from "/src/lib";
 
 export class SymAtom implements Atom {
+  elem: HTMLSpanElement | null = null;
   constructor(public kind: AtomKind, public char: string, public font: Font) {}
   toBox(): SymBox {
     const { char, font } = this;
-    return new SymBox(char, font);
+    return new SymBox(char, font, this);
   }
 }
