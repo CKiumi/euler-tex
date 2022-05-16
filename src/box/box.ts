@@ -212,8 +212,6 @@ export class DelimInnerBox implements Box {
     span.innerHTML = svgNode.toMarkup();
     span.style.height = em(height);
     span.style.width = em(width);
-    // TODO remove background
-    span.style.background = "green";
     return span;
   }
 }
@@ -281,8 +279,6 @@ export class SqrtBox implements Box {
       span.style.minWidth = "0.742em";
     }
     span.style.height = em(spanHeight);
-    // TODO remove background
-    span.style.background = "#31121355";
     span.style.display = "inline-block";
     if (this.atom) this.atom.elem = span;
     return span;
