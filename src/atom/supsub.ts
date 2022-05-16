@@ -3,6 +3,7 @@ import { AtomKind, getSigma, SIGMAS } from "../font";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 
 export class SupSubAtom implements Atom {
+  parent: GroupAtom | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind | null;
   constructor(
@@ -13,6 +14,9 @@ export class SupSubAtom implements Atom {
     this.kind = nuc.kind;
   }
   toBox(): Box {
+    this.nuc.parent = this;
+    if (this.sup) this.sup.parent = this;
+    if (this.sub) this.sub.parent = this;
     if (this.sup && this.sub) {
       return parseSupSub(this, 0.7);
     } else if (this.sup) {
@@ -74,8 +78,12 @@ export const parseSupSub = (
   let subShift = 0;
   if (!atom.sup) throw new Error("Sup must exist");
   if (!atom.sub) throw new Error("Sub must exist");
-  if (atom.nuc.kind === "op" && (atom.nuc as SymAtom).char === "∑") {
-    return parseLimitSupSub(atom.nuc, atom.sup, atom.sub, multiplier);
+  if (
+    atom.nuc.kind === "op" &&
+    atom.nuc instanceof SymAtom &&
+    atom.nuc.char === "∑"
+  ) {
+    return parseLimitSupSub(atom, multiplier);
   }
   const nuc = atom.nuc.toBox();
   const sup = multiplyBox(atom.sup.toBox(), multiplier);
@@ -125,11 +133,10 @@ export const parseSupSub = (
 };
 
 export const parseLimitSupSub = (
-  nuc: Atom,
-  supAtom: GroupAtom,
-  subAtom: GroupAtom,
+  atom: SupSubAtom,
   multiplier: number
 ): VStackBox => {
+  const { nuc, sup: supAtom, sub: subAtom } = atom;
   let supBox;
   let subBox;
   const nucBox = nuc.toBox();
@@ -159,13 +166,13 @@ export const parseLimitSupSub = (
       subBox.rect.depth +
       (subBox.space.top ?? 0) +
       nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox, subBox], bottom);
+    return new VStackBox([supBox, nucBox, subBox], bottom, atom);
   } else if (subBox) {
     const top = nucBox.rect.height;
-    return new VStackBox([nucBox, subBox], top);
+    return new VStackBox([nucBox, subBox], top, atom);
   } else if (supBox) {
     const bottom = nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox], bottom);
+    return new VStackBox([supBox, nucBox], bottom, atom);
   } else {
     throw new Error("Sup or Sub must specified");
   }

@@ -5,12 +5,14 @@ import { Atom, GroupAtom } from "./atom";
 import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 
 export class SqrtAtom implements Atom {
+  parent: GroupAtom | null = null;
   kind: AtomKind;
   elem: HTMLSpanElement | null = null;
   constructor(public body: GroupAtom) {
     this.kind = "ord";
   }
   toBox(): VBox {
+    this.body.parent = this;
     const inner = this.body.toBox();
     const { width, depth } = inner.rect;
     let { height } = inner.rect;

@@ -78,6 +78,7 @@ export class Parser {
         this.parseEnvName();
         atoms.push(new LRAtom("(", ")", new GroupAtom([this.parseMatrix()])));
       }
+      ///TODO Fix this part
       const key = Object.keys(LETTER).find((l) => token === l);
       if (key) atoms.push(new SymAtom("ord", LETTER[key], "Math-I"));
     }
@@ -89,7 +90,7 @@ export class Parser {
     this.lexer.tokenize();
     return new LRAtom(left, ")", new GroupAtom(body)) as Atom;
   }
-  parseArg(atoms: Atom[]) {
+  parseArg(atoms: Atom[]): GroupAtom {
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly)
       return new GroupAtom(this.parse(Escape.RCurly));

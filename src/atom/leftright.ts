@@ -6,6 +6,7 @@ import { AtomKind, Font } from "../lib";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 
 export class LRAtom implements Atom {
+  parent: GroupAtom | null = null;
   kind: AtomKind;
   left: SymAtom;
   right: SymAtom;
@@ -16,6 +17,7 @@ export class LRAtom implements Atom {
     this.right = new SymAtom("open", right, "Main-R");
   }
   toBox(): HBox {
+    this.body.parent = this;
     const { left, right, body } = this;
     const innerBox = body.toBox();
     const leftBox = makeLeftRightDelim(

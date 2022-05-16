@@ -31,6 +31,17 @@ export class RectBox implements Box {
     return span;
   }
 }
+export class FirstBox implements Box {
+  rect: Rect = { width: 0, height: 0, depth: 0 };
+  space: Space = {};
+  constructor(public atom: Atom) {}
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.innerHTML = "&#8203;";
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
 
 export class SymBox implements Box {
   rect: Rect;
@@ -51,7 +62,7 @@ export class SymBox implements Box {
     const { height, depth } = rect;
     const span = document.createElement("span");
     addSpace(span, this);
-    span.innerText = char;
+    span.innerHTML = char;
     span.classList.add("box", font.toLowerCase());
     span.style.height = em(height + depth);
     if (italic) span.style.paddingRight = em(italic);
@@ -201,6 +212,7 @@ export class DelimInnerBox implements Box {
     span.innerHTML = svgNode.toMarkup();
     span.style.height = em(height);
     span.style.width = em(width);
+    // TODO remove background
     span.style.background = "green";
     return span;
   }
@@ -269,6 +281,7 @@ export class SqrtBox implements Box {
       span.style.minWidth = "0.742em";
     }
     span.style.height = em(spanHeight);
+    // TODO remove background
     span.style.background = "#31121355";
     span.style.display = "inline-block";
     if (this.atom) this.atom.elem = span;

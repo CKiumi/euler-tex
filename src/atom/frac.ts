@@ -3,10 +3,13 @@ import { AtomKind, getSigma } from "../font";
 import { Atom, GroupAtom, parseLine } from "./atom";
 
 export class FracAtom implements Atom {
+  parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   constructor(public numer: GroupAtom, public denom: GroupAtom) {}
   toBox(): VBox {
+    this.numer.parent = this;
+    this.denom.parent = this;
     const { numer, denom } = this;
     const numBox = numer.toBox();
     const denBox = denom.toBox();

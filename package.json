@@ -1,7 +1,7 @@
 {
   "name": "eulertex",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.9",
   "scripts": {
     "dev": "vite",
     "test": "vitest",
@@ -12,7 +12,8 @@
     "lint": "tsc --noEmit && eslint .",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "build-font": "ts-node ./src/font/build"
+    "build-font": "ts-node ./src/font/build",
+    "update": "yarn pack && mv eulertex*.tgz ../eulernote/pkg"
   },
   "devDependencies": {
     "@playwright/test": "^1.21.1",

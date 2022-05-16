@@ -10,10 +10,16 @@ const arstrutHeight = 0.7 * arrayskip;
 const arstrutDepth = 0.3 * arrayskip;
 
 export class MatrixAtom implements Atom {
+  parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   constructor(public children: GroupAtom[][]) {}
   toBox(): HBox {
+    this.children.forEach((row) =>
+      row.forEach((group) => {
+        group.parent = this;
+      })
+    );
     const children = this.children.map((child) => child.map((e) => e.toBox()));
     let r;
     let c: number;
