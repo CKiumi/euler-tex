@@ -32,7 +32,7 @@ export class RectBox implements Box {
   }
 }
 export class FirstBox implements Box {
-  rect: Rect = { width: 0, height: 0, depth: 0 };
+  rect: Rect = { width: 0, height: 0.22, depth: 0 };
   space: Space = {};
   constructor(public atom: Atom) {}
   toHtml(): HTMLSpanElement {
@@ -125,6 +125,7 @@ export class VBox implements Box {
     const width = children.reduce((t, { box: { rect } }) => t + rect.width, 0);
     this.rect = { depth, height, width };
   }
+
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);
@@ -137,6 +138,10 @@ export class VBox implements Box {
         const html = box.toHtml();
         span.append(html);
         const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
+        console.log(
+          box,
+          em((this.rect.depth - stackHeight - rect.depth + shift) / multiplier)
+        );
         html.style.bottom = em(
           (this.rect.depth - stackHeight - rect.depth + shift) / multiplier
         );

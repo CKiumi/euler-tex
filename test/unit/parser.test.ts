@@ -38,6 +38,9 @@ test("leftright atom", () => {
 
 test("sqrt atom", () => {
   expect(parse("\\sqrt {  j}")[0]).toMatchObject(new SqrtAtom(group));
+  expect(parse("\\sqrt {  }")[0]).toMatchObject(
+    new SqrtAtom(new GroupAtom([]))
+  );
 });
 
 test("frac atom", () => {

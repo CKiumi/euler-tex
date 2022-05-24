@@ -37,6 +37,7 @@ test("leftright atom", () => {
 
 test("sqrt atom", () => {
   expect(new SqrtAtom(group).toBox()).matchSnapshot();
+  expect(new SqrtAtom(new GroupAtom([])).toBox()).matchSnapshot();
 });
 
 test("frac atom", () => {

@@ -11,7 +11,7 @@ const main = () => {
   render("lr", "Left Right Parentheses", lr, latexToHtml(lr));
   const frac = "\\frac{a+f}{K+j}";
   render("frac", "Frac", frac, latexToHtml(frac));
-  const sqr = "\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
+  const sqr = "\\sqrt{ } a\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
   render("sqrt", "Square Root", sqr, latexToHtml(sqr));
   const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
   render("supsub", "SupSub", supsub1, latexToHtml(supsub1));

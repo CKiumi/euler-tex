@@ -64,6 +64,20 @@ exports[`vBox box 1`] = `
 </span>
 `;
 
+exports[`vBox box 2`] = `
+<span
+  class="vlist"
+  style="height: 0.4306em; vertical-align: 1.0000em;"
+>
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    a
+  </span>
+</span>
+`;
+
 exports[`vStackBox box 1`] = `
 <span
   class="vlist"

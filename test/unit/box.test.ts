@@ -20,6 +20,8 @@ test("vBox box", () => {
     { box: hbox, shift: -0.5 },
   ]);
   expect(vbox.toHtml()).toMatchSnapshot();
+  const vbox2 = new VBox([{ box: a, shift: 1 }]);
+  expect(vbox2.toHtml()).toMatchSnapshot();
 });
 
 test("vStackBox box", () => {
