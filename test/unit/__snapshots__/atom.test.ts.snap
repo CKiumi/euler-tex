@@ -185,7 +185,7 @@ VStackBox {
   "newDepth": 0.19444,
   "rect": {
     "depth": 0.19444,
-    "height": 1.35396,
+    "height": 0.92296,
     "width": 0.5,
   },
   "shift": -0,
@@ -1515,7 +1515,7 @@ VStackBox {
   "newDepth": 0.19444,
   "rect": {
     "depth": 0.19444,
-    "height": 0.6995200000000001,
+    "height": 0.8595200000000001,
     "width": 0.46905,
   },
   "shift": -0,

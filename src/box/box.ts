@@ -138,10 +138,6 @@ export class VBox implements Box {
         const html = box.toHtml();
         span.append(html);
         const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
-        console.log(
-          box,
-          em((this.rect.depth - stackHeight - rect.depth + shift) / multiplier)
-        );
         html.style.bottom = em(
           (this.rect.depth - stackHeight - rect.depth + shift) / multiplier
         );
@@ -168,9 +164,13 @@ export class VStackBox implements Box {
     public multiplier?: number,
     public align?: string
   ) {
+    console.log(children);
     const height =
       children
-        .map(({ rect }) => rect.height + rect.depth)
+        .map(
+          ({ rect, space }) =>
+            rect.height + rect.depth + (space.bottom ?? 0) + (space.top ?? 0)
+        )
         .reduce((t, a) => t + a, 0) - newDepth;
     const width = Math.max(...children.map(({ rect }) => rect.width));
     const revChildren = children.slice().reverse();
