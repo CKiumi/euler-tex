@@ -57,7 +57,7 @@ test("supsub3", async ({ page }) => {
   });
 });
 
-test("main", async ({ page }) => {
+test("matrix", async ({ page }) => {
   expect(await page.locator("#" + "mat").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
