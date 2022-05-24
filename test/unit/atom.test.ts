@@ -47,7 +47,9 @@ test("frac atom", () => {
 });
 
 test("matrix atom", () => {
-  expect(new MatrixAtom([[group, group], [group]]).toBox()).matchSnapshot();
+  expect(
+    new MatrixAtom([[group, group], [group]], "pmatrix").toBox()
+  ).matchSnapshot();
 });
 
 test("supsub atom", () => {

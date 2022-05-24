@@ -1,6 +1,7 @@
 import { Box, HBox, VBox } from "../box/box";
 import { AtomKind, SIGMAS } from "../font";
 import { Atom, GroupAtom } from "./atom";
+import { makeLeftRightDelim } from "./leftright";
 
 const pt = 1 / SIGMAS.ptPerEm[0];
 const arraycolsep = 5 * pt;
@@ -13,7 +14,11 @@ export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
-  constructor(public children: GroupAtom[][]) {}
+
+  constructor(
+    public children: GroupAtom[][],
+    public type: "pmatrix" | "matrix"
+  ) {}
   toBox(): HBox {
     this.children.forEach((row) =>
       row.forEach((group) => {
@@ -60,9 +65,18 @@ export class MatrixAtom implements Atom {
       if (c > 0) cols[c].space.left = arraycolsep;
       if (c < nc - 1) cols[c].space.right = arraycolsep;
     }
-    const hbox = new HBox(cols, this);
+    const hbox =
+      this.type === "pmatrix" ? new HBox(cols) : new HBox(cols, this);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
+    if (this.type === "pmatrix") {
+      const innerHeight = hbox.rect.height + hbox.space.top;
+      const innerDepth = hbox.rect.depth + hbox.space.bottom;
+      const left = makeLeftRightDelim("(", innerHeight, innerDepth);
+      const right = makeLeftRightDelim(")", innerHeight, innerDepth);
+      this.kind = "inner";
+      return new HBox([left, hbox, right], this);
+    }
     return hbox;
   }
 }

@@ -76,7 +76,7 @@ export class Parser {
       }
       if (token === "\\begin") {
         this.parseEnvName();
-        atoms.push(new LRAtom("(", ")", new GroupAtom([this.parseMatrix()])));
+        atoms.push(this.parseMatrix());
       }
       if (LETTER[token])
         atoms.push(new SymAtom("ord", LETTER[token], "Math-I"));
@@ -89,6 +89,7 @@ export class Parser {
     this.lexer.tokenize();
     return new LRAtom(left, ")", new GroupAtom(body)) as Atom;
   }
+
   parseArg(atoms: Atom[]): GroupAtom {
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly)
@@ -125,7 +126,7 @@ export class Parser {
           element.pop();
         }
         this.parseEnvName();
-        return new MatrixAtom(element);
+        return new MatrixAtom(element, "pmatrix");
       }
       if (token === Escape.And) row.push(new GroupAtom([]));
       if (token === Escape.Newline) {

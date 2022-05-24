@@ -53,10 +53,6 @@ test("supsub atom", () => {
 
 test("matrix atom", () => {
   expect(parse("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")[0]).toMatchObject(
-    new LRAtom(
-      "(",
-      ")",
-      new GroupAtom([new MatrixAtom([[group, group], [group]])])
-    )
+    new MatrixAtom([[group, group], [group]], "pmatrix")
   );
 });
