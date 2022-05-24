@@ -17,6 +17,13 @@ export class SupSubAtom implements Atom {
     this.nuc.parent = this;
     if (this.sup) this.sup.parent = this;
     if (this.sub) this.sub.parent = this;
+    if (
+      this.nuc.kind === "op" &&
+      this.nuc instanceof SymAtom &&
+      this.nuc.char === "∑"
+    ) {
+      return parseLimitSupSub(this, 0.7);
+    }
     if (this.sup && this.sub) {
       return parseSupSub(this, 0.7);
     } else if (this.sup) {
@@ -32,7 +39,7 @@ export const parseSup = (atom: SupSubAtom, multiplier: number): HBox => {
   if (!atom.sup) throw new Error("Sup must exist");
   const sup = multiplyBox(atom.sup.toBox(), multiplier);
   const nuc = atom.nuc.toBox();
-  if (!(nuc as SymBox).char) {
+  if (!(atom.nuc as SymAtom).charBox) {
     supShift = nuc.rect.height - (SIGMAS.supDrop[1] * multiplier) / 1;
   }
   const minSupShift = getSigma("sup1");
@@ -53,7 +60,7 @@ export const parseSub = (atom: SupSubAtom, multiplier: number) => {
   const sub = multiplyBox(atom.sub.toBox(), multiplier);
   //   const marginRight = 0.5 / getSigma("ptPerEm") / multiplier;
   const nuc = atom.nuc.toBox();
-  if (!(nuc as SymBox).char) {
+  if (!(atom.nuc as SymAtom).charBox) {
     subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * multiplier) / 1;
   }
   subShift = Math.max(
@@ -78,13 +85,7 @@ export const parseSupSub = (
   let subShift = 0;
   if (!atom.sup) throw new Error("Sup must exist");
   if (!atom.sub) throw new Error("Sub must exist");
-  if (
-    atom.nuc.kind === "op" &&
-    atom.nuc instanceof SymAtom &&
-    atom.nuc.char === "∑"
-  ) {
-    return parseLimitSupSub(atom, multiplier);
-  }
+
   const nuc = atom.nuc.toBox();
   const sup = multiplyBox(atom.sup.toBox(), multiplier);
   const sub = multiplyBox(atom.sub.toBox(), multiplier);

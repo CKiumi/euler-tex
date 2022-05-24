@@ -15,10 +15,11 @@ const main = () => {
     "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
   render("sqrt", "Square Root", sqr, latexToHtml(sqr));
   const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
-  render("supsub", "SupSub", supsub1, latexToHtml(supsub1));
-  const supsub2 =
-    "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a \\sum_a^a \\int_a^a";
-  render("supsub2", "SupSub", supsub2, latexToHtml(supsub2));
+  render("supsub", "SupSub1", supsub1, latexToHtml(supsub1));
+  const supsub2 = "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
+  render("supsub2", "SupSub2", supsub2, latexToHtml(supsub2));
+  const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a";
+  render("supsub3", "SupSub3", supsub3, latexToHtml(supsub3));
   const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, latexToHtml(matrix));
 };

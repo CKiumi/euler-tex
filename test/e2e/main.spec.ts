@@ -51,6 +51,12 @@ test("supsub2", async ({ page }) => {
   });
 });
 
+test("supsub3", async ({ page }) => {
+  expect(await page.locator("#" + "supsub3").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
 test("main", async ({ page }) => {
   expect(await page.locator("#" + "mat").screenshot()).toMatchSnapshot({
     threshold: 0.01,

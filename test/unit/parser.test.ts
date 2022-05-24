@@ -19,7 +19,7 @@ test("parse symbol", () => {
 });
 
 test("parse accent", () => {
-  const accent = new SymAtom("ord", "^", "Main-R");
+  const accent = new SymAtom("ord", "^", "Main-R", false);
   const accAtom = new AccentAtom(group, accent);
   expect(parse("\\hat{j}")[0]).toMatchObject(accAtom);
 });

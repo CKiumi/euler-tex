@@ -58,8 +58,8 @@ export class Parser {
       } else atoms.push(new SupSubAtom(body, undefined, this.parseArg(atoms)));
     }
     if (token.startsWith("\\")) {
-      if (token === "\\sum") atoms.push(new SymAtom("op", "∑", "Size2"));
-      if (token === "\\int") atoms.push(new SymAtom("op", "∫", "Size2"));
+      if (token === "\\sum") atoms.push(new SymAtom("op", "∑", "Size2", false));
+      if (token === "\\int") atoms.push(new SymAtom("op", "∫", "Size2", false));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
       if (token === "\\frac") {
         atoms.push(new FracAtom(this.parseArg(atoms), this.parseArg(atoms)));
@@ -67,20 +67,19 @@ export class Parser {
       if (token === "\\overline")
         atoms.push(new OverlineAtom(this.parseArg(atoms)));
       if (token === "\\hat") {
-        const hat = new SymAtom("ord", "^", "Main-R");
+        const hat = new SymAtom("ord", "^", "Main-R", false);
         atoms.push(new AccentAtom(this.parseArg(atoms), hat));
       }
       if (token === "\\tilde") {
-        const tilde = new SymAtom("ord", "~", "Main-R");
+        const tilde = new SymAtom("ord", "~", "Main-R", false);
         atoms.push(new AccentAtom(this.parseArg(atoms), tilde));
       }
       if (token === "\\begin") {
         this.parseEnvName();
         atoms.push(new LRAtom("(", ")", new GroupAtom([this.parseMatrix()])));
       }
-      ///TODO Fix this part
-      const key = Object.keys(LETTER).find((l) => token === l);
-      if (key) atoms.push(new SymAtom("ord", LETTER[key], "Math-I"));
+      if (LETTER[token])
+        atoms.push(new SymAtom("ord", LETTER[token], "Math-I"));
     }
   }
 
