@@ -1,5 +1,5 @@
 import { PathNode, SvgNode } from "./pathNode";
-import { em } from "/src/util";
+import { em } from "../../util";
 
 const hLinePad = 80;
 

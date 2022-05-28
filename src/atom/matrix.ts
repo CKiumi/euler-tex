@@ -14,7 +14,6 @@ export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
-
   constructor(
     public children: GroupAtom[][],
     public type: "pmatrix" | "matrix"

@@ -1,6 +1,6 @@
 import { SymBox } from "../box/box";
 import { Atom, GroupAtom } from "./atom";
-import { AtomKind, Font } from "/src/lib";
+import { AtomKind, Font } from "../lib";
 
 export class SymAtom implements Atom {
   parent: GroupAtom | null = null;
