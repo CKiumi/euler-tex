@@ -164,7 +164,6 @@ export class VStackBox implements Box {
     public multiplier?: number,
     public align?: string
   ) {
-    console.log(children);
     const height =
       children
         .map(

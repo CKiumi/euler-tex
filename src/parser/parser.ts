@@ -12,6 +12,7 @@ import {
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind } from "../font";
+import { LETTER1, LETTER2 } from "./command";
 
 export class Parser {
   lexer: Lexer;
@@ -78,8 +79,13 @@ export class Parser {
         this.parseEnvName();
         atoms.push(this.parseMatrix());
       }
-      if (LETTER[token])
-        atoms.push(new SymAtom("ord", LETTER[token], "Math-I"));
+      if (LETTER1[token]) {
+        atoms.push(new SymAtom("ord", LETTER1[token], "Math-I"));
+      }
+
+      if (LETTER2[token]) {
+        atoms.push(new SymAtom("ord", LETTER2[token], "Main-R"));
+      }
     }
   }
 
@@ -149,15 +155,4 @@ export const binOrOrd = (atoms: Atom[]): AtomKind => {
 
 export const parse = (latex: string): Atom[] => {
   return new Parser(new Lexer(latex)).parse(Escape.EOF);
-};
-
-export const LETTER: { [key: string]: string } = {
-  "\\alpha": "α",
-  "\\beta": "β",
-  "\\gamma": "γ",
-  "\\delta": "δ",
-  "\\epsilon": "ε",
-  "\\lambda": "λ",
-  "\\zeta": "ζ",
-  "\\eta": "η",
 };

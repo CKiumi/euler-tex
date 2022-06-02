@@ -3,6 +3,18 @@ test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:3001");
 });
 
+test("letter1", async ({ page }) => {
+  expect(await page.locator("#" + "letter1").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
+test("letter2", async ({ page }) => {
+  expect(await page.locator("#" + "letter2").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
 test("sym", async ({ page }) => {
   expect(await page.locator("#" + "sym").screenshot()).toMatchSnapshot({
     threshold: 0.01,

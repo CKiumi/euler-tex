@@ -44,7 +44,7 @@ export class Lexer {
         this.readChar();
         return Escape.Newline;
       }
-      while (!this.end() && /^[a-z*]+/.test(this.peek())) {
+      while (!this.end() && /^[a-zA-Z*]+/.test(this.peek())) {
         this.readChar();
         command += this.cur();
       }
