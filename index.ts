@@ -1,9 +1,11 @@
+import { loadFont } from "./src/font";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import { latexToHtml } from "./src/lib";
 import { LETTER1, LETTER2 } from "./src/parser/command";
 
 const main = () => {
+  loadFont("/woff");
   const letter1 = Object.keys(LETTER1).join("");
   render("letter1", "Letter 1", letter1, latexToHtml(letter1));
   const letter2 = Object.keys(LETTER2).join("");

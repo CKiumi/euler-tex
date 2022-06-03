@@ -1,11 +1,14 @@
 import fontkit from "fontkit";
 import { promises as fs } from "fs";
 
-const fontDir = "./css/woff";
+//Build font.css and spec.ts files
+const fontDir = "./woff";
 const cssDir = "./css/font.css";
 const srcDir = "./src/font/spec.ts";
 const result: { [key: string]: { ascent: number; descent: number } } = {};
+
 let [type, css] = ["", ""];
+
 const main = async () => {
   const files = await fs.readdir(fontDir);
 
@@ -19,21 +22,19 @@ const main = async () => {
     };
 
     const fontName = file.split(".")[0];
-    type += `|"${fontName}"`;
-    css += `@font-face {
-      font-family: "${fontName}";
-      src: url("./woff/${fontName}.woff2") format("woff2");
-    }\n
+    type += `"${fontName}",`;
+    css += `
     .${fontName.toLowerCase()} {
       font-family: "${fontName}";
-    }\n\n`;
+    }\n`;
   });
 
   fs.writeFile(cssDir, css);
 
   fs.writeFile(
     srcDir,
-    `export type Font= ${type};\n
+    `export const FontList = [${type}] as const;\n
+     export type Font = typeof FontList[number];\n
      export const SPEC= ${JSON.stringify(result)};`
   );
 };

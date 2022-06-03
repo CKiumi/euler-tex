@@ -1,5 +1,5 @@
 import { INTER_ATOM_SPACING, SIGMAS, AtomKind } from "./sigma";
-import { Font, SPEC } from "./spec";
+import { Font, FontList, SPEC } from "./spec";
 import METRICS from "./data";
 export { SPEC, SIGMAS };
 export type { Font, AtomKind };
@@ -35,3 +35,17 @@ export const getSpacing = (prevKind: AtomKind, curKind: AtomKind): number =>
   (INTER_ATOM_SPACING[prevKind]?.[curKind] ?? 0) * CSSEmPerMu;
 
 const CSSEmPerMu = SIGMAS.quad[0] / 18;
+
+export const loadFont = async (fontDirectory: string) => {
+  FontList.forEach((fontName) => {
+    if (!document.fonts.check(`12px ${fontName}`)) {
+      const font = new FontFace(
+        fontName,
+        `url(${fontDirectory}/${fontName}.woff2) format('woff2')`
+      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (document.fonts as any).add(font);
+      font.load().catch(console.log);
+    }
+  });
+};

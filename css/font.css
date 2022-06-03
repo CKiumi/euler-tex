@@ -1,177 +1,77 @@
-@font-face {
-  font-family: "AMS-R";
-  src: url("./woff/AMS-R.woff2") format("woff2");
-}
-
 .ams-r {
   font-family: "AMS-R";
-}
-
-@font-face {
-  font-family: "Cal-B";
-  src: url("./woff/Cal-B.woff2") format("woff2");
 }
 
 .cal-b {
   font-family: "Cal-B";
 }
 
-@font-face {
-  font-family: "Cal-R";
-  src: url("./woff/Cal-R.woff2") format("woff2");
-}
-
 .cal-r {
   font-family: "Cal-R";
-}
-
-@font-face {
-  font-family: "Frak-B";
-  src: url("./woff/Frak-B.woff2") format("woff2");
 }
 
 .frak-b {
   font-family: "Frak-B";
 }
 
-@font-face {
-  font-family: "Frak-R";
-  src: url("./woff/Frak-R.woff2") format("woff2");
-}
-
 .frak-r {
   font-family: "Frak-R";
-}
-
-@font-face {
-  font-family: "Main-B";
-  src: url("./woff/Main-B.woff2") format("woff2");
 }
 
 .main-b {
   font-family: "Main-B";
 }
 
-@font-face {
-  font-family: "Main-BI";
-  src: url("./woff/Main-BI.woff2") format("woff2");
-}
-
 .main-bi {
   font-family: "Main-BI";
-}
-
-@font-face {
-  font-family: "Main-I";
-  src: url("./woff/Main-I.woff2") format("woff2");
 }
 
 .main-i {
   font-family: "Main-I";
 }
 
-@font-face {
-  font-family: "Main-R";
-  src: url("./woff/Main-R.woff2") format("woff2");
-}
-
 .main-r {
   font-family: "Main-R";
-}
-
-@font-face {
-  font-family: "Math-BI";
-  src: url("./woff/Math-BI.woff2") format("woff2");
 }
 
 .math-bi {
   font-family: "Math-BI";
 }
 
-@font-face {
-  font-family: "Math-I";
-  src: url("./woff/Math-I.woff2") format("woff2");
-}
-
 .math-i {
   font-family: "Math-I";
-}
-
-@font-face {
-  font-family: "San-B";
-  src: url("./woff/San-B.woff2") format("woff2");
 }
 
 .san-b {
   font-family: "San-B";
 }
 
-@font-face {
-  font-family: "San-I";
-  src: url("./woff/San-I.woff2") format("woff2");
-}
-
 .san-i {
   font-family: "San-I";
-}
-
-@font-face {
-  font-family: "San-R";
-  src: url("./woff/San-R.woff2") format("woff2");
 }
 
 .san-r {
   font-family: "San-R";
 }
 
-@font-face {
-  font-family: "Script-R";
-  src: url("./woff/Script-R.woff2") format("woff2");
-}
-
 .script-r {
   font-family: "Script-R";
-}
-
-@font-face {
-  font-family: "Size1";
-  src: url("./woff/Size1.woff2") format("woff2");
 }
 
 .size1 {
   font-family: "Size1";
 }
 
-@font-face {
-  font-family: "Size2";
-  src: url("./woff/Size2.woff2") format("woff2");
-}
-
 .size2 {
   font-family: "Size2";
-}
-
-@font-face {
-  font-family: "Size3";
-  src: url("./woff/Size3.woff2") format("woff2");
 }
 
 .size3 {
   font-family: "Size3";
 }
 
-@font-face {
-  font-family: "Size4";
-  src: url("./woff/Size4.woff2") format("woff2");
-}
-
 .size4 {
   font-family: "Size4";
-}
-
-@font-face {
-  font-family: "Type-R";
-  src: url("./woff/Type-R.woff2") format("woff2");
 }
 
 .type-r {
