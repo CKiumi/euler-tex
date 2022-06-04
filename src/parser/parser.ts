@@ -16,8 +16,8 @@ import { LETTER1, LETTER2 } from "./command";
 
 export class Parser {
   lexer: Lexer;
-  constructor(lexer: Lexer) {
-    this.lexer = lexer;
+  constructor(latex: string, public editable = false) {
+    this.lexer = new Lexer(latex);
   }
   parseSingle(atoms: Atom[], token: Token) {
     if (/[A-Za-z]/.test(token)) return new SymAtom("ord", token, "Math-I");
@@ -93,14 +93,14 @@ export class Parser {
     const left = this.lexer.tokenize();
     const body = this.parse(Escape.Right);
     this.lexer.tokenize();
-    return new LRAtom(left, ")", new GroupAtom(body)) as Atom;
+    return new LRAtom(left, ")", new GroupAtom(body, this.editable)) as Atom;
   }
 
   parseArg(atoms: Atom[]): GroupAtom {
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly)
-      return new GroupAtom(this.parse(Escape.RCurly));
-    else return new GroupAtom([this.parseSingle(atoms, token)]);
+      return new GroupAtom(this.parse(Escape.RCurly), this.editable);
+    else return new GroupAtom([this.parseSingle(atoms, token)], this.editable);
   }
 
   parseEnvName(): string {
@@ -122,7 +122,7 @@ export class Parser {
   }
 
   parseMatrix() {
-    const element: GroupAtom[][] = [[new GroupAtom([])]];
+    const element: GroupAtom[][] = [[new GroupAtom([], this.editable)]];
     for (;;) {
       let row = element[element.length - 1];
       const token = this.lexer.tokenize();
@@ -134,9 +134,9 @@ export class Parser {
         this.parseEnvName();
         return new MatrixAtom(element, "pmatrix");
       }
-      if (token === Escape.And) row.push(new GroupAtom([]));
+      if (token === Escape.And) row.push(new GroupAtom([], this.editable));
       if (token === Escape.Newline) {
-        row = [new GroupAtom([])];
+        row = [new GroupAtom([], this.editable)];
         element.push(row);
       }
       this.parseOne(token, row[row.length - 1].body);
@@ -153,6 +153,6 @@ export const binOrOrd = (atoms: Atom[]): AtomKind => {
   return kind;
 };
 
-export const parse = (latex: string): Atom[] => {
-  return new Parser(new Lexer(latex)).parse(Escape.EOF);
+export const parse = (latex: string, editable = false): Atom[] => {
+  return new Parser(latex, editable).parse(Escape.EOF);
 };
