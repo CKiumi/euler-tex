@@ -9,7 +9,7 @@ export const latexToHtml = (latex: string) =>
   new GroupAtom(parse(latex)).toBox().toHtml();
 
 export const latexToEditableAtom = (latex: string) => {
-  const atom = new GroupAtom(parse(latex), true);
+  const atom = new GroupAtom(parse(latex, true), true);
   atom.toBox().toHtml();
   return atom;
 };

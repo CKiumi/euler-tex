@@ -27,7 +27,7 @@ const main = () => {
   render("supsub2", "SupSub2", supsub2, latexToHtml(supsub2));
   const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a";
   render("supsub3", "SupSub3", supsub3, latexToHtml(supsub3));
-  const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix}`;
+  const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, latexToHtml(matrix));
 };
 const render = (
