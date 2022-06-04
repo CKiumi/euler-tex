@@ -14,11 +14,6 @@ VStackBox {
     },
     "body": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -28,6 +23,7 @@ VStackBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -62,11 +58,6 @@ VStackBox {
     HBox {
       "atom": GroupAtom {
         "body": [
-          FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": [Circular],
-          },
           SymAtom {
             "char": "j",
             "charBox": true,
@@ -76,6 +67,7 @@ VStackBox {
             "parent": [Circular],
           },
         ],
+        "editable": false,
         "elem": null,
         "kind": "ord",
         "parent": AccentAtom {
@@ -94,47 +86,6 @@ VStackBox {
         },
       },
       "children": [
-        FirstBox {
-          "atom": FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": GroupAtom {
-              "body": [
-                [Circular],
-                SymAtom {
-                  "char": "j",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Math-I",
-                  "kind": "ord",
-                  "parent": [Circular],
-                },
-              ],
-              "elem": null,
-              "kind": "ord",
-              "parent": AccentAtom {
-                "accent": SymAtom {
-                  "char": "^",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Main-R",
-                  "kind": "ord",
-                  "parent": null,
-                },
-                "body": [Circular],
-                "elem": null,
-                "kind": "ord",
-                "parent": null,
-              },
-            },
-          },
-          "rect": {
-            "depth": 0,
-            "height": 0.22,
-            "width": 0,
-          },
-          "space": {},
-        },
         SymBox {
           "atom": SymAtom {
             "char": "j",
@@ -144,13 +95,9 @@ VStackBox {
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 [Circular],
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": AccentAtom {
@@ -208,11 +155,6 @@ VBox {
   "atom": FracAtom {
     "denom": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -222,6 +164,7 @@ VBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -230,11 +173,6 @@ VBox {
     "kind": "ord",
     "numer": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -243,19 +181,16 @@ VBox {
           "kind": "ord",
           "parent": GroupAtom {
             "body": [
-              FirstAtom {
-                "elem": null,
-                "kind": null,
-                "parent": [Circular],
-              },
               [Circular],
             ],
+            "editable": false,
             "elem": null,
             "kind": "ord",
             "parent": [Circular],
           },
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -267,11 +202,6 @@ VBox {
       "box": HBox {
         "atom": GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -280,13 +210,9 @@ VBox {
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
-                  FirstAtom {
-                    "elem": null,
-                    "kind": null,
-                    "parent": [Circular],
-                  },
                   [Circular],
                 ],
+                "editable": false,
                 "elem": null,
                 "kind": "ord",
                 "parent": FracAtom {
@@ -299,16 +225,12 @@ VBox {
               },
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": FracAtom {
             "denom": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 SymAtom {
                   "char": "j",
                   "charBox": true,
@@ -318,6 +240,7 @@ VBox {
                   "parent": [Circular],
                 },
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": [Circular],
@@ -329,77 +252,6 @@ VBox {
           },
         },
         "children": [
-          FirstBox {
-            "atom": FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": GroupAtom {
-                "body": [
-                  [Circular],
-                  SymAtom {
-                    "char": "j",
-                    "charBox": true,
-                    "elem": null,
-                    "font": "Math-I",
-                    "kind": "ord",
-                    "parent": GroupAtom {
-                      "body": [
-                        FirstAtom {
-                          "elem": null,
-                          "kind": null,
-                          "parent": [Circular],
-                        },
-                        [Circular],
-                      ],
-                      "elem": null,
-                      "kind": "ord",
-                      "parent": FracAtom {
-                        "denom": [Circular],
-                        "elem": null,
-                        "kind": "ord",
-                        "numer": [Circular],
-                        "parent": null,
-                      },
-                    },
-                  },
-                ],
-                "elem": null,
-                "kind": "ord",
-                "parent": FracAtom {
-                  "denom": GroupAtom {
-                    "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
-                      SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                    ],
-                    "elem": null,
-                    "kind": "ord",
-                    "parent": [Circular],
-                  },
-                  "elem": null,
-                  "kind": "ord",
-                  "numer": [Circular],
-                  "parent": null,
-                },
-              },
-            },
-            "rect": {
-              "depth": 0,
-              "height": 0.22,
-              "width": 0,
-            },
-            "space": {},
-          },
           SymBox {
             "atom": SymAtom {
               "char": "j",
@@ -409,13 +261,9 @@ VBox {
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
-                  FirstAtom {
-                    "elem": null,
-                    "kind": null,
-                    "parent": [Circular],
-                  },
                   [Circular],
                 ],
+                "editable": false,
                 "elem": null,
                 "kind": "ord",
                 "parent": FracAtom {
@@ -424,13 +272,9 @@ VBox {
                   "kind": "ord",
                   "numer": GroupAtom {
                     "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
                       [Circular],
                     ],
+                    "editable": false,
                     "elem": null,
                     "kind": "ord",
                     "parent": [Circular],
@@ -478,11 +322,6 @@ VBox {
       "box": HBox {
         "atom": GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -492,6 +331,7 @@ VBox {
               "parent": [Circular],
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": FracAtom {
@@ -500,11 +340,6 @@ VBox {
             "kind": "ord",
             "numer": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 SymAtom {
                   "char": "j",
                   "charBox": true,
@@ -514,6 +349,7 @@ VBox {
                   "parent": [Circular],
                 },
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": [Circular],
@@ -522,59 +358,6 @@ VBox {
           },
         },
         "children": [
-          FirstBox {
-            "atom": FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": GroupAtom {
-                "body": [
-                  [Circular],
-                  SymAtom {
-                    "char": "j",
-                    "charBox": true,
-                    "elem": null,
-                    "font": "Math-I",
-                    "kind": "ord",
-                    "parent": [Circular],
-                  },
-                ],
-                "elem": null,
-                "kind": "ord",
-                "parent": FracAtom {
-                  "denom": [Circular],
-                  "elem": null,
-                  "kind": "ord",
-                  "numer": GroupAtom {
-                    "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
-                      SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                    ],
-                    "elem": null,
-                    "kind": "ord",
-                    "parent": [Circular],
-                  },
-                  "parent": null,
-                },
-              },
-            },
-            "rect": {
-              "depth": 0,
-              "height": 0.22,
-              "width": 0,
-            },
-            "space": {},
-          },
           SymBox {
             "atom": SymAtom {
               "char": "j",
@@ -584,13 +367,9 @@ VBox {
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
-                  FirstAtom {
-                    "elem": null,
-                    "kind": null,
-                    "parent": [Circular],
-                  },
                   [Circular],
                 ],
+                "editable": false,
                 "elem": null,
                 "kind": "ord",
                 "parent": FracAtom {
@@ -599,13 +378,9 @@ VBox {
                   "kind": "ord",
                   "numer": GroupAtom {
                     "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
                       [Circular],
                     ],
+                    "editable": false,
                     "elem": null,
                     "kind": "ord",
                     "parent": [Circular],
@@ -652,11 +427,6 @@ HBox {
   "atom": LRAtom {
     "body": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -666,6 +436,7 @@ HBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -714,11 +485,6 @@ HBox {
     HBox {
       "atom": GroupAtom {
         "body": [
-          FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": [Circular],
-          },
           SymAtom {
             "char": "j",
             "charBox": true,
@@ -728,6 +494,7 @@ HBox {
             "parent": [Circular],
           },
         ],
+        "editable": false,
         "elem": null,
         "kind": "ord",
         "parent": LRAtom {
@@ -754,55 +521,6 @@ HBox {
         },
       },
       "children": [
-        FirstBox {
-          "atom": FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": GroupAtom {
-              "body": [
-                [Circular],
-                SymAtom {
-                  "char": "j",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Math-I",
-                  "kind": "ord",
-                  "parent": [Circular],
-                },
-              ],
-              "elem": null,
-              "kind": "ord",
-              "parent": LRAtom {
-                "body": [Circular],
-                "elem": null,
-                "kind": "inner",
-                "left": SymAtom {
-                  "char": "(",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Main-R",
-                  "kind": "open",
-                  "parent": null,
-                },
-                "parent": null,
-                "right": SymAtom {
-                  "char": ")",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Main-R",
-                  "kind": "open",
-                  "parent": null,
-                },
-              },
-            },
-          },
-          "rect": {
-            "depth": 0,
-            "height": 0.22,
-            "width": 0,
-          },
-          "space": {},
-        },
         SymBox {
           "atom": SymAtom {
             "char": "j",
@@ -812,13 +530,9 @@ HBox {
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 [Circular],
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": LRAtom {
@@ -903,11 +617,6 @@ HBox {
       [
         GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -917,17 +626,13 @@ HBox {
               "parent": [Circular],
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": [Circular],
         },
         GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -937,6 +642,7 @@ HBox {
               "parent": [Circular],
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": [Circular],
@@ -945,11 +651,6 @@ HBox {
       [
         GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -959,6 +660,7 @@ HBox {
               "parent": [Circular],
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": [Circular],
@@ -1002,11 +704,6 @@ HBox {
               "box": HBox {
                 "atom": GroupAtom {
                   "body": [
-                    FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": [Circular],
-                    },
                     SymAtom {
                       "char": "j",
                       "charBox": true,
@@ -1016,6 +713,7 @@ HBox {
                       "parent": [Circular],
                     },
                   ],
+                  "editable": false,
                   "elem": null,
                   "kind": "ord",
                   "parent": MatrixAtom {
@@ -1035,48 +733,6 @@ HBox {
                   },
                 },
                 "children": [
-                  FirstBox {
-                    "atom": FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                          SymAtom {
-                            "char": "j",
-                            "charBox": true,
-                            "elem": null,
-                            "font": "Math-I",
-                            "kind": "ord",
-                            "parent": [Circular],
-                          },
-                        ],
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
-                          "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
-                          ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
-                        },
-                      },
-                    },
-                    "rect": {
-                      "depth": 0,
-                      "height": 0.22,
-                      "width": 0,
-                    },
-                    "space": {},
-                  },
                   SymBox {
                     "atom": SymAtom {
                       "char": "j",
@@ -1086,13 +742,9 @@ HBox {
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
-                          FirstAtom {
-                            "elem": null,
-                            "kind": null,
-                            "parent": [Circular],
-                          },
                           [Circular],
                         ],
+                        "editable": false,
                         "elem": null,
                         "kind": "ord",
                         "parent": MatrixAtom {
@@ -1138,11 +790,6 @@ HBox {
               "box": HBox {
                 "atom": GroupAtom {
                   "body": [
-                    FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": [Circular],
-                    },
                     SymAtom {
                       "char": "j",
                       "charBox": true,
@@ -1152,6 +799,7 @@ HBox {
                       "parent": [Circular],
                     },
                   ],
+                  "editable": false,
                   "elem": null,
                   "kind": "ord",
                   "parent": MatrixAtom {
@@ -1171,48 +819,6 @@ HBox {
                   },
                 },
                 "children": [
-                  FirstBox {
-                    "atom": FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                          SymAtom {
-                            "char": "j",
-                            "charBox": true,
-                            "elem": null,
-                            "font": "Math-I",
-                            "kind": "ord",
-                            "parent": [Circular],
-                          },
-                        ],
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
-                          "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
-                          ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
-                        },
-                      },
-                    },
-                    "rect": {
-                      "depth": 0,
-                      "height": 0.22,
-                      "width": 0,
-                    },
-                    "space": {},
-                  },
                   SymBox {
                     "atom": SymAtom {
                       "char": "j",
@@ -1222,13 +828,9 @@ HBox {
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
-                          FirstAtom {
-                            "elem": null,
-                            "kind": null,
-                            "parent": [Circular],
-                          },
                           [Circular],
                         ],
+                        "editable": false,
                         "elem": null,
                         "kind": "ord",
                         "parent": MatrixAtom {
@@ -1289,11 +891,6 @@ HBox {
               "box": HBox {
                 "atom": GroupAtom {
                   "body": [
-                    FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": [Circular],
-                    },
                     SymAtom {
                       "char": "j",
                       "charBox": true,
@@ -1303,6 +900,7 @@ HBox {
                       "parent": [Circular],
                     },
                   ],
+                  "editable": false,
                   "elem": null,
                   "kind": "ord",
                   "parent": MatrixAtom {
@@ -1322,48 +920,6 @@ HBox {
                   },
                 },
                 "children": [
-                  FirstBox {
-                    "atom": FirstAtom {
-                      "elem": null,
-                      "kind": null,
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                          SymAtom {
-                            "char": "j",
-                            "charBox": true,
-                            "elem": null,
-                            "font": "Math-I",
-                            "kind": "ord",
-                            "parent": [Circular],
-                          },
-                        ],
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
-                          "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
-                          ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
-                        },
-                      },
-                    },
-                    "rect": {
-                      "depth": 0,
-                      "height": 0.22,
-                      "width": 0,
-                    },
-                    "space": {},
-                  },
                   SymBox {
                     "atom": SymAtom {
                       "char": "j",
@@ -1373,13 +929,9 @@ HBox {
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
-                          FirstAtom {
-                            "elem": null,
-                            "kind": null,
-                            "parent": [Circular],
-                          },
                           [Circular],
                         ],
+                        "editable": false,
                         "elem": null,
                         "kind": "ord",
                         "parent": MatrixAtom {
@@ -1481,11 +1033,6 @@ VStackBox {
   "atom": OverlineAtom {
     "body": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -1495,6 +1042,7 @@ VStackBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -1520,11 +1068,6 @@ VStackBox {
     HBox {
       "atom": GroupAtom {
         "body": [
-          FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": [Circular],
-          },
           SymAtom {
             "char": "j",
             "charBox": true,
@@ -1534,6 +1077,7 @@ VStackBox {
             "parent": [Circular],
           },
         ],
+        "editable": false,
         "elem": null,
         "kind": "ord",
         "parent": OverlineAtom {
@@ -1544,39 +1088,6 @@ VStackBox {
         },
       },
       "children": [
-        FirstBox {
-          "atom": FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": GroupAtom {
-              "body": [
-                [Circular],
-                SymAtom {
-                  "char": "j",
-                  "charBox": true,
-                  "elem": null,
-                  "font": "Math-I",
-                  "kind": "ord",
-                  "parent": [Circular],
-                },
-              ],
-              "elem": null,
-              "kind": "ord",
-              "parent": OverlineAtom {
-                "body": [Circular],
-                "elem": null,
-                "kind": "ord",
-                "parent": null,
-              },
-            },
-          },
-          "rect": {
-            "depth": 0,
-            "height": 0.22,
-            "width": 0,
-          },
-          "space": {},
-        },
         SymBox {
           "atom": SymAtom {
             "char": "j",
@@ -1586,13 +1097,9 @@ VStackBox {
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 [Circular],
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": OverlineAtom {
@@ -1642,11 +1149,6 @@ VBox {
   "atom": SqrtAtom {
     "body": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -1656,6 +1158,7 @@ VBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -1685,11 +1188,6 @@ VBox {
       "box": HBox {
         "atom": GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             SymAtom {
               "char": "j",
               "charBox": true,
@@ -1699,6 +1197,7 @@ VBox {
               "parent": [Circular],
             },
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": SqrtAtom {
@@ -1709,39 +1208,6 @@ VBox {
           },
         },
         "children": [
-          FirstBox {
-            "atom": FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": GroupAtom {
-                "body": [
-                  [Circular],
-                  SymAtom {
-                    "char": "j",
-                    "charBox": true,
-                    "elem": null,
-                    "font": "Math-I",
-                    "kind": "ord",
-                    "parent": [Circular],
-                  },
-                ],
-                "elem": null,
-                "kind": "ord",
-                "parent": SqrtAtom {
-                  "body": [Circular],
-                  "elem": null,
-                  "kind": "ord",
-                  "parent": null,
-                },
-              },
-            },
-            "rect": {
-              "depth": 0,
-              "height": 0.22,
-              "width": 0,
-            },
-            "space": {},
-          },
           SymBox {
             "atom": SymAtom {
               "char": "j",
@@ -1751,13 +1217,9 @@ VBox {
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
-                  FirstAtom {
-                    "elem": null,
-                    "kind": null,
-                    "parent": [Circular],
-                  },
                   [Circular],
                 ],
+                "editable": false,
                 "elem": null,
                 "kind": "ord",
                 "parent": SqrtAtom {
@@ -1808,13 +1270,8 @@ VBox {
   "align": undefined,
   "atom": SqrtAtom {
     "body": GroupAtom {
-      "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
-      ],
+      "body": [],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -1827,14 +1284,14 @@ VBox {
     {
       "box": SqrtBox {
         "atom": undefined,
-        "innerHeight": 0.40775,
+        "innerHeight": 0.61875,
         "multiplier": undefined,
         "rect": {
-          "depth": 0.296125,
-          "height": 0.703875,
+          "depth": 0.19062499999999996,
+          "height": 0.8093750000000001,
           "width": 0.777,
         },
-        "shift": -0.296125,
+        "shift": -0.19062499999999996,
         "size": "small",
         "space": {},
       },
@@ -1843,13 +1300,8 @@ VBox {
     {
       "box": HBox {
         "atom": GroupAtom {
-          "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
-          ],
+          "body": [],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": SqrtAtom {
@@ -1859,37 +1311,11 @@ VBox {
             "parent": null,
           },
         },
-        "children": [
-          FirstBox {
-            "atom": FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": GroupAtom {
-                "body": [
-                  [Circular],
-                ],
-                "elem": null,
-                "kind": "ord",
-                "parent": SqrtAtom {
-                  "body": [Circular],
-                  "elem": null,
-                  "kind": "ord",
-                  "parent": null,
-                },
-              },
-            },
-            "rect": {
-              "depth": 0,
-              "height": 0.22,
-              "width": 0,
-            },
-            "space": {},
-          },
-        ],
+        "children": [],
         "multiplier": undefined,
         "rect": {
           "depth": 0,
-          "height": 0.22,
+          "height": 0,
           "width": 0,
         },
         "space": {
@@ -1901,8 +1327,8 @@ VBox {
   ],
   "multiplier": undefined,
   "rect": {
-    "depth": 0.296125,
-    "height": 0.703875,
+    "depth": 0.19062499999999996,
+    "height": 0.8093750000000001,
     "width": 0.777,
   },
   "space": {},
@@ -1922,13 +1348,9 @@ HBox {
       "kind": "ord",
       "parent": GroupAtom {
         "body": [
-          FirstAtom {
-            "elem": null,
-            "kind": null,
-            "parent": [Circular],
-          },
           [Circular],
         ],
+        "editable": false,
         "elem": null,
         "kind": "ord",
         "parent": [Circular],
@@ -1937,11 +1359,6 @@ HBox {
     "parent": null,
     "sub": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -1951,17 +1368,13 @@ HBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
     },
     "sup": GroupAtom {
       "body": [
-        FirstAtom {
-          "elem": null,
-          "kind": null,
-          "parent": [Circular],
-        },
         SymAtom {
           "char": "j",
           "charBox": true,
@@ -1971,6 +1384,7 @@ HBox {
           "parent": [Circular],
         },
       ],
+      "editable": false,
       "elem": null,
       "kind": "ord",
       "parent": [Circular],
@@ -1986,13 +1400,9 @@ HBox {
         "kind": "ord",
         "parent": GroupAtom {
           "body": [
-            FirstAtom {
-              "elem": null,
-              "kind": null,
-              "parent": [Circular],
-            },
             [Circular],
           ],
+          "editable": false,
           "elem": null,
           "kind": "ord",
           "parent": SupSubAtom {
@@ -2024,11 +1434,6 @@ HBox {
           "box": HBox {
             "atom": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 SymAtom {
                   "char": "j",
                   "charBox": true,
@@ -2038,6 +1443,7 @@ HBox {
                   "parent": [Circular],
                 },
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": SupSubAtom {
@@ -2057,48 +1463,6 @@ HBox {
               },
             },
             "children": [
-              FirstBox {
-                "atom": FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": GroupAtom {
-                    "body": [
-                      [Circular],
-                      SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                    ],
-                    "elem": null,
-                    "kind": "ord",
-                    "parent": SupSubAtom {
-                      "elem": null,
-                      "kind": "ord",
-                      "nuc": SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                      "parent": null,
-                      "sub": [Circular],
-                      "sup": [Circular],
-                    },
-                  },
-                },
-                "rect": {
-                  "depth": 0,
-                  "height": 0.22,
-                  "width": 0,
-                },
-                "space": {},
-              },
               SymBox {
                 "atom": SymAtom {
                   "char": "j",
@@ -2108,13 +1472,9 @@ HBox {
                   "kind": "ord",
                   "parent": GroupAtom {
                     "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
                       [Circular],
                     ],
+                    "editable": false,
                     "elem": null,
                     "kind": "ord",
                     "parent": SupSubAtom {
@@ -2155,11 +1515,6 @@ HBox {
           "box": HBox {
             "atom": GroupAtom {
               "body": [
-                FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": [Circular],
-                },
                 SymAtom {
                   "char": "j",
                   "charBox": true,
@@ -2169,6 +1524,7 @@ HBox {
                   "parent": [Circular],
                 },
               ],
+              "editable": false,
               "elem": null,
               "kind": "ord",
               "parent": SupSubAtom {
@@ -2188,48 +1544,6 @@ HBox {
               },
             },
             "children": [
-              FirstBox {
-                "atom": FirstAtom {
-                  "elem": null,
-                  "kind": null,
-                  "parent": GroupAtom {
-                    "body": [
-                      [Circular],
-                      SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                    ],
-                    "elem": null,
-                    "kind": "ord",
-                    "parent": SupSubAtom {
-                      "elem": null,
-                      "kind": "ord",
-                      "nuc": SymAtom {
-                        "char": "j",
-                        "charBox": true,
-                        "elem": null,
-                        "font": "Math-I",
-                        "kind": "ord",
-                        "parent": [Circular],
-                      },
-                      "parent": null,
-                      "sub": [Circular],
-                      "sup": [Circular],
-                    },
-                  },
-                },
-                "rect": {
-                  "depth": 0,
-                  "height": 0.22,
-                  "width": 0,
-                },
-                "space": {},
-              },
               SymBox {
                 "atom": SymAtom {
                   "char": "j",
@@ -2239,13 +1553,9 @@ HBox {
                   "kind": "ord",
                   "parent": GroupAtom {
                     "body": [
-                      FirstAtom {
-                        "elem": null,
-                        "kind": null,
-                        "parent": [Circular],
-                      },
                       [Circular],
                     ],
+                    "editable": false,
                     "elem": null,
                     "kind": "ord",
                     "parent": SupSubAtom {

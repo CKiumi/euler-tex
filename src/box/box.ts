@@ -87,9 +87,11 @@ export class HBox implements Box {
       0
     );
     const depth = Math.max(
-      ...children.map((child) => child.rect.depth + (child.space.bottom ?? 0))
+      0,
+      ...children.map((c) => c.rect.depth + (c.space.bottom ?? 0))
     );
     const height = Math.max(
+      0,
       ...children.map((child) => child.rect.height + (child.space.top ?? 0))
     );
     this.rect = { depth, height, width };

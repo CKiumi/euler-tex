@@ -28,9 +28,11 @@ export class GroupAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-  constructor(public body: Atom[]) {
-    this.body = [new FirstAtom(), ...body];
+
+  constructor(public body: Atom[], public editable = false) {
+    this.body = editable ? [new FirstAtom(), ...body] : body;
   }
+
   toBox(): Box {
     let prevKind: AtomKind | null;
     const children = this.body.map((atom) => {
