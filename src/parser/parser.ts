@@ -12,7 +12,7 @@ import {
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind } from "../font";
-import { LETTER1, LETTER2 } from "./command";
+import { ACC, LETTER1, LETTER2, OP } from "./command";
 
 export class Parser {
   lexer: Lexer;
@@ -59,21 +59,19 @@ export class Parser {
       } else atoms.push(new SupSubAtom(body, undefined, this.parseArg(atoms)));
     }
     if (token.startsWith("\\")) {
-      if (token === "\\sum") atoms.push(new SymAtom("op", "∑", "Size2", false));
-      if (token === "\\int") atoms.push(new SymAtom("op", "∫", "Size2", false));
+      if (OP[token]) {
+        atoms.push(new SymAtom("op", OP[token], "Size2", false));
+      }
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
       if (token === "\\frac") {
         atoms.push(new FracAtom(this.parseArg(atoms), this.parseArg(atoms)));
       }
-      if (token === "\\overline")
+      if (token === "\\overline") {
         atoms.push(new OverlineAtom(this.parseArg(atoms)));
-      if (token === "\\hat") {
-        const hat = new SymAtom("ord", "^", "Main-R", false);
-        atoms.push(new AccentAtom(this.parseArg(atoms), hat));
       }
-      if (token === "\\tilde") {
-        const tilde = new SymAtom("ord", "~", "Main-R", false);
-        atoms.push(new AccentAtom(this.parseArg(atoms), tilde));
+      if (ACC[token]) {
+        const acc = new SymAtom("ord", ACC[token], "Main-R", false);
+        atoms.push(new AccentAtom(this.parseArg(atoms), acc));
       }
       if (token === "\\begin") {
         this.parseEnvName();

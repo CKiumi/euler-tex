@@ -41,3 +41,13 @@ export const LETTER2: { [key: string]: string } = {
   "\\Upsilon": "Υ",
   "\\Xi": "Ξ",
 };
+
+export const OP: { [key: string]: string } = {
+  "\\sum": "∑",
+  "\\int": "∫",
+};
+
+export const ACC: { [key: string]: string } = {
+  "\\hat": "^",
+  "\\tilde": "~",
+};
