@@ -16,7 +16,7 @@ export class MatrixAtom implements Atom {
   elem: HTMLSpanElement | null = null;
   constructor(
     public children: GroupAtom[][],
-    public type: "pmatrix" | "matrix"
+    public type: "pmatrix" | "matrix" = "pmatrix"
   ) {}
   toBox(): HBox {
     this.children.forEach((row) =>

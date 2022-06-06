@@ -1,7 +1,15 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { loadFont } from "./src/font";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import { latexToHtml } from "./src/lib";
+import {
+  FirstBox,
+  HBox,
+  latexToEditableAtom,
+  latexToHtml,
+  SymBox,
+  VBox,
+} from "./src/lib";
 import { LETTER1, LETTER2 } from "./src/parser/command";
 
 const main = () => {
@@ -29,6 +37,8 @@ const main = () => {
   render("supsub3", "SupSub3", supsub3, latexToHtml(supsub3));
   const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, latexToHtml(matrix));
+  const editable = String.raw`\sqrt{} a \begin{pmatrix}a&a&a\\&\\a&a&a\end{pmatrix}`;
+  render("editable", "Editable", editable, latexToEditableAtom(editable).elem!);
 };
 const render = (
   id: string,
@@ -49,4 +59,20 @@ const render = (
   }
 };
 
+const boxTest = () => {
+  const main = document.getElementById("main");
+  const line = document.createElement("span");
+  line.classList.add("ruler");
+  line.append(
+    new VBox([
+      { box: new SymBox("b", "Math-I"), shift: 0 },
+      { box: new HBox([new FirstBox()]), shift: 0 },
+    ]).toHtml(),
+    new SymBox("a", "Math-I").toHtml()
+  );
+
+  main && main.append(line);
+};
+
 main();
+boxTest();
