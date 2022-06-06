@@ -24,10 +24,10 @@ const main = () => {
   render("acc", "Accent", accent, latexToHtml(accent));
   const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
   render("lr", "Left Right Parentheses", lr, latexToHtml(lr));
-  const frac = "\\frac{a+f}{K+j}";
+  const frac = "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}";
   render("frac", "Frac", frac, latexToHtml(frac));
   const sqr =
-    "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} ";
+    "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
   render("sqrt", "Square Root", sqr, latexToHtml(sqr));
   const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
   render("supsub", "SupSub1", supsub1, latexToHtml(supsub1));
