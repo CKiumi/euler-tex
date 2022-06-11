@@ -18,6 +18,8 @@ const main = () => {
   render("letter1", "Letter 1", letter1, latexToHtml(letter1));
   const letter2 = Object.keys(LETTER2).join("");
   render("letter2", "Letter 2", letter2, latexToHtml(letter2));
+  const mathfont = "\\mathbb{aABC\\mathcal{Z}\\mathcal{Z}}";
+  render("mathfont", "Font command", mathfont, latexToHtml(mathfont));
   const sym = "a+f=\\int";
   render("sym", "Symbols", sym, latexToHtml(sym));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
@@ -65,10 +67,10 @@ const boxTest = () => {
   line.classList.add("ruler");
   line.append(
     new VBox([
-      { box: new SymBox("b", "Math-I"), shift: 0 },
+      { box: new SymBox("b", ["Math-I"]), shift: 0 },
       { box: new HBox([new FirstBox()]), shift: 0 },
     ]).toHtml(),
-    new SymBox("a", "Math-I").toHtml()
+    new SymBox("a", ["Math-I"]).toHtml()
   );
 
   main && main.append(line);

@@ -9,7 +9,13 @@ test("letter1", async ({ page }) => {
   });
 });
 
-test("letter2", async ({ page }) => {
+test("mathfont", async ({ page }) => {
+  expect(await page.locator("#" + "mathfont").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
+test("mathbb", async ({ page }) => {
   expect(await page.locator("#" + "letter2").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });

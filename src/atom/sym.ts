@@ -5,14 +5,17 @@ import { AtomKind, Font } from "../lib";
 export class SymAtom implements Atom {
   parent: GroupAtom | null = null;
   elem: HTMLSpanElement | null = null;
+  fonts: Font[];
   constructor(
     public kind: AtomKind,
     public char: string,
-    public font: Font,
+    fonts: (Font | null)[],
     public charBox: boolean = true
-  ) {}
+  ) {
+    this.fonts = fonts.filter((e) => e) as Font[];
+  }
   toBox(): SymBox {
-    const { char, font } = this;
-    return new SymBox(char, font, this);
+    const { char, fonts } = this;
+    return new SymBox(char, fonts, this);
   }
 }

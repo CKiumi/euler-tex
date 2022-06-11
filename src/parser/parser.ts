@@ -11,21 +11,24 @@ import {
   GroupAtom,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
-import { AtomKind } from "../font";
-import { ACC, LETTER1, LETTER2, OP } from "./command";
+import { AtomKind, Font } from "../font";
+import { ACC, fontMap, LETTER1, LETTER2, OP } from "./command";
 
 export class Parser {
   lexer: Lexer;
+  font: Font | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
   }
   parseSingle(atoms: Atom[], token: Token) {
-    if (/[A-Za-z]/.test(token)) return new SymAtom("ord", token, "Math-I");
-    if (/[0-9]/.test(token)) return new SymAtom("ord", token, "Main-R");
-    if (token === "+") return new SymAtom(binOrOrd(atoms), "+", "Main-R");
-    if (token === "-") return new SymAtom(binOrOrd(atoms), "−", "Main-R");
-    if (token === "=") return new SymAtom("rel", "=", "Main-R");
-    if (token === ",") return new SymAtom("punct", ",", "Main-R");
+    if (/[A-Za-z]/.test(token))
+      return new SymAtom("ord", token, ["Math-I", this.font]);
+    if (/[0-9]/.test(token))
+      return new SymAtom("ord", token, ["Main-R", this.font]);
+    if (token === "+") return new SymAtom(binOrOrd(atoms), "+", ["Main-R"]);
+    if (token === "-") return new SymAtom(binOrOrd(atoms), "−", ["Main-R"]);
+    if (token === "=") return new SymAtom("rel", "=", ["Main-R"]);
+    if (token === ",") return new SymAtom("punct", ",", ["Main-R"]);
     throw new Error(`Single token ${token} not supported`);
   }
   parse(end: Token): Atom[] {
@@ -59,8 +62,13 @@ export class Parser {
       } else atoms.push(new SupSubAtom(body, undefined, this.parseArg(atoms)));
     }
     if (token.startsWith("\\")) {
+      if (fontMap[token.slice(1)]) {
+        this.font = fontMap[token.slice(1)];
+        atoms.push(this.parseArg(atoms));
+        this.font = null;
+      }
       if (OP[token]) {
-        atoms.push(new SymAtom("op", OP[token], "Size2", false));
+        atoms.push(new SymAtom("op", OP[token], ["Size2"], false));
       }
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
       if (token === "\\frac") {
@@ -70,7 +78,7 @@ export class Parser {
         atoms.push(new OverlineAtom(this.parseArg(atoms)));
       }
       if (ACC[token]) {
-        const acc = new SymAtom("ord", ACC[token], "Main-R", false);
+        const acc = new SymAtom("ord", ACC[token], ["Main-R"], false);
         atoms.push(new AccentAtom(this.parseArg(atoms), acc));
       }
       if (token === "\\begin") {
@@ -78,11 +86,11 @@ export class Parser {
         atoms.push(this.parseMatrix());
       }
       if (LETTER1[token]) {
-        atoms.push(new SymAtom("ord", LETTER1[token], "Math-I"));
+        atoms.push(new SymAtom("ord", LETTER1[token], ["Math-I", this.font]));
       }
 
       if (LETTER2[token]) {
-        atoms.push(new SymAtom("ord", LETTER2[token], "Main-R"));
+        atoms.push(new SymAtom("ord", LETTER2[token], ["Main-R"]));
       }
     }
   }

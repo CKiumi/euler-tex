@@ -11,7 +11,7 @@ import {
   GroupAtom,
 } from "/src/lib";
 
-const j = new SymAtom("ord", "j", "Math-I");
+const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("symbol atom", () => {
   expect(j.toBox()).toMatchObject({
@@ -22,7 +22,7 @@ test("symbol atom", () => {
 });
 
 test("accent atom", () => {
-  const accent = new SymAtom("ord", "^", "Main-R");
+  const accent = new SymAtom("ord", "^", ["Main-R"]);
   const accAtom = new AccentAtom(group, accent);
   expect(accAtom.toBox()).matchSnapshot();
 });

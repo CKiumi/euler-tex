@@ -8,7 +8,9 @@ VStackBox {
       "char": "^",
       "charBox": true,
       "elem": null,
-      "font": "Main-R",
+      "fonts": [
+        "Main-R",
+      ],
       "kind": "ord",
       "parent": null,
     },
@@ -18,7 +20,9 @@ VStackBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -38,7 +42,9 @@ VStackBox {
         "char": "^",
         "charBox": true,
         "elem": null,
-        "font": "Main-R",
+        "fonts": [
+          "Main-R",
+        ],
         "kind": "ord",
         "parent": null,
       },
@@ -62,7 +68,9 @@ VStackBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": [Circular],
           },
@@ -75,7 +83,9 @@ VStackBox {
             "char": "^",
             "charBox": true,
             "elem": null,
-            "font": "Main-R",
+            "fonts": [
+              "Main-R",
+            ],
             "kind": "ord",
             "parent": null,
           },
@@ -91,7 +101,9 @@ VStackBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
@@ -105,7 +117,9 @@ VStackBox {
                   "char": "^",
                   "charBox": true,
                   "elem": null,
-                  "font": "Main-R",
+                  "fonts": [
+                    "Main-R",
+                  ],
                   "kind": "ord",
                   "parent": null,
                 },
@@ -159,7 +173,9 @@ VBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -177,7 +193,9 @@ VBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": GroupAtom {
             "body": [
@@ -206,7 +224,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
@@ -235,7 +255,9 @@ VBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -257,7 +279,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
@@ -326,7 +350,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": [Circular],
             },
@@ -344,7 +370,9 @@ VBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -363,7 +391,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
@@ -431,7 +461,9 @@ HBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -447,7 +479,9 @@ HBox {
       "char": "(",
       "charBox": true,
       "elem": null,
-      "font": "Main-R",
+      "fonts": [
+        "Main-R",
+      ],
       "kind": "open",
       "parent": null,
     },
@@ -456,7 +490,9 @@ HBox {
       "char": ")",
       "charBox": true,
       "elem": null,
-      "font": "Main-R",
+      "fonts": [
+        "Main-R",
+      ],
       "kind": "open",
       "parent": null,
     },
@@ -467,7 +503,9 @@ HBox {
         "char": "(",
         "charBox": true,
         "elem": null,
-        "font": "Main-R",
+        "fonts": [
+          "Main-R",
+        ],
         "kind": "open",
         "parent": null,
       },
@@ -489,7 +527,9 @@ HBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": [Circular],
           },
@@ -505,7 +545,9 @@ HBox {
             "char": "(",
             "charBox": true,
             "elem": null,
-            "font": "Main-R",
+            "fonts": [
+              "Main-R",
+            ],
             "kind": "open",
             "parent": null,
           },
@@ -514,7 +556,9 @@ HBox {
             "char": ")",
             "charBox": true,
             "elem": null,
-            "font": "Main-R",
+            "fonts": [
+              "Main-R",
+            ],
             "kind": "open",
             "parent": null,
           },
@@ -526,7 +570,9 @@ HBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
@@ -543,7 +589,9 @@ HBox {
                   "char": "(",
                   "charBox": true,
                   "elem": null,
-                  "font": "Main-R",
+                  "fonts": [
+                    "Main-R",
+                  ],
                   "kind": "open",
                   "parent": null,
                 },
@@ -552,7 +600,9 @@ HBox {
                   "char": ")",
                   "charBox": true,
                   "elem": null,
-                  "font": "Main-R",
+                  "fonts": [
+                    "Main-R",
+                  ],
                   "kind": "open",
                   "parent": null,
                 },
@@ -584,7 +634,9 @@ HBox {
         "char": ")",
         "charBox": true,
         "elem": null,
-        "font": "Main-R",
+        "fonts": [
+          "Main-R",
+        ],
         "kind": "open",
         "parent": null,
       },
@@ -621,7 +673,9 @@ HBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": [Circular],
             },
@@ -637,7 +691,9 @@ HBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": [Circular],
             },
@@ -655,7 +711,9 @@ HBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": [Circular],
             },
@@ -678,7 +736,9 @@ HBox {
         "char": "(",
         "charBox": true,
         "elem": null,
-        "font": "Size3",
+        "fonts": [
+          "Size3",
+        ],
         "kind": "open",
         "parent": null,
       },
@@ -708,7 +768,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": [Circular],
                     },
@@ -738,7 +800,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
@@ -794,7 +858,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": [Circular],
                     },
@@ -824,7 +890,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
@@ -895,7 +963,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": [Circular],
                     },
@@ -925,7 +995,9 @@ HBox {
                       "char": "j",
                       "charBox": true,
                       "elem": null,
-                      "font": "Math-I",
+                      "fonts": [
+                        "Math-I",
+                      ],
                       "kind": "ord",
                       "parent": GroupAtom {
                         "body": [
@@ -1001,7 +1073,9 @@ HBox {
         "char": ")",
         "charBox": true,
         "elem": null,
-        "font": "Size3",
+        "fonts": [
+          "Size3",
+        ],
         "kind": "open",
         "parent": null,
       },
@@ -1037,7 +1111,9 @@ VStackBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -1072,7 +1148,9 @@ VStackBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": [Circular],
           },
@@ -1093,7 +1171,9 @@ VStackBox {
             "char": "j",
             "charBox": true,
             "elem": null,
-            "font": "Math-I",
+            "fonts": [
+              "Math-I",
+            ],
             "kind": "ord",
             "parent": GroupAtom {
               "body": [
@@ -1153,7 +1233,9 @@ VBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -1192,7 +1274,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": [Circular],
             },
@@ -1213,7 +1297,9 @@ VBox {
               "char": "j",
               "charBox": true,
               "elem": null,
-              "font": "Math-I",
+              "fonts": [
+                "Math-I",
+              ],
               "kind": "ord",
               "parent": GroupAtom {
                 "body": [
@@ -1344,7 +1430,9 @@ HBox {
       "char": "j",
       "charBox": true,
       "elem": null,
-      "font": "Math-I",
+      "fonts": [
+        "Math-I",
+      ],
       "kind": "ord",
       "parent": GroupAtom {
         "body": [
@@ -1363,7 +1451,9 @@ HBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -1379,7 +1469,9 @@ HBox {
           "char": "j",
           "charBox": true,
           "elem": null,
-          "font": "Math-I",
+          "fonts": [
+            "Math-I",
+          ],
           "kind": "ord",
           "parent": [Circular],
         },
@@ -1396,7 +1488,9 @@ HBox {
         "char": "j",
         "charBox": true,
         "elem": null,
-        "font": "Math-I",
+        "fonts": [
+          "Math-I",
+        ],
         "kind": "ord",
         "parent": GroupAtom {
           "body": [
@@ -1438,7 +1532,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -1453,7 +1549,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -1468,7 +1566,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": GroupAtom {
                     "body": [
@@ -1519,7 +1619,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -1534,7 +1636,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": [Circular],
                 },
@@ -1549,7 +1653,9 @@ HBox {
                   "char": "j",
                   "charBox": true,
                   "elem": null,
-                  "font": "Math-I",
+                  "fonts": [
+                    "Math-I",
+                  ],
                   "kind": "ord",
                   "parent": GroupAtom {
                     "body": [

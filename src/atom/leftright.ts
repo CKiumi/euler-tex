@@ -13,8 +13,8 @@ export class LRAtom implements Atom {
   elem: HTMLSpanElement | null = null;
   constructor(left: string, right: string, public body: GroupAtom) {
     this.kind = "inner";
-    this.left = new SymAtom("open", left, "Main-R");
-    this.right = new SymAtom("open", right, "Main-R");
+    this.left = new SymAtom("open", left, ["Main-R"]);
+    this.right = new SymAtom("open", right, ["Main-R"]);
   }
   toBox(): HBox {
     this.body.parent = this;
@@ -89,7 +89,7 @@ export const traverseSequence = function (
   const start = Math.min(2, 3);
   for (let i = start; i < sequence.length; i++) {
     if (sequence[i].type === "stack") break;
-    const metrics = getCharMetrics(delim, delimTypeToFont(sequence[i]));
+    const metrics = getCharMetrics(delim, [delimTypeToFont(sequence[i])]);
     const heightDepth = metrics.height + metrics.depth;
     if (heightDepth > height) return sequence[i];
   }
@@ -109,11 +109,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
 };
 
 const makeSmallDelim = (delim: string): SymBox => {
-  return new SymAtom("open", delim, "Main-R").toBox();
+  return new SymAtom("open", delim, ["Main-R"]).toBox();
 };
 
 const makeLargeDelim = (delim: string, size: number): SymBox => {
-  return new SymAtom("open", delim, ("Size" + size) as Font).toBox();
+  return new SymAtom("open", delim, [("Size" + size) as Font]).toBox();
 };
 
 export const makeStackedDelim = function (
@@ -136,11 +136,11 @@ export const makeStackedDelim = function (
     bottom = "⎠";
   }
   const font = "Size4";
-  const topMetrics = getCharMetrics(top, font);
+  const topMetrics = getCharMetrics(top, [font]);
   const topHeightTotal = topMetrics.height + topMetrics.depth;
-  const repeatMetrics = getCharMetrics(repeat, font);
+  const repeatMetrics = getCharMetrics(repeat, [font]);
   const repeatHeightTotal = repeatMetrics.height + repeatMetrics.depth;
-  const bottomMetrics = getCharMetrics(bottom, font);
+  const bottomMetrics = getCharMetrics(bottom, [font]);
   const bottomHeightTotal = bottomMetrics.height + bottomMetrics.depth;
   const middleHeightTotal = 0;
   const middleFactor = 1;
@@ -161,13 +161,13 @@ export const makeStackedDelim = function (
     realHeightTotal - topHeightTotal - bottomHeightTotal + 2 * lapInEms;
   return new VStackBox(
     [
-      new SymAtom("ord", top, "Size4").toBox(),
+      new SymAtom("ord", top, ["Size4"]).toBox(),
       new DelimInnerBox(repeat, {
         width: METRICS["Size4"][repeat.charCodeAt(0)][4],
         height: innerHeight,
         depth: 0,
       }),
-      new SymAtom("open", bottom, "Size4").toBox(),
+      new SymAtom("open", bottom, ["Size4"]).toBox(),
     ],
     depth
   );

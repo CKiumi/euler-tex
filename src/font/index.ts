@@ -5,6 +5,7 @@ export { SPEC, SIGMAS };
 export type { Font, AtomKind };
 
 export type CharMetric = {
+  font: Font;
   depth: number;
   height: number;
   italic: number;
@@ -12,19 +13,23 @@ export type CharMetric = {
   width: number;
 };
 
-export const getCharMetrics = (char: string, font: Font): CharMetric => {
-  try {
-    const metrics = METRICS[font][char.charCodeAt(0)];
-    return {
-      depth: metrics[0],
-      height: metrics[1],
-      italic: metrics[2],
-      skew: metrics[3],
-      width: metrics[4],
-    };
-  } catch (error) {
-    throw new Error(`Font metrics not found for font: ${font}.`);
+export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
+  for (let i = fonts.length - 1; i > -1; i--) {
+    try {
+      const metrics = METRICS[fonts[i]][char.charCodeAt(0)];
+      return {
+        font: fonts[i],
+        depth: metrics[0],
+        height: metrics[1],
+        italic: metrics[2],
+        skew: metrics[3],
+        width: metrics[4],
+      };
+    } catch (error) {
+      continue;
+    }
   }
+  throw new Error("Font metric not found for " + fonts.join(" "));
 };
 
 export const getSigma = (name: keyof typeof SIGMAS): number => {

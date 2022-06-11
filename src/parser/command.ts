@@ -1,3 +1,5 @@
+import { Font } from "../font";
+
 export const LETTER1: { [key: string]: string } = {
   "\\alpha": "α",
   "\\beta": "β",
@@ -50,4 +52,18 @@ export const OP: { [key: string]: string } = {
 export const ACC: { [key: string]: string } = {
   "\\hat": "^",
   "\\tilde": "~",
+};
+
+export const fontMap: { [x: string]: Font } = {
+  mathbf: "Main-B",
+  mathrm: "Main-R",
+  textit: "Main-I",
+  mathit: "Main-I",
+  mathnormal: "Math-I",
+  mathbb: "AMS-R",
+  mathcal: "Cal-R",
+  mathfrak: "Frak-R",
+  mathscr: "Script-R",
+  mathsf: "San-R",
+  mathtt: "Type-R",
 };

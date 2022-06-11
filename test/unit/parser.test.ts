@@ -13,14 +13,14 @@ import { MatrixAtom } from "/src/atom/matrix";
 import { SupSubAtom } from "/src/atom/supsub";
 import { parse } from "/src/parser/parser";
 
-const j = new SymAtom("ord", "j", "Math-I");
+const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("parse symbol", () => {
   expect(parse("j")[0]).toEqual(j);
 });
 
 test("parse accent", () => {
-  const accent = new SymAtom("ord", "^", "Main-R", false);
+  const accent = new SymAtom("ord", "^", ["Main-R"], false);
   const accAtom = new AccentAtom(group, accent);
   expect(parse("\\hat{j}")[0]).toEqual(accAtom);
 

@@ -51,13 +51,21 @@ export class SymBox implements Box {
   rect: Rect;
   italic: number;
   space: Space = {};
+  font: Font;
   constructor(
     public char: string,
-    public font: Font,
+    fonts: Font[],
     public atom?: Atom,
     public multiplier?: number
   ) {
-    const { depth, height, italic, width } = getCharMetrics(char, font);
+    const {
+      font: f,
+      depth,
+      height,
+      italic,
+      width,
+    } = getCharMetrics(char, fonts);
+    this.font = f;
     this.rect = { width: width + italic, height, depth };
     this.italic = italic;
   }
