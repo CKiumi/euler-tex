@@ -108,6 +108,7 @@ export class HBox implements Box {
     );
     this.rect = { depth, height, width };
   }
+
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);
@@ -115,7 +116,9 @@ export class HBox implements Box {
     this.children.forEach((box) => {
       span.append(box.toHtml());
     });
-    if (this.multiplier) span.style.fontSize = em(this.multiplier);
+    if (this.multiplier) {
+      span.style.fontSize = em(this.multiplier);
+    }
     if (this.atom) this.atom.elem = span;
     return span;
   }
@@ -131,10 +134,10 @@ export class VBox implements Box {
     public align?: string
   ) {
     const depth = Math.max(
-      ...children.map(({ shift, box: { rect } }) => rect.depth - shift)
+      ...children.map(({ shift, box }) => box.rect.depth - shift)
     );
     const height = Math.max(
-      ...children.map(({ shift, box: { rect } }) => shift + rect.height)
+      ...children.map(({ shift, box }) => shift + box.rect.height)
     );
     const width = children.reduce((t, { box: { rect } }) => t + rect.width, 0);
     this.rect = { depth, height, width };
@@ -151,17 +154,20 @@ export class VBox implements Box {
         const { rect } = box;
         const html = box.toHtml();
         span.append(html);
-        const multiplier = parseFloat(html.style.fontSize.slice(0, -2) || "1");
         html.style.bottom = em(
-          (this.rect.depth - stackHeight - rect.depth + shift) / multiplier
+          (this.rect.depth - stackHeight - rect.depth + shift) /
+            (box.multiplier ?? 1)
         );
         stackHeight += rect.depth + rect.height;
       });
     const oldDepth = this.children[this.children.length - 1].box.rect.depth;
     span.classList.add("vlist");
+
     span.style.height = em(this.rect.height + this.rect.depth);
     if (this.align) span.style.alignItems = this.align;
+
     span.style.verticalAlign = em(-this.rect.depth + oldDepth);
+
     if (this.atom) this.atom.elem = span;
     return span;
   }

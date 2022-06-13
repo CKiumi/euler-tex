@@ -1,4 +1,5 @@
 import { Box, FirstBox, HBox, RectBox } from "../box/box";
+import { Options } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 export * from "./accent";
 export * from "./frac";
@@ -12,7 +13,7 @@ export interface Atom {
   parent: Atom | null;
   elem: HTMLSpanElement | null;
   kind: AtomKind | null;
-  toBox(): Box;
+  toBox(options?: Options): Box;
 }
 
 export class FirstAtom implements Atom {
@@ -28,15 +29,14 @@ export class GroupAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-
   constructor(public body: Atom[], public editable = false) {
     this.body = editable ? [new FirstAtom(), ...body] : body;
   }
 
-  toBox(): Box {
+  toBox(options?: Options): Box {
     let prevKind: AtomKind | null;
     const children = this.body.map((atom) => {
-      const box = atom.toBox();
+      const box = atom.toBox(options);
       atom.parent = this;
       if (prevKind && atom.kind) {
         box.space.left = getSpacing(prevKind, atom.kind);

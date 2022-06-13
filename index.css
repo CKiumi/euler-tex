@@ -24,12 +24,13 @@ button:hover {
 }
 
 .ruler {
-  background-color: #e5e5f7;
-  opacity: 0.8;
   background-image: linear-gradient(#b6b9fc 1px, transparent 1px),
     linear-gradient(to right, #b6b9fc 1px, #f2f2f5 1px);
   background-size: 0.1em 0.1em;
   display: inline-block;
+  border: 2px black solid;
+  margin-top: 10px;
+  line-height: 0;
   width: 100%;
 }
 
@@ -41,4 +42,9 @@ button:hover {
 .katex-display > .katex {
   text-align: left !important;
   font-size: 1em !important;
+}
+
+.katex .size3,
+.katex .size1 {
+  font-family: unset;
 }

@@ -31,7 +31,8 @@ const main = () => {
   const sqr =
     "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
   render("sqrt", "Square Root", sqr, latexToHtml(sqr));
-  const supsub1 = "a^{aj} f^K K_a a_f a_f^a f^a_a";
+  const supsub1 =
+    "a^{aj} f^K K_a a_f a_f^a f^a_a f^{j^{j^{j}}} f_{j_{j_{j}}} f^{j^{j^{j}}}_{j_{j_{j}}}";
   render("supsub", "SupSub1", supsub1, latexToHtml(supsub1));
   const supsub2 = "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
   render("supsub2", "SupSub2", supsub2, latexToHtml(supsub2));
@@ -51,13 +52,17 @@ const render = (
   const main = document.getElementById("main");
   const h1 = document.createElement("h1");
   h1.innerText = title;
-  const line = document.createElement("span");
-  line.classList.add("ruler");
-  line.id = id;
-  main && main.append(h1, line);
-  katex.render(latex, line, { displayMode: true });
+  const wrapper = document.createElement("span");
+  wrapper.id = id;
+  const line1 = document.createElement("span");
+  const line2 = document.createElement("span");
+  line1.classList.add("ruler");
+  line2.classList.add("ruler");
+  wrapper.append(line1, line2);
+  main && main.append(h1, wrapper);
+  katex.render(latex, line1, { displayMode: true });
   if (result) {
-    line.append(result);
+    line2.append(result);
   }
 };
 
