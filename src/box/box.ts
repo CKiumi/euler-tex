@@ -31,6 +31,7 @@ export class RectBox implements Box {
     return span;
   }
 }
+
 export class FirstBox implements Box {
   rect: Rect = { width: 0, height: 0.4306, depth: 0 };
   space: Space = {};

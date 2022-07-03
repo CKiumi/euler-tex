@@ -52,7 +52,7 @@ export class FracAtom implements Atom {
         (axisHeight - 0.5 * ruleWidth - (denBox.rect.height - denomShift));
     }
     const midShift = -(axisHeight - 0.5 * ruleWidth);
-    return new VBox(
+    const vbox = new VBox(
       [
         { box: numBox, shift: numShift },
         { box: rule, shift: -midShift },
@@ -60,5 +60,7 @@ export class FracAtom implements Atom {
       ],
       this
     );
+    vbox.space.left = vbox.space.right = 0.12;
+    return vbox;
   }
 }

@@ -39,7 +39,8 @@ export class GroupAtom implements Atom {
       const box = atom.toBox(options);
       atom.parent = this;
       if (prevKind && atom.kind) {
-        box.space.left = getSpacing(prevKind, atom.kind);
+        box.space.left =
+          (box.space.left ?? 0) + getSpacing(prevKind, atom.kind);
       }
       prevKind = atom.kind;
       return box;
