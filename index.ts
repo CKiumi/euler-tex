@@ -18,7 +18,8 @@ const main = () => {
   render("letter1", "Letter 1", letter1, latexToHtml(letter1));
   const letter2 = Object.keys(LETTER2).join("");
   render("letter2", "Letter 2", letter2, latexToHtml(letter2));
-  const mathfont = "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}";
+  const mathfont =
+    "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im";
   render("mathfont", "Font command", mathfont, latexToHtml(mathfont));
   const sym = "a+f=\\int";
   render("sym", "Symbols", sym, latexToHtml(sym));

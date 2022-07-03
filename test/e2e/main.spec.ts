@@ -15,7 +15,7 @@ test("mathfont", async ({ page }) => {
   });
 });
 
-test("mathbb", async ({ page }) => {
+test("letter2", async ({ page }) => {
   expect(await page.locator("#" + "letter2").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });

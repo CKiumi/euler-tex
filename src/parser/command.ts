@@ -44,6 +44,15 @@ export const LETTER2: { [key: string]: string } = {
   "\\Xi": "Ξ",
 };
 
+export const LETTER3: { [key: string]: string } = {
+  "\\Re": "ℜ",
+  "\\Im": "ℑ",
+  "\\ell": "ℓ",
+  "\\aleph": "ℵ",
+  "\\alef": "ℵ",
+  "\\alefsym": "ℵ",
+};
+
 export const BlockOp: { [key: string]: string } = {
   "\\sum": "∑",
   "\\int": "∫",

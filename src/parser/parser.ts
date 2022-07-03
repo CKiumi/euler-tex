@@ -12,7 +12,15 @@ import {
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind, Font } from "../font";
-import { ACC, fontMap, LETTER1, LETTER2, BlockOp, OP } from "./command";
+import {
+  ACC,
+  fontMap,
+  LETTER1,
+  LETTER2,
+  BlockOp,
+  OP,
+  LETTER3,
+} from "./command";
 import { OpAtom } from "../atom/op";
 
 export class Parser {
@@ -71,9 +79,7 @@ export class Parser {
       if (BlockOp[token]) {
         atoms.push(new SymAtom("op", BlockOp[token], ["Size2"], false));
       }
-      if (OP.includes(token)) {
-        atoms.push(new OpAtom(token.slice(1)));
-      }
+      if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
       if (token === "\\frac") {
         atoms.push(new FracAtom(this.parseArg(atoms), this.parseArg(atoms)));
@@ -95,6 +101,9 @@ export class Parser {
 
       if (LETTER2[token]) {
         atoms.push(new SymAtom("ord", LETTER2[token], ["Main-R"]));
+      }
+      if (LETTER3[token]) {
+        atoms.push(new SymAtom("ord", LETTER3[token], ["Main-R"]));
       }
     }
   }
