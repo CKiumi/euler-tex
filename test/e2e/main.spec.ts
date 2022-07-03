@@ -21,6 +21,12 @@ test("mathbb", async ({ page }) => {
   });
 });
 
+test("op", async ({ page }) => {
+  expect(await page.locator("#" + "op").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
 test("sym", async ({ page }) => {
   expect(await page.locator("#" + "sym").screenshot()).toMatchSnapshot({
     threshold: 0.01,

@@ -44,10 +44,45 @@ export const LETTER2: { [key: string]: string } = {
   "\\Xi": "Ξ",
 };
 
-export const OP: { [key: string]: string } = {
+export const BlockOp: { [key: string]: string } = {
   "\\sum": "∑",
   "\\int": "∫",
 };
+
+export const OP: string[] = [
+  "\\arcsin",
+  "\\arccos",
+  "\\arctan",
+  "\\arctg",
+  "\\arcctg",
+  "\\arg",
+  "\\ch",
+  "\\cos",
+  "\\cosec",
+  "\\cosh",
+  "\\cot",
+  "\\cotg",
+  "\\coth",
+  "\\csc",
+  "\\ctg",
+  "\\cth",
+  "\\deg",
+  "\\dim",
+  "\\exp",
+  "\\hom",
+  "\\ker",
+  "\\lg",
+  "\\ln",
+  "\\log",
+  "\\sec",
+  "\\sin",
+  "\\sinh",
+  "\\sh",
+  "\\tan",
+  "\\tanh",
+  "\\tg",
+  "\\th",
+];
 
 export const ACC: { [key: string]: string } = {
   "\\hat": "^",

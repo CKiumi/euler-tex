@@ -18,10 +18,12 @@ const main = () => {
   render("letter1", "Letter 1", letter1, latexToHtml(letter1));
   const letter2 = Object.keys(LETTER2).join("");
   render("letter2", "Letter 2", letter2, latexToHtml(letter2));
-  const mathfont = "\\mathbb{aABC\\mathcal{Z}\\mathcal{Z}}";
+  const mathfont = "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}";
   render("mathfont", "Font command", mathfont, latexToHtml(mathfont));
   const sym = "a+f=\\int";
   render("sym", "Symbols", sym, latexToHtml(sym));
+  const op = String.raw`\sin\left(x+y\right)\cos\tan\exp\log`;
+  render("op", "Operators", op, latexToHtml(op));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
   render("acc", "Accent", accent, latexToHtml(accent));
   const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
@@ -52,10 +54,10 @@ const render = (
   const main = document.getElementById("main");
   const h1 = document.createElement("h1");
   h1.innerText = title;
-  const wrapper = document.createElement("span");
+  const wrapper = document.createElement("div");
   wrapper.id = id;
-  const line1 = document.createElement("span");
-  const line2 = document.createElement("span");
+  const line1 = document.createElement("div");
+  const line2 = document.createElement("div");
   line1.classList.add("ruler");
   line2.classList.add("ruler");
   wrapper.append(line1, line2);
