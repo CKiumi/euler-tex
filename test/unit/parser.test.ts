@@ -12,6 +12,7 @@ import { FracAtom } from "/src/atom/frac";
 import { MatrixAtom } from "/src/atom/matrix";
 import { SupSubAtom } from "/src/atom/supsub";
 import { parse } from "/src/parser/parser";
+import { latexToBlocks } from "/src/parser/textParser";
 
 const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
@@ -76,4 +77,16 @@ test("matrix atom", () => {
     true
   )[0] as MatrixAtom;
   expect(atom.children[0][0].body[0]).instanceOf(FirstAtom);
+});
+
+test("parse composite", () => {
+  expect(
+    latexToBlocks("xx $yy$\\[zz\\]dd\\begin{equation*}bb\\end{equation*}")
+  ).toStrictEqual([
+    { mode: "text", latex: "xx " },
+    { mode: "inline", latex: "yy" },
+    { mode: "display", latex: "zz" },
+    { mode: "text", latex: "dd" },
+    { mode: "display", latex: "bb" },
+  ]);
 });

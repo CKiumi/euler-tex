@@ -48,3 +48,8 @@ button:hover {
 .katex .size1 {
   font-family: unset;
 }
+
+[contentEditable] {
+  outline: none;
+  caret-color: black;
+}

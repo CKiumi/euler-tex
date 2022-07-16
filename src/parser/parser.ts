@@ -123,21 +123,13 @@ export class Parser {
   }
 
   parseEnvName(): string {
-    let envName = "";
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly) {
-      for (;;) {
-        const token = this.lexer.tokenize();
-        if (token === Escape.RCurly) break;
-        if (token === Escape.EOF) throw new Error("} Expected");
-        if (token.length !== 1) {
-          throw new Error("Invalid environment in \\begin");
-        }
-        envName += token;
-      }
+      const envName = this.lexer.readEnvName();
+      if (this.lexer.tokenize() != Escape.RCurly) throw new Error("Expected }");
       if (envName === "pmatrix") return envName;
       else throw new Error("Unknown environment name");
-    } else throw new Error("{ expected after \\begin");
+    } else throw new Error("{ expected after \\begin and \\end");
   }
 
   parseMatrix() {

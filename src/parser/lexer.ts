@@ -9,6 +9,7 @@ export enum Escape {
   RCurly = "<}>",
   And = "<&>",
   Newline = "<\\\\>",
+  Inline = "<$>",
 }
 
 export type Token = string | Escape;
@@ -29,10 +30,11 @@ export class Lexer {
       this.readChar();
     }
   }
-  tokenize(): Token {
-    this.skipSpaces();
+  tokenize(skipSpace = true): Token {
+    skipSpace && this.skipSpaces();
     const cur = this.readChar();
     if (cur === null) return Escape.EOF;
+    if (cur === "$") return Escape.Inline;
     if (cur === "^") return Escape.Circumfix;
     if (cur === "_") return Escape.UnderScore;
     if (cur === "{") return Escape.LCurly;
@@ -52,5 +54,21 @@ export class Lexer {
       if (command === "\\right") return Escape.Right;
       return command;
     } else return cur;
+  }
+
+  peekToken() {
+    const tmp = this.pos;
+    const token = this.tokenize(false);
+    this.pos = tmp;
+    return token;
+  }
+
+  readEnvName() {
+    let envName = "";
+    while (!this.end() && /^[a-z*\s]+/.test(this.peek() ?? "")) {
+      this.readChar();
+      envName += this.cur();
+    }
+    return envName;
   }
 }

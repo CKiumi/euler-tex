@@ -18,6 +18,14 @@
 }
 
 .display {
+  font-size: 1.21em;
+  display: block;
   width: 100%;
   text-align: center;
+  line-height: normal;
+}
+
+.inline {
+  display: inline-block;
+  font-size: 1.21em;
 }

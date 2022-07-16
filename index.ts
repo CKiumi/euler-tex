@@ -6,7 +6,8 @@ import {
   FirstBox,
   HBox,
   latexToEditableAtom,
-  latexToHtml,
+  LatexToHtml,
+  MathLatexToHtml,
   SymBox,
   VBox,
 } from "./src/lib";
@@ -15,34 +16,34 @@ import { LETTER1, LETTER2 } from "./src/parser/command";
 const main = () => {
   loadFont("/woff");
   const letter1 = Object.keys(LETTER1).join("");
-  render("letter1", "Letter 1", letter1, latexToHtml(letter1));
+  render("letter1", "Letter 1", letter1, MathLatexToHtml(letter1));
   const letter2 = Object.keys(LETTER2).join("");
-  render("letter2", "Letter 2", letter2, latexToHtml(letter2));
+  render("letter2", "Letter 2", letter2, MathLatexToHtml(letter2));
   const mathfont =
     "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im";
-  render("mathfont", "Font command", mathfont, latexToHtml(mathfont));
+  render("mathfont", "Font command", mathfont, MathLatexToHtml(mathfont));
   const sym = "a+f=\\int";
-  render("sym", "Symbols", sym, latexToHtml(sym));
+  render("sym", "Symbols", sym, MathLatexToHtml(sym));
   const op = String.raw`\sin\left(x+y\right)\cos\tan\exp\log`;
-  render("op", "Operators", op, latexToHtml(op));
+  render("op", "Operators", op, MathLatexToHtml(op));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
-  render("acc", "Accent", accent, latexToHtml(accent));
+  render("acc", "Accent", accent, MathLatexToHtml(accent));
   const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
-  render("lr", "Left Right Parentheses", lr, latexToHtml(lr));
+  render("lr", "Left Right Parentheses", lr, MathLatexToHtml(lr));
   const frac = "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}";
-  render("frac", "Frac", frac, latexToHtml(frac));
+  render("frac", "Frac", frac, MathLatexToHtml(frac));
   const sqr =
     "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
-  render("sqrt", "Square Root", sqr, latexToHtml(sqr));
+  render("sqrt", "Square Root", sqr, MathLatexToHtml(sqr));
   const supsub1 =
     "a^{aj} f^K K_a a_f a_f^a f^a_a f^{j^{j^{j}}} f_{j_{j_{j}}} f^{j^{j^{j}}}_{j_{j_{j}}}";
-  render("supsub", "SupSub1", supsub1, latexToHtml(supsub1));
+  render("supsub", "SupSub1", supsub1, MathLatexToHtml(supsub1));
   const supsub2 = "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
-  render("supsub2", "SupSub2", supsub2, latexToHtml(supsub2));
+  render("supsub2", "SupSub2", supsub2, MathLatexToHtml(supsub2));
   const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a";
-  render("supsub3", "SupSub3", supsub3, latexToHtml(supsub3));
+  render("supsub3", "SupSub3", supsub3, MathLatexToHtml(supsub3));
   const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
-  render("mat", "Matrix", matrix, latexToHtml(matrix));
+  render("mat", "Matrix", matrix, MathLatexToHtml(matrix));
   const editable = String.raw`\sqrt{} a \begin{pmatrix}a&a&a\\&\\a&a&a\end{pmatrix}`;
   render("editable", "Editable", editable, latexToEditableAtom(editable).elem!);
 };
@@ -69,6 +70,20 @@ const render = (
   }
 };
 
+const blockTest = () => {
+  const main = document.getElementById("main");
+  const line = document.createElement("span");
+  line.classList.add("ruler");
+  line.style.lineHeight = "normal";
+  line.contentEditable = "true";
+  line.append(
+    ...LatexToHtml(
+      "頂点集合$V$,無向辺の集合を$E$とする\\[\\int \\left(x+y\\right) dx\\]dd\\begin{equation*}bb\\end{equation*}"
+    )
+  );
+  main && main.append(line);
+};
+
 const boxTest = () => {
   const main = document.getElementById("main");
   const line = document.createElement("span");
@@ -86,3 +101,4 @@ const boxTest = () => {
 
 main();
 boxTest();
+blockTest();
