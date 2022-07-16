@@ -16,3 +16,8 @@
 .vlist > span {
   position: relative;
 }
+
+.display {
+  width: 100%;
+  text-align: center;
+}
