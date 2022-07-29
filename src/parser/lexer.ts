@@ -3,6 +3,7 @@ export enum Escape {
   EOF = "EOF",
   Left = "<left>",
   Right = "<right>",
+  Fence = "<|>",
   Circumfix = "<^>",
   UnderScore = "<_>",
   LCurly = "<{>",
@@ -39,6 +40,7 @@ export class Lexer {
     if (cur === "_") return Escape.UnderScore;
     if (cur === "{") return Escape.LCurly;
     if (cur === "}") return Escape.RCurly;
+    if (cur === "|") return Escape.Fence;
     if (cur === "&") return Escape.And;
     if (cur === "\\") {
       let command = "\\";
@@ -46,10 +48,16 @@ export class Lexer {
         this.readChar();
         return Escape.Newline;
       }
+      if (this.peek() === "{" || this.peek() === "}" || this.peek() === "|") {
+        this.readChar();
+        command += this.cur();
+        return command;
+      }
       while (!this.end() && /^[a-zA-Z*]+/.test(this.peek())) {
         this.readChar();
         command += this.cur();
       }
+
       if (command === "\\left") return Escape.Left;
       if (command === "\\right") return Escape.Right;
       return command;

@@ -39,6 +39,12 @@ test("parse overline", () => {
 
 test("leftright atom", () => {
   expect(parse("\\left(j \\right)")[0]).toEqual(new LRAtom("(", ")", group));
+  expect(parse("\\left\\{j\\right\\}")[0]).toEqual(new LRAtom("{", "}", group));
+  expect(parse("\\left|j \\right|")[0]).toEqual(new LRAtom("∣", "∣", group));
+  expect(parse("\\left\\|j \\right\\|")[0]).toEqual(
+    new LRAtom("∥", "∥", group)
+  );
+  expect(parse("\\left<j\\right>")[0]).toEqual(new LRAtom("⟨", "⟩", group));
 
   const atom = parse("\\left(j \\right)", true)[0] as LRAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);

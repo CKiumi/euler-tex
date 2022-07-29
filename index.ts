@@ -28,7 +28,8 @@ const main = () => {
   render("op", "Operators", op, MathLatexToHtml(op));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
   render("acc", "Accent", accent, MathLatexToHtml(accent));
-  const lr = "\\left(a+f\\right) \\left(\\int+f\\right)";
+  const lr =
+    " \\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
   render("lr", "Left Right Parentheses", lr, MathLatexToHtml(lr));
   const frac = "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}";
   render("frac", "Frac", frac, MathLatexToHtml(frac));
@@ -45,7 +46,12 @@ const main = () => {
   const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, MathLatexToHtml(matrix));
   const editable = String.raw`\sqrt{} a \begin{pmatrix}a&a&a\\&\\a&a&a\end{pmatrix}`;
-  render("editable", "Editable", editable, latexToEditableAtom(editable).elem!);
+  render(
+    "editable",
+    "Editable",
+    editable,
+    latexToEditableAtom(editable, "display").elem!
+  );
 };
 const render = (
   id: string,

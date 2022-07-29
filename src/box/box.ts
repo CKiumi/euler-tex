@@ -216,7 +216,7 @@ export class VStackBox implements Box {
 export class DelimInnerBox implements Box {
   space: Space = {};
   multiplier?: number | undefined;
-  constructor(public repeat: "⎜" | "⎟", public rect: Rect) {}
+  constructor(public repeat: string, public rect: Rect) {}
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);

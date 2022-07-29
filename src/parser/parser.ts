@@ -110,9 +110,33 @@ export class Parser {
 
   private parseLR(): Atom {
     const left = this.lexer.tokenize();
-    const body = this.parse(Escape.Right);
-    this.lexer.tokenize();
-    return new LRAtom(left, ")", new GroupAtom(body, this.editable)) as Atom;
+    if (left === "(") {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("(", ")", new GroupAtom(body, this.editable)) as Atom;
+    } else if (left === "\\{") {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("{", "}", new GroupAtom(body, this.editable)) as Atom;
+    } else if (left === "[") {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("[", "]", new GroupAtom(body, this.editable)) as Atom;
+    } else if (left === Escape.Fence) {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("∣", "∣", new GroupAtom(body, this.editable)) as Atom;
+    } else if (left === "\\|") {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("∥", "∥", new GroupAtom(body, this.editable)) as Atom;
+    } else if (left === "<") {
+      const body = this.parse(Escape.Right);
+      this.lexer.tokenize();
+      return new LRAtom("⟨", "⟩", new GroupAtom(body, this.editable)) as Atom;
+    } else {
+      throw new Error("Unsupported Left Right");
+    }
   }
 
   parseArg(atoms: Atom[]): GroupAtom {
