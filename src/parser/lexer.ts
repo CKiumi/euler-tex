@@ -73,7 +73,7 @@ export class Lexer {
 
   readEnvName() {
     let envName = "";
-    while (!this.end() && /^[a-z*\s]+/.test(this.peek() ?? "")) {
+    while (!this.end() && /^[a-zA-Z*\s]+/.test(this.peek() ?? "")) {
       this.readChar();
       envName += this.cur();
     }

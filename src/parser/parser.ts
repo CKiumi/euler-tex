@@ -151,7 +151,12 @@ export class Parser {
     if (token === Escape.LCurly) {
       const envName = this.lexer.readEnvName();
       if (this.lexer.tokenize() != Escape.RCurly) throw new Error("Expected }");
-      if (envName === "pmatrix") return envName;
+      if (
+        ["pmatrix", "bmatrix", "Bmatrix", "vmatrix", "Vmatrix"].includes(
+          envName
+        )
+      )
+        return envName;
       else throw new Error("Unknown environment name");
     } else throw new Error("{ expected after \\begin and \\end");
   }
@@ -166,8 +171,7 @@ export class Parser {
         if (row.length === 1 && row[0].body.length === 0) {
           element.pop();
         }
-        this.parseEnvName();
-        return new MatrixAtom(element, "pmatrix");
+        return new MatrixAtom(element, this.parseEnvName() as "pmatrix");
       }
       if (token === Escape.And) row.push(new GroupAtom([], this.editable));
       if (token === Escape.Newline) {

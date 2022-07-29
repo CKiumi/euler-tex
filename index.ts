@@ -43,7 +43,7 @@ const main = () => {
   render("supsub2", "SupSub2", supsub2, MathLatexToHtml(supsub2));
   const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a";
   render("supsub3", "SupSub3", supsub3, MathLatexToHtml(supsub3));
-  const matrix = String.raw`\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
+  const matrix = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, MathLatexToHtml(matrix));
   const editable = String.raw`\sqrt{} a \begin{pmatrix}a&a&a\\&\\a&a&a\end{pmatrix}`;
   render(

@@ -16,7 +16,13 @@ export class MatrixAtom implements Atom {
   elem: HTMLSpanElement | null = null;
   constructor(
     public children: GroupAtom[][],
-    public type: "pmatrix" | "matrix" = "pmatrix"
+    public type:
+      | "pmatrix"
+      | "matrix"
+      | "bmatrix"
+      | "Bmatrix"
+      | "vmatrix"
+      | "Vmatrix" = "pmatrix"
   ) {}
   toBox(): HBox {
     this.children.forEach((row) =>
@@ -68,11 +74,31 @@ export class MatrixAtom implements Atom {
       this.type === "pmatrix" ? new HBox(cols) : new HBox(cols, this);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
+    const innerHeight = hbox.rect.height + hbox.space.top;
+    const innerDepth = hbox.rect.depth + hbox.space.bottom;
     if (this.type === "pmatrix") {
-      const innerHeight = hbox.rect.height + hbox.space.top;
-      const innerDepth = hbox.rect.depth + hbox.space.bottom;
       const left = makeLeftRightDelim("(", innerHeight, innerDepth);
       const right = makeLeftRightDelim(")", innerHeight, innerDepth);
+      this.kind = "inner";
+      return new HBox([left, hbox, right], this);
+    } else if (this.type === "bmatrix") {
+      const left = makeLeftRightDelim("[", innerHeight, innerDepth);
+      const right = makeLeftRightDelim("]", innerHeight, innerDepth);
+      this.kind = "inner";
+      return new HBox([left, hbox, right], this);
+    } else if (this.type === "Bmatrix") {
+      const left = makeLeftRightDelim("{", innerHeight, innerDepth);
+      const right = makeLeftRightDelim("}", innerHeight, innerDepth);
+      this.kind = "inner";
+      return new HBox([left, hbox, right], this);
+    } else if (this.type === "vmatrix") {
+      const left = makeLeftRightDelim("∣", innerHeight, innerDepth);
+      const right = makeLeftRightDelim("∣", innerHeight, innerDepth);
+      this.kind = "inner";
+      return new HBox([left, hbox, right], this);
+    } else if (this.type === "Vmatrix") {
+      const left = makeLeftRightDelim("∥", innerHeight, innerDepth);
+      const right = makeLeftRightDelim("∥", innerHeight, innerDepth);
       this.kind = "inner";
       return new HBox([left, hbox, right], this);
     }
