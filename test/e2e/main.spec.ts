@@ -51,12 +51,6 @@ test("frac", async ({ page }) => {
   });
 });
 
-test("acc", async ({ page }) => {
-  expect(await page.locator("#" + "acc").screenshot()).toMatchSnapshot({
-    threshold: 0.01,
-  });
-});
-
 test("sqrt", async ({ page }) => {
   expect(await page.locator("#" + "sqrt").screenshot()).toMatchSnapshot({
     threshold: 0.01,

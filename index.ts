@@ -11,7 +11,19 @@ import {
   SymBox,
   VBox,
 } from "./src/lib";
-import { LETTER1, LETTER2 } from "./src/parser/command";
+import {
+  LETTER1,
+  LETTER2,
+  AMS_REL,
+  AMS_BIN,
+  AMS_ARROW,
+  ARROW,
+  REL,
+  BIN,
+  AMS_NBIN,
+  AMS_NREL,
+  MISC,
+} from "./src/parser/command";
 
 const main = () => {
   loadFont("/woff");
@@ -22,14 +34,33 @@ const main = () => {
   const mathfont =
     "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im";
   render("mathfont", "Font command", mathfont, MathLatexToHtml(mathfont));
-  const sym = "a+f=\\int";
+  // eslint-disable-next-line quotes
+  const sym = 'a+f*/=\\int,.;:"<>?!\\ldotp\\cdotp';
   render("sym", "Symbols", sym, MathLatexToHtml(sym));
   const op = String.raw`\sin\left(x+y\right)\cos\tan\exp\log`;
   render("op", "Operators", op, MathLatexToHtml(op));
+  const ord = Object.keys(MISC).join("");
+  render("ord", "Ord", ord, MathLatexToHtml(ord));
+  const rel = Object.keys(REL).join("");
+  render("rel", "Rel", rel, MathLatexToHtml(rel));
+  const bin = Object.keys(BIN).join("");
+  render("bin", "Bin", bin, MathLatexToHtml(bin));
+  const ams_bin = Object.keys(AMS_BIN).join("");
+  render("rel", "AMS Bin", ams_bin, MathLatexToHtml(ams_bin));
+  const ams_nbin = Object.keys(AMS_NBIN).join("");
+  render("ams_nbin", "AMS Neg Bin", ams_nbin, MathLatexToHtml(ams_nbin));
+  const ams_nrel = Object.keys(AMS_NREL).join("");
+  render("ams_nrel", "AMS Neg Bin", ams_nrel, MathLatexToHtml(ams_nrel));
+  const ams_rel = Object.keys(AMS_REL).join("");
+  render("ams_rel", "AMS Rel", ams_rel, MathLatexToHtml(ams_rel));
+  const arrow = Object.keys(ARROW).join("");
+  render("arrow", "Arrows", arrow, MathLatexToHtml(arrow));
+  const ams_arrow = Object.keys(AMS_ARROW).join("");
+  render("ams_arrow", "AMS Arrow", ams_arrow, MathLatexToHtml(ams_arrow));
   const accent = "\\hat{a} \\overline{f} \\tilde{K} \\hat{\\int}";
   render("acc", "Accent", accent, MathLatexToHtml(accent));
   const lr =
-    " \\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
+    "[\\{(|x|)\\}]\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
   render("lr", "Left Right Parentheses", lr, MathLatexToHtml(lr));
   const frac = "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}";
   render("frac", "Frac", frac, MathLatexToHtml(frac));
@@ -41,7 +72,7 @@ const main = () => {
   render("supsub", "SupSub1", supsub1, MathLatexToHtml(supsub1));
   const supsub2 = "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
   render("supsub2", "SupSub2", supsub2, MathLatexToHtml(supsub2));
-  const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a";
+  const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a ";
   render("supsub3", "SupSub3", supsub3, MathLatexToHtml(supsub3));
   const matrix = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, MathLatexToHtml(matrix));

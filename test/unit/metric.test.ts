@@ -4,11 +4,11 @@ import { expect, test } from "vitest";
 test("getCharMetrics", () => {
   expect(() => {
     getCharMetrics("∫", ["Math-I"]);
-  }).toThrow("Font metric not found for Math-I");
+  }).toThrow("Font metric not found for ∫,Math-I");
 
   expect(() => {
     getCharMetrics("∫", ["Math-I", "Type-R"]);
-  }).toThrow("Font metric not found for Math-I Type-R");
+  }).toThrow("Font metric not found for ∫,Math-I Type-R");
 
   expect(getCharMetrics("a", ["Main-I", "Math-I"])).toEqual({
     font: "Math-I",

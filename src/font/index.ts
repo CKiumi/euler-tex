@@ -29,7 +29,7 @@ export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
       continue;
     }
   }
-  throw new Error("Font metric not found for " + fonts.join(" "));
+  throw new Error("Font metric not found for " + char + "," + fonts.join(" "));
 };
 
 export const getSigma = (name: keyof typeof SIGMAS): number => {

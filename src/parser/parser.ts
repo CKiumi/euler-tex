@@ -17,9 +17,23 @@ import {
   fontMap,
   LETTER1,
   LETTER2,
-  BlockOp,
+  BLOCKOP,
   OP,
   LETTER3,
+  AMS_REL,
+  AMS_BIN,
+  AMS_ARROW,
+  ARROW,
+  REL,
+  PUNCT,
+  BIN,
+  AMS_NBIN,
+  AMS_NREL,
+  AMS_MISC,
+  MISC,
+  OPEN,
+  CLOSE,
+  INNER,
 } from "./command";
 import { OpAtom } from "../atom/op";
 
@@ -36,9 +50,21 @@ export class Parser {
       return new SymAtom("ord", token, ["Main-R", this.font]);
     if (token === "+") return new SymAtom(binOrOrd(atoms), "+", ["Main-R"]);
     if (token === "-") return new SymAtom(binOrOrd(atoms), "−", ["Main-R"]);
+    if (token === "*") return new SymAtom(binOrOrd(atoms), "∗", ["Main-R"]);
+    if (token === "/") return new SymAtom(binOrOrd(atoms), "/", ["Main-R"]);
     if (token === "=") return new SymAtom("rel", "=", ["Main-R"]);
     if (token === ",") return new SymAtom("punct", ",", ["Main-R"]);
-    throw new Error(`Single token ${token} not supported`);
+    if (token === ".") return new SymAtom("ord", ".", ["Main-R"]);
+    if (token === ";") return new SymAtom("punct", ";", ["Main-R"]);
+    if (token === ":") return new SymAtom("rel", ":", ["Main-R"]);
+    if (token === "<") return new SymAtom("rel", "<", ["Main-R"]);
+    if (token === ">") return new SymAtom("rel", ">", ["Main-R"]);
+    if (token === "?") return new SymAtom("close", "?", ["Main-R"]);
+    if (token === "!") return new SymAtom("close", "!", ["Main-R"]);
+    // eslint-disable-next-line quotes
+    if (token === '"') return new SymAtom("ord", '"', ["Main-R"]);
+    console.error(`Single token ${token} not supported`);
+    return new SymAtom("close", "?", ["Main-R"]);
   }
   parse(end: Token): Atom[] {
     const atoms: Atom[] = [];
@@ -52,6 +78,35 @@ export class Parser {
   }
 
   parseOne(token: string, atoms: Atom[]) {
+    if (token === "(") {
+      atoms.push(
+        new LRAtom("(", ")", new GroupAtom(this.parse(")"), this.editable))
+      );
+      return;
+    }
+    if (token === "\\{") {
+      atoms.push(
+        new LRAtom("{", "}", new GroupAtom(this.parse("\\}"), this.editable))
+      );
+      return;
+    }
+    if (token === "[") {
+      atoms.push(
+        new LRAtom("[", "]", new GroupAtom(this.parse("]"), this.editable))
+      );
+      return;
+    }
+    if (token === Escape.Fence) {
+      atoms.push(
+        new LRAtom(
+          "∣",
+          "∣",
+          new GroupAtom(this.parse(Escape.Fence), this.editable)
+        )
+      );
+      return;
+    }
+
     if (token.length === 1) atoms.push(this.parseSingle(atoms, token));
     if (token === Escape.Left) atoms.push(this.parseLR());
     if (token === Escape.Circumfix) {
@@ -73,11 +128,11 @@ export class Parser {
     if (token.startsWith("\\")) {
       if (fontMap[token.slice(1)]) {
         this.font = fontMap[token.slice(1)];
-        atoms.push(this.parseArg(atoms));
+        atoms.push(...this.parseArg(atoms).body);
         this.font = null;
       }
-      if (BlockOp[token]) {
-        atoms.push(new SymAtom("op", BlockOp[token], ["Size2"], false));
+      if (BLOCKOP[token]) {
+        atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false));
       }
       if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
@@ -105,6 +160,53 @@ export class Parser {
       if (LETTER3[token]) {
         atoms.push(new SymAtom("ord", LETTER3[token], ["Main-R"]));
       }
+      if (MISC[token]) {
+        atoms.push(new SymAtom("ord", MISC[token], ["Main-R"]));
+      }
+      if (OPEN[token]) {
+        atoms.push(new SymAtom("open", OPEN[token], ["Main-R"]));
+      }
+      if (CLOSE[token]) {
+        atoms.push(new SymAtom("close", CLOSE[token], ["Main-R"]));
+      }
+      if (INNER[token]) {
+        atoms.push(new SymAtom("close", INNER[token], ["Main-R"]));
+      }
+      if (PUNCT[token]) {
+        atoms.push(new SymAtom("punct", PUNCT[token], ["Main-R"]));
+      }
+      if (REL[token]) {
+        atoms.push(new SymAtom("rel", REL[token], ["Main-R"]));
+      }
+      if (BIN[token]) {
+        atoms.push(new SymAtom(binOrOrd(atoms), BIN[token], ["Main-R"]));
+      }
+      if (ARROW[token]) {
+        atoms.push(new SymAtom("rel", ARROW[token], ["Main-R"]));
+      }
+      if (AMS_ARROW[token]) {
+        atoms.push(new SymAtom("rel", AMS_ARROW[token], ["AMS-R"]));
+      }
+      if (AMS_BIN[token]) {
+        atoms.push(new SymAtom(binOrOrd(atoms), AMS_BIN[token], ["AMS-R"]));
+      }
+      if (AMS_NBIN[token]) {
+        atoms.push(new SymAtom(binOrOrd(atoms), AMS_NBIN[token], ["AMS-R"]));
+      }
+      if (AMS_MISC[token]) {
+        atoms.push(new SymAtom("ord", AMS_MISC[token], ["AMS-R"]));
+      }
+      if (AMS_REL[token]) {
+        if (token === "\\Join") {
+          atoms.push(new SymAtom("rel", AMS_REL[token], ["Main-R"]));
+          return;
+        }
+        atoms.push(new SymAtom("rel", AMS_REL[token], ["AMS-R"]));
+      }
+      if (AMS_NREL[token]) {
+        atoms.push(new SymAtom("rel", AMS_NREL[token], ["AMS-R"]));
+      }
+      // console.log(atoms.map((x) => [x.char, x.fonts]));
     }
   }
 
