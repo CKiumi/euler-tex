@@ -87,7 +87,10 @@ export class MatrixAtom implements Atom {
         if (c < nc - 1) cols[c].space.right = arraycolsep;
       }
     }
-    const hbox = new HBox(cols);
+    const hbox =
+      this.type === "matrix" || this.type === "aligned"
+        ? new HBox(cols, this)
+        : new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;

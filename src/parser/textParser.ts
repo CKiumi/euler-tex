@@ -1,9 +1,9 @@
 import { Escape, Lexer } from "./lexer";
 
-type Mode = "text" | "display" | "inline";
+type Mode = "text" | "display" | "inline" | "align";
 
 interface LatexBlock {
-  mode: "text" | "display" | "inline";
+  mode: "text" | "display" | "inline" | "align";
   latex: string;
 }
 
@@ -30,7 +30,11 @@ class Parser {
         continue;
       }
       if (this.mode === "display" && this.envName) {
-        results.push({ mode: "display", latex: this.parseEnv() });
+        if (this.envName === "align" || this.envName === "align*") {
+          results.push({ mode: "align", latex: this.parseEnv() });
+        } else {
+          results.push({ mode: "display", latex: this.parseEnv() });
+        }
         continue;
       }
     }
