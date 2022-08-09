@@ -33,7 +33,7 @@ export class GroupAtom implements Atom {
     this.body = editable ? [new FirstAtom(), ...body] : body;
   }
 
-  toBox(options?: Options): Box {
+  toBox(options?: Options): HBox {
     let prevKind: AtomKind | null;
     const children = this.body.map((atom) => {
       const box = atom.toBox(options);

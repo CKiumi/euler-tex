@@ -7,7 +7,7 @@ interface LatexBlock {
   latex: string;
 }
 
-const ENV_LIST = ["equation", "equation*"];
+const ENV_LIST = ["equation", "equation*", "align", "align*"];
 
 class Parser {
   lexer: Lexer;

@@ -1,14 +1,7 @@
 import { Box, HBox, VBox } from "../box/box";
-import { AtomKind, SIGMAS } from "../font";
+import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, GroupAtom } from "./atom";
 import { makeLeftRightDelim } from "./leftright";
-
-const pt = 1 / SIGMAS.ptPerEm[0];
-const arraycolsep = 5 * pt;
-const baselineskip = 12 * pt;
-const arrayskip = 1 * baselineskip;
-const arstrutHeight = 0.7 * arrayskip;
-const arstrutDepth = 0.3 * arrayskip;
 
 export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
@@ -22,7 +15,9 @@ export class MatrixAtom implements Atom {
       | "bmatrix"
       | "Bmatrix"
       | "vmatrix"
-      | "Vmatrix" = "pmatrix"
+      | "Vmatrix"
+      | "cases"
+      | "aligned" = "pmatrix"
   ) {}
   toBox(): HBox {
     this.children.forEach((row) =>
@@ -30,7 +25,18 @@ export class MatrixAtom implements Atom {
         group.parent = this;
       })
     );
-    const children = this.children.map((child) => child.map((e) => e.toBox()));
+    //align
+    const children = this.children.map((child) => {
+      return child.map((e, i) => {
+        const hbox = e.toBox();
+        const { children } = hbox;
+        if (this.type === "aligned" && children.length > 0 && i === 1) {
+          children[0].space.left = getSpacing("ord", e.body[0].kind ?? "ord");
+        }
+        return hbox;
+      });
+    });
+    //align
     let r;
     let c: number;
     const nr = children.length;
@@ -38,6 +44,14 @@ export class MatrixAtom implements Atom {
     let nc = children[0].length;
     const body: Outrow[] = [];
     let totalHeight = 0;
+    const arraystretch = this.type === "cases" ? 1.2 : 1;
+    const pt = 1 / SIGMAS.ptPerEm[0];
+    const arraycolsep = 5 * pt;
+    const baselineskip = 12 * pt;
+    const arrayskip = arraystretch * baselineskip;
+    const arstrutHeight = 0.7 * arrayskip;
+    const arstrutDepth = 0.3 * arrayskip;
+
     for (r = 0; r < nr; ++r) {
       const inrow = children[r];
       let [height, depth] = [arstrutHeight, arstrutDepth];
@@ -50,6 +64,7 @@ export class MatrixAtom implements Atom {
         ];
         outrow.children.push(children[r][c]);
       }
+
       outrow.height = height;
       outrow.depth = depth;
       totalHeight += height;
@@ -67,45 +82,46 @@ export class MatrixAtom implements Atom {
         .filter((row) => !!row.children[c])
         .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
       cols.push(new VBox(col));
-      if (c > 0) cols[c].space.left = arraycolsep;
-      if (c < nc - 1) cols[c].space.right = arraycolsep;
+      if (this.type !== "aligned") {
+        if (c > 0) cols[c].space.left = arraycolsep;
+        if (c < nc - 1) cols[c].space.right = arraycolsep;
+      }
     }
-    const hbox =
-      this.type === "pmatrix" ? new HBox(cols) : new HBox(cols, this);
+    const hbox = new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
     const innerDepth = hbox.rect.depth + hbox.space.bottom;
-    if (this.type === "pmatrix") {
-      const left = makeLeftRightDelim("(", innerHeight, innerDepth);
-      const right = makeLeftRightDelim(")", innerHeight, innerDepth);
+    if (MAT_DELIM[this.type]) {
+      const left = makeLeftRightDelim(
+        MAT_DELIM[this.type][0],
+        innerHeight,
+        innerDepth
+      );
+      const right = makeLeftRightDelim(
+        MAT_DELIM[this.type][1],
+        innerHeight,
+        innerDepth
+      );
       this.kind = "inner";
       return new HBox([left, hbox, right], this);
-    } else if (this.type === "bmatrix") {
-      const left = makeLeftRightDelim("[", innerHeight, innerDepth);
-      const right = makeLeftRightDelim("]", innerHeight, innerDepth);
-      this.kind = "inner";
-      return new HBox([left, hbox, right], this);
-    } else if (this.type === "Bmatrix") {
+    }
+    if (this.type === "cases") {
       const left = makeLeftRightDelim("{", innerHeight, innerDepth);
-      const right = makeLeftRightDelim("}", innerHeight, innerDepth);
       this.kind = "inner";
-      return new HBox([left, hbox, right], this);
-    } else if (this.type === "vmatrix") {
-      const left = makeLeftRightDelim("∣", innerHeight, innerDepth);
-      const right = makeLeftRightDelim("∣", innerHeight, innerDepth);
-      this.kind = "inner";
-      return new HBox([left, hbox, right], this);
-    } else if (this.type === "Vmatrix") {
-      const left = makeLeftRightDelim("∥", innerHeight, innerDepth);
-      const right = makeLeftRightDelim("∥", innerHeight, innerDepth);
-      this.kind = "inner";
-      return new HBox([left, hbox, right], this);
+      return new HBox([left, hbox], this);
     }
     return hbox;
   }
 }
 
+const MAT_DELIM: { [x: string]: [string, string] } = {
+  pmatrix: ["(", ")"],
+  bmatrix: ["[", "]"],
+  Bmatrix: ["{", "}"],
+  vmatrix: ["∣", "∣"],
+  Vmatrix: ["∥", "∥"],
+};
 type Outrow = {
   children: Box[];
   height: number;

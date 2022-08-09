@@ -76,6 +76,8 @@ const main = () => {
   render("supsub3", "SupSub3", supsub3, MathLatexToHtml(supsub3));
   const matrix = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}\begin{pmatrix}a&a\\a&a\end{pmatrix} \begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
   render("mat", "Matrix", matrix, MathLatexToHtml(matrix));
+  const env = String.raw`\begin{aligned}x&=a+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&c+d\end{cases}`;
+  render("env", "Environment", env, MathLatexToHtml(env));
   const editable = String.raw`\sqrt{} a \begin{pmatrix}a&a&a\\&\\a&a&a\end{pmatrix}`;
   render(
     "editable",
