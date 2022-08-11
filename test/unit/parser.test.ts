@@ -88,12 +88,12 @@ test("matrix atom", () => {
 test("parse composite", () => {
   expect(
     latexToBlocks(
-      "xx $yy$\\[zz\\]d\\begin{align*}bb\\end{align*}d\\begin{equation*}bb\\end{equation*}"
+      "xx $yy$\\[\\begin{aligned}x&=a\\&=c+d\\end{aligned}zz\\]d\\begin{align*}bb\\end{align*}d\\begin{equation*}bb\\end{equation*}"
     )
   ).toStrictEqual([
     { mode: "text", latex: "xx " },
     { mode: "inline", latex: "yy" },
-    { mode: "display", latex: "zz" },
+    { mode: "display", latex: "\\begin{aligned}x&=a\\&=c+d\\end{aligned}zz" },
     { mode: "text", latex: "d" },
     { mode: "align", latex: "bb" },
     { mode: "text", latex: "d" },

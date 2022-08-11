@@ -1,6 +1,6 @@
 import { Box, HBox, VBox } from "../box/box";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
-import { Atom, GroupAtom } from "./atom";
+import { Atom, FirstAtom, GroupAtom } from "./atom";
 import { makeLeftRightDelim } from "./leftright";
 
 export class MatrixAtom implements Atom {
@@ -30,8 +30,12 @@ export class MatrixAtom implements Atom {
       return child.map((e, i) => {
         const hbox = e.toBox();
         const { children } = hbox;
-        if (this.type === "aligned" && children.length > 0 && i === 1) {
-          children[0].space.left = getSpacing("ord", e.body[0].kind ?? "ord");
+        if (this.type === "aligned" && i === 1) {
+          if (e.body[0] instanceof FirstAtom && children.length > 1) {
+            children[1].space.left = getSpacing("ord", e.body[1].kind ?? "ord");
+          } else if (children.length > 0) {
+            children[0].space.left = getSpacing("ord", e.body[0].kind ?? "ord");
+          }
         }
         return hbox;
       });
@@ -44,8 +48,10 @@ export class MatrixAtom implements Atom {
     let nc = children[0].length;
     const body: Outrow[] = [];
     let totalHeight = 0;
+
     const arraystretch = this.type === "cases" ? 1.2 : 1;
     const pt = 1 / SIGMAS.ptPerEm[0];
+    const jot = 3 * pt;
     const arraycolsep = 5 * pt;
     const baselineskip = 12 * pt;
     const arrayskip = arraystretch * baselineskip;
@@ -64,7 +70,9 @@ export class MatrixAtom implements Atom {
         ];
         outrow.children.push(children[r][c]);
       }
-
+      if (this.type === "aligned") {
+        depth += jot;
+      }
       outrow.height = height;
       outrow.depth = depth;
       totalHeight += height;
@@ -81,7 +89,12 @@ export class MatrixAtom implements Atom {
       const col = body
         .filter((row) => !!row.children[c])
         .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
-      cols.push(new VBox(col));
+      if (this.type === "aligned" || this.type === "cases") {
+        cols.push(new VBox(col, undefined, undefined, "start"));
+      } else {
+        cols.push(new VBox(col));
+      }
+
       if (this.type !== "aligned") {
         if (c > 0) cols[c].space.left = arraycolsep;
         if (c < nc - 1) cols[c].space.right = arraycolsep;

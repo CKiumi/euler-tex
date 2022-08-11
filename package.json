@@ -1,10 +1,10 @@
 {
   "name": "euler-tex",
   "private": true,
-  "version": "0.4.1",
+  "version": "0.4.5",
   "scripts": {
     "dev": "vite",
-    "test": "vitest run",
+    "test": "vitest",
     "e2e": "playwright test",
     "e2e:update": "playwright test --update-snapshots",
     "coverage": "vitest run --coverage",

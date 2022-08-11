@@ -106,6 +106,8 @@ class Parser {
             this.mode = "text";
             this.envName = null;
             return result;
+          } else {
+            result += `\\end{${envName}}`;
           }
           continue;
         } else {
