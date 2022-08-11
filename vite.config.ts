@@ -4,6 +4,7 @@ import { defineConfig, UserConfigExport } from "vite";
 import { configDefaults } from "vitest/config";
 
 export default defineConfig({
+  root: "page",
   test: {
     environment: "happy-dom",
     exclude: [...configDefaults.exclude, "test/e2e/*"],
