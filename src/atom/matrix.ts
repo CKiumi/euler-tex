@@ -1,4 +1,5 @@
 import { Box, HBox, VBox } from "../box/box";
+import { Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, FirstAtom, GroupAtom } from "./atom";
 import { makeLeftRightDelim } from "./leftright";
@@ -19,16 +20,19 @@ export class MatrixAtom implements Atom {
       | "cases"
       | "aligned" = "pmatrix"
   ) {}
-  toBox(): HBox {
+  toBox(options?: Options): HBox {
     this.children.forEach((row) =>
       row.forEach((group) => {
         group.parent = this;
       })
     );
+
     //align
     const children = this.children.map((child) => {
       return child.map((e, i) => {
-        const hbox = e.toBox();
+        const hbox = e.toBox(
+          this.type === "aligned" ? options : options?.getNewOptions(TEXT)
+        );
         const { children } = hbox;
         if (this.type === "aligned" && i === 1) {
           if (e.body[0] instanceof FirstAtom && children.length > 1) {

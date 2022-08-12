@@ -40,7 +40,7 @@ export class SupSubAtom implements Atom {
 
 export const parseSup = (atom: SupSubAtom, options: Options): HBox => {
   let supShift = 0;
-  const supOption = options?.getSupOptions(options.style.sup());
+  const supOption = options?.getNewOptions(options.style.sup());
   const { sizeMultiplier } = supOption;
   if (!atom.sup) throw new Error("Sup must exist");
   const sup = multiplyBox(
@@ -55,12 +55,19 @@ export const parseSup = (atom: SupSubAtom, options: Options): HBox => {
         options.sizeMultiplier;
   }
 
-  const minSupShift = getSigma("sup1");
+  let minSupShift;
+  if (options.style === DISPLAY) {
+    minSupShift = getSigma("sup1", options.size);
+  } else if (options.style.cramped) {
+    minSupShift = getSigma("sup3", options.size);
+  } else {
+    minSupShift = getSigma("sup2", options.size);
+  }
 
   supShift = Math.max(
     supShift,
     minSupShift,
-    sup.rect.depth + 0.25 * getSigma("xHeight")
+    sup.rect.depth + 0.25 * getSigma("xHeight", options.size)
   );
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / sizeMultiplier;
   sup.space.right = marginRight;
@@ -71,7 +78,7 @@ export const parseSup = (atom: SupSubAtom, options: Options): HBox => {
 export const parseSub = (atom: SupSubAtom, options: Options) => {
   let subShift = 0;
   if (!atom.sub) throw new Error("Sup must exist");
-  const subOption = options?.getSupOptions(options.style.sub());
+  const subOption = options?.getNewOptions(options.style.sub());
   const { sizeMultiplier } = subOption;
   const sub = multiplyBox(
     atom.sub.toBox(subOption),
@@ -107,9 +114,9 @@ export const parseSupSub = (
   let subShift = 0;
   if (!atom.sup) throw new Error("Sup must exist");
   if (!atom.sub) throw new Error("Sub must exist");
-  const subOption = options?.getSupOptions(options.style.sub());
+  const subOption = options?.getNewOptions(options.style.sub());
   const { sizeMultiplier: subSizeMultiplier } = subOption;
-  const supOption = options?.getSupOptions(options.style.sup());
+  const supOption = options?.getNewOptions(options.style.sup());
   const { sizeMultiplier: supSizeMultiplier } = supOption;
   const nuc = atom.nuc.toBox(options);
   const sup = multiplyBox(
@@ -187,7 +194,7 @@ export const parseLimitSupSub = (
   let subBox;
   const nucBox = nuc.toBox();
   if (supAtom) {
-    const supOption = options?.getSupOptions(options.style.sup());
+    const supOption = options?.getNewOptions(options.style.sup());
     const { sizeMultiplier: supSizeMultiplier } = supOption;
     supBox = multiplyBox(supAtom.toBox(supOption), supSizeMultiplier);
     supBox.space.top = getSigma("bigOpSpacing5") / supSizeMultiplier;
@@ -199,7 +206,7 @@ export const parseLimitSupSub = (
   }
 
   if (subAtom) {
-    const subOption = options?.getSupOptions(options.style.sub());
+    const subOption = options?.getNewOptions(options.style.sub());
     const { sizeMultiplier: subSizeMultiplier } = subOption;
     subBox = multiplyBox(subAtom.toBox(subOption), subSizeMultiplier);
     subBox.space.bottom = getSigma("bigOpSpacing5") / subSizeMultiplier;

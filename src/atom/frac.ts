@@ -1,4 +1,5 @@
 import { VBox } from "../box/box";
+import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../font";
 import { Atom, GroupAtom, parseLine } from "./atom";
 
@@ -7,12 +8,14 @@ export class FracAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   constructor(public numer: GroupAtom, public denom: GroupAtom) {}
-  toBox(): VBox {
+  toBox(options?: Options): VBox {
     this.numer.parent = this;
     this.denom.parent = this;
     const { numer, denom } = this;
-    const numBox = numer.toBox();
-    const denBox = denom.toBox();
+    const numOptions = options?.getNewOptions(options.style.fracNum());
+    const denOptions = options?.getNewOptions(options.style.fracDen());
+    const numBox = numer.toBox(numOptions);
+    const denBox = denom.toBox(denOptions);
     const height = getSigma("defaultRuleThickness");
     const rule = parseLine();
     const ruleWidth = height;

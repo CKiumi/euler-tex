@@ -38,11 +38,31 @@ export class Style {
   isTight(): boolean {
     return this.size >= 2;
   }
+
+  fracNum(): Style {
+    return styles[fracNum[this.id]];
+  }
+
+  cramp(): Style {
+    return styles[cramp[this.id]];
+  }
+
+  /**
+   * Get the style of a fraction denominator given the fraction in the current
+   * style.
+   */
+  fracDen(): Style {
+    return styles[fracDen[this.id]];
+  }
 }
 
 const [D, Dc, T, Tc, S, Sc, SS, SSc] = [0, 1, 2, 3, 4, 5, 6, 7];
 const sup = [S, Sc, S, Sc, SS, SSc, SS, SSc];
 const sub = [Sc, Sc, Sc, Sc, SSc, SSc, SSc, SSc];
+const fracNum = [T, Tc, S, Sc, SS, SSc, SS, SSc];
+const fracDen = [Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc];
+const cramp = [Dc, Dc, Tc, Tc, Sc, Sc, SSc, SSc];
+// const text = [D, Dc, T, Tc, T, Tc, T, Tc];
 // Instances of the different styles
 const styles = [
   new Style(D, 0, false),
@@ -62,7 +82,7 @@ export class Options {
   constructor(public size = 6) {
     this.sizeMultiplier = sizeMultipliers[this.size - 1];
   }
-  getSupOptions(style: Style): Options {
+  getNewOptions(style: Style): Options {
     const newOptions = new Options(sizeAtStyle(this.textSize, style));
     newOptions.style = style;
     return newOptions;
@@ -70,6 +90,6 @@ export class Options {
 }
 
 export const DISPLAY = styles[D];
-// const TEXT = styles[T];
-// const SCRIPT = styles[S];
-// const SCRIPTSCRIPT = styles[SS];
+export const TEXT = styles[T];
+export const SCRIPT = styles[S];
+export const SCRIPTSCRIPT = styles[SS];

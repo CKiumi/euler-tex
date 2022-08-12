@@ -66,27 +66,30 @@ const route: { [key: string]: () => void } = {
     const mathfont =
       "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im";
     render("mathfont", "Font command", mathfont);
+    const acc = "\\overline{x^a}\\hat{x^a}";
+    render("acc", "Accent", acc);
     const lr =
       "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
     render("lr", "Left Right Parentheses", lr);
-    const frac = "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}";
+    const frac =
+      "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}\\frac{\\sum^{a}}{\\prod_b^{a}}";
     render("frac", "Frac", frac);
     const sqr =
-      "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
+      "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{a^2} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
     render("sqrt", "Square Root", sqr);
 
-    const env = String.raw`\begin{aligned}x&=a+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&c+d\end{cases}`;
+    const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
     render("env", "Environment", env);
   },
   "/matrix": () => {
     const matrix1 = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}`;
-    const matrix2 = String.raw`\begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&a\\a&&a\end{pmatrix}`;
+    const matrix2 = String.raw`\begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&\prod_b^{a}\\a&&a\end{pmatrix}`;
     render("mat1", "Matrix", matrix1);
     render("mat2", "Matrix", matrix2);
   },
   "/supsub": () => {
     const supsub1 =
-      "a^{aj} f^K K_a a_f a_f^a f^a_a f^{j^{j^{j}}} f_{j_{j_{j}}} f^{j^{j^{j}}}_{j_{j_{j}}}";
+      "a^{aj} f^K K_a a_f a_f^a f^a_a f^{j^{j^{j}}} f_{j_{j_{j}}} f^{j^{j^{j}}}_{j_{j_{j}}}x^{-x^2}";
     render("supsub", "SupSub1", supsub1);
     const supsub2 =
       "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
@@ -94,7 +97,7 @@ const route: { [key: string]: () => void } = {
     const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a ";
     render("supsub3", "SupSub3", supsub3);
     const supsub4 =
-      "\\sum_{a+b}^{a+b} \\sum^{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x}";
+      "\\sum_{a+b}^{a+b} \\sum^{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
     render("supsub4", "SupSub4", supsub4);
   },
   "/symbol": () => {

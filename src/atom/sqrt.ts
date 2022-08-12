@@ -1,4 +1,5 @@
 import { SqrtBox, SqrtSize, VBox } from "../box/box";
+import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../font";
 import Style from "../font/style";
 import { Atom, GroupAtom } from "./atom";
@@ -11,9 +12,11 @@ export class SqrtAtom implements Atom {
   constructor(public body: GroupAtom) {
     this.kind = "ord";
   }
-  toBox(): VBox {
+  toBox(options: Options): VBox {
     this.body.parent = this;
-    const inner = this.body.toBox();
+    const inner = this.body.toBox(
+      options?.getNewOptions(options.style.cramp())
+    );
     const { width, depth } = inner.rect;
     let { height } = inner.rect;
     if (height === 0) height = getSigma("xHeight");

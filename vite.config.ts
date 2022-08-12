@@ -8,7 +8,7 @@ export default defineConfig({
   test: {
     include: ["../test/unit/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     environment: "happy-dom",
-    exclude: [...configDefaults.exclude, "test/e2e/*"],
-    coverage: { reportsDirectory: "test/coverage" },
+    exclude: [...configDefaults.exclude, "../test/e2e/*"],
+    coverage: { reportsDirectory: "../test/coverage" },
   },
 } as UserConfigExport);

@@ -9,7 +9,7 @@ test("test option", () => {
     style: { cramped: false, id: 0, size: 0 },
     textSize: 6,
   });
-  const sup1Options = options.getSupOptions(options.style.sup());
+  const sup1Options = options.getNewOptions(options.style.sup());
   expect(sup1Options).toEqual({
     size: 3,
     sizeMultiplier: 0.7,
@@ -17,7 +17,7 @@ test("test option", () => {
     textSize: 6,
   });
 
-  const sub1Options = options.getSupOptions(options.style.sub());
+  const sub1Options = options.getNewOptions(options.style.sub());
   expect(sub1Options).toEqual({
     size: 3,
     sizeMultiplier: 0.7,
@@ -25,7 +25,7 @@ test("test option", () => {
     textSize: 6,
   });
 
-  expect(sup1Options.getSupOptions(sup1Options.style.sup())).toEqual({
+  expect(sup1Options.getNewOptions(sup1Options.style.sup())).toEqual({
     size: 1,
     sizeMultiplier: 0.5,
     style: { cramped: false, id: 6, size: 3 },
