@@ -34,6 +34,10 @@ export class Style {
   sub(): Style {
     return styles[sub[this.id]];
   }
+
+  isTight(): boolean {
+    return this.size >= 2;
+  }
 }
 
 const [D, Dc, T, Tc, S, Sc, SS, SSc] = [0, 1, 2, 3, 4, 5, 6, 7];

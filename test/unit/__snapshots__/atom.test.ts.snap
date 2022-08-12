@@ -7,6 +7,7 @@ VStackBox {
     "accent": SymAtom {
       "char": "^",
       "charBox": true,
+      "command": undefined,
       "elem": null,
       "fonts": [
         "Main-R",
@@ -19,6 +20,7 @@ VStackBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -41,6 +43,7 @@ VStackBox {
       "atom": SymAtom {
         "char": "^",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Main-R",
@@ -67,6 +70,7 @@ VStackBox {
           SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -82,6 +86,7 @@ VStackBox {
           "accent": SymAtom {
             "char": "^",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Main-R",
@@ -100,6 +105,7 @@ VStackBox {
           "atom": SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -116,6 +122,7 @@ VStackBox {
                 "accent": SymAtom {
                   "char": "^",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Main-R",
@@ -172,6 +179,7 @@ VBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -192,6 +200,7 @@ VBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -223,6 +232,7 @@ VBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -254,6 +264,7 @@ VBox {
                 SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -278,6 +289,7 @@ VBox {
             "atom": SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -349,6 +361,7 @@ VBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -369,6 +382,7 @@ VBox {
                 SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -390,6 +404,7 @@ VBox {
             "atom": SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -463,6 +478,7 @@ HBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -481,6 +497,7 @@ HBox {
     "left": SymAtom {
       "char": "(",
       "charBox": true,
+      "command": undefined,
       "elem": null,
       "fonts": [
         "Main-R",
@@ -492,6 +509,7 @@ HBox {
     "right": SymAtom {
       "char": ")",
       "charBox": true,
+      "command": undefined,
       "elem": null,
       "fonts": [
         "Main-R",
@@ -505,6 +523,7 @@ HBox {
       "atom": SymAtom {
         "char": "(",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Main-R",
@@ -529,6 +548,7 @@ HBox {
           SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -547,6 +567,7 @@ HBox {
           "left": SymAtom {
             "char": "(",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Main-R",
@@ -558,6 +579,7 @@ HBox {
           "right": SymAtom {
             "char": ")",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Main-R",
@@ -572,6 +594,7 @@ HBox {
           "atom": SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -591,6 +614,7 @@ HBox {
                 "left": SymAtom {
                   "char": "(",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Main-R",
@@ -602,6 +626,7 @@ HBox {
                 "right": SymAtom {
                   "char": ")",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Main-R",
@@ -636,6 +661,7 @@ HBox {
       "atom": SymAtom {
         "char": ")",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Main-R",
@@ -675,6 +701,7 @@ HBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -693,6 +720,7 @@ HBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -713,6 +741,7 @@ HBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -738,6 +767,7 @@ HBox {
       "atom": SymAtom {
         "char": "(",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Size3",
@@ -770,6 +800,7 @@ HBox {
                     SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -802,6 +833,7 @@ HBox {
                     "atom": SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -860,6 +892,7 @@ HBox {
                     SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -892,6 +925,7 @@ HBox {
                     "atom": SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -965,6 +999,7 @@ HBox {
                     SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -997,6 +1032,7 @@ HBox {
                     "atom": SymAtom {
                       "char": "j",
                       "charBox": true,
+                      "command": undefined,
                       "elem": null,
                       "fonts": [
                         "Math-I",
@@ -1075,6 +1111,7 @@ HBox {
       "atom": SymAtom {
         "char": ")",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Size3",
@@ -1113,6 +1150,7 @@ VStackBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -1150,6 +1188,7 @@ VStackBox {
           SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -1173,6 +1212,7 @@ VStackBox {
           "atom": SymAtom {
             "char": "j",
             "charBox": true,
+            "command": undefined,
             "elem": null,
             "fonts": [
               "Math-I",
@@ -1235,6 +1275,7 @@ VBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -1276,6 +1317,7 @@ VBox {
             SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -1299,6 +1341,7 @@ VBox {
             "atom": SymAtom {
               "char": "j",
               "charBox": true,
+              "command": undefined,
               "elem": null,
               "fonts": [
                 "Math-I",
@@ -1432,6 +1475,7 @@ HBox {
     "nuc": SymAtom {
       "char": "j",
       "charBox": true,
+      "command": undefined,
       "elem": null,
       "fonts": [
         "Math-I",
@@ -1453,6 +1497,7 @@ HBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -1471,6 +1516,7 @@ HBox {
         SymAtom {
           "char": "j",
           "charBox": true,
+          "command": undefined,
           "elem": null,
           "fonts": [
             "Math-I",
@@ -1490,6 +1536,7 @@ HBox {
       "atom": SymAtom {
         "char": "j",
         "charBox": true,
+        "command": undefined,
         "elem": null,
         "fonts": [
           "Math-I",
@@ -1534,6 +1581,7 @@ HBox {
                 SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -1551,6 +1599,7 @@ HBox {
                 "nuc": SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -1568,6 +1617,7 @@ HBox {
                 "atom": SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -1621,6 +1671,7 @@ HBox {
                 SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -1638,6 +1689,7 @@ HBox {
                 "nuc": SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",
@@ -1655,6 +1707,7 @@ HBox {
                 "atom": SymAtom {
                   "char": "j",
                   "charBox": true,
+                  "command": undefined,
                   "elem": null,
                   "fonts": [
                     "Math-I",

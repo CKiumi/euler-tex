@@ -6,6 +6,7 @@ import { configDefaults } from "vitest/config";
 export default defineConfig({
   root: "page",
   test: {
+    include: ["../test/unit/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     environment: "happy-dom",
     exclude: [...configDefaults.exclude, "test/e2e/*"],
     coverage: { reportsDirectory: "test/coverage" },

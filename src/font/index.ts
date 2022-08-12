@@ -1,4 +1,9 @@
-import { INTER_ATOM_SPACING, SIGMAS, AtomKind } from "./sigma";
+import {
+  INTER_ATOM_SPACING,
+  SIGMAS,
+  AtomKind,
+  TIGHT_INTER_ATOM_SPACING,
+} from "./sigma";
 import { Font, FontList, SPEC } from "./spec";
 import METRICS from "./data";
 export { SPEC, SIGMAS };
@@ -32,14 +37,32 @@ export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
   throw new Error("Font metric not found for " + char + "," + fonts.join(" "));
 };
 
-export const getSigma = (name: keyof typeof SIGMAS): number => {
-  return SIGMAS[name][0];
+export const getSigma = (name: keyof typeof SIGMAS, size?: number): number => {
+  let sizeIndex: 0 | 1 | 2;
+  if (size === undefined) {
+    sizeIndex = 0;
+  } else if (size >= 5) {
+    sizeIndex = 0;
+  } else if (size >= 3) {
+    sizeIndex = 1;
+  } else {
+    sizeIndex = 2;
+  }
+  return SIGMAS[name][sizeIndex ?? 0];
 };
 
-export const getSpacing = (prevKind: AtomKind, curKind: AtomKind): number =>
-  (INTER_ATOM_SPACING[prevKind]?.[curKind] ?? 0) * CSSEmPerMu;
+export const getSpacing = (
+  prevKind: AtomKind,
+  curKind: AtomKind,
+  tight?: boolean
+): number => {
+  if (tight) {
+    return (TIGHT_INTER_ATOM_SPACING[prevKind]?.[curKind] ?? 0) * CSSEmPerMu[0];
+  }
+  return (INTER_ATOM_SPACING[prevKind]?.[curKind] ?? 0) * CSSEmPerMu[0];
+};
 
-const CSSEmPerMu = SIGMAS.quad[0] / 18;
+const CSSEmPerMu = SIGMAS.quad.map((s) => s / 18);
 
 export const loadFont = async (fontDirectory: string) => {
   FontList.forEach((fontName) => {

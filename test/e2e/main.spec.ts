@@ -14,15 +14,6 @@ test("main", async ({ page }) => {
   expect(await page.locator("#" + "sqrt").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
-  expect(await page.locator("#" + "supsub").screenshot()).toMatchSnapshot({
-    threshold: 0.01,
-  });
-  expect(await page.locator("#" + "supsub2").screenshot()).toMatchSnapshot({
-    threshold: 0.01,
-  });
-  expect(await page.locator("#" + "supsub3").screenshot()).toMatchSnapshot({
-    threshold: 0.01,
-  });
 });
 
 test("mat", async ({ page }) => {
@@ -31,6 +22,19 @@ test("mat", async ({ page }) => {
     threshold: 0.01,
   });
   expect(await page.locator("#" + "mat2").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+});
+
+test("supsub", async ({ page }) => {
+  await page.goto("http://localhost:3000/supsub");
+  expect(await page.locator("#" + "supsub").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+  expect(await page.locator("#" + "supsub2").screenshot()).toMatchSnapshot({
+    threshold: 0.01,
+  });
+  expect(await page.locator("#" + "supsub3").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
 });

@@ -35,12 +35,14 @@ export class GroupAtom implements Atom {
 
   toBox(options?: Options): HBox {
     let prevKind: AtomKind | null;
+    options = options ?? new Options();
     const children = this.body.map((atom) => {
       const box = atom.toBox(options);
       atom.parent = this;
       if (prevKind && atom.kind) {
         box.space.left =
-          (box.space.left ?? 0) + getSpacing(prevKind, atom.kind);
+          (box.space.left ?? 0) +
+          getSpacing(prevKind, atom.kind, options?.style.isTight());
       }
       prevKind = atom.kind;
       return box;

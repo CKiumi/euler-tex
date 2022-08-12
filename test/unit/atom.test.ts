@@ -9,7 +9,7 @@ import {
   SqrtAtom,
   SymAtom,
   GroupAtom,
-} from "/src/lib";
+} from "../../src/lib";
 
 const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);

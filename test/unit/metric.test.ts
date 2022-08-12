@@ -1,4 +1,4 @@
-import { getCharMetrics } from "/src/lib";
+import { getCharMetrics } from "../../src/lib";
 import { expect, test } from "vitest";
 
 test("getCharMetrics", () => {

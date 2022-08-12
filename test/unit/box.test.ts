@@ -1,4 +1,4 @@
-import { HBox, RectBox, SymBox, VBox, VStackBox } from "/src/lib";
+import { HBox, RectBox, SymBox, VBox, VStackBox } from "../../src/lib";
 import { expect, test } from "vitest";
 
 const a = new SymBox("a", ["Math-I"]);

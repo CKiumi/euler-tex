@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { em } from "/src/util";
+import { em } from "../../src/util";
 
 test("em", () => {
   expect(em(0.43056)).toBe("0.4306em");

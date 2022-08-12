@@ -7,12 +7,12 @@ import {
   OverlineAtom,
   SqrtAtom,
   SymAtom,
-} from "/src/atom/atom";
-import { FracAtom } from "/src/atom/frac";
-import { MatrixAtom } from "/src/atom/matrix";
-import { SupSubAtom } from "/src/atom/supsub";
-import { parse } from "/src/parser/parser";
-import { latexToBlocks } from "/src/parser/textParser";
+} from "../../src/atom/atom";
+import { FracAtom } from "../../src/atom/frac";
+import { MatrixAtom } from "../../src/atom/matrix";
+import { SupSubAtom } from "../../src/atom/supsub";
+import { parse } from "../../src/parser/parser";
+import { latexToBlocks } from "../../src/parser/textParser";
 
 const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);

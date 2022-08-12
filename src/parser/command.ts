@@ -194,6 +194,23 @@ export const BLOCKOP: { [key: string]: string } = {
   "\\smallint": "∫",
 };
 
+export const LIMIT = [
+  "\\coprod",
+  "\\bigvee",
+  "\\bigwedge",
+  "\\biguplus",
+  "\\bigcap",
+  "\\bigcup",
+  "\\intop",
+  "\\prod",
+  "\\sum",
+  "\\bigotimes",
+  "\\bigoplus",
+  "\\bigodot",
+  "\\bigsqcup",
+  "\\smallint",
+];
+
 export const BIN: { [key: string]: string } = {
   "\\mp": "∓",
   "\\ominus": "⊖",

@@ -69,6 +69,20 @@ export const INTER_ATOM_SPACING: Partial<
   inner: { ord: 3, op: 3, bin: 4, rel: 5, open: 3, punct: 3, inner: 3 },
 };
 
+// Spacing relationships for script and scriptscript styles
+export const TIGHT_INTER_ATOM_SPACING: Partial<
+  Record<AtomKind, Partial<Record<AtomKind, number>>>
+> = {
+  ord: { op: 3 },
+  op: { ord: 3, op: 3 },
+  bin: {},
+  rel: {},
+  open: {},
+  close: { op: 3 },
+  punct: {},
+  inner: { op: 3 },
+};
+
 export type AtomKind =
   | "ord"
   | "op"

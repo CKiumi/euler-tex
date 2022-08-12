@@ -1,6 +1,7 @@
 import { Box, HBox, multiplyBox, SymBox, VBox, VStackBox } from "../box/box";
-import { Options } from "../box/style";
+import { DISPLAY, Options } from "../box/style";
 import { AtomKind, getSigma, SIGMAS } from "../font";
+import { LIMIT } from "../parser/command";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 
 export class SupSubAtom implements Atom {
@@ -16,21 +17,23 @@ export class SupSubAtom implements Atom {
   }
   toBox(options?: Options): Box {
     this.nuc.parent = this;
+    options = options ?? new Options();
     if (this.sup) this.sup.parent = this;
     if (this.sub) this.sub.parent = this;
     if (
       this.nuc.kind === "op" &&
       this.nuc instanceof SymAtom &&
-      this.nuc.char === "∑"
+      LIMIT.includes(this.nuc.command ?? "") &&
+      options?.style.size === DISPLAY.size
     ) {
-      return parseLimitSupSub(this, 0.7);
+      return parseLimitSupSub(this, options);
     }
     if (this.sup && this.sub) {
-      return parseSupSub(this, options ?? new Options());
+      return parseSupSub(this, options);
     } else if (this.sup) {
-      return parseSup(this, options ?? new Options());
+      return parseSup(this, options);
     } else {
-      return parseSub(this, options ?? new Options());
+      return parseSub(this, options);
     }
   }
 }
@@ -44,11 +47,12 @@ export const parseSup = (atom: SupSubAtom, options: Options): HBox => {
     atom.sup.toBox(supOption),
     sizeMultiplier / options.sizeMultiplier
   );
-  const nuc = atom.nuc.toBox();
+  const nuc = atom.nuc.toBox(options);
   if (!(atom.nuc as SymAtom).charBox) {
     supShift =
       nuc.rect.height -
-      (SIGMAS.supDrop[1] * sizeMultiplier) / options.sizeMultiplier / 1;
+      (getSigma("supDrop", supOption.size) * sizeMultiplier) /
+        options.sizeMultiplier;
   }
 
   const minSupShift = getSigma("sup1");
@@ -73,9 +77,12 @@ export const parseSub = (atom: SupSubAtom, options: Options) => {
     atom.sub.toBox(subOption),
     sizeMultiplier / options.sizeMultiplier
   );
-  const nuc = atom.nuc.toBox();
+  const nuc = atom.nuc.toBox(options);
   if (!(atom.nuc as SymAtom).charBox) {
-    subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * sizeMultiplier) / 1;
+    subShift =
+      nuc.rect.depth +
+      (getSigma("subDrop", subOption.size) * sizeMultiplier) /
+        options.sizeMultiplier;
   }
   subShift = Math.max(
     subShift,
@@ -104,29 +111,43 @@ export const parseSupSub = (
   const { sizeMultiplier: subSizeMultiplier } = subOption;
   const supOption = options?.getSupOptions(options.style.sup());
   const { sizeMultiplier: supSizeMultiplier } = supOption;
-  const nuc = atom.nuc.toBox();
+  const nuc = atom.nuc.toBox(options);
   const sup = multiplyBox(
     atom.sup.toBox(supOption),
     supSizeMultiplier / options.sizeMultiplier
   );
+
   const sub = multiplyBox(
     atom.sub.toBox(subOption),
     subSizeMultiplier / options.sizeMultiplier
   );
-  const minSupShift = getSigma("sup1");
+  if (!(nuc as SymBox).char || atom.nuc.kind === "op") {
+    supShift =
+      nuc.rect.height -
+      (getSigma("supDrop", supOption.size) * supSizeMultiplier) /
+        options.sizeMultiplier;
+    subShift =
+      nuc.rect.depth +
+      (getSigma("subDrop", subOption.size) * subSizeMultiplier) /
+        options.sizeMultiplier;
+  }
+
+  let minSupShift;
+  if (options.style === DISPLAY) {
+    minSupShift = getSigma("sup1", options.size);
+  } else if (options.style.cramped) {
+    minSupShift = getSigma("sup3", options.size);
+  } else {
+    minSupShift = getSigma("sup2", options.size);
+  }
+
   supShift = Math.max(
     supShift,
     minSupShift,
-    sup.rect.depth + 0.25 * getSigma("xHeight")
+    sup.rect.depth + 0.25 * getSigma("xHeight", options.size)
   );
-  if (!(nuc as SymBox).char || atom.nuc.kind === "op") {
-    subShift = nuc.rect.depth + (SIGMAS.subDrop[1] * subSizeMultiplier) / 1;
-  }
-  if (!(nuc as SymBox).char || atom.nuc.kind === "op") {
-    supShift = nuc.rect.height - (SIGMAS.supDrop[1] * supSizeMultiplier) / 1;
-  }
 
-  subShift = Math.max(subShift, getSigma("sub2"));
+  subShift = Math.max(subShift, getSigma("sub2", options.size));
 
   const ruleWidth = getSigma("defaultRuleThickness");
 
@@ -159,30 +180,34 @@ export const parseSupSub = (
 
 export const parseLimitSupSub = (
   atom: SupSubAtom,
-  multiplier: number
+  options: Options
 ): VStackBox => {
   const { nuc, sup: supAtom, sub: subAtom } = atom;
   let supBox;
   let subBox;
   const nucBox = nuc.toBox();
   if (supAtom) {
-    supBox = multiplyBox(supAtom.toBox(), multiplier);
-    supBox.space.top = getSigma("bigOpSpacing5") / multiplier;
+    const supOption = options?.getSupOptions(options.style.sup());
+    const { sizeMultiplier: supSizeMultiplier } = supOption;
+    supBox = multiplyBox(supAtom.toBox(supOption), supSizeMultiplier);
+    supBox.space.top = getSigma("bigOpSpacing5") / supSizeMultiplier;
     supBox.space.bottom =
       Math.max(
         getSigma("bigOpSpacing1"),
         getSigma("bigOpSpacing3") - supBox.rect.depth
-      ) / multiplier;
+      ) / supSizeMultiplier;
   }
 
   if (subAtom) {
-    subBox = multiplyBox(subAtom.toBox(), multiplier);
-    subBox.space.bottom = getSigma("bigOpSpacing5") / multiplier;
+    const subOption = options?.getSupOptions(options.style.sub());
+    const { sizeMultiplier: subSizeMultiplier } = subOption;
+    subBox = multiplyBox(subAtom.toBox(subOption), subSizeMultiplier);
+    subBox.space.bottom = getSigma("bigOpSpacing5") / subSizeMultiplier;
     subBox.space.top =
       Math.max(
         getSigma("bigOpSpacing2"),
         getSigma("bigOpSpacing4") - subBox.rect.height
-      ) / multiplier;
+      ) / subSizeMultiplier;
   }
   if (supBox && subBox) {
     const bottom =

@@ -132,7 +132,7 @@ export class Parser {
         this.font = null;
       }
       if (BLOCKOP[token]) {
-        atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false));
+        atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false, token));
       }
       if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));

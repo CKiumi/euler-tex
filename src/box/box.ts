@@ -82,6 +82,11 @@ export class SymBox implements Box {
     span.style.lineHeight = em(
       (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2
     );
+
+    //Deal with unknown error, these character are not contained in the rect
+    if (this.char === "⎩" || this.char === "⎭")
+      span.style.marginTop = "-0.25em";
+
     if (this.atom) this.atom.elem = span;
     return span;
   }
