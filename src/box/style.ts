@@ -16,7 +16,7 @@ const sizeMultipliers = [
   0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.44, 1.728, 2.074, 2.488,
 ];
 
-const sizeAtStyle = function (textSize: number, style: Style): number {
+const sizeAtStyle = (textSize: number, style: Style): number => {
   return style.size < 2 ? textSize : sizeStyleMap[textSize - 1][style.size - 1];
 };
 
@@ -47,10 +47,9 @@ export class Style {
     return styles[cramp[this.id]];
   }
 
-  /**
-   * Get the style of a fraction denominator given the fraction in the current
-   * style.
-   */
+  text(): Style {
+    return styles[text[this.id]];
+  }
   fracDen(): Style {
     return styles[fracDen[this.id]];
   }
@@ -62,7 +61,7 @@ const sub = [Sc, Sc, Sc, Sc, SSc, SSc, SSc, SSc];
 const fracNum = [T, Tc, S, Sc, SS, SSc, SS, SSc];
 const fracDen = [Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc];
 const cramp = [Dc, Dc, Tc, Tc, Sc, Sc, SSc, SSc];
-// const text = [D, Dc, T, Tc, T, Tc, T, Tc];
+const text = [D, Dc, T, Tc, T, Tc, T, Tc];
 // Instances of the different styles
 const styles = [
   new Style(D, 0, false),
@@ -76,10 +75,9 @@ const styles = [
 ];
 
 export class Options {
-  style: Style = DISPLAY;
   textSize = 6;
   sizeMultiplier: number;
-  constructor(public size = 6) {
+  constructor(public size = 6, public style: Style = DISPLAY) {
     this.sizeMultiplier = sizeMultipliers[this.size - 1];
   }
   getNewOptions(style: Style): Options {

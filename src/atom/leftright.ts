@@ -1,4 +1,5 @@
 import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import { Options } from "../box/style";
 import { getCharMetrics, getSigma } from "../font";
 import METRICS from "../font/data";
 import Style, { StyleInterface } from "../font/style";
@@ -16,10 +17,10 @@ export class LRAtom implements Atom {
     this.left = new SymAtom("open", left, ["Main-R"]);
     this.right = new SymAtom("open", right, ["Main-R"]);
   }
-  toBox(): HBox {
+  toBox(options: Options): HBox {
     this.body.parent = this;
     const { left, right, body } = this;
-    const innerBox = body.toBox();
+    const innerBox = body.toBox(options);
     const leftBox = makeLeftRightDelim(
       left.char,
       innerBox.rect.height,

@@ -331,7 +331,7 @@ VBox {
             "space": {},
           },
         ],
-        "multiplier": undefined,
+        "multiplier": 1,
         "rect": {
           "depth": 0.19444,
           "height": 0.65952,
@@ -446,7 +446,7 @@ VBox {
             "space": {},
           },
         ],
-        "multiplier": undefined,
+        "multiplier": 1,
         "rect": {
           "depth": 0.19444,
           "height": 0.65952,

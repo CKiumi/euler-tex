@@ -23,16 +23,27 @@ import fontDir from "../woff/Math-I.woff2";
 import { html } from "../src/html";
 const main = document.getElementById("main") as HTMLElement;
 
-const render = (id: string, title: string, latex: string) => {
+const render = (
+  id: string,
+  title: string,
+  latex: string,
+  mode: "display" | "inline" = "display"
+) => {
   const line1 = html("span", { cls: ["ruler"] });
-  katex.render(latex, line1, { displayMode: true, output: "html" });
+  katex.render(latex, line1, {
+    displayMode: mode === "display",
+    output: "html",
+  });
   const line2 = html("span", {
     cls: ["ruler"],
-    children: [MathLatexToHtml(latex)],
+    children: [MathLatexToHtml(latex, mode)],
   });
   main.append(
     html("h1", { text: title }),
-    html("div", { id, children: [line1, line2] })
+    html("div", {
+      id: mode === "inline" ? id + mode : id,
+      children: [line1, line2],
+    })
   );
 };
 
@@ -52,7 +63,6 @@ const renderTable = (command: string[], title: string) => {
         document.createTextNode(" "),
         html("span", {
           children: [MathLatexToHtml(latex)],
-          style: { fontSize: "1.2em" },
         }),
         document.createTextNode(" " + latex)
       );
@@ -68,18 +78,23 @@ const route: { [key: string]: () => void } = {
     render("mathfont", "Font command", mathfont);
     const acc = "\\overline{x^a}\\hat{x^a}";
     render("acc", "Accent", acc);
-    const lr =
-      "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
-    render("lr", "Left Right Parentheses", lr);
-    const frac =
-      "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}\\frac{\\sum^{a}}{\\prod_b^{a}}";
-    render("frac", "Frac", frac);
+
     const sqr =
       "\\sqrt{ } a \\sqrt{ \\hat{a}}\\sqrt{a} \\sqrt{a^2} \\sqrt{K+a} \\sqrt{\\int} \\sqrt{\\sqrt{a}}";
     render("sqrt", "Square Root", sqr);
-
-    const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
-    render("env", "Environment", env);
+    render("sqrt", "Square Root", sqr, "inline");
+  },
+  "/frac": () => {
+    const frac =
+      "\\frac{a+f}{K+j} \\frac{\\sqrt{a}}{\\sqrt{a}}\\frac{\\sum^{a}}{\\prod_b^{a}}";
+    render("frac", "Frac", frac);
+    render("frac", "Frac", frac, "inline");
+  },
+  "/lr": () => {
+    const lr =
+      "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
+    render("lr", "Left Right Parentheses", lr);
+    render("lr", "Left Right Parentheses", lr, "inline");
   },
   "/matrix": () => {
     const matrix1 = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}`;
@@ -91,14 +106,20 @@ const route: { [key: string]: () => void } = {
     const supsub1 =
       "a^{aj} f^K K_a a_f a_f^a f^a_a f^{j^{j^{j}}} f_{j_{j_{j}}} f^{j^{j^{j}}}_{j_{j_{j}}}x^{-x^2}";
     render("supsub", "SupSub1", supsub1);
+
     const supsub2 =
       "\\left(a\\right)^a \\left(a\\right)_a \\left(a\\right)^a_a";
     render("supsub2", "SupSub2", supsub2);
-    const supsub3 = "\\sum_a^a \\int_a^a \\sum^a \\int^a \\int_a ";
-    render("supsub3", "SupSub3", supsub3);
-    const supsub4 =
+
+    const supsub3 =
       "\\sum_{a+b}^{a+b} \\sum^{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
-    render("supsub4", "SupSub4", supsub4);
+    render("supsub3", "SupSub3", supsub3);
+    render("supsub3", "SupSub3", supsub3, "inline");
+  },
+  "/env": () => {
+    const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
+    render("env", "Environment", env);
+    render("env", "Environment", env, "inline");
   },
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");

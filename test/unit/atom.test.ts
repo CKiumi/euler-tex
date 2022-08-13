@@ -10,7 +10,8 @@ import {
   SymAtom,
   GroupAtom,
 } from "../../src/lib";
-
+import { Options } from "../../src/box/style";
+const ops = new Options();
 const j = new SymAtom("ord", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("symbol atom", () => {
@@ -24,31 +25,31 @@ test("symbol atom", () => {
 test("accent atom", () => {
   const accent = new SymAtom("ord", "^", ["Main-R"]);
   const accAtom = new AccentAtom(group, accent);
-  expect(accAtom.toBox()).matchSnapshot();
+  expect(accAtom.toBox(ops)).matchSnapshot();
 });
 
 test("overline atom", () => {
-  expect(new OverlineAtom(group).toBox()).matchSnapshot();
+  expect(new OverlineAtom(group).toBox(ops)).matchSnapshot();
 });
 
 test("leftright atom", () => {
-  expect(new LRAtom("(", ")", group).toBox()).matchSnapshot();
+  expect(new LRAtom("(", ")", group).toBox(ops)).matchSnapshot();
 });
 
 test("sqrt atom", () => {
-  expect(new SqrtAtom(group).toBox()).matchSnapshot();
-  expect(new SqrtAtom(new GroupAtom([])).toBox()).matchSnapshot();
+  expect(new SqrtAtom(group).toBox(ops)).matchSnapshot();
+  expect(new SqrtAtom(new GroupAtom([])).toBox(ops)).matchSnapshot();
 });
 
 test("frac atom", () => {
   expect(
-    new FracAtom(new GroupAtom([j]), new GroupAtom([j])).toBox()
+    new FracAtom(new GroupAtom([j]), new GroupAtom([j])).toBox(ops)
   ).matchSnapshot();
 });
 
 test("matrix atom", () => {
   expect(
-    new MatrixAtom([[group, group], [group]], "pmatrix").toBox()
+    new MatrixAtom([[group, group], [group]], "pmatrix").toBox(ops)
   ).matchSnapshot();
 });
 

@@ -5,13 +5,24 @@ test("main", async ({ page }) => {
   expect(await page.locator("#" + "mathfont").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
-  expect(await page.locator("#" + "lr").screenshot()).toMatchSnapshot({
+
+  expect(await page.locator("#" + "sqrt").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
+});
+
+test("frac", async ({ page }) => {
+  await page.goto("http://localhost:3000/frac");
+
   expect(await page.locator("#" + "frac").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
-  expect(await page.locator("#" + "sqrt").screenshot()).toMatchSnapshot({
+});
+
+test("lr", async ({ page }) => {
+  await page.goto("http://localhost:3000/lr");
+
+  expect(await page.locator("#" + "lr").screenshot()).toMatchSnapshot({
     threshold: 0.01,
   });
 });

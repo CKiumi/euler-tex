@@ -2,7 +2,7 @@ import { SymBox } from "../box/box";
 import { Atom, GroupAtom } from "./atom";
 import { AtomKind, Font } from "../lib";
 import { DISPLAY, Options } from "../box/style";
-import { LIMIT } from "../parser/command";
+import { BLOCKOP } from "../parser/command";
 
 export class SymAtom implements Atom {
   parent: GroupAtom | null = null;
@@ -23,7 +23,7 @@ export class SymAtom implements Atom {
     options = options ?? new Options();
     if (
       options.style.size !== DISPLAY.size &&
-      LIMIT.includes(this.command ?? "")
+      Object.keys(BLOCKOP).includes(this.command ?? "")
     ) {
       return new SymBox(this.char, ["Size1"], this);
     }

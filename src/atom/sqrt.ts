@@ -14,9 +14,7 @@ export class SqrtAtom implements Atom {
   }
   toBox(options: Options): VBox {
     this.body.parent = this;
-    const inner = this.body.toBox(
-      options?.getNewOptions(options.style.cramp())
-    );
+    const inner = this.body.toBox(options.getNewOptions(options.style.cramp()));
     const { width, depth } = inner.rect;
     let { height } = inner.rect;
     if (height === 0) height = getSigma("xHeight");
