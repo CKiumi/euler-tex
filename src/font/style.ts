@@ -22,61 +22,35 @@ class Style implements StyleInterface {
     this.cramped = cramped;
   }
 
-  /**
-   * Get the style of a superscript given a base in the current style.
-   */
   sup(): Style {
     return styles[sup[this.id]];
   }
 
-  /**
-   * Get the style of a subscript given a base in the current style.
-   */
   sub(): Style {
     return styles[sub[this.id]];
   }
 
-  /**
-   * Get the style of a fraction numerator given the fraction in the current
-   * style.
-   */
   fracNum(): Style {
     return styles[fracNum[this.id]];
   }
 
-  /**
-   * Get the style of a fraction denominator given the fraction in the current
-   * style.
-   */
   fracDen(): Style {
     return styles[fracDen[this.id]];
   }
 
-  /**
-   * Get the cramped version of a style (in particular, cramping a cramped style
-   * doesn't change the style).
-   */
   cramp(): Style {
     return styles[cramp[this.id]];
   }
 
-  /**
-   * Get a text or display version of this style.
-   */
   text(): Style {
     return styles[text[this.id]];
   }
 
-  /**
-   * Return true if this style is tightly spaced (scriptstyle/scriptscriptstyle)
-   */
   isTight(): boolean {
     return this.size >= 2;
   }
 }
 
-// Export an interface for type checking, but don't expose the implementation.
-// This way, no more styles can be generated.
 export interface StyleInterface {
   id: number;
   size: number;

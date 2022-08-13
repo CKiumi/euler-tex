@@ -2,7 +2,7 @@ import katex from "katex";
 import "katex/dist/katex.min.css";
 import "../css/eulertex.css";
 import "../css/font.css";
-import { loadFont } from "../src/font";
+import { html } from "../src/html";
 import { MathLatexToHtml } from "../src/lib";
 import {
   ACC,
@@ -19,8 +19,6 @@ import {
   OP,
   REL,
 } from "../src/parser/command";
-import fontDir from "../woff/Math-I.woff2";
-import { html } from "../src/html";
 const main = document.getElementById("main") as HTMLElement;
 
 const render = (
@@ -30,14 +28,18 @@ const render = (
   mode: "display" | "inline" = "display"
 ) => {
   const line1 = html("span", { cls: ["ruler"] });
+  console.time("katex");
   katex.render(latex, line1, {
     displayMode: mode === "display",
     output: "html",
   });
+  console.timeEnd("katex");
+  console.time("euler");
   const line2 = html("span", {
     cls: ["ruler"],
     children: [MathLatexToHtml(latex, mode)],
   });
+  console.timeEnd("euler");
   main.append(
     html("h1", { text: title }),
     html("div", {
@@ -141,5 +143,4 @@ const route: { [key: string]: () => void } = {
   },
 };
 
-loadFont(fontDir.split("/").slice(0, -1).join("/"));
 route[window.location.pathname]?.();
