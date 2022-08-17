@@ -96,18 +96,9 @@ export class Parser {
       );
       return;
     }
-    if (token === Escape.Fence) {
-      atoms.push(
-        new LRAtom(
-          "∣",
-          "∣",
-          new GroupAtom(this.parse(Escape.Fence), this.editable)
-        )
-      );
-      return;
-    }
 
     if (token.length === 1) atoms.push(this.parseSingle(atoms, token));
+    if (token === Escape.Fence) atoms.push(new SymAtom("ord", "∣", ["Main-R"]));
     if (token === Escape.Left) atoms.push(this.parseLR());
     if (token === Escape.Circumfix) {
       const body = atoms.pop();
@@ -134,6 +125,13 @@ export class Parser {
       if (BLOCKOP[token]) {
         atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false, token));
       }
+      if (token === "\\bra")
+        atoms.push(new LRAtom("⟨", "∣", this.parseArg(atoms)));
+      if (token === "\\ket")
+        atoms.push(new LRAtom("∣", "⟩", this.parseArg(atoms)));
+      if (token === "\\braket")
+        atoms.push(new LRAtom("⟨", "⟩", this.parseArg(atoms)));
+
       if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
       if (token === "\\frac") {
@@ -215,27 +213,27 @@ export class Parser {
     if (left === "(") {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("(", ")", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("(", ")", new GroupAtom(body, this.editable));
     } else if (left === "\\{") {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("{", "}", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("{", "}", new GroupAtom(body, this.editable));
     } else if (left === "[") {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("[", "]", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("[", "]", new GroupAtom(body, this.editable));
     } else if (left === Escape.Fence) {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("∣", "∣", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("∣", "∣", new GroupAtom(body, this.editable));
     } else if (left === "\\|") {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("∥", "∥", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("∥", "∥", new GroupAtom(body, this.editable));
     } else if (left === "<") {
       const body = this.parse(Escape.Right);
       this.lexer.tokenize();
-      return new LRAtom("⟨", "⟩", new GroupAtom(body, this.editable)) as Atom;
+      return new LRAtom("⟨", "⟩", new GroupAtom(body, this.editable));
     } else {
       throw new Error("Unsupported Left Right");
     }

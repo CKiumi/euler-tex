@@ -344,6 +344,9 @@ VBox {
     {
       "box": RectBox {
         "atom": undefined,
+        "classes": [
+          "line",
+        ],
         "multiplier": undefined,
         "rect": {
           "depth": 0,
@@ -461,7 +464,7 @@ VBox {
   "rect": {
     "depth": 0.8804400000000001,
     "height": 1.3365200000000002,
-    "width": 0.9381,
+    "width": 0.46905,
   },
   "space": {
     "left": 0.12,
@@ -758,6 +761,7 @@ HBox {
       ],
     ],
     "elem": null,
+    "grid": false,
     "kind": "inner",
     "parent": null,
     "type": "pmatrix",
@@ -786,326 +790,360 @@ HBox {
       },
       "space": {},
     },
-    HBox {
+    VBox {
+      "align": undefined,
       "atom": undefined,
       "children": [
-        VBox {
-          "align": undefined,
-          "atom": undefined,
-          "children": [
-            {
-              "box": HBox {
-                "atom": GroupAtom {
-                  "body": [
-                    SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": [Circular],
-                    },
-                  ],
-                  "editable": false,
-                  "elem": null,
-                  "kind": "ord",
-                  "parent": MatrixAtom {
-                    "children": [
-                      [
-                        [Circular],
-                        [Circular],
-                      ],
-                      [
-                        [Circular],
-                      ],
-                    ],
-                    "elem": null,
-                    "kind": "inner",
-                    "parent": null,
-                    "type": "pmatrix",
-                  },
-                },
+        {
+          "box": HBox {
+            "atom": undefined,
+            "children": [
+              HBox {
+                "atom": undefined,
                 "children": [
-                  SymBox {
-                    "atom": SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                        ],
-                        "editable": false,
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
+                  VBox {
+                    "align": undefined,
+                    "atom": undefined,
+                    "children": [
+                      {
+                        "box": HBox {
+                          "atom": GroupAtom {
+                            "body": [
+                              SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": [Circular],
+                              },
+                            ],
+                            "editable": false,
+                            "elem": null,
+                            "kind": "ord",
+                            "parent": MatrixAtom {
+                              "children": [
+                                [
+                                  [Circular],
+                                  [Circular],
+                                ],
+                                [
+                                  [Circular],
+                                ],
+                              ],
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "parent": null,
+                              "type": "pmatrix",
+                            },
+                          },
                           "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
+                            SymBox {
+                              "atom": SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": GroupAtom {
+                                  "body": [
+                                    [Circular],
+                                  ],
+                                  "editable": false,
+                                  "elem": null,
+                                  "kind": "ord",
+                                  "parent": MatrixAtom {
+                                    "children": [
+                                      [
+                                        [Circular],
+                                        [Circular],
+                                      ],
+                                      [
+                                        [Circular],
+                                      ],
+                                    ],
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "parent": null,
+                                    "type": "pmatrix",
+                                  },
+                                },
+                              },
+                              "char": "j",
+                              "font": "Math-I",
+                              "italic": 0.05724,
+                              "multiplier": undefined,
+                              "rect": {
+                                "depth": 0.19444,
+                                "height": 0.65952,
+                                "width": 0.46905,
+                              },
+                              "space": {},
+                            },
                           ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
+                          "multiplier": undefined,
+                          "rect": {
+                            "depth": 0.19444,
+                            "height": 0.65952,
+                            "width": 0.46905,
+                          },
+                          "space": {},
                         },
+                        "shift": 0.6099999999999999,
                       },
-                    },
-                    "char": "j",
-                    "font": "Math-I",
-                    "italic": 0.05724,
+                      {
+                        "box": HBox {
+                          "atom": GroupAtom {
+                            "body": [
+                              SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": [Circular],
+                              },
+                            ],
+                            "editable": false,
+                            "elem": null,
+                            "kind": "ord",
+                            "parent": MatrixAtom {
+                              "children": [
+                                [
+                                  [Circular],
+                                  [Circular],
+                                ],
+                                [
+                                  [Circular],
+                                ],
+                              ],
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "parent": null,
+                              "type": "pmatrix",
+                            },
+                          },
+                          "children": [
+                            SymBox {
+                              "atom": SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": GroupAtom {
+                                  "body": [
+                                    [Circular],
+                                  ],
+                                  "editable": false,
+                                  "elem": null,
+                                  "kind": "ord",
+                                  "parent": MatrixAtom {
+                                    "children": [
+                                      [
+                                        [Circular],
+                                        [Circular],
+                                      ],
+                                      [
+                                        [Circular],
+                                      ],
+                                    ],
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "parent": null,
+                                    "type": "pmatrix",
+                                  },
+                                },
+                              },
+                              "char": "j",
+                              "font": "Math-I",
+                              "italic": 0.05724,
+                              "multiplier": undefined,
+                              "rect": {
+                                "depth": 0.19444,
+                                "height": 0.65952,
+                                "width": 0.46905,
+                              },
+                              "space": {},
+                            },
+                          ],
+                          "multiplier": undefined,
+                          "rect": {
+                            "depth": 0.19444,
+                            "height": 0.65952,
+                            "width": 0.46905,
+                          },
+                          "space": {},
+                        },
+                        "shift": -0.5900000000000001,
+                      },
+                    ],
                     "multiplier": undefined,
                     "rect": {
-                      "depth": 0.19444,
-                      "height": 0.65952,
+                      "depth": 0.78444,
+                      "height": 1.26952,
                       "width": 0.46905,
                     },
-                    "space": {},
+                    "space": {
+                      "right": 0.5,
+                    },
+                  },
+                  VBox {
+                    "align": undefined,
+                    "atom": undefined,
+                    "children": [
+                      {
+                        "box": HBox {
+                          "atom": GroupAtom {
+                            "body": [
+                              SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": [Circular],
+                              },
+                            ],
+                            "editable": false,
+                            "elem": null,
+                            "kind": "ord",
+                            "parent": MatrixAtom {
+                              "children": [
+                                [
+                                  [Circular],
+                                  [Circular],
+                                ],
+                                [
+                                  [Circular],
+                                ],
+                              ],
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "parent": null,
+                              "type": "pmatrix",
+                            },
+                          },
+                          "children": [
+                            SymBox {
+                              "atom": SymAtom {
+                                "char": "j",
+                                "charBox": true,
+                                "command": undefined,
+                                "elem": null,
+                                "fonts": [
+                                  "Math-I",
+                                ],
+                                "kind": "ord",
+                                "parent": GroupAtom {
+                                  "body": [
+                                    [Circular],
+                                  ],
+                                  "editable": false,
+                                  "elem": null,
+                                  "kind": "ord",
+                                  "parent": MatrixAtom {
+                                    "children": [
+                                      [
+                                        [Circular],
+                                        [Circular],
+                                      ],
+                                      [
+                                        [Circular],
+                                      ],
+                                    ],
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "parent": null,
+                                    "type": "pmatrix",
+                                  },
+                                },
+                              },
+                              "char": "j",
+                              "font": "Math-I",
+                              "italic": 0.05724,
+                              "multiplier": undefined,
+                              "rect": {
+                                "depth": 0.19444,
+                                "height": 0.65952,
+                                "width": 0.46905,
+                              },
+                              "space": {},
+                            },
+                          ],
+                          "multiplier": undefined,
+                          "rect": {
+                            "depth": 0.19444,
+                            "height": 0.65952,
+                            "width": 0.46905,
+                          },
+                          "space": {},
+                        },
+                        "shift": 0.6099999999999999,
+                      },
+                    ],
+                    "multiplier": undefined,
+                    "rect": {
+                      "depth": -0.4155599999999999,
+                      "height": 1.26952,
+                      "width": 0.46905,
+                    },
+                    "space": {
+                      "left": 0.5,
+                    },
                   },
                 ],
                 "multiplier": undefined,
                 "rect": {
-                  "depth": 0.19444,
-                  "height": 0.65952,
-                  "width": 0.46905,
+                  "depth": 0.78444,
+                  "height": 1.26952,
+                  "width": 1.9381,
                 },
-                "space": {},
+                "space": {
+                  "bottom": 0.16555999999999993,
+                  "top": 0.18047999999999997,
+                },
               },
-              "shift": 0.6099999999999999,
+            ],
+            "multiplier": undefined,
+            "rect": {
+              "depth": 0.95,
+              "height": 1.45,
+              "width": 1.9381,
             },
-            {
-              "box": HBox {
-                "atom": GroupAtom {
-                  "body": [
-                    SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": [Circular],
-                    },
-                  ],
-                  "editable": false,
-                  "elem": null,
-                  "kind": "ord",
-                  "parent": MatrixAtom {
-                    "children": [
-                      [
-                        [Circular],
-                        [Circular],
-                      ],
-                      [
-                        [Circular],
-                      ],
-                    ],
-                    "elem": null,
-                    "kind": "inner",
-                    "parent": null,
-                    "type": "pmatrix",
-                  },
-                },
-                "children": [
-                  SymBox {
-                    "atom": SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                        ],
-                        "editable": false,
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
-                          "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
-                          ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
-                        },
-                      },
-                    },
-                    "char": "j",
-                    "font": "Math-I",
-                    "italic": 0.05724,
-                    "multiplier": undefined,
-                    "rect": {
-                      "depth": 0.19444,
-                      "height": 0.65952,
-                      "width": 0.46905,
-                    },
-                    "space": {},
-                  },
-                ],
-                "multiplier": undefined,
-                "rect": {
-                  "depth": 0.19444,
-                  "height": 0.65952,
-                  "width": 0.46905,
-                },
-                "space": {},
-              },
-              "shift": -0.5900000000000001,
-            },
-          ],
-          "multiplier": undefined,
-          "rect": {
-            "depth": 0.78444,
-            "height": 1.26952,
-            "width": 0.9381,
+            "space": {},
           },
-          "space": {
-            "right": 0.5,
-          },
-        },
-        VBox {
-          "align": undefined,
-          "atom": undefined,
-          "children": [
-            {
-              "box": HBox {
-                "atom": GroupAtom {
-                  "body": [
-                    SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": [Circular],
-                    },
-                  ],
-                  "editable": false,
-                  "elem": null,
-                  "kind": "ord",
-                  "parent": MatrixAtom {
-                    "children": [
-                      [
-                        [Circular],
-                        [Circular],
-                      ],
-                      [
-                        [Circular],
-                      ],
-                    ],
-                    "elem": null,
-                    "kind": "inner",
-                    "parent": null,
-                    "type": "pmatrix",
-                  },
-                },
-                "children": [
-                  SymBox {
-                    "atom": SymAtom {
-                      "char": "j",
-                      "charBox": true,
-                      "command": undefined,
-                      "elem": null,
-                      "fonts": [
-                        "Math-I",
-                      ],
-                      "kind": "ord",
-                      "parent": GroupAtom {
-                        "body": [
-                          [Circular],
-                        ],
-                        "editable": false,
-                        "elem": null,
-                        "kind": "ord",
-                        "parent": MatrixAtom {
-                          "children": [
-                            [
-                              [Circular],
-                              [Circular],
-                            ],
-                            [
-                              [Circular],
-                            ],
-                          ],
-                          "elem": null,
-                          "kind": "inner",
-                          "parent": null,
-                          "type": "pmatrix",
-                        },
-                      },
-                    },
-                    "char": "j",
-                    "font": "Math-I",
-                    "italic": 0.05724,
-                    "multiplier": undefined,
-                    "rect": {
-                      "depth": 0.19444,
-                      "height": 0.65952,
-                      "width": 0.46905,
-                    },
-                    "space": {},
-                  },
-                ],
-                "multiplier": undefined,
-                "rect": {
-                  "depth": 0.19444,
-                  "height": 0.65952,
-                  "width": 0.46905,
-                },
-                "space": {},
-              },
-              "shift": 0.6099999999999999,
-            },
-          ],
-          "multiplier": undefined,
-          "rect": {
-            "depth": -0.4155599999999999,
-            "height": 1.26952,
-            "width": 0.46905,
-          },
-          "space": {
-            "left": 0.5,
-          },
+          "shift": 0,
         },
       ],
       "multiplier": undefined,
       "rect": {
-        "depth": 0.78444,
-        "height": 1.26952,
-        "width": 1.9071500000000001,
+        "depth": 0.95,
+        "height": 1.45,
+        "width": 1.9381,
       },
-      "space": {
-        "bottom": 0.16555999999999993,
-        "top": 0.18047999999999997,
-      },
+      "space": {},
     },
     SymBox {
       "atom": SymAtom {
@@ -1135,7 +1173,7 @@ HBox {
   "rect": {
     "depth": 0.95003,
     "height": 1.45,
-    "width": 3.37937,
+    "width": 3.41032,
   },
   "space": {},
 }
@@ -1171,6 +1209,9 @@ VStackBox {
   "children": [
     RectBox {
       "atom": undefined,
+      "classes": [
+        "line",
+      ],
       "multiplier": undefined,
       "rect": {
         "depth": 0,
@@ -1391,7 +1432,7 @@ VBox {
   "rect": {
     "depth": 0.273585,
     "height": 0.926415,
-    "width": 1.8881,
+    "width": 1.41905,
   },
   "space": {},
 }
@@ -1760,7 +1801,7 @@ HBox {
       "rect": {
         "depth": 0.412972,
         "height": 0.942572,
-        "width": 0.65667,
+        "width": 0.328335,
       },
       "space": {},
     },
@@ -1769,7 +1810,7 @@ HBox {
   "rect": {
     "depth": 0.412972,
     "height": 0.942572,
-    "width": 1.12572,
+    "width": 0.797385,
   },
   "space": {},
 }

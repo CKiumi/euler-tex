@@ -21,7 +21,8 @@ exports[`hBox box 1`] = `
 
 exports[`rect box 1`] = `
 <span
-  style="height: 1.0000em; background: black; width: 100%;"
+  class=""
+  style="height: 1.0000em; width: 2em;"
 />
 `;
 

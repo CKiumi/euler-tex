@@ -17,6 +17,7 @@ export class RectBox implements Box {
   space: Space = {};
   constructor(
     public rect: Rect,
+    public classes: string[],
     public atom?: Atom,
     public multiplier?: number
   ) {}
@@ -26,8 +27,13 @@ export class RectBox implements Box {
     if (this.atom instanceof FirstAtom) return span;
     addSpace(span, this);
     span.style.height = em(this.rect.height);
-    span.style.background = "black";
-    span.style.width = "100%";
+    if (this.rect.width !== 0) {
+      span.style.width = this.rect.width + "em";
+    } else {
+      span.style.width = "100%";
+    }
+    span.classList.add(...this.classes);
+
     return span;
   }
 }
@@ -101,7 +107,7 @@ export class HBox implements Box {
     public multiplier?: number
   ) {
     const width = children.reduce(
-      (t, a) => t + a.rect.width + (a.space.left ?? 0),
+      (t, a) => t + a.rect.width + (a.space.left ?? 0) + (a.space.right ?? 0),
       0
     );
     const depth = Math.max(
@@ -145,7 +151,7 @@ export class VBox implements Box {
     const height = Math.max(
       ...children.map(({ shift, box }) => shift + box.rect.height)
     );
-    const width = children.reduce((t, { box: { rect } }) => t + rect.width, 0);
+    const width = Math.max(...children.map(({ box: { rect } }) => rect.width));
     this.rect = { depth, height, width };
   }
 

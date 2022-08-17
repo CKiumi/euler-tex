@@ -4,7 +4,7 @@ import { expect, test } from "vitest";
 const a = new SymBox("a", ["Math-I"]);
 const hbox = new HBox([a, a]);
 const vStackbox = new VStackBox([a, hbox], 3);
-const rectBox = new RectBox({ height: 1, depth: 0.5, width: 2 });
+const rectBox = new RectBox({ height: 1, depth: 0.5, width: 2 }, []);
 
 test("symbol box", () => {
   expect(a.toHtml()).toMatchSnapshot();

@@ -3,7 +3,7 @@ import "katex/dist/katex.min.css";
 import "../css/eulertex.css";
 import "../css/font.css";
 import { html } from "../src/html";
-import { MathLatexToHtml } from "../src/lib";
+import { loadFont, MathLatexToHtml } from "../src/lib";
 import {
   ACC,
   AMS_ARROW,
@@ -95,14 +95,18 @@ const route: { [key: string]: () => void } = {
   "/lr": () => {
     const lr =
       "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
+    const braket = "\\bra{x}A \\ket{x} \\braket{x|y}";
     render("lr", "Left Right Parentheses", lr);
     render("lr", "Left Right Parentheses", lr, "inline");
+    render("braket", "Bracket", braket);
   },
   "/matrix": () => {
     const matrix1 = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}`;
     const matrix2 = String.raw`\begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&\prod_b^{a}\\a&&a\end{pmatrix}`;
+    const matrix3 = String.raw`\begin{pmatrix} a\\ \hline a&a \end{pmatrix} `;
     render("mat1", "Matrix", matrix1);
     render("mat2", "Matrix", matrix2);
+    render("mat3", "Matrix", matrix3);
   },
   "/supsub": () => {
     const supsub1 =
@@ -119,7 +123,7 @@ const route: { [key: string]: () => void } = {
     render("supsub3", "SupSub3", supsub3, "inline");
   },
   "/env": () => {
-    const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
+    const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\x+y&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
     render("env", "Environment", env);
     render("env", "Environment", env, "inline");
   },
@@ -142,5 +146,5 @@ const route: { [key: string]: () => void } = {
     renderTable(Object.keys(AMS_ARROW), "AMS ARROW");
   },
 };
-
+loadFont();
 route[window.location.pathname]?.();

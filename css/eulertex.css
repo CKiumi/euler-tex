@@ -29,3 +29,14 @@
   display: inline-block;
   font-size: 1.21em;
 }
+
+.hline,
+.sep {
+  background-color: gray;
+  display: inline-block;
+}
+
+.line {
+  display: inline-block;
+  background-color: black;
+}

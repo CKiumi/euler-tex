@@ -21,16 +21,11 @@ export class LRAtom implements Atom {
     this.body.parent = this;
     const { left, right, body } = this;
     const innerBox = body.toBox(options);
-    const leftBox = makeLeftRightDelim(
-      left.char,
-      innerBox.rect.height,
-      innerBox.rect.depth
-    );
-    const rightBox = makeLeftRightDelim(
-      right.char,
-      innerBox.rect.height,
-      innerBox.rect.depth
-    );
+    const {
+      rect: { height, depth },
+    } = innerBox;
+    const leftBox = makeLeftRightDelim(left.char, height, depth);
+    const rightBox = makeLeftRightDelim(right.char, height, depth);
     return new HBox([leftBox, innerBox, rightBox], this);
   }
 }

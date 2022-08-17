@@ -20,7 +20,7 @@ export class FirstAtom implements Atom {
   kind = null;
   parent = null;
   elem: HTMLSpanElement | null = null;
-  toBox(): RectBox {
+  toBox(): FirstBox {
     return new FirstBox(this);
   }
 }
@@ -50,10 +50,13 @@ export class GroupAtom implements Atom {
   }
 }
 
-export const parseLine = (): RectBox => {
-  return new RectBox({
-    width: 0,
-    height: getSigma("defaultRuleThickness"),
-    depth: 0,
-  });
+export const parseLine = (width?: number): RectBox => {
+  return new RectBox(
+    {
+      width: width ?? 0,
+      height: getSigma("defaultRuleThickness"),
+      depth: 0,
+    },
+    ["line"]
+  );
 };
