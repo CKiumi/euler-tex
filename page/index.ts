@@ -3,7 +3,13 @@ import "katex/dist/katex.min.css";
 import "../css/eulertex.css";
 import "../css/font.css";
 import { html } from "../src/html";
-import { loadFont, MathLatexToHtml } from "../src/lib";
+import {
+  GroupAtom,
+  latexToArticle,
+  LatexToHtml,
+  loadFont,
+  parse,
+} from "../src/lib";
 import {
   ACC,
   AMS_ARROW,
@@ -19,6 +25,7 @@ import {
   OP,
   REL,
 } from "../src/parser/command";
+import { Options, TEXT } from "../src/box/style";
 const main = document.getElementById("main") as HTMLElement;
 
 const render = (
@@ -37,7 +44,7 @@ const render = (
   console.time("euler");
   const line2 = html("span", {
     cls: ["ruler"],
-    children: [MathLatexToHtml(latex, mode)],
+    children: [latexToHtmlDev(latex, mode)],
   });
   console.timeEnd("euler");
   main.append(
@@ -64,7 +71,7 @@ const renderTable = (command: string[], title: string) => {
         kat,
         document.createTextNode(" "),
         html("span", {
-          children: [MathLatexToHtml(latex)],
+          children: [latexToHtmlDev(latex)],
         }),
         document.createTextNode(" " + latex)
       );
@@ -127,6 +134,29 @@ const route: { [key: string]: () => void } = {
     render("env", "Environment", env);
     render("env", "Environment", env, "inline");
   },
+  "/article": () => {
+    const env = String.raw`Ok Let's start with the following equationThis equation can be expanded to (Display mode)\[\left[x^{2}+2\sum _{i= 1}^{n}xy+y^{2} \right]\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in C$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\end{aligned}\]and also cases \[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]!!!`;
+    console.time("euler1");
+    const line1 = html("div", {
+      children: [latexToArticle(env).toBox().toHtml()],
+      style: { border: "2px black solid" },
+    });
+    console.timeEnd("euler1");
+    main.append(
+      html("h1", { text: "Article Editable" }),
+      html("div", { id: "article", children: [line1] })
+    );
+    console.time("euler2");
+    const line2 = html("div", {
+      children: LatexToHtml(env),
+      style: { border: "2px black solid" },
+    });
+    console.timeEnd("euler2");
+    main.append(
+      html("h1", { text: "Article ReadOnly" }),
+      html("div", { id: "article", children: [line2] })
+    );
+  },
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");
     renderTable(Object.keys(LETTER2), "Letter 2");
@@ -146,5 +176,12 @@ const route: { [key: string]: () => void } = {
     renderTable(Object.keys(AMS_ARROW), "AMS ARROW");
   },
 };
-loadFont();
+export const latexToHtmlDev = (
+  latex: string,
+  mode: "inline" | "display" = "display"
+) => {
+  const options = mode === "inline" ? new Options(6, TEXT) : new Options();
+  return new GroupAtom(parse(latex)).toBox(options).toHtml();
+};
+loadFont("../woff");
 route[window.location.pathname]?.();

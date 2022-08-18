@@ -1,4 +1,10 @@
-import { GroupAtom } from "./atom/atom";
+import {
+  Atom,
+  CharAtom,
+  GroupAtom,
+  MathBlockAtom,
+  ArticleAtom,
+} from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
 import { parse } from "./parser/parser";
@@ -8,9 +14,9 @@ export * from "./atom/atom";
 export * from "./box/box";
 export * from "./parser/parser";
 
-export const loadFont = () => {
+export const loadFont = (base = "../woff") => {
   FontList.forEach((name) => {
-    const url = new URL(`../woff/${name}.woff2`, import.meta.url).href;
+    const url = new URL(`${base}/${name}.woff2`, import.meta.url).href;
     const font = new FontFace(name, `url(${url}) format('woff2')`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (document.fonts as any).add(font);
@@ -20,12 +26,8 @@ export const loadFont = () => {
 
 export const LatexToHtml = (latex: string) => {
   return latexToBlocks(latex).map(({ mode, latex }) => {
-    if (mode === "text") return latex;
-    const inner = new GroupAtom(parse(latex), false)
-      .toBox(new Options())
-      .toHtml();
-    inner.className = mode;
-    return inner;
+    if (mode === "text") return document.createTextNode(latex);
+    return MathLatexToHtml(latex, mode as "inline" | "display");
   });
 };
 
@@ -34,18 +36,41 @@ export const MathLatexToHtml = (
   mode: "inline" | "display" = "display"
 ) => {
   if (mode === "inline") {
-    return new GroupAtom(parse(latex)).toBox(new Options(6, TEXT)).toHtml();
+    const html = new GroupAtom(parse(latex))
+      .toBox(new Options(6, TEXT))
+      .toHtml();
+    html.className = "inline";
+    return html;
   } else {
-    return new GroupAtom(parse(latex)).toBox(new Options()).toHtml();
+    const html = new GroupAtom(parse(latex)).toBox(new Options()).toHtml();
+    html.className = "display";
+    return html;
   }
 };
 
-export const latexToEditableAtom = (
-  latex: string,
-  mode: "display" | "inline"
-) => {
-  const atom = new GroupAtom(parse(latex, true), true);
-  const html = atom.toBox(new Options()).toHtml();
-  html.className = mode;
-  return atom;
+export const latexToArticle = (latex: string) => {
+  return new ArticleAtom(latexToEditableAtoms(latex));
+};
+
+export const latexToEditableAtoms = (latex: string): Atom[] => {
+  const texts: Atom[] = [];
+  latexToBlocks(latex).forEach(({ mode, latex }) => {
+    if (mode === "text") {
+      const atoms = latex.split("").map((char) => new CharAtom(char));
+      texts.push(...atoms);
+    }
+    if (mode === "inline")
+      texts.push(new MathBlockAtom(parse(latex, true), "inline"));
+    if (mode === "display")
+      texts.push(new MathBlockAtom(parse(latex, true), "display"));
+    if (mode === "align") {
+      texts.push(
+        new MathBlockAtom(
+          parse("\\begin{aligned}" + latex + "\\end{aligned}", true),
+          "display"
+        )
+      );
+    }
+  });
+  return texts;
 };

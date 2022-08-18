@@ -1,5 +1,5 @@
-import { Box, FirstBox, HBox, RectBox } from "../box/box";
-import { Options } from "../box/style";
+import { BlockBox, Box, FirstBox, HBox, RectBox } from "../box/box";
+import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 export * from "./accent";
 export * from "./frac";
@@ -47,6 +47,54 @@ export class GroupAtom implements Atom {
       return box;
     });
     return new HBox(children, this);
+  }
+}
+
+export class ArticleAtom extends GroupAtom {
+  kind: AtomKind = "ord";
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(public body: Atom[]) {
+    super(body);
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  toBox(options?: Options): HBox {
+    const children = this.body.map((atom) => {
+      const box = atom.toBox(options);
+      atom.parent = this;
+      return box;
+    });
+    return new BlockBox("text", children, this);
+  }
+}
+
+export class MathBlockAtom extends GroupAtom {
+  kind: AtomKind = "ord";
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(public body: Atom[], public mode: "display" | "inline") {
+    super(body);
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  toBox(options?: Options): HBox {
+    let prevKind: AtomKind | null;
+    const children = this.body.map((atom) => {
+      const box = atom.toBox(
+        this.mode === "inline" ? new Options(6, TEXT) : options
+      );
+      atom.parent = this;
+      if (prevKind && atom.kind) {
+        box.space.left =
+          (box.space.left ?? 0) + getSpacing(prevKind, atom.kind);
+      }
+      prevKind = atom.kind;
+      return box;
+    });
+    return new BlockBox(this.mode, children, this);
   }
 }
 

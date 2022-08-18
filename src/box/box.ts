@@ -54,6 +54,31 @@ export class FirstBox implements Box {
   }
 }
 
+export class CharBox implements Box {
+  rect: Rect = { width: 0, height: 0, depth: 0 };
+  space: Space = {};
+  constructor(
+    public char: string,
+    public atom: Atom,
+    public composite?: boolean
+  ) {}
+  toHtml(): HTMLSpanElement {
+    const { char } = this;
+    const span = document.createElement("span");
+    if (char === "\n") {
+      const first = document.createElement("span");
+      first.innerHTML = "&#8203;";
+      span.append(document.createElement("br"), first);
+      this.atom.elem = span;
+      return span;
+    }
+    span.innerHTML = char;
+    if (this.composite) span.style.textDecoration = "underline";
+    this.atom.elem = span;
+    return span;
+  }
+}
+
 export class SymBox implements Box {
   rect: Rect;
   italic: number;
@@ -339,3 +364,29 @@ const addSpace = (span: HTMLSpanElement, box: Box) => {
   span.style.marginBottom = em(box.space.bottom);
   span.style.marginTop = em(box.space.top);
 };
+
+export class BlockBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = {};
+  constructor(
+    public mode: "text" | "inline" | "display",
+    public children: Box[],
+    public atom?: Atom,
+    public multiplier?: number
+  ) {}
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add(this.mode);
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
+    if (this.children.length === 1) {
+      const space = document.createElement("span");
+      space.innerHTML = "&nbsp;";
+      span.append(space);
+    }
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}

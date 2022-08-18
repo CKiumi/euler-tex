@@ -40,3 +40,32 @@
   display: inline-block;
   background-color: black;
 }
+
+.display,
+.inline,
+.text {
+  /* Without position relative, the selection overlay won't work as expected */
+  position: relative;
+  /* set break-all temporarily, since each character is wrapped in span and can't detect words */
+  word-break: break-all;
+}
+
+.align {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.inline {
+  /* prevent to stick with the last text so that unable to point first atom of inline math */
+  margin-left: 1px;
+  display: inline-block;
+}
+
+.focus {
+  background-color: rgba(186, 217, 230, 0.4);
+}
+
+.text {
+  font-family: Main-R;
+}

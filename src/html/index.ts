@@ -9,7 +9,7 @@ export const html = <K extends keyof HTMLElementTagNameMap>(
     cls?: string[];
     id?: string;
     style?: Partial<CSSStyleDeclaration>;
-    children?: HTMLElement[];
+    children?: (HTMLSpanElement | Text)[];
   }
 ): HTMLElementTagNameMap[K] => {
   const span = document.createElement(tagName);
