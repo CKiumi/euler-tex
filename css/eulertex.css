@@ -69,3 +69,7 @@
 .text {
   font-family: Main-R;
 }
+
+.hidden {
+  opacity: 0;
+}

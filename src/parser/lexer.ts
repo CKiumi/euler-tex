@@ -53,7 +53,7 @@ export class Lexer {
         command += this.cur();
         return command;
       }
-      while (!this.end() && /^[a-zA-Z*]+/.test(this.peek())) {
+      while (!this.end() && /^[a-zA-Z*&#]+/.test(this.peek())) {
         this.readChar();
         command += this.cur();
       }

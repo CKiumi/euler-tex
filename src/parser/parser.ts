@@ -279,7 +279,7 @@ export class Parser {
           element.pop();
         }
         const envName = this.parseEnvName();
-        return new MatrixAtom(element, envName as "pmatrix");
+        return new MatrixAtom(element, envName as "pmatrix", this.editable);
       }
       if (token === Escape.And) row.push(new GroupAtom([], this.editable));
       if (token === Escape.Newline) {

@@ -19,11 +19,14 @@ export class MatrixAtom implements Atom {
       | "vmatrix"
       | "Vmatrix"
       | "cases"
-      | "aligned" = "pmatrix"
+      | "aligned" = "pmatrix",
+    public editable = false
   ) {}
+
   setGrid(grid: boolean) {
     this.grid = grid;
   }
+
   toBox(options: Options): HBox | VBox {
     const hLinesBeforeRow = Array(this.children.length + 1).fill([true]);
     const hlines: { pos: number; isDashed: boolean }[] = [];
@@ -106,9 +109,9 @@ export class MatrixAtom implements Atom {
     const offset = totalHeight / 2 + SIGMAS.axisHeight[0];
 
     const cols: Box[] = [];
-    const sep = createSep(totalHeight, totalHeight - offset);
+    const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
     sep.space.bottom = -totalHeight + offset;
-    if (this.grid) {
+    if (this.editable) {
       cols.push(sep);
     }
 
@@ -130,10 +133,10 @@ export class MatrixAtom implements Atom {
         if (c > 0) cols[cols.length - 1].space.left = arraycolsep;
         if (c < nc - 1) cols[cols.length - 1].space.right = arraycolsep;
       }
-      const sep = createSep(totalHeight, totalHeight - offset);
+      const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
 
       sep.space.bottom = -totalHeight + offset;
-      if (this.grid) cols.push(sep);
+      if (this.editable) cols.push(sep);
     }
     const hbox =
       this.type === "matrix" || this.type === "aligned"
@@ -143,12 +146,12 @@ export class MatrixAtom implements Atom {
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
     const innerDepth = hbox.rect.depth + hbox.space.bottom;
-    const lines = this.grid
+    const lines = this.editable
       ? Array(this.children.length + 1)
           .fill(0)
           .map((_, i) => {
             return {
-              box: createLine(hbox.rect.width),
+              box: createLine(hbox.rect.width, !this.grid),
               shift: -hlines[i].pos + offset,
             };
           })
@@ -203,24 +206,24 @@ type Outrow = {
   pos: number;
 };
 
-const createSep = (height: number, depth: number) => {
+const createSep = (height: number, depth: number, hidden = false) => {
   return new RectBox(
     {
       width: 0.02,
       height,
       depth,
     },
-    ["sep"]
+    hidden ? ["sep", "hidden"] : ["sep"]
   );
 };
 
-export const createLine = (width?: number): RectBox => {
+export const createLine = (width?: number, hidden = false): RectBox => {
   return new RectBox(
     {
       width: width ?? 0,
       height: 0.02,
       depth: 0,
     },
-    ["hline"]
+    hidden ? ["hline", "hidden"] : ["hline"]
   );
 };

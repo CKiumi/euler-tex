@@ -14,9 +14,9 @@ export * from "./atom/atom";
 export * from "./box/box";
 export * from "./parser/parser";
 
-export const loadFont = (base = "../woff") => {
+export const loadFont = () => {
   FontList.forEach((name) => {
-    const url = new URL(`${base}/${name}.woff2`, import.meta.url).href;
+    const url = new URL(`../woff/${name}.woff2`, import.meta.url).href;
     const font = new FontFace(name, `url(${url}) format('woff2')`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (document.fonts as any).add(font);

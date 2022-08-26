@@ -21,6 +21,7 @@ import {
   BIN,
   LETTER1,
   LETTER2,
+  LETTER3,
   MISC,
   OP,
   REL,
@@ -160,6 +161,7 @@ const route: { [key: string]: () => void } = {
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");
     renderTable(Object.keys(LETTER2), "Letter 2");
+    renderTable(Object.keys(LETTER3), "Letter 3");
     renderTable(OP, "Op");
     renderTable(
       Object.keys(ACC).map((a) => a + "{a}"),
@@ -183,5 +185,5 @@ export const latexToHtmlDev = (
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
   return new GroupAtom(parse(latex)).toBox(options).toHtml();
 };
-loadFont("../woff");
+loadFont();
 route[window.location.pathname]?.();
