@@ -71,6 +71,7 @@ export const LETTER3: { [key: string]: string } = {
   // Math and Text
   "\\dag": "†",
   "\\ddag": "‡",
+  "\\ ": " ",
 };
 
 export const INNER: { [key: string]: string } = {
@@ -594,7 +595,7 @@ export const MISC: { [key: string]: string } = {
 };
 
 export const SPACE: { [key: string]: string } = {
-  "\\": " ",
+  "\\ ": " ",
   "\\space": " ",
   "\\nobreakspace": " ",
   // '\\nobreak': 'null',

@@ -48,6 +48,10 @@ export class Lexer {
         this.readChar();
         return Escape.Newline;
       }
+      if (this.peek() === " ") {
+        this.readChar();
+        return Escape.Space;
+      }
       if (this.peek() === "{" || this.peek() === "}" || this.peek() === "|") {
         this.readChar();
         command += this.cur();

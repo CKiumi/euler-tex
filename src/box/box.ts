@@ -90,6 +90,12 @@ export class SymBox implements Box {
     public atom?: Atom,
     public multiplier?: number
   ) {
+    if (this.char === "&nbsp;") {
+      this.rect = { width: 0, height: 1, depth: 0 };
+      this.italic = 0;
+      this.font = "Main-R";
+      return;
+    }
     const {
       font: f,
       depth,

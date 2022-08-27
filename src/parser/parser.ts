@@ -98,6 +98,9 @@ export class Parser {
     }
 
     if (token.length === 1) atoms.push(this.parseSingle(atoms, token));
+    if (token === Escape.Space) {
+      atoms.push(new SymAtom("ord", "&nbsp;", []));
+    }
     if (token === Escape.Fence) atoms.push(new SymAtom("ord", "∣", ["Main-R"]));
     if (token === Escape.Left) atoms.push(this.parseLR());
     if (token === Escape.Circumfix) {
@@ -148,6 +151,7 @@ export class Parser {
         this.parseEnvName();
         atoms.push(this.parseMatrix());
       }
+
       if (LETTER1[token]) {
         atoms.push(new SymAtom("ord", LETTER1[token], ["Math-I", this.font]));
       }
