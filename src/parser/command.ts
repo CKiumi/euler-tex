@@ -374,6 +374,8 @@ export const fontMap: { [x: string]: Font } = {
   mathscr: "Script-R",
   mathsf: "San-R",
   mathtt: "Type-R",
+  boldsymbol: "Math-BI",
+  bm: "Math-BI",
 };
 
 export const AMS_BIN: { [key: string]: string } = {

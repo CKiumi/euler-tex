@@ -21,8 +21,11 @@
   font-size: 1.21em;
   display: block;
   width: 100%;
+  padding: 1em 0;
   text-align: center;
   line-height: normal;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
 
 .inline {

@@ -1,7 +1,7 @@
 {
   "name": "euler-tex",
   "private": true,
-  "version": "0.4.11",
+  "version": "0.4.12",
   "scripts": {
     "dev": "vite",
     "test": "vitest",

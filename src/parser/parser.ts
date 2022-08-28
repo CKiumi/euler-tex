@@ -9,6 +9,8 @@ import {
   MatrixAtom,
   SupSubAtom,
   GroupAtom,
+  FirstAtom,
+  CharAtom,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind, Font } from "../font";
@@ -77,6 +79,17 @@ export class Parser {
     return atoms;
   }
 
+  parseText(): Atom[] {
+    const atoms: Atom[] = [];
+    for (;;) {
+      const token = this.lexer.tokenize(false);
+      if (token === Escape.RCurly) break;
+      if (token === Escape.EOF) throw new Error("Expected }");
+      atoms.push(new CharAtom(token));
+    }
+    return atoms;
+  }
+
   parseOne(token: string, atoms: Atom[]) {
     if (token === "(") {
       atoms.push(
@@ -122,11 +135,16 @@ export class Parser {
     if (token.startsWith("\\")) {
       if (fontMap[token.slice(1)]) {
         this.font = fontMap[token.slice(1)];
-        atoms.push(...this.parseArg(atoms).body);
+        const { body } = this.parseArg(atoms);
+        atoms.push(...body.slice(body[0] instanceof FirstAtom ? 1 : 0));
         this.font = null;
       }
       if (BLOCKOP[token]) {
         atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false, token));
+      }
+      if (token === "\\text") {
+        this.lexer.tokenize();
+        atoms.push(new GroupAtom(this.parseText()));
       }
       if (token === "\\bra")
         atoms.push(new LRAtom("⟨", "∣", this.parseArg(atoms)));
