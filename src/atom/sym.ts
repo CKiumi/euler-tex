@@ -35,10 +35,23 @@ export class CharAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-  constructor(public char: string, public composite?: boolean) {
+  constructor(
+    public char: string,
+    public composite?: boolean,
+    public italic = false,
+    public bold = false,
+    public font: Font | null = null
+  ) {
     if (char === " ") this.char = "&nbsp;";
   }
   toBox(): CharBox {
-    return new CharBox(this.char, this, this.composite);
+    return new CharBox(
+      this.char,
+      this,
+      this.composite,
+      this.italic,
+      this.bold,
+      this.font
+    );
   }
 }

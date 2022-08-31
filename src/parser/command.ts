@@ -363,10 +363,19 @@ export const ACC: { [key: string]: string } = {
 };
 
 export const fontMap: { [x: string]: Font } = {
+  //work both in math and text mode
+  textrm: "Main-R",
+  textnormal: "Main-R",
+  textsf: "San-R",
+  textbf: "Main-R",
+  textmd: "Main-R",
+  texttt: "Type-R",
+  textit: "Main-R",
+  textup: "Main-R",
+  //only in math mode
   mathbf: "Main-B",
   mathrm: "Main-R",
-  textit: "Main-I",
-  mathit: "Main-I",
+  mathit: "Main-R",
   mathnormal: "Math-I",
   mathbb: "AMS-R",
   mathcal: "Cal-R",

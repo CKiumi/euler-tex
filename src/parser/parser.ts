@@ -50,19 +50,23 @@ export class Parser {
       return new SymAtom("ord", token, ["Math-I", this.font]);
     if (/[0-9]/.test(token))
       return new SymAtom("ord", token, ["Main-R", this.font]);
-    if (token === "+") return new SymAtom(binOrOrd(atoms), "+", ["Main-R"]);
-    if (token === "-") return new SymAtom(binOrOrd(atoms), "−", ["Main-R"]);
-    if (token === "*") return new SymAtom(binOrOrd(atoms), "∗", ["Main-R"]);
-    if (token === "/") return new SymAtom(binOrOrd(atoms), "/", ["Main-R"]);
-    if (token === "=") return new SymAtom("rel", "=", ["Main-R"]);
-    if (token === ",") return new SymAtom("punct", ",", ["Main-R"]);
-    if (token === ".") return new SymAtom("ord", ".", ["Main-R"]);
-    if (token === ";") return new SymAtom("punct", ";", ["Main-R"]);
-    if (token === ":") return new SymAtom("rel", ":", ["Main-R"]);
-    if (token === "<") return new SymAtom("rel", "<", ["Main-R"]);
-    if (token === ">") return new SymAtom("rel", ">", ["Main-R"]);
-    if (token === "?") return new SymAtom("close", "?", ["Main-R"]);
-    if (token === "!") return new SymAtom("close", "!", ["Main-R"]);
+    if (token === "+")
+      return new SymAtom(binOrOrd(atoms), "+", ["Main-R", this.font]);
+    if (token === "-")
+      return new SymAtom(binOrOrd(atoms), "−", ["Main-R", this.font]);
+    if (token === "*")
+      return new SymAtom(binOrOrd(atoms), "∗", ["Main-R", this.font]);
+    if (token === "/")
+      return new SymAtom(binOrOrd(atoms), "/", ["Main-R", this.font]);
+    if (token === "=") return new SymAtom("rel", "=", ["Main-R", this.font]);
+    if (token === ",") return new SymAtom("punct", ",", ["Main-R", this.font]);
+    if (token === ".") return new SymAtom("ord", ".", ["Main-R", this.font]);
+    if (token === ";") return new SymAtom("punct", ";", ["Main-R", this.font]);
+    if (token === ":") return new SymAtom("rel", ":", ["Main-R", this.font]);
+    if (token === "<") return new SymAtom("rel", "<", ["Main-R", this.font]);
+    if (token === ">") return new SymAtom("rel", ">", ["Main-R", this.font]);
+    if (token === "?") return new SymAtom("close", "?", ["Main-R", this.font]);
+    if (token === "!") return new SymAtom("close", "!", ["Main-R", this.font]);
     // eslint-disable-next-line quotes
     if (token === '"') return new SymAtom("ord", '"', ["Main-R"]);
     console.error(`Single token ${token} not supported`);
@@ -79,13 +83,13 @@ export class Parser {
     return atoms;
   }
 
-  parseText(): Atom[] {
+  parseText(italic = false, bold = false, font: Font | null = null): Atom[] {
     const atoms: Atom[] = [];
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (token === Escape.RCurly) break;
       if (token === Escape.EOF) throw new Error("Expected }");
-      atoms.push(new CharAtom(token));
+      atoms.push(new CharAtom(token, false, italic, bold, font));
     }
     return atoms;
   }
@@ -133,8 +137,29 @@ export class Parser {
       } else atoms.push(new SupSubAtom(body, undefined, this.parseArg(atoms)));
     }
     if (token.startsWith("\\")) {
+      if (token === "\\text") {
+        this.lexer.tokenize();
+        atoms.push(new GroupAtom(this.parseText()));
+      }
       if (fontMap[token.slice(1)]) {
         this.font = fontMap[token.slice(1)];
+        if (token.slice(1).startsWith("text")) {
+          this.lexer.tokenize();
+          if (/textrm|textnormal|textmd|textup/.test(token.slice(1))) {
+            atoms.push(...this.parseText(false, false));
+          }
+          if (token.slice(1) === "textit") {
+            atoms.push(...this.parseText(true, false));
+          }
+          if (token.slice(1) === "textbf") {
+            atoms.push(...this.parseText(false, true));
+          }
+          if (token.slice(1) === "textsf" || token.slice(1) === "texttt") {
+            atoms.push(...this.parseText(false, false, this.font));
+          }
+          this.font = null;
+          return;
+        }
         const { body } = this.parseArg(atoms);
         atoms.push(...body.slice(body[0] instanceof FirstAtom ? 1 : 0));
         this.font = null;
@@ -142,10 +167,7 @@ export class Parser {
       if (BLOCKOP[token]) {
         atoms.push(new SymAtom("op", BLOCKOP[token], ["Size2"], false, token));
       }
-      if (token === "\\text") {
-        this.lexer.tokenize();
-        atoms.push(new GroupAtom(this.parseText()));
-      }
+
       if (token === "\\bra")
         atoms.push(new LRAtom("⟨", "∣", this.parseArg(atoms)));
       if (token === "\\ket")

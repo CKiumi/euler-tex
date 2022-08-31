@@ -60,7 +60,10 @@ export class CharBox implements Box {
   constructor(
     public char: string,
     public atom: Atom,
-    public composite?: boolean
+    public composite?: boolean,
+    public italic = false,
+    public bold = false,
+    public font: Font | null = null
   ) {}
   toHtml(): HTMLSpanElement {
     const { char } = this;
@@ -72,6 +75,9 @@ export class CharBox implements Box {
       this.atom.elem = span;
       return span;
     }
+    if (this.italic) span.style.fontStyle = "italic";
+    if (this.bold) span.style.fontWeight = "bold";
+    if (this.font) span.classList.add(this.font.toLowerCase());
     span.innerHTML = char;
     if (this.composite) span.style.textDecoration = "underline";
     this.atom.elem = span;
@@ -90,6 +96,9 @@ export class SymBox implements Box {
     public atom?: Atom,
     public multiplier?: number
   ) {
+    if (fonts[0] === "Main-R" && fonts[1] === "Math-BI") {
+      fonts = ["Main-B"];
+    }
     if (this.char === "&nbsp;") {
       this.rect = { width: 0, height: 1, depth: 0 };
       this.italic = 0;

@@ -3,7 +3,16 @@ import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, FirstAtom, GroupAtom } from "./atom";
 import { makeLeftRightDelim } from "./leftright";
-
+const envs = [
+  "pmatrix",
+  "bmatrix",
+  "Bmatrix",
+  "vmatrix",
+  "Vmatrix",
+  "matrix",
+  "cases",
+  "aligned",
+] as const;
 export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
@@ -11,15 +20,7 @@ export class MatrixAtom implements Atom {
   grid = false;
   constructor(
     public children: GroupAtom[][],
-    public type:
-      | "pmatrix"
-      | "matrix"
-      | "bmatrix"
-      | "Bmatrix"
-      | "vmatrix"
-      | "Vmatrix"
-      | "cases"
-      | "aligned" = "pmatrix",
+    public type: typeof envs[number] = "pmatrix",
     public editable = false
   ) {}
 
@@ -208,22 +209,14 @@ type Outrow = {
 
 const createSep = (height: number, depth: number, hidden = false) => {
   return new RectBox(
-    {
-      width: 0.02,
-      height,
-      depth,
-    },
+    { width: 0.02, height, depth },
     hidden ? ["sep", "hidden"] : ["sep"]
   );
 };
 
 export const createLine = (width?: number, hidden = false): RectBox => {
   return new RectBox(
-    {
-      width: width ?? 0,
-      height: 0.02,
-      depth: 0,
-    },
+    { width: width ?? 0, height: 0.02, depth: 0 },
     hidden ? ["hline", "hidden"] : ["hline"]
   );
 };
