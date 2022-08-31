@@ -14,8 +14,8 @@ export class LRAtom implements Atom {
   elem: HTMLSpanElement | null = null;
   constructor(left: string, right: string, public body: GroupAtom) {
     this.kind = "inner";
-    this.left = new SymAtom("open", left, ["Main-R"]);
-    this.right = new SymAtom("open", right, ["Main-R"]);
+    this.left = new SymAtom("open", left, left, ["Main-R"]);
+    this.right = new SymAtom("open", right, right, ["Main-R"]);
   }
   toBox(options: Options): HBox {
     this.body.parent = this;
@@ -169,11 +169,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
 };
 
 const makeSmallDelim = (delim: string): SymBox => {
-  return new SymAtom("open", delim, ["Main-R"]).toBox();
+  return new SymAtom("open", delim, delim, ["Main-R"]).toBox();
 };
 
 const makeLargeDelim = (delim: string, size: number): SymBox => {
-  return new SymAtom("open", delim, [("Size" + size) as Font]).toBox();
+  return new SymAtom("open", delim, delim, [("Size" + size) as Font]).toBox();
 };
 const verts = ["∣", "\\lvert", "\\rvert", "\\vert"];
 export const makeStackedDelim = function (
@@ -255,13 +255,13 @@ export const makeStackedDelim = function (
       realHeightTotal - topHeightTotal - bottomHeightTotal + 2 * lapInEms;
     return new VStackBox(
       [
-        new SymAtom("ord", top, [font]).toBox(),
+        new SymAtom("ord", top, top, [font]).toBox(),
         new DelimInnerBox(repeat, {
           width: METRICS[font][repeat.charCodeAt(0)][4],
           height: innerHeight,
           depth: 0,
         }),
-        new SymAtom("open", bottom, [font]).toBox(),
+        new SymAtom("open", bottom, bottom, [font]).toBox(),
       ],
       depth
     );
@@ -276,19 +276,19 @@ export const makeStackedDelim = function (
 
     return new VStackBox(
       [
-        new SymAtom("ord", top, [font]).toBox(),
+        new SymAtom("ord", top, top, [font]).toBox(),
         new DelimInnerBox(repeat, {
           width: METRICS[font][repeat.charCodeAt(0)][4],
           height: innerHeight,
           depth: 0,
         }),
-        new SymAtom("ord", middle, [font]).toBox(),
+        new SymAtom("ord", middle, middle, [font]).toBox(),
         new DelimInnerBox(repeat, {
           width: METRICS[font][repeat.charCodeAt(0)][4],
           height: innerHeight,
           depth: 0,
         }),
-        new SymAtom("open", bottom, [font]).toBox(),
+        new SymAtom("open", bottom, bottom, [font]).toBox(),
       ],
       depth
     );

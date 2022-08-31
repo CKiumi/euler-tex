@@ -12,9 +12,9 @@ export class SymAtom implements Atom {
   constructor(
     public kind: AtomKind,
     public char: string,
+    public command: string,
     fonts: (Font | null)[],
-    public charBox: boolean = true,
-    public command?: string
+    public charBox: boolean = true
   ) {
     this.fonts = fonts.filter((e) => e) as Font[];
   }
