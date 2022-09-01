@@ -3,7 +3,8 @@ import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, FirstAtom, GroupAtom } from "./atom";
 import { makeLeftRightDelim } from "./leftright";
-const envs = [
+
+export const ENVNAMES = [
   "pmatrix",
   "bmatrix",
   "Bmatrix",
@@ -14,6 +15,7 @@ const envs = [
   "aligned",
   "align",
 ] as const;
+
 export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
@@ -22,7 +24,7 @@ export class MatrixAtom implements Atom {
 
   constructor(
     public children: GroupAtom[][],
-    public type: typeof envs[number] = "pmatrix",
+    public type: typeof ENVNAMES[number] = "pmatrix",
     public labels: (string | null)[] = [],
     public editable = false
   ) {}

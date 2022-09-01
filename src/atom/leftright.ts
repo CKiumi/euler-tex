@@ -1,21 +1,41 @@
-import { Box, DelimInnerBox, HBox, SymBox, VStackBox } from "../box/box";
+import {
+  Box,
+  DelimInnerBox,
+  HBox,
+  RectBox,
+  SymBox,
+  VStackBox,
+} from "../box/box";
 import { Options } from "../box/style";
 import { getCharMetrics, getSigma } from "../font";
 import METRICS from "../font/data";
 import Style, { StyleInterface } from "../font/style";
 import { AtomKind, Font } from "../lib";
 import { Atom, GroupAtom, SymAtom } from "./atom";
-
+export type Delims = keyof typeof DelimMap;
+export const DelimMap = {
+  "(": "(",
+  ")": ")",
+  "[": "[",
+  "]": "]",
+  "\\{": "{",
+  "\\}": "}",
+  "|": "∣",
+  "\\|": "∥",
+  "<": "⟨",
+  ">": "⟩",
+  ".": " ",
+};
 export class LRAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind;
   left: SymAtom;
   right: SymAtom;
   elem: HTMLSpanElement | null = null;
-  constructor(left: string, right: string, public body: GroupAtom) {
+  constructor(left: Delims, right: Delims, public body: GroupAtom) {
     this.kind = "inner";
-    this.left = new SymAtom("open", left, left, ["Main-R"]);
-    this.right = new SymAtom("open", right, right, ["Main-R"]);
+    this.left = new SymAtom("open", DelimMap[left], left, ["Main-R"]);
+    this.right = new SymAtom("open", DelimMap[right], right, ["Main-R"]);
   }
   toBox(options: Options): HBox {
     this.body.parent = this;
@@ -24,8 +44,14 @@ export class LRAtom implements Atom {
     const {
       rect: { height, depth },
     } = innerBox;
-    const leftBox = makeLeftRightDelim(left.char, height, depth);
-    const rightBox = makeLeftRightDelim(right.char, height, depth);
+    const leftBox =
+      left.char === " "
+        ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
+        : makeLeftRightDelim(left.char, height, depth);
+    const rightBox =
+      right.char === " "
+        ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
+        : makeLeftRightDelim(right.char, height, depth);
     return new HBox([leftBox, innerBox, rightBox], this);
   }
 }
@@ -140,6 +166,7 @@ type Delimiter =
   | { type: "small"; style: StyleInterface }
   | { type: "large"; size: 1 | 2 | 3 | 4 }
   | { type: "stack" };
+
 export const traverseSequence = function (
   delim: string,
   height: number,

@@ -76,7 +76,7 @@ const renderTable = (command: string[], title: string) => {
         kat,
         document.createTextNode(" "),
         html("span", {
-          children: [latexToHtmlDev(latex)],
+          children: [latexToHtmlDev(latex, "display", false)],
           style: { fontFamily: "Main-R" },
         }),
         document.createTextNode(" " + latex)
@@ -107,10 +107,14 @@ const route: { [key: string]: () => void } = {
   },
   "/lr": () => {
     const lr =
-      "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
+      "\\left(\\sum^{\\sum}_{\\sum}\\right) \\left\\{\\sum^{\\sum}_{\\sum}\\right\\} \\left[\\sum^{\\sum^{\\sum}}_{\\sum}\\right] \\left|\\sum^{\\sum}_{\\sum}\\right| \\left\\|\\sum^{\\sum}_{\\sum}\\right\\|\\left<\\sum^{\\sum}_{\\sum}\\right>";
     const braket = "\\bra{x}A \\ket{x} \\braket{x|y}";
     render("lr", "Left Right Parentheses", lr);
     render("lr", "Left Right Parentheses", lr, "inline");
+    const lr2 =
+      "\\left(\\sum^{\\sum}_{\\sum}\\right] \\left(\\sum^{\\sum}_{\\sum}\\right.a ";
+    render("lr2", "Left Right Parentheses", lr2);
+    render("lr2", "Left Right Parentheses", lr2, "inline");
     render("braket", "Bracket", braket);
   },
   "/matrix": () => {
@@ -143,7 +147,7 @@ const route: { [key: string]: () => void } = {
     render("env", "Environment", align, "align");
   },
   "/article": () => {
-    const env = String.raw`Ok Let's start with the following equation. You can expand and factor\[\sqrt{\text{x日本語}}\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align (\ref{label1}) \begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!(\ref{label2})`;
+    const env = String.raw`To inser command, type \textbf{backslash}. Ok Let's start with the following equation. You can expand and factor\[\sqrt{\text{x日本語}}\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align (\ref{label1}) \begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!(\ref{label2})`;
     console.time("euler1");
     const line1 = html("div", {
       children: [latexToArticle(env).toBox().toHtml()],
@@ -193,11 +197,12 @@ const route: { [key: string]: () => void } = {
 };
 export const latexToHtmlDev = (
   latex: string,
-  mode: "inline" | "display" | "align" = "display"
+  mode: "inline" | "display" | "align" = "display",
+  fullWidth = true
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
   const html = new GroupAtom(parse(latex)).toBox(options).toHtml();
-  html.style.width = "100%";
+  fullWidth && (html.style.width = "100%");
   return html;
 };
 loadFont();

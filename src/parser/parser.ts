@@ -11,6 +11,9 @@ import {
   GroupAtom,
   FirstAtom,
   CharAtom,
+  ENVNAMES,
+  DelimMap,
+  Delims,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind, Font } from "../font";
@@ -76,6 +79,7 @@ export class Parser {
       return new SymAtom("close", "?", token, ["Main-R", this.font]);
     if (token === "!")
       return new SymAtom("close", "!", token, ["Main-R", this.font]);
+    if (token === "|") return new SymAtom("ord", "∣", "|", ["Main-R"]);
     // eslint-disable-next-line quotes
     if (token === '"') return new SymAtom("ord", '"', token, ["Main-R"]);
     console.error(`Single token ${token} not supported`);
@@ -108,6 +112,14 @@ export class Parser {
         }
         continue;
       }
+      if (fontMap[token.slice(1)]) {
+        this.font = fontMap[token.slice(1)];
+        if (token.slice(1).startsWith("text")) {
+          atoms.push(...this.parseTextFont(token));
+          this.font = null;
+        }
+        continue;
+      }
       atoms.push(new CharAtom(token, false, italic, bold, font));
     }
     return atoms;
@@ -122,7 +134,11 @@ export class Parser {
     }
     if (token === "\\{") {
       atoms.push(
-        new LRAtom("{", "}", new GroupAtom(this.parse("\\}"), this.editable))
+        new LRAtom(
+          "\\{",
+          "\\}",
+          new GroupAtom(this.parse("\\}"), this.editable)
+        )
       );
       return;
     }
@@ -137,8 +153,6 @@ export class Parser {
     if (token === Escape.Space) {
       atoms.push(new SymAtom("ord", "&nbsp;", "\\ ", []));
     }
-    if (token === Escape.Fence)
-      atoms.push(new SymAtom("ord", "∣", "|", ["Main-R"]));
     if (token === Escape.Left) atoms.push(this.parseLR());
     if (token === Escape.Circumfix) {
       const body = atoms.pop();
@@ -164,19 +178,7 @@ export class Parser {
       if (fontMap[token.slice(1)]) {
         this.font = fontMap[token.slice(1)];
         if (token.slice(1).startsWith("text")) {
-          this.lexer.tokenize();
-          if (/textrm|textnormal|textmd|textup/.test(token.slice(1))) {
-            atoms.push(...this.parseText(false, false));
-          }
-          if (token.slice(1) === "textit") {
-            atoms.push(...this.parseText(true, false));
-          }
-          if (token.slice(1) === "textbf") {
-            atoms.push(...this.parseText(false, true));
-          }
-          if (token.slice(1) === "textsf" || token.slice(1) === "texttt") {
-            atoms.push(...this.parseText(false, false, this.font));
-          }
+          atoms.push(...this.parseTextFont(token));
           this.font = null;
           return;
         }
@@ -189,11 +191,11 @@ export class Parser {
       }
 
       if (token === "\\bra")
-        atoms.push(new LRAtom("⟨", "∣", this.parseArg(atoms)));
+        atoms.push(new LRAtom("<", "|", this.parseArg(atoms)));
       if (token === "\\ket")
-        atoms.push(new LRAtom("∣", "⟩", this.parseArg(atoms)));
+        atoms.push(new LRAtom("|", ">", this.parseArg(atoms)));
       if (token === "\\braket")
-        atoms.push(new LRAtom("⟨", "⟩", this.parseArg(atoms)));
+        atoms.push(new LRAtom("<", ">", this.parseArg(atoms)));
 
       if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
       if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
@@ -279,34 +281,15 @@ export class Parser {
   }
 
   private parseLR(): Atom {
-    const left = this.lexer.tokenize();
-    if (left === "(") {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("(", ")", new GroupAtom(body, this.editable));
-    } else if (left === "\\{") {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("{", "}", new GroupAtom(body, this.editable));
-    } else if (left === "[") {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("[", "]", new GroupAtom(body, this.editable));
-    } else if (left === Escape.Fence) {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("∣", "∣", new GroupAtom(body, this.editable));
-    } else if (left === "\\|") {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("∥", "∥", new GroupAtom(body, this.editable));
-    } else if (left === "<") {
-      const body = this.parse(Escape.Right);
-      this.lexer.tokenize();
-      return new LRAtom("⟨", "⟩", new GroupAtom(body, this.editable));
-    } else {
-      throw new Error("Unsupported Left Right");
-    }
+    const left = this.assertDelim(this.lexer.tokenize());
+    const body = this.parse(Escape.Right);
+    const right = this.assertDelim(this.lexer.tokenize());
+    return new LRAtom(left, right, new GroupAtom(body, this.editable));
+  }
+
+  private assertDelim(token: Token): Delims {
+    if (token in DelimMap) return token as Delims;
+    throw new Error("Unsupported Left Right Delimiter " + token);
   }
 
   parseArg(atoms: Atom[]): GroupAtom {
@@ -321,20 +304,7 @@ export class Parser {
     if (token === Escape.LCurly) {
       const envName = this.lexer.readEnvName();
       if (this.lexer.tokenize() != Escape.RCurly) throw new Error("Expected }");
-      if (
-        [
-          "matrix",
-          "pmatrix",
-          "bmatrix",
-          "Bmatrix",
-          "vmatrix",
-          "Vmatrix",
-          "align",
-          "aligned",
-          "cases",
-        ].includes(envName)
-      )
-        return envName;
+      if (ENVNAMES.includes(envName)) return envName;
       else throw new Error("Unknown environment name");
     } else throw new Error("{ expected after \\begin and \\end");
   }
@@ -380,6 +350,22 @@ export class Parser {
       }
       this.parseOne(token, row[row.length - 1].body);
     }
+  }
+  parseTextFont(token: string) {
+    this.lexer.tokenize();
+    if (/textrm|textnormal|textmd|textup/.test(token.slice(1))) {
+      return this.parseText(false, false);
+    }
+    if (token.slice(1) === "textit") {
+      return this.parseText(true, false);
+    }
+    if (token.slice(1) === "textbf") {
+      return this.parseText(false, true);
+    }
+    if (token.slice(1) === "textsf" || token.slice(1) === "texttt") {
+      return this.parseText(false, false, this.font);
+    }
+    return [];
   }
 }
 

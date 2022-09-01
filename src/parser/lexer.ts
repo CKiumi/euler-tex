@@ -1,9 +1,10 @@
+import { ENVNAMES } from "../atom/matrix";
+
 export enum Escape {
   Space = "<space>",
   EOF = "EOF",
   Left = "<left>",
   Right = "<right>",
-  Fence = "<|>",
   Circumfix = "<^>",
   UnderScore = "<_>",
   LCurly = "<{>",
@@ -40,7 +41,6 @@ export class Lexer {
     if (cur === "_") return Escape.UnderScore;
     if (cur === "{") return Escape.LCurly;
     if (cur === "}") return Escape.RCurly;
-    if (cur === "|") return Escape.Fence;
     if (cur === "&") return Escape.And;
     if (cur === "\\") {
       let command = "\\";
@@ -75,14 +75,15 @@ export class Lexer {
     return token;
   }
 
-  readEnvName() {
-    let envName = "";
+  readEnvName(): typeof ENVNAMES[number] {
+    let envName = "" as typeof ENVNAMES[number];
     while (!this.end() && /^[a-zA-Z*\s]+/.test(this.peek() ?? "")) {
       this.readChar();
       envName += this.cur();
     }
     return envName;
   }
+
   readLabel() {
     let envName = "";
     while (!this.end() && /^[a-zA-Z0-9*\s]+/.test(this.peek() ?? "")) {
