@@ -71,8 +71,21 @@ export class CharBox implements Box {
     public composite?: boolean,
     public italic = false,
     public bold = false,
-    public font: Font | null = null
-  ) {}
+    public font: Font | null = null,
+    public ref = false
+  ) {
+    try {
+      const metrics = getCharMetrics(char, [font ?? "Main-R"]);
+      this.rect.width = metrics.width + metrics.italic;
+      this.rect.height = metrics.height;
+      this.rect.depth = metrics.depth;
+    } catch (error) {
+      this.rect.width = 1;
+      this.rect.height = 0.68;
+      this.rect.depth = 0;
+      return;
+    }
+  }
   toHtml(): HTMLSpanElement {
     const { char } = this;
     const span = document.createElement("span");
@@ -83,11 +96,23 @@ export class CharBox implements Box {
       this.atom.elem = span;
       return span;
     }
+    const { height, depth } = this.rect;
+    span.classList.add("box", (this.font ?? "Main-R").toLowerCase());
+    span.style.height = em(height + depth);
+    span.style.lineHeight = em(
+      (height +
+        (SPEC[this.font ?? "Main-R"].descent -
+          SPEC[this.font ?? "Main-R"].ascent) /
+          2) *
+        2
+    );
+
     if (this.italic) span.style.fontStyle = "italic";
     if (this.bold) span.style.fontWeight = "bold";
     if (this.font) span.classList.add(this.font.toLowerCase());
     span.innerHTML = char;
     if (this.composite) span.style.textDecoration = "underline";
+    if (this.ref) span.classList.add("ref");
     this.atom.elem = span;
     return span;
   }
@@ -113,16 +138,23 @@ export class SymBox implements Box {
       this.font = "Main-R";
       return;
     }
-    const {
-      font: f,
-      depth,
-      height,
-      italic,
-      width,
-    } = getCharMetrics(char, fonts);
-    this.font = f;
-    this.rect = { width: width + italic, height, depth };
-    this.italic = italic;
+    try {
+      const {
+        font: f,
+        depth,
+        height,
+        italic,
+        width,
+      } = getCharMetrics(char, fonts);
+      this.font = f;
+      this.rect = { width: width + italic, height, depth };
+      this.italic = italic;
+    } catch (error) {
+      //Case CJK
+      this.rect = { width: 1, height: 1.17, depth: 0 };
+      this.italic = 0;
+      this.font = "Main-R";
+    }
   }
   toHtml(): HTMLSpanElement {
     const { char, font, rect, italic } = this;

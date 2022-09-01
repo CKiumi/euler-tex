@@ -1,13 +1,7 @@
-import {
-  Atom,
-  CharAtom,
-  GroupAtom,
-  MathBlockAtom,
-  ArticleAtom,
-} from "./atom/atom";
+import { Atom, GroupAtom, MathBlockAtom, ArticleAtom } from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
-import { parse } from "./parser/parser";
+import { parse, parseText } from "./parser/parser";
 import { latexToBlocks } from "./parser/textParser";
 export * from "./font";
 export * from "./atom/atom";
@@ -40,7 +34,6 @@ export const MathLatexToHtml = (
   latex: string,
   mode: "inline" | "display" = "display"
 ) => {
-  console.log(latex);
   if (mode === "inline") {
     const html = new GroupAtom(parse(latex))
       .toBox(new Options(6, TEXT))
@@ -62,7 +55,7 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
   const texts: Atom[] = [];
   latexToBlocks(latex).forEach(({ mode, latex }) => {
     if (mode === "text") {
-      const atoms = latex.split("").map((char) => new CharAtom(char));
+      const atoms = parseText(latex);
       texts.push(...atoms);
     }
     if (mode === "inline")
@@ -74,4 +67,25 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
     }
   });
   return texts;
+};
+
+export const setLabels = (article: HTMLSpanElement) => {
+  const tags = article.querySelectorAll(".tag");
+  let counter = 1;
+  const labelHash: { [key: string]: number } = {};
+  tags.forEach((label) => {
+    Array.from(label.children)
+      .reverse()
+      .forEach((child) => {
+        const label = child.textContent?.replace("(", "").replace(")", "");
+        child.innerHTML = `(${counter})`;
+        label && (labelHash[label] = counter);
+        counter++;
+      });
+  });
+  const refs = article.querySelectorAll(".ref");
+  refs.forEach((ref) => {
+    const label = ref.textContent?.replace("(", "").replace(")", "");
+    label && (ref.innerHTML = `${labelHash[label]}`);
+  });
 };

@@ -19,10 +19,11 @@ export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;
-  labels: string[] = [];
+
   constructor(
     public children: GroupAtom[][],
     public type: typeof envs[number] = "pmatrix",
+    public labels: (string | null)[] = [],
     public editable = false
   ) {}
 
@@ -123,7 +124,7 @@ export class MatrixAtom implements Atom {
       for (r = 0; r < nr; ++r) {
         const rw = body[r];
         const shift = -(rw.pos - offset);
-        const tagBox = new SymBox("(?)", ["Main-R"]);
+        const tagBox = new SymBox(`(${this.labels.pop() ?? "?"})`, ["Main-R"]);
         tagBox.rect.depth = rw.depth;
         tagBox.rect.height = rw.height;
         tagBoxes.push({ box: tagBox, shift });

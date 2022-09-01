@@ -83,4 +83,12 @@ export class Lexer {
     }
     return envName;
   }
+  readLabel() {
+    let envName = "";
+    while (!this.end() && /^[a-zA-Z0-9*\s]+/.test(this.peek() ?? "")) {
+      this.readChar();
+      envName += this.cur();
+    }
+    return envName;
+  }
 }

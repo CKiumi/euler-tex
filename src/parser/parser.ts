@@ -97,7 +97,17 @@ export class Parser {
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (token === Escape.RCurly) break;
-      if (token === Escape.EOF) throw new Error("Expected }");
+      if (token === Escape.EOF) break;
+      if (token === "\\ref") {
+        const token = this.lexer.tokenize();
+        if (token === Escape.LCurly) {
+          const label = this.lexer.readLabel();
+          if (this.lexer.tokenize() != Escape.RCurly)
+            throw new Error("Expected }");
+          atoms.push(new CharAtom(label, false, false, false, undefined, true));
+        }
+        continue;
+      }
       atoms.push(new CharAtom(token, false, italic, bold, font));
     }
     return atoms;
@@ -198,8 +208,8 @@ export class Parser {
         atoms.push(new AccentAtom(this.parseArg(atoms), acc));
       }
       if (token === "\\begin") {
-        this.parseEnvName();
-        atoms.push(this.parseMatrix());
+        const envName = this.parseEnvName();
+        atoms.push(this.parseMatrix(envName));
       }
 
       if (LETTER1[token]) {
@@ -329,8 +339,10 @@ export class Parser {
     } else throw new Error("{ expected after \\begin and \\end");
   }
 
-  parseMatrix() {
+  parseMatrix(envName: string) {
     const element: GroupAtom[][] = [[new GroupAtom([], this.editable)]];
+    const labels = [];
+    let curLabel = null;
     for (;;) {
       let row = element[element.length - 1];
       const token = this.lexer.tokenize();
@@ -340,12 +352,31 @@ export class Parser {
           element.pop();
         }
         const envName = this.parseEnvName();
-        return new MatrixAtom(element, envName as "pmatrix", this.editable);
+        labels.push(curLabel);
+        return new MatrixAtom(
+          element,
+          envName as "pmatrix",
+          labels.reverse(),
+          this.editable
+        );
       }
       if (token === Escape.And) row.push(new GroupAtom([], this.editable));
       if (token === Escape.Newline) {
         row = [new GroupAtom([], this.editable)];
         element.push(row);
+        labels.push(curLabel);
+        curLabel = null;
+      }
+      if (envName === "align") {
+        if (token === "\\label") {
+          const token = this.lexer.tokenize();
+          if (token === Escape.LCurly) {
+            const label = this.lexer.readLabel();
+            if (this.lexer.tokenize() != Escape.RCurly)
+              throw new Error("Expected }");
+            curLabel = label;
+          }
+        }
       }
       this.parseOne(token, row[row.length - 1].body);
     }
@@ -363,4 +394,8 @@ export const binOrOrd = (atoms: Atom[]): AtomKind => {
 
 export const parse = (latex: string, editable = false): Atom[] => {
   return new Parser(latex, editable).parse(Escape.EOF);
+};
+
+export const parseText = (latex: string, editable = false): Atom[] => {
+  return new Parser(latex, editable).parseText();
 };

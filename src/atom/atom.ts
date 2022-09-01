@@ -84,7 +84,7 @@ export class MathBlockAtom extends GroupAtom {
     let prevKind: AtomKind | null;
     const children = this.body.map((atom) => {
       const box = atom.toBox(
-        this.mode === "inline" ? new Options(6, TEXT) : options
+        this.mode === "inline" ? new Options(6, TEXT) : options ?? new Options()
       );
       atom.parent = this;
       if (prevKind && atom.kind) {

@@ -35,12 +35,14 @@ export class CharAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
+
   constructor(
     public char: string,
     public composite?: boolean,
     public italic = false,
     public bold = false,
-    public font: Font | null = null
+    public font: Font | null = null,
+    public ref = false
   ) {
     if (char === " ") this.char = "&nbsp;";
   }
@@ -51,7 +53,8 @@ export class CharAtom implements Atom {
       this.composite,
       this.italic,
       this.bold,
-      this.font
+      this.font,
+      this.ref
     );
   }
 }

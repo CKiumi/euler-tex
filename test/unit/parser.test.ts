@@ -76,7 +76,7 @@ test("supsub atom", () => {
 
 test("matrix atom", () => {
   expect(parse("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")[0]).toEqual(
-    new MatrixAtom([[group, group], [group]], "pmatrix")
+    new MatrixAtom([[group, group], [group]], "pmatrix", [null, null])
   );
   const atom = parse(
     "\\begin{pmatrix}j&j\\\\j \\end{pmatrix}",

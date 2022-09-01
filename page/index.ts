@@ -9,6 +9,7 @@ import {
   LatexToHtml,
   loadFont,
   parse,
+  setLabels,
 } from "../src/lib";
 import {
   ACC,
@@ -142,12 +143,13 @@ const route: { [key: string]: () => void } = {
     render("env", "Environment", align, "align");
   },
   "/article": () => {
-    const env = String.raw`Ok Let's start with the following equation. You can expand and factor\[\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align \begin{align}x & = a \\  & = c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!`;
+    const env = String.raw`Ok Let's start with the following equation. You can expand and factor\[\sqrt{\text{x日本語}}\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align (\ref{label1}) \begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!(\ref{label2})`;
     console.time("euler1");
     const line1 = html("div", {
       children: [latexToArticle(env).toBox().toHtml()],
       style: { border: "2px black solid" },
     });
+    setLabels(line1);
     console.timeEnd("euler1");
     main.append(
       html("h1", { text: "Article Editable" }),
@@ -158,6 +160,7 @@ const route: { [key: string]: () => void } = {
       children: LatexToHtml(env),
       style: { border: "2px black solid" },
     });
+    setLabels(line2);
     console.timeEnd("euler2");
     main.append(
       html("h1", { text: "Article ReadOnly" }),
