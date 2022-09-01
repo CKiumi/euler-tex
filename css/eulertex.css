@@ -27,6 +27,28 @@
   white-space: nowrap;
 }
 
+.section {
+  width: 100%;
+  display: inline-block;
+  padding: 1em 0 0.5em 0;
+  font-size: 1.7em;
+  font-family: Main-B;
+}
+
+.section .label {
+  margin-right: 1em;
+}
+
+.section.sub {
+  padding: 0.5em 0 0.5em 0;
+  font-size: 1.4em;
+}
+
+.section.subsub {
+  padding: 0.3em 0 0.3em 0;
+  font-size: 1.2em;
+}
+
 .inline {
   display: inline-block;
   font-size: 1.21em;

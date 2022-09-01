@@ -433,7 +433,13 @@ export class BlockBox implements Box {
   rect: Rect = { depth: 0, height: 0, width: 0 };
   space: Space = {};
   constructor(
-    public mode: "text" | "inline" | "display",
+    public mode:
+      | "text"
+      | "inline"
+      | "display"
+      | "section"
+      | "subsection"
+      | "subsubsection",
     public children: Box[],
     public atom?: Atom,
     public multiplier?: number
@@ -441,7 +447,14 @@ export class BlockBox implements Box {
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
-    span.classList.add(this.mode);
+    if (this.mode === "subsection") {
+      span.classList.add("section", "sub");
+    } else if (this.mode === "subsubsection") {
+      span.classList.add("section", "subsub");
+    } else {
+      span.classList.add(this.mode);
+    }
+
     this.children.forEach((box) => {
       span.append(box.toHtml());
     });

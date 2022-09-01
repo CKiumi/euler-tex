@@ -98,6 +98,29 @@ export class MathBlockAtom extends GroupAtom {
   }
 }
 
+export class SectionAtom extends GroupAtom {
+  kind: AtomKind = "ord";
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(
+    public body: Atom[],
+    public mode: "section" | "subsection" | "subsubsection" = "section",
+    public editable = false
+  ) {
+    super(body, editable);
+  }
+
+  toBox(): HBox {
+    const children = this.body.map((atom) => {
+      const box = atom.toBox();
+      atom.parent = this;
+      return box;
+    });
+    return new BlockBox(this.mode, children, this);
+  }
+}
+
 export const parseLine = (width?: number): RectBox => {
   return new RectBox(
     {

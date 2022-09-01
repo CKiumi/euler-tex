@@ -14,6 +14,7 @@ import {
   ENVNAMES,
   DelimMap,
   Delims,
+  SectionAtom,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind, Font } from "../font";
@@ -103,13 +104,8 @@ export class Parser {
       if (token === Escape.RCurly) break;
       if (token === Escape.EOF) break;
       if (token === "\\ref") {
-        const token = this.lexer.tokenize();
-        if (token === Escape.LCurly) {
-          const label = this.lexer.readLabel();
-          if (this.lexer.tokenize() != Escape.RCurly)
-            throw new Error("Expected }");
-          atoms.push(new CharAtom(label, false, false, false, undefined, true));
-        }
+        const label = this.parseTextArg();
+        atoms.push(new CharAtom(label, false, false, false, undefined, true));
         continue;
       }
       if (fontMap[token.slice(1)]) {
@@ -120,11 +116,35 @@ export class Parser {
         }
         continue;
       }
+      if (
+        token === "\\section" ||
+        token === "\\subsection" ||
+        token === "\\subsubsection"
+      ) {
+        atoms.push(
+          new SectionAtom(
+            [new CharAtom(this.parseTextArg(), false, false, true, "Main-B")],
+            token.slice(1) as "section",
+            this.editable
+          )
+        );
+        continue;
+      }
+
       atoms.push(new CharAtom(token, false, italic, bold, font));
     }
     return atoms;
   }
 
+  parseTextArg(): string {
+    const token = this.lexer.tokenize();
+    if (token === Escape.LCurly) {
+      const label = this.lexer.readLabel();
+      if (this.lexer.tokenize() != Escape.RCurly) throw new Error("Expected }");
+      return label;
+    }
+    return "";
+  }
   parseOne(token: string, atoms: Atom[]) {
     if (token === "(") {
       atoms.push(

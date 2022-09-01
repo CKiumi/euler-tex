@@ -1,6 +1,7 @@
 import { Atom, GroupAtom, MathBlockAtom, ArticleAtom } from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
+import { html } from "./html";
 import { parse, parseText } from "./parser/parser";
 import { latexToBlocks } from "./parser/textParser";
 export * from "./font";
@@ -70,6 +71,30 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
 };
 
 export const setLabels = (article: HTMLSpanElement) => {
+  let [sectCtr, subSecCtr, subSubsectCtr] = [0, 0, 0];
+  const sections = article.querySelectorAll(".section");
+  sections.forEach((section) => {
+    section.querySelectorAll(".label").forEach((lab) => lab.remove());
+    if (section.classList.contains("sub")) {
+      subSecCtr++;
+      const label = html("span", {
+        cls: ["label"],
+        text: `${sectCtr}.${subSecCtr}`,
+      });
+      section.insertAdjacentElement("afterbegin", label);
+    } else if (section.classList.contains("subsub")) {
+      subSubsectCtr++;
+      const label = html("span", {
+        cls: ["label"],
+        text: `${sectCtr}.${subSecCtr}.${subSubsectCtr}`,
+      });
+      section.insertAdjacentElement("afterbegin", label);
+    } else {
+      sectCtr++;
+      const label = html("span", { cls: ["label"], text: `${sectCtr}` });
+      section.insertAdjacentElement("afterbegin", label);
+    }
+  });
   const tags = article.querySelectorAll(".tag");
   let counter = 1;
   const labelHash: { [key: string]: number } = {};
