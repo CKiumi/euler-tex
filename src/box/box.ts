@@ -1,4 +1,12 @@
-import { Atom, FirstAtom, Font, getCharMetrics, getSigma, SPEC } from "../lib";
+import {
+  Atom,
+  FirstAtom,
+  Font,
+  getCharMetrics,
+  getSigma,
+  MatrixAtom,
+  SPEC,
+} from "../lib";
 import { PathNode, SvgNode, innerPath, sqrtSvg } from "../html";
 import { em } from "../util";
 
@@ -26,7 +34,7 @@ export class RectBox implements Box {
     if (this.atom) this.atom.elem = span;
     if (this.atom instanceof FirstAtom) return span;
     addSpace(span, this);
-    span.style.height = em(this.rect.height);
+    span.style.height = em(this.rect.height + this.rect.depth);
     if (this.rect.width !== 0) {
       span.style.width = this.rect.width + "em";
     } else {
@@ -164,6 +172,13 @@ export class HBox implements Box {
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);
+    if (
+      this.atom &&
+      this.atom instanceof MatrixAtom &&
+      this.atom.type === "align"
+    ) {
+      span.classList.add("align");
+    }
     span.classList.add("hbox");
     this.children.forEach((box) => {
       span.append(box.toHtml());
@@ -179,6 +194,7 @@ export class HBox implements Box {
 export class VBox implements Box {
   rect: Rect;
   space: Space = {};
+  tag = false;
   constructor(
     public children: { box: Box; shift: number }[],
     public atom?: Atom,
@@ -221,6 +237,7 @@ export class VBox implements Box {
     span.style.verticalAlign = em(-this.rect.depth + oldDepth);
 
     if (this.atom) this.atom.elem = span;
+    if (this.tag) span.classList.add("tag");
     return span;
   }
 }

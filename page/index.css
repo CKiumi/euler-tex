@@ -41,10 +41,18 @@ button:hover,
 
 .katex-display {
   margin: 0 !important;
-  text-align: left !important;
 }
 
 .katex {
+  font-size: 1em !important;
+}
+
+.disp .katex-display {
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+.disp .katex {
   text-align: left !important;
   font-size: 1em !important;
 }
@@ -54,9 +62,8 @@ button:hover,
   font-family: unset;
 }
 
-[contentEditable] {
-  outline: none;
-  caret-color: black;
+.ruler .align {
+  font-size: 1em !important;
 }
 
 table {

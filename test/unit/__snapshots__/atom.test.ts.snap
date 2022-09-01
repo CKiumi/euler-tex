@@ -470,6 +470,7 @@ VBox {
     "left": 0.12,
     "right": 0.12,
   },
+  "tag": false,
 }
 `;
 
@@ -764,6 +765,7 @@ HBox {
     "elem": null,
     "grid": false,
     "kind": "inner",
+    "labels": [],
     "parent": null,
     "type": "pmatrix",
   },
@@ -839,6 +841,7 @@ HBox {
                               "elem": null,
                               "grid": false,
                               "kind": "inner",
+                              "labels": [],
                               "parent": null,
                               "type": "pmatrix",
                             },
@@ -875,6 +878,7 @@ HBox {
                                     "elem": null,
                                     "grid": false,
                                     "kind": "inner",
+                                    "labels": [],
                                     "parent": null,
                                     "type": "pmatrix",
                                   },
@@ -935,6 +939,7 @@ HBox {
                               "elem": null,
                               "grid": false,
                               "kind": "inner",
+                              "labels": [],
                               "parent": null,
                               "type": "pmatrix",
                             },
@@ -971,6 +976,7 @@ HBox {
                                     "elem": null,
                                     "grid": false,
                                     "kind": "inner",
+                                    "labels": [],
                                     "parent": null,
                                     "type": "pmatrix",
                                   },
@@ -1008,6 +1014,7 @@ HBox {
                     "space": {
                       "right": 0.5,
                     },
+                    "tag": false,
                   },
                   VBox {
                     "align": undefined,
@@ -1046,6 +1053,7 @@ HBox {
                               "elem": null,
                               "grid": false,
                               "kind": "inner",
+                              "labels": [],
                               "parent": null,
                               "type": "pmatrix",
                             },
@@ -1082,6 +1090,7 @@ HBox {
                                     "elem": null,
                                     "grid": false,
                                     "kind": "inner",
+                                    "labels": [],
                                     "parent": null,
                                     "type": "pmatrix",
                                   },
@@ -1119,6 +1128,7 @@ HBox {
                     "space": {
                       "left": 0.5,
                     },
+                    "tag": false,
                   },
                 ],
                 "multiplier": undefined,
@@ -1151,6 +1161,7 @@ HBox {
         "width": 1.9381,
       },
       "space": {},
+      "tag": false,
     },
     SymBox {
       "atom": SymAtom {
@@ -1442,6 +1453,7 @@ VBox {
     "width": 1.41905,
   },
   "space": {},
+  "tag": false,
 }
 `;
 
@@ -1512,6 +1524,7 @@ VBox {
     "width": 0.777,
   },
   "space": {},
+  "tag": false,
 }
 `;
 
@@ -1811,6 +1824,7 @@ HBox {
         "width": 0.328335,
       },
       "space": {},
+      "tag": false,
     },
   ],
   "multiplier": undefined,

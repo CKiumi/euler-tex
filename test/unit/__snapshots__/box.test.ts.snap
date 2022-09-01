@@ -22,7 +22,7 @@ exports[`hBox box 1`] = `
 exports[`rect box 1`] = `
 <span
   class=""
-  style="height: 1.0000em; width: 2em;"
+  style="height: 1.5000em; width: 2em;"
 />
 `;
 

@@ -34,12 +34,14 @@ const render = (
   id: string,
   title: string,
   latex: string,
-  mode: "display" | "inline" = "display"
+  mode: "display" | "inline" | "align" = "display"
 ) => {
-  const line1 = html("span", { cls: ["ruler"] });
+  const line1 = html("span", {
+    cls: mode === "display" ? ["ruler", "disp"] : ["ruler"],
+  });
   console.time("katex");
   katex.render(latex, line1, {
-    displayMode: mode === "display",
+    displayMode: mode !== "inline",
     output: "html",
   });
   console.timeEnd("katex");
@@ -136,9 +138,11 @@ const route: { [key: string]: () => void } = {
     const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\x+y&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
     render("env", "Environment", env);
     render("env", "Environment", env, "inline");
+    const align = String.raw`\begin{align}x&=\prod_b^{a}+b\\x+y&=c+d\end{align}`;
+    render("env", "Environment", align, "align");
   },
   "/article": () => {
-    const env = String.raw`Ok Let's start with the following equation. You can expand and factor\[\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!`;
+    const env = String.raw`Ok Let's start with the following equation. You can expand and factor\[\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align \begin{align}x & = a \\  & = c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]!!!`;
     console.time("euler1");
     const line1 = html("div", {
       children: [latexToArticle(env).toBox().toHtml()],
@@ -186,10 +190,12 @@ const route: { [key: string]: () => void } = {
 };
 export const latexToHtmlDev = (
   latex: string,
-  mode: "inline" | "display" = "display"
+  mode: "inline" | "display" | "align" = "display"
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
-  return new GroupAtom(parse(latex)).toBox(options).toHtml();
+  const html = new GroupAtom(parse(latex)).toBox(options).toHtml();
+  html.style.width = "100%";
+  return html;
 };
 loadFont();
 route[window.location.pathname]?.();

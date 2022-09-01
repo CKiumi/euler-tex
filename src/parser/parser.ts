@@ -319,6 +319,7 @@ export class Parser {
           "Bmatrix",
           "vmatrix",
           "Vmatrix",
+          "align",
           "aligned",
           "cases",
         ].includes(envName)

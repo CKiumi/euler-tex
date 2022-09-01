@@ -24,9 +24,14 @@ export const loadFont = () => {
   });
 };
 
-export const LatexToHtml = (latex: string) => {
+export const LatexToHtml = (latex: string): (HTMLSpanElement | Text)[] => {
   return latexToBlocks(latex).map(({ mode, latex }) => {
     if (mode === "text") return document.createTextNode(latex);
+    if (mode === "align") {
+      return parse("\\begin{align}" + latex + "\\end{align}")[0]
+        .toBox()
+        .toHtml();
+    }
     return MathLatexToHtml(latex, mode as "inline" | "display");
   });
 };
@@ -35,6 +40,7 @@ export const MathLatexToHtml = (
   latex: string,
   mode: "inline" | "display" = "display"
 ) => {
+  console.log(latex);
   if (mode === "inline") {
     const html = new GroupAtom(parse(latex))
       .toBox(new Options(6, TEXT))
@@ -64,12 +70,7 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
     if (mode === "display")
       texts.push(new MathBlockAtom(parse(latex, true), "display"));
     if (mode === "align") {
-      texts.push(
-        new MathBlockAtom(
-          parse("\\begin{aligned}" + latex + "\\end{aligned}", true),
-          "display"
-        )
-      );
+      texts.push(parse("\\begin{align}" + latex + "\\end{align}", true)[0]);
     }
   });
   return texts;

@@ -1,4 +1,4 @@
-import { Box, HBox, RectBox, VBox } from "../box/box";
+import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, FirstAtom, GroupAtom } from "./atom";
@@ -12,12 +12,14 @@ const envs = [
   "matrix",
   "cases",
   "aligned",
+  "align",
 ] as const;
 export class MatrixAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;
+  labels: string[] = [];
   constructor(
     public children: GroupAtom[][],
     public type: typeof envs[number] = "pmatrix",
@@ -41,10 +43,10 @@ export class MatrixAtom implements Atom {
     const children = this.children.map((child) => {
       return child.map((e, i) => {
         const hbox = e.toBox(
-          options?.getNewOptions(this.type === "aligned" ? DISPLAY : TEXT)
+          options?.getNewOptions(isAlign(this.type) ? DISPLAY : TEXT)
         );
         const { children } = hbox;
-        if (this.type === "aligned" && i === 1) {
+        if (isAlign(this.type) && i === 1) {
           if (e.body[0] instanceof FirstAtom && children.length > 1) {
             children[1].space.left = getSpacing("ord", e.body[1].kind ?? "ord");
             hbox.rect.width += children[1].space.left;
@@ -95,7 +97,7 @@ export class MatrixAtom implements Atom {
         ];
         outrow.children.push(children[r][c]);
       }
-      if (this.type === "aligned") {
+      if (isAlign(this.type)) {
         depth += jot;
       }
       outrow.height = height;
@@ -116,21 +118,33 @@ export class MatrixAtom implements Atom {
       cols.push(sep);
     }
 
+    const tagBoxes = [];
+    if (this.type === "align") {
+      for (r = 0; r < nr; ++r) {
+        const rw = body[r];
+        const shift = -(rw.pos - offset);
+        const tagBox = new SymBox("(?)", ["Main-R"]);
+        tagBox.rect.depth = rw.depth;
+        tagBox.rect.height = rw.height;
+        tagBoxes.push({ box: tagBox, shift });
+      }
+    }
+
     for (c = 0; c < nc; c++) {
       if (c >= nc) continue;
       const col = body
         .filter((row) => !!row.children[c])
         .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
 
-      if (this.type === "aligned" && c === 0) {
+      if (isAlign(this.type) && c === 0) {
         cols.push(new VBox(col, undefined, undefined, "end"));
-      } else if (this.type === "aligned" || this.type === "cases") {
+      } else if (isAlign(this.type) || this.type === "cases") {
         cols.push(new VBox(col, undefined, undefined, "start"));
       } else {
         cols.push(new VBox(col));
       }
 
-      if (this.type !== "aligned") {
+      if (!isAlign(this.type)) {
         if (c > 0) cols[cols.length - 1].space.left = arraycolsep;
         if (c < nc - 1) cols[cols.length - 1].space.right = arraycolsep;
       }
@@ -139,10 +153,7 @@ export class MatrixAtom implements Atom {
       sep.space.bottom = -totalHeight + offset;
       if (this.editable) cols.push(sep);
     }
-    const hbox =
-      this.type === "matrix" || this.type === "aligned"
-        ? new HBox(cols, this)
-        : new HBox(cols);
+    const hbox = this.type === "matrix" ? new HBox(cols, this) : new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
@@ -151,6 +162,8 @@ export class MatrixAtom implements Atom {
       ? Array(this.children.length + 1)
           .fill(0)
           .map((_, i) => {
+            //createlint width is not used, it is set to 100%
+            //currently, the width of text box is 0
             return {
               box: createLine(hbox.rect.width, !this.grid),
               shift: -hlines[i].pos + offset,
@@ -186,6 +199,14 @@ export class MatrixAtom implements Atom {
         this
       );
     }
+    if (this.type === "align") {
+      const tags = new VBox(tagBoxes);
+      tags.tag = true;
+      return new HBox(
+        [new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]), tags],
+        this
+      );
+    }
     return new HBox(
       [new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines])],
       this
@@ -214,9 +235,13 @@ const createSep = (height: number, depth: number, hidden = false) => {
   );
 };
 
-export const createLine = (width?: number, hidden = false): RectBox => {
+export const createLine = (_?: number, hidden = false): RectBox => {
   return new RectBox(
-    { width: width ?? 0, height: 0.02, depth: 0 },
+    { width: 0, height: 0.02, depth: 0 },
     hidden ? ["hline", "hidden"] : ["hline"]
   );
+};
+
+const isAlign = (type: string) => {
+  return type === "aligned" || type === "align";
 };
