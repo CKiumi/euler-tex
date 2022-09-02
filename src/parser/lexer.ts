@@ -12,6 +12,10 @@ export enum Escape {
   And = "<&>",
   Newline = "<\\\\>",
   Inline = "<$>",
+  DisplayStart = "<\\[>",
+  DisplayEnd = "<\\]>",
+  Begin = "<begin>",
+  End = "<end>",
 }
 
 export type Token = string | Escape;
@@ -43,27 +47,21 @@ export class Lexer {
     if (cur === "}") return Escape.RCurly;
     if (cur === "&") return Escape.And;
     if (cur === "\\") {
-      let command = "\\";
-      if (this.peek() === "\\") {
-        this.readChar();
-        return Escape.Newline;
-      }
-      if (this.peek() === " ") {
-        this.readChar();
-        return Escape.Space;
-      }
-      if (this.peek() === "{" || this.peek() === "}" || this.peek() === "|") {
-        this.readChar();
-        command += this.cur();
+      let command = "\\" + this.readChar();
+      if (command === "\\\\") return Escape.Newline;
+      if (command === "\\ ") return Escape.Space;
+      if (command === "\\[") return Escape.DisplayStart;
+      if (command === "\\]") return Escape.DisplayEnd;
+      if (command === "\\}" || command === "\\{" || command === "\\|")
         return command;
-      }
       while (!this.end() && /^[a-zA-Z*&#]+/.test(this.peek())) {
         this.readChar();
         command += this.cur();
       }
-
       if (command === "\\left") return Escape.Left;
       if (command === "\\right") return Escape.Right;
+      if (command === "\\begin") return Escape.Begin;
+      if (command === "\\end") return Escape.End;
       return command;
     } else return cur;
   }

@@ -1,7 +1,7 @@
 import { AtomKind, Font } from "../font";
 export const THM_ENV = {
   theorem: { label: "Theorem", italic: true },
-  proof: { label: "Proof", italic: false },
+  proof: { label: "Proof", italic: false, nonum: true },
   corollary: { label: "Corollary", italic: true },
   lemma: { label: "Lemma", italic: true },
   definition: { label: "Definition", italic: true },

@@ -1,104 +1,129 @@
 import { expect, test } from "vitest";
 import {
   AccentAtom,
+  ArticleAtom,
+  Atom,
+  CharAtom,
   FirstAtom,
   GroupAtom,
   LRAtom,
+  MathBlockAtom,
   OverlineAtom,
+  SectionAtom,
   SqrtAtom,
   SymAtom,
 } from "../../src/atom/atom";
 import { FracAtom } from "../../src/atom/frac";
 import { MatrixAtom } from "../../src/atom/matrix";
 import { SupSubAtom } from "../../src/atom/supsub";
-import { parse } from "../../src/parser/parser";
-import { latexToBlocks } from "../../src/parser/textParser";
+import { parse, prarseMath } from "../../src/parser/parser";
 
+export const prs = (latex: string, editable = false): Atom =>
+  prarseMath(latex, editable)[0];
+
+const a = new CharAtom("a");
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("parse symbol", () => {
-  expect(parse("j")[0]).toEqual(j);
+  expect(prs("j")).toEqual(j);
 });
 
 test("parse accent", () => {
   const accent = new SymAtom("ord", "^", "\\hat", ["Main-R"], false);
   const accAtom = new AccentAtom(group, accent);
-  expect(parse("\\hat{j}")[0]).toEqual(accAtom);
-
-  const atom = parse("\\hat{j}", true)[0] as AccentAtom;
+  expect(prs("\\hat{j}")).toEqual(accAtom);
+  const atom = prs("\\hat{j}", true) as AccentAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
 });
 
 test("parse overline", () => {
-  expect(parse("\\overline {j}")[0]).toEqual(
-    new OverlineAtom(new GroupAtom([j]))
-  );
-  const atom = parse("\\overline{j}", true)[0] as OverlineAtom;
+  expect(prs("\\overline {j}")).toEqual(new OverlineAtom(new GroupAtom([j])));
+  const atom = prs("\\overline{j}", true) as OverlineAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
 });
 
 test("leftright atom", () => {
-  expect(parse("\\left(j \\right)")[0]).toEqual(new LRAtom("(", ")", group));
-  expect(parse("\\left\\{j\\right\\}")[0]).toEqual(
-    new LRAtom("\\{", "\\}", group)
-  );
-  expect(parse("\\left|j \\right|")[0]).toEqual(new LRAtom("|", "|", group));
-  expect(parse("\\left\\|j \\right\\|")[0]).toEqual(
-    new LRAtom("\\|", "\\|", group)
-  );
-  expect(parse("\\left<j\\right>")[0]).toEqual(new LRAtom("<", ">", group));
+  expect(prs("\\left(j \\right)")).toEqual(new LRAtom("(", ")", group));
+  expect(prs("\\left\\{j\\right\\}")).toEqual(new LRAtom("\\{", "\\}", group));
+  expect(prs("\\left|j \\right|")).toEqual(new LRAtom("|", "|", group));
+  expect(prs("\\left\\|j \\right\\|")).toEqual(new LRAtom("\\|", "\\|", group));
+  expect(prs("\\left<j\\right>")).toEqual(new LRAtom("<", ">", group));
 
-  const atom = parse("\\left(j \\right)", true)[0] as LRAtom;
+  const atom = prs("\\left(j \\right)", true) as LRAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
 });
 
 test("sqrt atom", () => {
-  expect(parse("\\sqrt {  j}")[0]).toEqual(new SqrtAtom(group));
-  expect(parse("\\sqrt {  }")[0]).toEqual(new SqrtAtom(new GroupAtom([])));
+  expect(prs("\\sqrt {  j}")).toEqual(new SqrtAtom(group));
+  expect(prs("\\sqrt {  }")).toEqual(new SqrtAtom(new GroupAtom([])));
 
-  const atom = parse("\\sqrt {  j}", true)[0] as SqrtAtom;
+  const atom = prs("\\sqrt {  j}", true) as SqrtAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
 });
 
 test("frac atom", () => {
-  expect(parse("\\frac {  j}{j}")[0]).toEqual(new FracAtom(group, group));
-
-  const atom = parse("\\frac {  j}{j}", true)[0] as FracAtom;
+  expect(prs("\\frac {  j}{j}")).toEqual(new FracAtom(group, group));
+  const atom = prs("\\frac {  j}{j}", true) as FracAtom;
   expect(atom.numer.body[0]).instanceOf(FirstAtom);
   expect(atom.denom.body[0]).instanceOf(FirstAtom);
 });
 
 test("supsub atom", () => {
-  expect(parse("j_j^j")[0]).toEqual(new SupSubAtom(j, group, group));
-
-  const atom = parse("j_j^j", true)[0] as SupSubAtom;
+  expect(prs("j_j^j")).toEqual(new SupSubAtom(j, group, group));
+  const atom = prs("j_j^j", true) as SupSubAtom;
   expect(atom.sup?.body[0]).instanceOf(FirstAtom);
   expect(atom.sub?.body[0]).instanceOf(FirstAtom);
 });
 
 test("matrix atom", () => {
-  expect(parse("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")[0]).toEqual(
+  expect(prs("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")).toEqual(
     new MatrixAtom([[group, group], [group]], "pmatrix", [null, null])
   );
-  const atom = parse(
+  const atom = prs(
     "\\begin{pmatrix}j&j\\\\j \\end{pmatrix}",
     true
-  )[0] as MatrixAtom;
+  ) as MatrixAtom;
   expect(atom.children[0][0].body[0]).instanceOf(FirstAtom);
 });
 
-test("parse composite", () => {
-  expect(
-    latexToBlocks(
-      "xx $yy$\\[\\begin{aligned}x&=a\\&=c+d\\end{aligned}zz\\]d\\begin{align*}bb\\end{align*}d\\begin{equation*}bb\\end{equation*}"
-    )
-  ).toStrictEqual([
-    { mode: "text", latex: "xx " },
-    { mode: "inline", latex: "yy" },
-    { mode: "display", latex: "\\begin{aligned}x&=a\\&=c+d\\end{aligned}zz" },
-    { mode: "text", latex: "d" },
-    { mode: "align", latex: "bb" },
-    { mode: "text", latex: "d" },
-    { mode: "display", latex: "bb" },
+test("parse inline", () => {
+  expect(parse("a$j$a")).toEqual([a, new MathBlockAtom([j], "inline"), a]);
+});
+
+test("parse display", () => {
+  expect(parse("a\\[j\\]a")).toEqual([a, new MathBlockAtom([j], "display"), a]);
+});
+
+test("parse align", () => {
+  expect(parse("a\\begin{align}j\\end{align}a")).toEqual([
+    a,
+    new MatrixAtom([[new GroupAtom([j])]], "align", [null]),
+    a,
+  ]);
+});
+
+test("parse theorem", () => {
+  expect(parse("a\\begin{theorem}a\\end{theorem}a")).toEqual([
+    a,
+    new ArticleAtom([a], "theorem", "Theorem"),
+    a,
+  ]);
+});
+
+test("parse section", () => {
+  expect(parse("a\\section{a}a")).toEqual([
+    a,
+    new SectionAtom(
+      [new CharAtom("a", false, false, false, "Main-B", false)],
+      "section"
+    ),
+    a,
+  ]);
+});
+
+test("parse text font", () => {
+  expect(parse("a\\textbf{a}")).toEqual([
+    a,
+    new CharAtom("a", false, false, true, null, false),
   ]);
 });

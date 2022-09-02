@@ -7,9 +7,8 @@ import { html } from "../src/html";
 import {
   GroupAtom,
   latexToArticle,
-  LatexToHtml,
   loadFont,
-  parse,
+  prarseMath,
   setLabels,
 } from "../src/lib";
 import {
@@ -148,7 +147,7 @@ const route: { [key: string]: () => void } = {
     render("env", "Environment", align, "align");
   },
   "/article": () => {
-    const env = String.raw`\section{Introduction}\subsection{How to insert command }To insert command, type \textbf{backslash}. Ok Let's start with the following equation. You can expand and factor\[\sqrt{\text{x日本語}}\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align (\ref{label1}) \begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]\subsection{Ref}\begin{corollary}xx\end{corollary}\subsubsection{subsub}!!!(\ref{label2})\section{Advanced}\begin{theorem}xx\end{theorem}`;
+    const env = String.raw`\section{Introduction}\subsection{How to insert command }To insert command, type \textbf{backslash}. Ok Let's start with the following equation. You can expand and factor\[\sqrt{\text{x日本語}}\left(x+y \right)^{2},\]The more complicated example:\[\left(\sqrt{x}-\frac{z}{k} \right)^{3}\]With trig expand, you can expand\[\sin \left(x+y \right)+\cos \left(x+y \right)\]日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported \[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]and also cases\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]and equation number with align (\ref{label1}) \begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}Matrix calculations are also supported\[\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\]\subsection{Ref}\begin{corollary}Corollary environment \[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]\end{corollary}\subsubsection{subsub}!!!(\ref{label2})\section{Advanced}\begin{theorem}xx\end{theorem}\begin{proof}Proof here\end{proof}`;
     console.time("euler1");
     const line1 = html("div", {
       children: [latexToArticle(env).toBox().toHtml()],
@@ -160,24 +159,13 @@ const route: { [key: string]: () => void } = {
       html("h1", { text: "Article Editable" }),
       html("div", { id: "article", children: [line1] })
     );
-    console.time("euler2");
-    const line2 = html("div", {
-      children: LatexToHtml(env),
-      style: { border: "2px black solid" },
-    });
-    setLabels(line2);
-    console.timeEnd("euler2");
-    main.append(
-      html("h1", { text: "Article ReadOnly" }),
-      html("div", { id: "article", children: [line2] })
-    );
   },
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");
     renderTable(Object.keys(LETTER2), "Letter 2");
     renderTable(Object.keys(LETTER3), "Letter 3");
     renderTable(
-      Object.keys(fontMap).map((font) => `\\${font}{A+*}`),
+      Object.keys(fontMap).map((font) => `${font}{A+*}`),
       "Font"
     );
     renderTable(OP, "Op");
@@ -204,7 +192,7 @@ export const latexToHtmlDev = (
   fullWidth = true
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
-  const html = new GroupAtom(parse(latex)).toBox(options).toHtml();
+  const html = new GroupAtom(prarseMath(latex)).toBox(options).toHtml();
   fullWidth && (html.style.width = "100%");
   return html;
 };
