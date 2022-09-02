@@ -40,9 +40,12 @@ export const latexToArticle = (latex: string) => {
 };
 
 export const setLabels = (article: HTMLSpanElement) => {
+  const labelHash: { [key: string]: string } = {};
   const thmCtr: { [x: string]: number } = {};
   const thms = article.querySelectorAll(".theorem");
   thms.forEach((thm) => {
+    const lbl = thm.getAttribute("label");
+    if (thm.classList.contains("nonum")) return;
     const label = thm.querySelector(".label");
     const labelName = label?.textContent ?? "";
     label?.querySelector(".counter")?.remove();
@@ -52,11 +55,13 @@ export const setLabels = (article: HTMLSpanElement) => {
       text: ` ${thmCtr[labelName]}.`,
     });
     label?.insertAdjacentElement("beforeend", num);
+    if (lbl) labelHash[lbl] = `${thmCtr[labelName]}`;
   });
   let [sectCtr, subSecCtr, subSubsectCtr] = [0, 0, 0];
   const sections = article.querySelectorAll(".section");
   sections.forEach((section) => {
     section.querySelectorAll(".label").forEach((lab) => lab.remove());
+    const lbl = section.getAttribute("label");
     if (section.classList.contains("sub")) {
       subSecCtr++;
       const label = html("span", {
@@ -64,6 +69,7 @@ export const setLabels = (article: HTMLSpanElement) => {
         text: `${sectCtr}.${subSecCtr}`,
       });
       section.insertAdjacentElement("afterbegin", label);
+      if (lbl) labelHash[lbl] = `${sectCtr}.${subSecCtr}`;
     } else if (section.classList.contains("subsub")) {
       subSubsectCtr++;
       const label = html("span", {
@@ -71,28 +77,30 @@ export const setLabels = (article: HTMLSpanElement) => {
         text: `${sectCtr}.${subSecCtr}.${subSubsectCtr}`,
       });
       section.insertAdjacentElement("afterbegin", label);
+      if (lbl) labelHash[lbl] = `${sectCtr}.${subSecCtr}.${subSubsectCtr}`;
     } else {
       sectCtr++;
       const label = html("span", { cls: ["label"], text: `${sectCtr}` });
       section.insertAdjacentElement("afterbegin", label);
+      if (lbl) labelHash[lbl] = `${sectCtr}`;
     }
   });
   const tags = article.querySelectorAll(".tag");
   let counter = 1;
-  const labelHash: { [key: string]: number } = {};
+
   tags.forEach((label) => {
     Array.from(label.children)
       .reverse()
       .forEach((child) => {
         const label = child.textContent?.replace("(", "").replace(")", "");
         child.innerHTML = `(${counter})`;
-        label && (labelHash[label] = counter);
+        label && (labelHash[label] = `${counter}`);
         counter++;
       });
   });
   const refs = article.querySelectorAll(".ref");
   refs.forEach((ref) => {
     const label = ref.textContent?.replace("(", "").replace(")", "");
-    label && (ref.innerHTML = `${labelHash[label]}`);
+    label && (ref.innerHTML = `${labelHash[label] ?? "?"}`);
   });
 };

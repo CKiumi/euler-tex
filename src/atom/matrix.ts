@@ -14,6 +14,7 @@ export const ENVNAMES = [
   "cases",
   "aligned",
   "align",
+  "align*",
 ] as const;
 
 export class MatrixAtom implements Atom {
@@ -210,6 +211,7 @@ export class MatrixAtom implements Atom {
         this
       );
     }
+
     return new HBox(
       [new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines])],
       this
@@ -224,6 +226,7 @@ const MAT_DELIM: { [x: string]: [string, string] } = {
   vmatrix: ["∣", "∣"],
   Vmatrix: ["∥", "∥"],
 };
+
 type Outrow = {
   children: Box[];
   height: number;
@@ -246,5 +249,5 @@ export const createLine = (_?: number, hidden = false): RectBox => {
 };
 
 const isAlign = (type: string) => {
-  return type === "aligned" || type === "align";
+  return type === "aligned" || type === "align" || type === "align*";
 };

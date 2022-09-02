@@ -1,5 +1,12 @@
 import { AtomKind, Font } from "../font";
-export const THM_ENV = {
+
+export interface ThmData {
+  label: string;
+  italic: boolean;
+  nonum?: boolean;
+}
+
+export const THM_ENV: { [x: string]: ThmData } = {
   theorem: { label: "Theorem", italic: true },
   proof: { label: "Proof", italic: false, nonum: true },
   corollary: { label: "Corollary", italic: true },

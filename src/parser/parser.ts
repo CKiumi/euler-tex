@@ -27,6 +27,8 @@ export class Parser {
   font: Font | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
+  lastSection: SectionAtom | null = null;
+  thmLabel: string | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
   }
@@ -51,14 +53,16 @@ export class Parser {
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (this.theorem && token === Escape.End) {
-        const envName = this.parseEnvName();
-        if (envName === this.theorem) break;
+        if (this.parseEnvName() === this.theorem) break;
         throw new Error(`Expected \\end{${this.theorem}}`);
       }
       if (token === Escape.Begin) {
         const envName = this.parseEnvName();
-        if (envName === "align") {
-          atoms.push(this.parseEnv("align"));
+        if (envName === "align" || envName === "align*") {
+          atoms.push(this.parseEnv(envName));
+          continue;
+        } else if (envName === "equation*" || envName === "equation") {
+          atoms.push(this.parseDisplay(envName));
           continue;
         } else if (envName in THM_ENV) {
           atoms.push(this.parseThm(envName as keyof typeof THM_ENV));
@@ -66,12 +70,20 @@ export class Parser {
         }
         throw new Error("Unsupported environment " + envName);
       }
+      if (this.theorem && token === "\\label") {
+        this.thmLabel = this.parseTextArg();
+        continue;
+      }
+      if (this.lastSection && token === "\\label") {
+        this.lastSection.label = this.parseTextArg();
+        continue;
+      }
       if (token === Escape.Inline) {
         atoms.push(this.parseInline());
         continue;
       }
       if (token === Escape.DisplayStart) {
-        atoms.push(this.parseDisplay());
+        atoms.push(this.parseDisplay(null));
         continue;
       }
       if (token === end) break;
@@ -93,9 +105,12 @@ export class Parser {
         const title = Array.from(this.parseTextArg()).map(
           (char) => new CharAtom(char, false, false, false, "Main-B")
         );
-        atoms.push(
-          new SectionAtom(title, token.slice(1) as "section", this.editable)
+        this.lastSection = new SectionAtom(
+          title,
+          token.slice(1) as "section",
+          this.editable
         );
+        atoms.push(this.lastSection);
         continue;
       }
       atoms.push(new CharAtom(token));
@@ -125,16 +140,26 @@ export class Parser {
     return new MathBlockAtom(atoms, "inline");
   }
 
-  parseDisplay() {
+  parseDisplay(mode: "equation" | "equation*" | null) {
     const atoms: Atom[] = [];
+    let label: string | null | undefined = undefined;
+    if (mode === "equation") label = null;
     for (;;) {
       const token = this.lexer.tokenize();
-      if (token === Escape.DisplayEnd) break;
+      if (!mode && token === Escape.DisplayEnd) break;
+      if (mode && token === Escape.End) {
+        if (this.parseEnvName() === mode) break;
+        throw new Error(`Expected \\end{${mode}}`);
+      }
+      if (mode === "equation" && token === "\\label") {
+        label = this.parseTextArg();
+        continue;
+      }
       if (token === Escape.EOF)
         throw new Error("Expected \\] to end display mode");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new MathBlockAtom(atoms, "display");
+    return new MathBlockAtom(atoms, "display", label);
   }
 
   parseThm(envName: keyof typeof THM_ENV): ArticleAtom {
@@ -144,7 +169,8 @@ export class Parser {
       const atom = new ArticleAtom(
         this.parse(Escape.EOF),
         "theorem",
-        THM_ENV[this.theorem].label
+        THM_ENV[this.theorem],
+        this.thmLabel
       );
       this.theorem = null;
       this.italic = false;

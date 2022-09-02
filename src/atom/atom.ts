@@ -1,6 +1,15 @@
-import { BlockBox, Box, FirstBox, HBox, RectBox } from "../box/box";
+import {
+  BlockBox,
+  Box,
+  FirstBox,
+  HBox,
+  RectBox,
+  SymBox,
+  VBox,
+} from "../box/box";
 import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
+import { ThmData } from "../parser/command";
 export * from "./accent";
 export * from "./frac";
 export * from "./leftright";
@@ -58,7 +67,8 @@ export class ArticleAtom extends GroupAtom {
   constructor(
     public body: Atom[],
     public mode: "theorem" | "text" = "text",
-    public thmName = ""
+    public thmName: ThmData | null = null,
+    public label: string | null = null
   ) {
     super(body);
     this.body = [new FirstAtom(), ...body];
@@ -70,7 +80,7 @@ export class ArticleAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new BlockBox(this.mode, children, this, 1, this.thmName);
+    return new BlockBox(this.mode, children, this, 1, this.thmName, this.label);
   }
 }
 
@@ -79,7 +89,11 @@ export class MathBlockAtom extends GroupAtom {
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
 
-  constructor(public body: Atom[], public mode: "display" | "inline") {
+  constructor(
+    public body: Atom[],
+    public mode: "display" | "inline",
+    public tag: string | null | undefined = undefined
+  ) {
     super(body);
     this.body = [new FirstAtom(), ...body];
   }
@@ -98,7 +112,16 @@ export class MathBlockAtom extends GroupAtom {
       prevKind = atom.kind;
       return box;
     });
-    return new BlockBox(this.mode, children, this);
+    if (this.tag || this.tag === null) {
+      const body = new HBox(children, this);
+      const box = new SymBox(`(${this.tag ?? "?"})`, ["Main-R"]);
+      box.rect.depth = body.rect.depth;
+      box.rect.height = body.rect.height;
+      const tagBox = new VBox([{ box, shift: 0 }]);
+      tagBox.tag = true;
+      return new BlockBox(this.mode, [body, tagBox], this, 1, null, this.tag);
+    }
+    return new BlockBox(this.mode, children, this, 1, null, this.tag);
   }
 }
 
@@ -106,7 +129,7 @@ export class SectionAtom extends GroupAtom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-
+  label: string | null = null;
   constructor(
     public body: Atom[],
     public mode: "section" | "subsection" | "subsubsection" = "section",
@@ -121,7 +144,7 @@ export class SectionAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new BlockBox(this.mode, children, this);
+    return new BlockBox(this.mode, children, this, 1, null, this.label);
   }
 }
 

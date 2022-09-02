@@ -9,6 +9,7 @@ import {
 } from "../lib";
 import { PathNode, SvgNode, innerPath, sqrtSvg, html } from "../html";
 import { em } from "../util";
+import { ThmData } from "../parser/command";
 
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
 type Rect = { height: number; depth: number; width: number };
@@ -207,7 +208,7 @@ export class HBox implements Box {
     if (
       this.atom &&
       this.atom instanceof MatrixAtom &&
-      this.atom.type === "align"
+      (this.atom.type === "align" || this.atom.type === "align*")
     ) {
       span.classList.add("align");
     }
@@ -444,18 +445,23 @@ export class BlockBox implements Box {
     public children: Box[],
     public atom?: Atom,
     public multiplier?: number,
-    public thmName?: string
+    public thmName: ThmData | null = null,
+    public label: string | null = null
   ) {}
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     if (this.mode === "subsection") {
       span.classList.add("section", "sub");
+      span.setAttribute("label", this.label ?? "");
     } else if (this.mode === "subsubsection") {
       span.classList.add("section", "subsub");
+      span.setAttribute("label", this.label ?? "");
     } else if (this.mode === "theorem") {
-      span.append(html("span", { cls: ["label"], text: this.thmName }));
+      span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
       span.classList.add("theorem");
+      if (this.thmName?.nonum) span.classList.add("nonum");
+      span.setAttribute("label", this.label ?? "");
     } else {
       span.classList.add(this.mode);
     }

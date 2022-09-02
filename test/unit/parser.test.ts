@@ -17,6 +17,7 @@ import { FracAtom } from "../../src/atom/frac";
 import { MatrixAtom } from "../../src/atom/matrix";
 import { SupSubAtom } from "../../src/atom/supsub";
 import { parse, prarseMath } from "../../src/parser/parser";
+import { THM_ENV } from "../../src/parser/command";
 
 export const prs = (latex: string, editable = false): Atom =>
   prarseMath(latex, editable)[0];
@@ -105,7 +106,7 @@ test("parse align", () => {
 test("parse theorem", () => {
   expect(parse("a\\begin{theorem}a\\end{theorem}a")).toEqual([
     a,
-    new ArticleAtom([a], "theorem", "Theorem"),
+    new ArticleAtom([a], "theorem", THM_ENV["theorem"]),
     a,
   ]);
 });
