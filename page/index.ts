@@ -2,6 +2,7 @@ import katex from "katex";
 import "katex/dist/katex.min.css";
 import "../css/eulertex.css";
 import "../css/font.css";
+import { Options, TEXT } from "../src/box/style";
 import { html } from "../src/html";
 import {
   GroupAtom,
@@ -26,9 +27,9 @@ import {
   LETTER3,
   MISC,
   OP,
+  PUNCT,
   REL,
 } from "../src/parser/command";
-import { Options, TEXT } from "../src/box/style";
 const main = document.getElementById("main") as HTMLElement;
 
 const render = (
@@ -120,7 +121,7 @@ const route: { [key: string]: () => void } = {
   "/matrix": () => {
     const matrix1 = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}`;
     const matrix2 = String.raw`\begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&\prod_b^{a}\\a&&a\end{pmatrix}`;
-    const matrix3 = String.raw`\begin{pmatrix} a\\ \hline a&a \end{pmatrix} `;
+    const matrix3 = String.raw`\begin{pmatrix} a\\  a&a \end{pmatrix} `;
     render("mat1", "Matrix", matrix1);
     render("mat2", "Matrix", matrix2);
     render("mat3", "Matrix", matrix3);
@@ -187,7 +188,9 @@ const route: { [key: string]: () => void } = {
     renderTable(Object.keys(MISC), "Ord");
     renderTable(Object.keys(REL), "Rel");
     renderTable(Object.keys(BIN), "Bin");
-    renderTable(Object.keys(ARROW), "Bin");
+    renderTable(Object.keys(ARROW), "Arrow");
+    renderTable(Object.keys(PUNCT), "Punct");
+    renderTable(Object.keys(MISC), "MISC");
     renderTable(Object.keys(AMS_MISC), "AMS MISC");
     renderTable(Object.keys(AMS_BIN), "AMS BIN");
     renderTable(Object.keys(AMS_NBIN), "AMS NBIN");

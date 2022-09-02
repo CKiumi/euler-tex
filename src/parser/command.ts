@@ -1,5 +1,79 @@
-import { Font } from "../font";
+import { AtomKind, Font } from "../font";
+export const THM_ENV = {
+  theorem: { label: "Theorem", italic: true },
+  proof: { label: "Proof", italic: false },
+  corollary: { label: "Corollary", italic: true },
+  lemma: { label: "Lemma", italic: true },
+  definition: { label: "Definition", italic: true },
+  proposition: { label: "Proposition", italic: true },
+  example: { label: "Example", italic: false },
+  exercise: { label: "Exercise", italic: false },
+  remark: { label: "Remark", italic: true },
+};
 
+interface CommandData {
+  kind: AtomKind;
+  char: string;
+  font: Font;
+}
+
+export const parseCommand = (command: string): CommandData | null => {
+  if (LETTER1[command]) {
+    return { kind: "ord", char: LETTER1[command], font: "Math-I" };
+  }
+  if (LETTER2[command]) {
+    return { kind: "ord", char: LETTER2[command], font: "Main-R" };
+  }
+  if (LETTER3[command]) {
+    return { kind: "ord", char: LETTER3[command], font: "Main-R" };
+  }
+  if (MISC[command]) {
+    return { kind: "ord", char: MISC[command], font: "Main-R" };
+  }
+  if (OPEN[command]) {
+    return { kind: "open", char: OPEN[command], font: "Main-R" };
+  }
+  if (CLOSE[command]) {
+    return { kind: "close", char: CLOSE[command], font: "Main-R" };
+  }
+  if (INNER[command]) {
+    return { kind: "close", char: INNER[command], font: "Main-R" };
+  }
+  if (PUNCT[command]) {
+    return { kind: "punct", char: PUNCT[command], font: "Main-R" };
+  }
+  if (REL[command]) {
+    return { kind: "rel", char: REL[command], font: "Main-R" };
+  }
+  if (BIN[command]) {
+    return { kind: "bin", char: BIN[command], font: "Main-R" };
+  }
+  if (ARROW[command]) {
+    return { kind: "rel", char: ARROW[command], font: "Main-R" };
+  }
+  if (AMS_ARROW[command]) {
+    return { kind: "rel", char: AMS_ARROW[command], font: "AMS-R" };
+  }
+  if (AMS_BIN[command]) {
+    return { kind: "bin", char: AMS_BIN[command], font: "AMS-R" };
+  }
+  if (AMS_NBIN[command]) {
+    return { kind: "bin", char: AMS_NBIN[command], font: "AMS-R" };
+  }
+  if (AMS_MISC[command]) {
+    return { kind: "ord", char: AMS_MISC[command], font: "AMS-R" };
+  }
+  if (AMS_REL[command]) {
+    if (command === "\\Join") {
+      return { kind: "rel", char: AMS_REL[command], font: "Main-R" };
+    }
+    return { kind: "rel", char: AMS_REL[command], font: "AMS-R" };
+  }
+  if (AMS_NREL[command]) {
+    return { kind: "rel", char: AMS_NREL[command], font: "AMS-R" };
+  }
+  return null;
+};
 export const LETTER1: { [key: string]: string } = {
   "\\alpha": "α",
   "\\beta": "β",
@@ -97,6 +171,8 @@ export const OPEN: { [key: string]: string } = {
 };
 
 export const CLOSE: { [key: string]: string } = {
+  "?": "?",
+  "!": "!",
   "\\rgroup": "⟯",
   "\\rmoustache": "⎱",
   "\\rangle": "⟩",
@@ -139,6 +215,8 @@ export const REL: { [key: string]: string } = {
   //
   "=": "=",
   ":": ":",
+  "<": "<",
+  ">": ">",
   "\\approx": "≈",
   "\\cong": "≅",
   "\\ge": "≥",
@@ -168,6 +246,8 @@ export const REL: { [key: string]: string } = {
 };
 
 export const PUNCT: { [key: string]: string } = {
+  ",": ",",
+  ";": ";",
   "\\ldotp": ".",
   "\\cdotp": "⋅",
 };
@@ -226,9 +306,10 @@ export const BIN: { [key: string]: string } = {
   "\\amalg": "⨿",
   "\\And": "&",
   //
-  // "*": "∗",
-  // "+": "+",
-  // "-": "−",
+  "*": "∗",
+  "+": "+",
+  "-": "−",
+  "/": "/",
   "\\cdot": "⋅",
   "\\circ": "∘",
   "\\div": "÷",
@@ -364,27 +445,27 @@ export const ACC: { [key: string]: string } = {
 
 export const fontMap: { [x: string]: Font } = {
   //work both in math and text mode
-  textrm: "Main-R",
-  textnormal: "Main-R",
-  textsf: "San-R",
-  textbf: "Main-R",
-  textmd: "Main-R",
-  texttt: "Type-R",
-  textit: "Main-R",
-  textup: "Main-R",
+  "\\textrm": "Main-R",
+  "\\textnormal": "Main-R",
+  "\\textsf": "San-R",
+  "\\textbf": "Main-R",
+  "\\textmd": "Main-R",
+  "\\texttt": "Type-R",
+  "\\textit": "Main-R",
+  "\\textup": "Main-R",
   //only in math mode
-  mathbf: "Main-B",
-  mathrm: "Main-R",
-  mathit: "Main-R",
-  mathnormal: "Math-I",
-  mathbb: "AMS-R",
-  mathcal: "Cal-R",
-  mathfrak: "Frak-R",
-  mathscr: "Script-R",
-  mathsf: "San-R",
-  mathtt: "Type-R",
-  boldsymbol: "Math-BI",
-  bm: "Math-BI",
+  "\\mathbf": "Main-B",
+  "\\mathrm": "Main-R",
+  "\\mathit": "Main-R",
+  "\\mathnormal": "Math-I",
+  "\\mathbb": "AMS-R",
+  "\\mathcal": "Cal-R",
+  "\\mathfrak": "Frak-R",
+  "\\mathscr": "Script-R",
+  "\\mathsf": "San-R",
+  "\\mathtt": "Type-R",
+  "\\boldsymbol": "Math-BI",
+  "\\bm": "Math-BI",
 };
 
 export const AMS_BIN: { [key: string]: string } = {
@@ -561,6 +642,9 @@ export const AMS_MISC: { [key: string]: string } = {
 };
 
 export const MISC: { [key: string]: string } = {
+  ".": ".",
+  /* eslint-disable quotes */
+  '"': '"',
   // "\\$": "$",
   // "\\%": "%",
   // "\\_": "_",
@@ -590,7 +674,7 @@ export const MISC: { [key: string]: string } = {
   //
   "\\partial": "∂",
   "\\backslash": "\\",
-  // "|": "∣",
+  "|": "∣",
   "\\vert": "∣",
   "\\|": "∥",
   "\\Vert": "∥",

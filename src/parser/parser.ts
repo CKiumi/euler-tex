@@ -1,47 +1,25 @@
 import {
   AccentAtom,
+  ArticleAtom,
   Atom,
-  LRAtom,
-  OverlineAtom,
-  SqrtAtom,
-  SymAtom,
-  FracAtom,
-  MatrixAtom,
-  SupSubAtom,
-  GroupAtom,
-  FirstAtom,
   CharAtom,
   DelimMap,
   Delims,
+  FirstAtom,
+  FracAtom,
+  GroupAtom,
+  LRAtom,
+  MatrixAtom,
+  OverlineAtom,
   SectionAtom,
-  ArticleAtom,
+  SqrtAtom,
+  SupSubAtom,
+  SymAtom,
 } from "../atom/atom";
-import { Escape, Lexer, Token } from "./lexer";
-import { AtomKind, Font } from "../font";
-import {
-  ACC,
-  fontMap,
-  LETTER1,
-  LETTER2,
-  BLOCKOP,
-  OP,
-  LETTER3,
-  AMS_REL,
-  AMS_BIN,
-  AMS_ARROW,
-  ARROW,
-  REL,
-  PUNCT,
-  BIN,
-  AMS_NBIN,
-  AMS_NREL,
-  AMS_MISC,
-  MISC,
-  OPEN,
-  CLOSE,
-  INNER,
-} from "./command";
 import { OpAtom } from "../atom/op";
+import { AtomKind, Font } from "../font";
+import { ACC, BLOCKOP, fontMap, OP, parseCommand, THM_ENV } from "./command";
+import { Escape, Lexer, Token } from "./lexer";
 
 export class Parser {
   lexer: Lexer;
@@ -56,35 +34,12 @@ export class Parser {
       return new SymAtom("ord", token, token, ["Math-I", this.font]);
     if (/[0-9]/.test(token))
       return new SymAtom("ord", token, token, ["Main-R", this.font]);
-    if (token === "+")
-      return new SymAtom(binOrOrd(atoms), "+", token, ["Main-R", this.font]);
-    if (token === "-")
-      return new SymAtom(binOrOrd(atoms), "−", token, ["Main-R", this.font]);
-    if (token === "*")
-      return new SymAtom(binOrOrd(atoms), "∗", token, ["Main-R", this.font]);
-    if (token === "/")
-      return new SymAtom(binOrOrd(atoms), "/", token, ["Main-R", this.font]);
-    if (token === "=")
-      return new SymAtom("rel", "=", token, ["Main-R", this.font]);
-    if (token === ",")
-      return new SymAtom("punct", ",", token, ["Main-R", this.font]);
-    if (token === ".")
-      return new SymAtom("ord", ".", token, ["Main-R", this.font]);
-    if (token === ";")
-      return new SymAtom("punct", ";", token, ["Main-R", this.font]);
-    if (token === ":")
-      return new SymAtom("rel", ":", token, ["Main-R", this.font]);
-    if (token === "<")
-      return new SymAtom("rel", "<", token, ["Main-R", this.font]);
-    if (token === ">")
-      return new SymAtom("rel", ">", token, ["Main-R", this.font]);
-    if (token === "?")
-      return new SymAtom("close", "?", token, ["Main-R", this.font]);
-    if (token === "!")
-      return new SymAtom("close", "!", token, ["Main-R", this.font]);
-    if (token === "|") return new SymAtom("ord", "∣", "|", ["Main-R"]);
-    // eslint-disable-next-line quotes
-    if (token === '"') return new SymAtom("ord", '"', token, ["Main-R"]);
+    const cmd = parseCommand(token);
+    if (cmd) {
+      const { char, font } = cmd;
+      const kind = cmd.kind === "bin" ? binOrOrd(atoms) : cmd.kind;
+      return new SymAtom(kind, char, token, [font, this.font]);
+    }
     console.error(`Single token ${token} not supported`);
     return new SymAtom("close", "?", token, ["Main-R"]);
   }
@@ -100,7 +55,7 @@ export class Parser {
       }
       if (token === end) break;
       if (token === Escape.EOF) throw new Error(`Expected ${end}`);
-      this.parseOne(token, atoms);
+      atoms.push(this.parseOne(token, atoms));
     }
     return atoms;
   }
@@ -165,159 +120,77 @@ export class Parser {
     }
     return "";
   }
-  parseOne(token: string, atoms: Atom[]) {
-    if (token === "(") {
-      atoms.push(
-        new LRAtom("(", ")", new GroupAtom(this.parse(")"), this.editable))
-      );
-      return;
-    }
-    if (token === "\\{") {
-      atoms.push(
-        new LRAtom(
-          "\\{",
-          "\\}",
-          new GroupAtom(this.parse("\\}"), this.editable)
-        )
-      );
-      return;
-    }
-    if (token === "[") {
-      atoms.push(
-        new LRAtom("[", "]", new GroupAtom(this.parse("]"), this.editable))
-      );
-      return;
-    }
-
-    if (token.length === 1) atoms.push(this.parseSingle(atoms, token));
-    if (token === Escape.Space) {
-      atoms.push(new SymAtom("ord", "&nbsp;", "\\ ", []));
-    }
-    if (token === Escape.Left) atoms.push(this.parseLR());
+  parseOne(token: string, atoms: Atom[]): Atom {
+    if (token.length === 1) return this.parseSingle(atoms, token);
+    if (token === Escape.Space) return new SymAtom("ord", "&nbsp;", "\\ ", []);
+    if (token === Escape.Left) return this.parseLR();
     if (token === Escape.Circumfix) {
       const body = atoms.pop();
       if (!body) throw new Error("body must exist");
       if (body instanceof SupSubAtom) {
         if (!body.sub) throw new Error("sub must exist");
-        atoms.push(new SupSubAtom(body.nuc, this.parseArg(atoms), body.sub));
-      } else atoms.push(new SupSubAtom(body, this.parseArg(atoms), undefined));
+        return new SupSubAtom(body.nuc, this.parseArg(atoms), body.sub);
+      } else return new SupSubAtom(body, this.parseArg(atoms), undefined);
     }
     if (token === Escape.UnderScore) {
       const body = atoms.pop();
       if (!body) throw new Error("body must exist");
       if (body instanceof SupSubAtom) {
         if (!body.sup) throw new Error("sup must exist");
-        atoms.push(new SupSubAtom(body.nuc, body.sup, this.parseArg(atoms)));
-      } else atoms.push(new SupSubAtom(body, undefined, this.parseArg(atoms)));
+        return new SupSubAtom(body.nuc, body.sup, this.parseArg(atoms));
+      } else return new SupSubAtom(body, undefined, this.parseArg(atoms));
     }
     if (token.startsWith("\\")) {
       if (token === "\\text") {
         this.lexer.tokenize();
-        atoms.push(new GroupAtom(this.parseText()));
+        return new GroupAtom(this.parseText());
       }
-      if (fontMap[token.slice(1)]) {
-        this.font = fontMap[token.slice(1)];
-        if (token.slice(1).startsWith("text")) {
-          atoms.push(...this.parseTextFont(token));
+      if (fontMap[token]) {
+        this.font = fontMap[token];
+        if (token.startsWith("text")) {
+          const atom = new GroupAtom(this.parseTextFont(token));
           this.font = null;
-          return;
+          return atom;
         }
         const { body } = this.parseArg(atoms);
-        atoms.push(...body.slice(body[0] instanceof FirstAtom ? 1 : 0));
+        const atom = new GroupAtom(
+          body.slice(body[0] instanceof FirstAtom ? 1 : 0)
+        );
         this.font = null;
+        return atom;
       }
       if (BLOCKOP[token]) {
-        atoms.push(new SymAtom("op", BLOCKOP[token], token, ["Size2"], false));
+        return new SymAtom("op", BLOCKOP[token], token, ["Size2"], false);
       }
 
-      if (token === "\\bra")
-        atoms.push(new LRAtom("<", "|", this.parseArg(atoms)));
-      if (token === "\\ket")
-        atoms.push(new LRAtom("|", ">", this.parseArg(atoms)));
+      if (token === "\\bra") return new LRAtom("<", "|", this.parseArg(atoms));
+      if (token === "\\ket") return new LRAtom("|", ">", this.parseArg(atoms));
       if (token === "\\braket")
-        atoms.push(new LRAtom("<", ">", this.parseArg(atoms)));
-
-      if (OP.includes(token)) atoms.push(new OpAtom(token.slice(1)));
-      if (token === "\\sqrt") atoms.push(new SqrtAtom(this.parseArg(atoms)));
+        return new LRAtom("<", ">", this.parseArg(atoms));
+      if (OP.includes(token)) return new OpAtom(token.slice(1));
+      if (token === "\\sqrt") return new SqrtAtom(this.parseArg(atoms));
       if (token === "\\frac") {
-        atoms.push(new FracAtom(this.parseArg(atoms), this.parseArg(atoms)));
+        return new FracAtom(this.parseArg(atoms), this.parseArg(atoms));
       }
       if (token === "\\overline") {
-        atoms.push(new OverlineAtom(this.parseArg(atoms)));
+        return new OverlineAtom(this.parseArg(atoms));
       }
       if (ACC[token]) {
         const acc = new SymAtom("ord", ACC[token], token, ["Main-R"], false);
-        atoms.push(new AccentAtom(this.parseArg(atoms), acc));
+        return new AccentAtom(this.parseArg(atoms), acc);
       }
       if (token === "\\begin") {
         const envName = this.parseEnvName();
-        atoms.push(this.parseMatrix(envName));
+        return this.parseMatrix(envName);
       }
-
-      if (LETTER1[token]) {
-        atoms.push(
-          new SymAtom("ord", LETTER1[token], token, ["Math-I", this.font])
-        );
+      const cmd = parseCommand(token);
+      if (cmd) {
+        const { char, font } = cmd;
+        const kind = cmd.kind === "bin" ? binOrOrd(atoms) : cmd.kind;
+        return new SymAtom(kind, char, token, [font, this.font]);
       }
-
-      if (LETTER2[token]) {
-        atoms.push(new SymAtom("ord", LETTER2[token], token, ["Main-R"]));
-      }
-      if (LETTER3[token]) {
-        atoms.push(new SymAtom("ord", LETTER3[token], token, ["Main-R"]));
-      }
-      if (MISC[token]) {
-        atoms.push(new SymAtom("ord", MISC[token], token, ["Main-R"]));
-      }
-      if (OPEN[token]) {
-        atoms.push(new SymAtom("open", OPEN[token], token, ["Main-R"]));
-      }
-      if (CLOSE[token]) {
-        atoms.push(new SymAtom("close", CLOSE[token], token, ["Main-R"]));
-      }
-      if (INNER[token]) {
-        atoms.push(new SymAtom("close", INNER[token], token, ["Main-R"]));
-      }
-      if (PUNCT[token]) {
-        atoms.push(new SymAtom("punct", PUNCT[token], token, ["Main-R"]));
-      }
-      if (REL[token]) {
-        atoms.push(new SymAtom("rel", REL[token], token, ["Main-R"]));
-      }
-      if (BIN[token]) {
-        atoms.push(new SymAtom(binOrOrd(atoms), BIN[token], token, ["Main-R"]));
-      }
-      if (ARROW[token]) {
-        atoms.push(new SymAtom("rel", ARROW[token], token, ["Main-R"]));
-      }
-      if (AMS_ARROW[token]) {
-        atoms.push(new SymAtom("rel", AMS_ARROW[token], token, ["AMS-R"]));
-      }
-      if (AMS_BIN[token]) {
-        atoms.push(
-          new SymAtom(binOrOrd(atoms), AMS_BIN[token], token, ["AMS-R"])
-        );
-      }
-      if (AMS_NBIN[token]) {
-        atoms.push(
-          new SymAtom(binOrOrd(atoms), AMS_NBIN[token], token, ["AMS-R"])
-        );
-      }
-      if (AMS_MISC[token]) {
-        atoms.push(new SymAtom("ord", AMS_MISC[token], token, ["AMS-R"]));
-      }
-      if (AMS_REL[token]) {
-        if (token === "\\Join") {
-          atoms.push(new SymAtom("rel", AMS_REL[token], token, ["Main-R"]));
-          return;
-        }
-        atoms.push(new SymAtom("rel", AMS_REL[token], token, ["AMS-R"]));
-      }
-      if (AMS_NREL[token]) {
-        atoms.push(new SymAtom("rel", AMS_NREL[token], token, ["AMS-R"]));
-      }
-      // console.log(atoms.map((x) => [x.char, x.fonts]));
     }
+    throw new Error("Unexpected token: " + token);
   }
 
   private parseLR(): Atom {
@@ -369,12 +242,16 @@ export class Parser {
           this.editable
         );
       }
-      if (token === Escape.And) row.push(new GroupAtom([], this.editable));
+      if (token === Escape.And) {
+        row.push(new GroupAtom([], this.editable));
+        continue;
+      }
       if (token === Escape.Newline) {
         row = [new GroupAtom([], this.editable)];
         element.push(row);
         labels.push(curLabel);
         curLabel = null;
+        continue;
       }
       if (envName === "align") {
         if (token === "\\label") {
@@ -386,45 +263,31 @@ export class Parser {
             curLabel = label;
           }
         }
+        continue;
       }
-      this.parseOne(token, row[row.length - 1].body);
+      row[row.length - 1].body.push(
+        this.parseOne(token, row[row.length - 1].body)
+      );
     }
   }
 
   parseTextFont(token: string) {
     this.lexer.tokenize();
-    if (/textrm|textnormal|textmd|textup/.test(token.slice(1))) {
+    if (/\\textrm|\\textnormal|\\textmd|\\textup/.test(token)) {
       return this.parseText(false, false);
     }
-    if (token.slice(1) === "textit") {
-      return this.parseText(true, false);
-    }
-    if (token.slice(1) === "textbf") {
-      return this.parseText(false, true);
-    }
-    if (token.slice(1) === "textsf" || token.slice(1) === "texttt") {
+    if (token === "\\textit") return this.parseText(true, false);
+    if (token === "\\textbf") return this.parseText(false, true);
+    if (token === "\\textsf" || token === "\\texttt") {
       return this.parseText(false, false, this.font);
     }
     return [];
   }
 }
 
-export const THM_ENV = {
-  theorem: { label: "Theorem", italic: true },
-  proof: { label: "Proof", italic: false },
-  corollary: { label: "Corollary", italic: true },
-  lemma: { label: "Lemma", italic: true },
-  definition: { label: "Definition", italic: true },
-  proposition: { label: "Proposition", italic: true },
-  example: { label: "Example", italic: false },
-  exercise: { label: "Exercise", italic: false },
-  remark: { label: "Remark", italic: true },
-};
-
 export const binOrOrd = (atoms: Atom[]): AtomKind => {
-  const kind = /bin|op|rel|open|punct/.test(
-    atoms[atoms.length - 1]?.kind ?? "bin"
-  )
+  const lastAtom = atoms[atoms.length - 1];
+  const kind = /bin|op|rel|open|punct/.test(lastAtom?.kind ?? "bin")
     ? "ord"
     : "bin";
   return kind;
