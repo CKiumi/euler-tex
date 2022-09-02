@@ -169,6 +169,8 @@ export const OPEN: { [key: string]: string } = {
   "\\lvert": "∣",
   "\\lVert": "∥",
   //
+  "(": "(",
+  "[": "[",
   "\\{": "{",
   "\\lbrace": "{",
   "\\lbrack": "[",
@@ -186,6 +188,8 @@ export const CLOSE: { [key: string]: string } = {
   "\\rvert": "∣",
   "\\rVert": "∥",
   //
+  ")": ")",
+  "]": "]",
   "\\}": "}",
   "\\rbrace": "}",
   "\\rbrack": "]",

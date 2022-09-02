@@ -127,7 +127,7 @@ export class MatrixAtom implements Atom {
       for (r = 0; r < nr; ++r) {
         const rw = body[r];
         const shift = -(rw.pos - offset);
-        const tagBox = new SymBox(`(${this.labels.pop() ?? "?"})`, ["Main-R"]);
+        const tagBox = new SymBox(`(${this.labels[r] ?? "?"})`, ["Main-R"]);
         tagBox.rect.depth = rw.depth;
         tagBox.rect.height = rw.height;
         tagBoxes.push({ box: tagBox, shift });

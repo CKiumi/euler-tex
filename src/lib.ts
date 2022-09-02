@@ -2,7 +2,7 @@ import { ArticleAtom, GroupAtom } from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
 import { html } from "./html";
-import { parse } from "./parser/parser";
+import { parse, prarseMath } from "./parser/parser";
 export * from "./atom/atom";
 export * from "./box/box";
 export * from "./font";
@@ -20,24 +20,24 @@ export const loadFont = () => {
 
 export const MathLatexToHtml = (
   latex: string,
-  mode: "inline" | "display" = "display"
+  mode: "inline" | "display" | "text" = "display"
 ) => {
-  if (mode === "inline") {
-    const html = new GroupAtom(parse(latex))
-      .toBox(new Options(6, TEXT))
-      .toHtml();
-    html.className = "inline";
-    return html;
-  } else {
-    const html = new GroupAtom(parse(latex)).toBox(new Options()).toHtml();
-    html.className = "display";
-    return html;
-  }
+  const html = (() => {
+    if (mode === "inline") {
+      return new GroupAtom(prarseMath(latex))
+        .toBox(new Options(6, TEXT))
+        .toHtml();
+    } else if (mode === "display") {
+      return new GroupAtom(prarseMath(latex)).toBox(new Options()).toHtml();
+    } else {
+      return new GroupAtom(parse(latex)).toBox(new Options()).toHtml();
+    }
+  })();
+  html.className = mode;
+  return html;
 };
 
-export const latexToArticle = (latex: string) => {
-  return new ArticleAtom(parse(latex));
-};
+export const latexToArticle = (latex: string) => new ArticleAtom(parse(latex));
 
 export const setLabels = (article: HTMLSpanElement) => {
   const labelHash: { [key: string]: string } = {};

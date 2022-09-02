@@ -35,7 +35,7 @@ export class RectBox implements Box {
     if (this.atom) this.atom.elem = span;
     if (this.atom instanceof FirstAtom) return span;
     addSpace(span, this);
-    span.style.height = em(this.rect.height + this.rect.depth);
+    span.style.height = em(this.rect.height);
     if (this.rect.width !== 0) {
       span.style.width = this.rect.width + "em";
     } else {

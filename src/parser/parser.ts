@@ -322,7 +322,7 @@ export class Parser {
         return new MatrixAtom(
           elems,
           envName as "pmatrix",
-          labels.reverse(),
+          labels,
           this.editable
         );
       }
@@ -375,11 +375,11 @@ export const binOrOrd = (atoms: Atom[]): AtomKind => {
   return kind;
 };
 
-export const parse = (latex: string, editable = false): Atom[] => {
+export const parse = (latex: string, editable = true): Atom[] => {
   return new Parser(latex, editable).parse(Escape.EOF);
 };
 
-export const prarseMath = (latex: string, editable = false): Atom[] => {
+export const prarseMath = (latex: string, editable = true): Atom[] => {
   const parser = new Parser(latex, editable);
   const atoms: Atom[] = [];
   for (;;) {
@@ -388,8 +388,4 @@ export const prarseMath = (latex: string, editable = false): Atom[] => {
     atoms.push(parser.parseSingleMath(token, atoms));
   }
   return atoms;
-};
-
-export const parseText = (latex: string, editable = false): Atom[] => {
-  return new Parser(latex, editable).parseText();
 };

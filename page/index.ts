@@ -153,7 +153,7 @@ const route: { [key: string]: () => void } = {
     const align2 = String.raw`\begin{align*} x & = a \\  & = c+d\end{align*}`;
     const cor = String.raw`\begin{corollary}Corollary environment \[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]\end{corollary}`;
     const eqt = String.raw`\begin{equation*}\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\end{equation*}`;
-    const eqt2 = String.raw`\begin{equation}\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\label{eq2}\end{equation}`;
+    const eqt2 = String.raw`\begin{equation}a\label{eq2}\end{equation}`;
     const thm1 = String.raw`\begin{theorem}${align2}\end{theorem}\begin{proof}Proof here ${eqt2}\end{proof}`;
     const thm2 = String.raw`\begin{theorem}\label{thm2}Second example for Theorem environment\end{theorem}`;
     const cases = String.raw`\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]`;
@@ -202,7 +202,7 @@ export const latexToHtmlDev = (
   fullWidth = true
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
-  const html = new GroupAtom(prarseMath(latex)).toBox(options).toHtml();
+  const html = new GroupAtom(prarseMath(latex, true)).toBox(options).toHtml();
   fullWidth && (html.style.width = "100%");
   return html;
 };

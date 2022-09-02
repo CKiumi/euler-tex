@@ -96,7 +96,7 @@ test("parse display", () => {
 });
 
 test("parse align", () => {
-  expect(parse("a\\begin{align}j\\end{align}a")).toEqual([
+  expect(parse("a\\begin{align}j\\end{align}a", false)).toEqual([
     a,
     new MatrixAtom([[new GroupAtom([j])]], "align", [null]),
     a,
@@ -104,7 +104,7 @@ test("parse align", () => {
 });
 
 test("parse theorem", () => {
-  expect(parse("a\\begin{theorem}a\\end{theorem}a")).toEqual([
+  expect(parse("a\\begin{theorem}a\\end{theorem}a", false)).toEqual([
     a,
     new ArticleAtom([a], "theorem", THM_ENV["theorem"]),
     a,
@@ -112,18 +112,19 @@ test("parse theorem", () => {
 });
 
 test("parse section", () => {
-  expect(parse("a\\section{a}a")).toEqual([
+  expect(parse("a\\section{a}a", false)).toEqual([
     a,
     new SectionAtom(
       [new CharAtom("a", false, false, false, "Main-B", false)],
-      "section"
+      "section",
+      false
     ),
     a,
   ]);
 });
 
 test("parse text font", () => {
-  expect(parse("a\\textbf{a}")).toEqual([
+  expect(parse("a\\textbf{a}", false)).toEqual([
     a,
     new CharAtom("a", false, false, true, null, false),
   ]);
