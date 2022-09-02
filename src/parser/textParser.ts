@@ -66,7 +66,6 @@ class Parser {
         } else {
           throw new Error(`Unsupported environment ${envName}`);
         }
-
         return result;
       }
       result += this.lexer.readChar();
@@ -122,6 +121,10 @@ class Parser {
 export const latexToBlocks = (latex: string): LatexBlock[] => {
   latex = replaceAll(latex, "\\[", "\\begin{equation*}");
   latex = replaceAll(latex, "\\]", "\\end{equation*}");
+  latex = replaceAll(latex, "\\begin{theorem}", "ESCAPE1");
+  latex = replaceAll(latex, "\\end{theorem}", "ESCAPE2");
+  latex = replaceAll(latex, "\\begin{corollary}", "ESCAPE3");
+  latex = replaceAll(latex, "\\end{corollary}", "ESCAPE4");
   return new Parser(latex).parse();
 };
 

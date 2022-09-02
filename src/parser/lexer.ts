@@ -81,6 +81,7 @@ export class Lexer {
       this.readChar();
       envName += this.cur();
     }
+
     return envName;
   }
 

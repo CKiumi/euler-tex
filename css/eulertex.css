@@ -35,6 +35,18 @@
   font-family: Main-B;
 }
 
+.theorem {
+  display: block;
+  width: 100%;
+  margin: 0.5em 0 0.5em 0;
+  border: 1px gray solid;
+}
+
+.theorem .label {
+  font-family: Main-B;
+  margin-right: 0.5em;
+}
+
 .section .label {
   margin-right: 1em;
 }

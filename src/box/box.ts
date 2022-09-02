@@ -7,7 +7,7 @@ import {
   MatrixAtom,
   SPEC,
 } from "../lib";
-import { PathNode, SvgNode, innerPath, sqrtSvg } from "../html";
+import { PathNode, SvgNode, innerPath, sqrtSvg, html } from "../html";
 import { em } from "../util";
 
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
@@ -439,10 +439,12 @@ export class BlockBox implements Box {
       | "display"
       | "section"
       | "subsection"
-      | "subsubsection",
+      | "subsubsection"
+      | "theorem",
     public children: Box[],
     public atom?: Atom,
-    public multiplier?: number
+    public multiplier?: number,
+    public thmName?: string
   ) {}
 
   toHtml(): HTMLSpanElement {
@@ -451,6 +453,9 @@ export class BlockBox implements Box {
       span.classList.add("section", "sub");
     } else if (this.mode === "subsubsection") {
       span.classList.add("section", "subsub");
+    } else if (this.mode === "theorem") {
+      span.append(html("span", { cls: ["label"], text: this.thmName }));
+      span.classList.add("theorem");
     } else {
       span.classList.add(this.mode);
     }

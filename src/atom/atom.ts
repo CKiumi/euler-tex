@@ -55,7 +55,11 @@ export class ArticleAtom extends GroupAtom {
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
 
-  constructor(public body: Atom[]) {
+  constructor(
+    public body: Atom[],
+    public mode: "theorem" | "text" = "text",
+    public thmName = ""
+  ) {
     super(body);
     this.body = [new FirstAtom(), ...body];
   }
@@ -66,7 +70,7 @@ export class ArticleAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new BlockBox("text", children, this);
+    return new BlockBox(this.mode, children, this, 1, this.thmName);
   }
 }
 

@@ -11,10 +11,10 @@ import {
   GroupAtom,
   FirstAtom,
   CharAtom,
-  ENVNAMES,
   DelimMap,
   Delims,
   SectionAtom,
+  ArticleAtom,
 } from "../atom/atom";
 import { Escape, Lexer, Token } from "./lexer";
 import { AtomKind, Font } from "../font";
@@ -46,6 +46,8 @@ import { OpAtom } from "../atom/op";
 export class Parser {
   lexer: Lexer;
   font: Font | null = null;
+  theorem: keyof typeof THM_ENV | null = null;
+  italic = false;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
   }
@@ -86,10 +88,16 @@ export class Parser {
     console.error(`Single token ${token} not supported`);
     return new SymAtom("close", "?", token, ["Main-R"]);
   }
+
   parse(end: Token): Atom[] {
     const atoms: Atom[] = [];
     for (;;) {
       const token = this.lexer.tokenize();
+      if (this.theorem && token === "\\end") {
+        const envName = this.parseEnvName();
+        if (envName === this.theorem) break;
+        throw new Error(`Expected \\end{${this.theorem}}`);
+      }
       if (token === end) break;
       if (token === Escape.EOF) throw new Error(`Expected ${end}`);
       this.parseOne(token, atoms);
@@ -116,11 +124,7 @@ export class Parser {
         }
         continue;
       }
-      if (
-        token === "\\section" ||
-        token === "\\subsection" ||
-        token === "\\subsubsection"
-      ) {
+      if (/\\section|\\subsection|\\subsubsection/.test(token)) {
         atoms.push(
           new SectionAtom(
             [new CharAtom(this.parseTextArg(), false, false, true, "Main-B")],
@@ -130,8 +134,24 @@ export class Parser {
         );
         continue;
       }
-
-      atoms.push(new CharAtom(token, false, italic, bold, font));
+      if (token === "\\begin") {
+        const envName = this.parseEnvName() as keyof typeof THM_ENV;
+        if (envName in THM_ENV) {
+          this.theorem = envName;
+          if (THM_ENV[envName].italic) this.italic = true;
+          atoms.push(
+            new ArticleAtom(
+              this.parse(Escape.EOF),
+              "theorem",
+              THM_ENV[this.theorem].label
+            )
+          );
+          this.theorem = null;
+          this.italic = false;
+        }
+        continue;
+      }
+      atoms.push(new CharAtom(token, false, italic || this.italic, bold, font));
     }
     return atoms;
   }
@@ -324,8 +344,7 @@ export class Parser {
     if (token === Escape.LCurly) {
       const envName = this.lexer.readEnvName();
       if (this.lexer.tokenize() != Escape.RCurly) throw new Error("Expected }");
-      if (ENVNAMES.includes(envName)) return envName;
-      else throw new Error("Unknown environment name");
+      return envName;
     } else throw new Error("{ expected after \\begin and \\end");
   }
 
@@ -371,6 +390,7 @@ export class Parser {
       this.parseOne(token, row[row.length - 1].body);
     }
   }
+
   parseTextFont(token: string) {
     this.lexer.tokenize();
     if (/textrm|textnormal|textmd|textup/.test(token.slice(1))) {
@@ -388,6 +408,18 @@ export class Parser {
     return [];
   }
 }
+
+export const THM_ENV = {
+  theorem: { label: "Theorem", italic: true },
+  proof: { label: "Proof", italic: false },
+  corollary: { label: "Corollary", italic: true },
+  lemma: { label: "Lemma", italic: true },
+  definition: { label: "Definition", italic: true },
+  proposition: { label: "Proposition", italic: true },
+  example: { label: "Example", italic: false },
+  exercise: { label: "Exercise", italic: false },
+  remark: { label: "Remark", italic: true },
+};
 
 export const binOrOrd = (atoms: Atom[]): AtomKind => {
   const kind = /bin|op|rel|open|punct/.test(

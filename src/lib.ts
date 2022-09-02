@@ -56,6 +56,11 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
   const texts: Atom[] = [];
   latexToBlocks(latex).forEach(({ mode, latex }) => {
     if (mode === "text") {
+      latex = latex.replaceAll("ESCAPE1", "\\begin{theorem}");
+      latex = latex.replaceAll("ESCAPE2", "\\end{theorem}");
+      latex = latex.replaceAll("ESCAPE3", "\\begin{corollary}");
+      latex = latex.replaceAll("ESCAPE4", "\\end{corollary}");
+
       const atoms = parseText(latex);
       texts.push(...atoms);
     }
@@ -71,6 +76,19 @@ export const latexToEditableAtoms = (latex: string): Atom[] => {
 };
 
 export const setLabels = (article: HTMLSpanElement) => {
+  const thmCtr: { [x: string]: number } = {};
+  const thms = article.querySelectorAll(".theorem");
+  thms.forEach((thm) => {
+    const label = thm.querySelector(".label");
+    const labelName = label?.textContent ?? "";
+    label?.querySelector(".counter")?.remove();
+    thmCtr[labelName] ? thmCtr[labelName]++ : (thmCtr[labelName] = 1);
+    const num = html("span", {
+      cls: ["counter"],
+      text: ` ${thmCtr[labelName]}.`,
+    });
+    label?.insertAdjacentElement("beforeend", num);
+  });
   let [sectCtr, subSecCtr, subSubsectCtr] = [0, 0, 0];
   const sections = article.querySelectorAll(".section");
   sections.forEach((section) => {
