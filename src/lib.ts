@@ -10,8 +10,15 @@ export * from "./parser/parser";
 
 export const loadFont = () => {
   FontList.forEach((name) => {
+    let [bold, italic] = [false, false];
+    const [fname, attr] = name.split("-");
+    if (attr?.includes("B")) bold = true;
+    if (attr?.includes("I")) italic = true;
     const url = new URL(`../woff/${name}.woff2`, import.meta.url).href;
-    const font = new FontFace(name, `url(${url}) format('woff2')`);
+    const font = new FontFace(fname, `url(${url}) format('woff2')`, {
+      style: italic ? "italic" : "normal",
+      weight: bold ? "bold" : "normal",
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (document.fonts as any).add(font);
     font.load().catch(console.log);

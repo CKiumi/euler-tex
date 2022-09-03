@@ -77,7 +77,7 @@ const renderTable = (command: string[], title: string) => {
         document.createTextNode(" "),
         html("span", {
           children: [latexToHtmlDev(latex, "display", false)],
-          style: { fontFamily: "Main-R" },
+          style: { fontFamily: "Main" },
         }),
         document.createTextNode(" " + latex)
       );

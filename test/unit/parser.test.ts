@@ -114,11 +114,7 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new SectionAtom(
-      [new CharAtom("a", false, false, false, "Main-B", false)],
-      "section",
-      false
-    ),
+    new SectionAtom([new CharAtom("a", false)], "section", false),
     a,
   ]);
 });

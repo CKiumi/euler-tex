@@ -130,9 +130,6 @@ export class SymBox implements Box {
     public atom?: Atom,
     public multiplier?: number
   ) {
-    if (fonts[0] === "Main-R" && fonts[1] === "Math-BI") {
-      fonts = ["Main-B"];
-    }
     if (this.char === "&nbsp;") {
       this.rect = { width: 0, height: 1, depth: 0 };
       this.italic = 0;
@@ -466,9 +463,26 @@ export class BlockBox implements Box {
       span.classList.add(this.mode);
     }
 
-    this.children.forEach((box) => {
-      span.append(box.toHtml());
-    });
+    if (
+      this.mode === "theorem" ||
+      this.mode === "section" ||
+      this.mode === "subsection" ||
+      this.mode === "subsubsection"
+    ) {
+      const wrapper = html("span", {
+        cls: ["text"],
+        style: { fontStyle: this.thmName?.italic ? "italic" : "normal" },
+      });
+      this.children.forEach((box) => {
+        wrapper.append(box.toHtml());
+      });
+      span.append(wrapper);
+    } else {
+      this.children.forEach((box) => {
+        span.append(box.toHtml());
+      });
+    }
+
     if (this.children.length === 1) {
       const space = document.createElement("span");
       space.innerHTML = "&nbsp;";

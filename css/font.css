@@ -1,61 +1,64 @@
 .ams-r {
-  font-family: "AMS-R";
+  font-family: "AMS";
 }
 
 .cal-b {
-  font-family: "Cal-B";
+  font-family: "Cal";
 }
 
 .cal-r {
-  font-family: "Cal-R";
+  font-family: "Cal";
 }
 
 .frak-b {
-  font-family: "Frak-B";
+  font-family: "Frak";
 }
 
 .frak-r {
-  font-family: "Frak-R";
+  font-family: "Frak";
 }
 
 .main-b {
-  font-family: "Main-B";
+  font-family: "Main";
+  font-weight: bold;
 }
 
 .main-bi {
-  font-family: "Main-BI";
+  font-family: "Main";
+  font-weight: bold;
+  font-style: italic;
 }
 
 .main-i {
-  font-family: "Main-I";
+  font-family: "Main";
 }
 
 .main-r {
-  font-family: "Main-R";
+  font-family: "Main";
 }
 
 .math-bi {
-  font-family: "Math-BI";
+  font-family: "Math";
 }
 
 .math-i {
-  font-family: "Math-I";
+  font-family: "Math";
 }
 
 .san-b {
-  font-family: "San-B";
+  font-family: "San";
 }
 
 .san-i {
-  font-family: "San-I";
+  font-family: "San";
 }
 
 .san-r {
-  font-family: "San-R";
+  font-family: "San";
 }
 
 .script-r {
-  font-family: "Script-R";
+  font-family: "Script";
 }
 
 .size1 {
@@ -75,5 +78,5 @@
 }
 
 .type-r {
-  font-family: "Type-R";
+  font-family: "Type";
 }

@@ -103,7 +103,7 @@ export class Parser {
       }
       if (/\\section|\\subsection|\\subsubsection/.test(token)) {
         const title = Array.from(this.parseTextArg()).map(
-          (char) => new CharAtom(char, false, false, false, "Main-B")
+          (char) => new CharAtom(char, false, false, false)
         );
         this.lastSection = new SectionAtom(
           title,

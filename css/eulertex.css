@@ -18,7 +18,6 @@
 }
 
 .display {
-  font-size: 1.21em;
   display: block;
   width: 100%;
   padding: 1em 0;
@@ -32,7 +31,7 @@
   display: inline-block;
   padding: 1em 0 0.5em 0;
   font-size: 1.7em;
-  font-family: Main-B;
+  font-weight: bold;
 }
 
 .theorem {
@@ -44,7 +43,7 @@
 
 .theorem .label {
   line-height: initial;
-  font-family: Main-B;
+  font-weight: bold;
   margin-right: 0.5em;
 }
 
@@ -64,7 +63,6 @@
 
 .inline {
   display: inline-block;
-  font-size: 1.21em;
 }
 
 .hline,
@@ -92,8 +90,8 @@
   width: 100%;
   display: block;
   text-align: center;
-  font-size: 1.21em;
   position: relative;
+  padding: 1em 0;
 }
 
 .inline {
@@ -102,12 +100,19 @@
   display: inline-block;
 }
 
+.inline,
+.display,
+.align {
+  font-size: 1.21em;
+  font-style: normal;
+}
+
 .focus {
   background-color: rgba(186, 217, 230, 0.4);
 }
 
 .text {
-  font-family: Main-R;
+  font-family: Main;
 }
 
 .hidden {
