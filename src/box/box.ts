@@ -63,62 +63,6 @@ export class FirstBox implements Box {
   }
 }
 
-export class CharBox implements Box {
-  rect: Rect = { width: 0, height: 0, depth: 0 };
-  space: Space = {};
-  constructor(
-    public char: string,
-    public atom: Atom,
-    public composite?: boolean,
-    public italic = false,
-    public bold = false,
-    public font: Font | null = null,
-    public ref = false
-  ) {
-    try {
-      const metrics = getCharMetrics(char, [font ?? "Main-R"]);
-      this.rect.width = metrics.width + metrics.italic;
-      this.rect.height = metrics.height;
-      this.rect.depth = metrics.depth;
-    } catch (error) {
-      this.rect.width = 1;
-      this.rect.height = 0.68;
-      this.rect.depth = 0;
-      return;
-    }
-  }
-  toHtml(): HTMLSpanElement {
-    const { char } = this;
-    const span = document.createElement("span");
-    if (char === "\n") {
-      const first = document.createElement("span");
-      first.innerHTML = "&#8203;";
-      span.append(document.createElement("br"), first);
-      this.atom.elem = span;
-      return span;
-    }
-    const { height, depth } = this.rect;
-    span.classList.add("box", (this.font ?? "Main-R").toLowerCase());
-    span.style.height = em(height + depth);
-    span.style.lineHeight = em(
-      (height +
-        (SPEC[this.font ?? "Main-R"].descent -
-          SPEC[this.font ?? "Main-R"].ascent) /
-          2) *
-        2
-    );
-
-    if (this.italic) span.style.fontStyle = "italic";
-    if (this.bold) span.style.fontWeight = "bold";
-    if (this.font) span.classList.add(this.font.toLowerCase());
-    span.innerHTML = char;
-    if (this.composite) span.style.textDecoration = "underline";
-    if (this.ref) span.classList.add("ref");
-    this.atom.elem = span;
-    return span;
-  }
-}
-
 export class SymBox implements Box {
   rect: Rect;
   italic: number;
@@ -128,14 +72,11 @@ export class SymBox implements Box {
     public char: string,
     fonts: Font[],
     public atom?: Atom,
-    public multiplier?: number
+    public composite?: boolean,
+    public italicStyle = false,
+    public bold = false,
+    public ref = false
   ) {
-    if (this.char === "&nbsp;") {
-      this.rect = { width: 0, height: 1, depth: 0 };
-      this.italic = 0;
-      this.font = "Main-R";
-      return;
-    }
     if (this.char === " ") {
       this.rect = { width: 0, height: 0, depth: 0 };
       this.space.right = 1;
@@ -172,6 +113,13 @@ export class SymBox implements Box {
     const { char, font, rect, italic } = this;
     const { height, depth } = rect;
     const span = document.createElement("span");
+    if (char === "\n") {
+      const first = document.createElement("span");
+      first.innerHTML = "&#8203;";
+      span.append(document.createElement("br"), first);
+      this.atom && (this.atom.elem = span);
+      return span;
+    }
     addSpace(span, this);
     span.innerHTML = char;
     span.classList.add("box", font.toLowerCase());
@@ -184,7 +132,10 @@ export class SymBox implements Box {
     //Deal with unknown error, these character are not contained in the rect
     if (this.char === "⎩" || this.char === "⎭")
       span.style.marginTop = "-0.25em";
-
+    if (this.italicStyle) span.style.fontStyle = "italic";
+    if (this.bold) span.style.fontWeight = "bold";
+    if (this.composite) span.style.textDecoration = "underline";
+    if (this.ref) span.classList.add("ref");
     if (this.atom) this.atom.elem = span;
     return span;
   }

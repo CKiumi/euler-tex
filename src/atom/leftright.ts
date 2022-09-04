@@ -108,6 +108,10 @@ const makeCustomSizedDelim = (delim: string, height: number): Box => {
   } else if (delimType.type === "large") {
     return makeLargeDelim(delim, delimType.size);
   } else {
+    if (delim === "&nbsp;") {
+      //null delimiter
+      return new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"]);
+    }
     return makeStackedDelim(delim, height);
   }
 };

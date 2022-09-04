@@ -1,4 +1,4 @@
-import { CharBox, SymBox, VStackBox } from "../box/box";
+import { SymBox, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, Font } from "../lib";
 import { BLOCKOP } from "../parser/command";
@@ -13,8 +13,14 @@ export class SymAtom implements Atom {
     public char: string,
     public command: string,
     fonts: (Font | null)[],
-    public charBox: boolean = true
+    public charBox: boolean = true,
+    public composite?: boolean,
+    public italic = false,
+    public bold = false,
+    public font: Font | null = null,
+    public ref = false
   ) {
+    if (char === " ") this.char = "&nbsp;";
     this.fonts = fonts.filter((e) => e) as Font[];
   }
   toBox(options?: Options): SymBox | VStackBox {
@@ -60,14 +66,14 @@ export class CharAtom implements Atom {
   ) {
     if (char === " ") this.char = "&nbsp;";
   }
-  toBox(): CharBox {
-    return new CharBox(
+  toBox(): SymBox {
+    return new SymBox(
       this.char,
+      [this.font ?? "Main-R"],
       this,
       this.composite,
       this.italic,
       this.bold,
-      this.font,
       this.ref
     );
   }

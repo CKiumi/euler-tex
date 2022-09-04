@@ -143,10 +143,10 @@ const route: { [key: string]: () => void } = {
   },
   "/env": () => {
     const env = String.raw`\begin{aligned}x&=\prod_b^{a}+b\\x+y&=c+d\end{aligned}, k=\begin{cases}x&a+b\\y&\prod_b^{a}+d\end{cases}`;
-    render("env", "Environment", env);
-    render("env", "Environment", env, "inline");
+    render("env1", "Environment", env);
+    render("env1", "Environment", env, "inline");
     const align = String.raw`\begin{align}x&=\prod_b^{a}+b\\x+y&=c+d\end{align}`;
-    render("env", "Environment", align, "align");
+    render("env2", "Environment", align, "align");
   },
   "/article": () => {
     console.time("euler1");
