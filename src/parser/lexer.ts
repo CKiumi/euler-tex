@@ -32,13 +32,23 @@ export class Lexer {
   readChar = (): string | null =>
     this.pos < this.s.length - 1 ? this.s[++this.pos] : null;
   skipSpaces(): void {
-    while (this.peek() === " ") {
+    while (/[ \r\n\t]/.test(this.peek())) {
       this.readChar();
     }
   }
   tokenize(skipSpace = true): Token {
     skipSpace && this.skipSpaces();
-    const cur = this.readChar();
+    let cur = this.readChar();
+    if (!skipSpace && cur === "\n") {
+      cur = this.readChar();
+      if (cur === "\n") return cur;
+    }
+    if (!skipSpace && cur && /[ \r\t]/.test(cur)) {
+      while (/[ \r\t]/.test(this.peek())) {
+        this.readChar();
+      }
+      return " ";
+    }
     if (cur === null) return Escape.EOF;
     if (cur === "$") return Escape.Inline;
     if (cur === "^") return Escape.Circumfix;
@@ -62,6 +72,7 @@ export class Lexer {
       if (command === "\\right") return Escape.Right;
       if (command === "\\begin") return Escape.Begin;
       if (command === "\\end") return Escape.End;
+      if (command === "\\displaystyle") return this.tokenize(skipSpace);
       return command;
     } else return cur;
   }
@@ -85,7 +96,7 @@ export class Lexer {
 
   readLabel() {
     let envName = "";
-    while (!this.end() && /^[a-zA-Z0-9*\s]+/.test(this.peek() ?? "")) {
+    while (!this.end() && this.peek() !== "}") {
       this.readChar();
       envName += this.cur();
     }

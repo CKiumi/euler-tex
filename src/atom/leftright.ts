@@ -14,6 +14,7 @@ import { AtomKind, Font } from "../lib";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 export type Delims = keyof typeof DelimMap;
 export const DelimMap = {
+  "\\vert": "|",
   "(": "(",
   ")": ")",
   "[": "[",
@@ -32,7 +33,12 @@ export class LRAtom implements Atom {
   left: SymAtom;
   right: SymAtom;
   elem: HTMLSpanElement | null = null;
-  constructor(left: Delims, right: Delims, public body: GroupAtom) {
+  constructor(
+    left: Delims,
+    right: Delims,
+    public body: GroupAtom,
+    public middle: number[] = []
+  ) {
     this.kind = "inner";
     this.left = new SymAtom("open", DelimMap[left], left, ["Main-R"]);
     this.right = new SymAtom("open", DelimMap[right], right, ["Main-R"]);
@@ -44,6 +50,16 @@ export class LRAtom implements Atom {
     const {
       rect: { height, depth },
     } = innerBox;
+    this.middle.forEach((i) => {
+      innerBox.children[i] =
+        left.char === " "
+          ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
+          : makeLeftRightDelim(
+              (innerBox.children[i] as SymBox).char,
+              height,
+              depth
+            );
+    });
     const leftBox =
       left.char === " "
         ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
@@ -195,11 +211,11 @@ const delimTypeToFont = function (type: Delimiter): Font {
   }
 };
 
-const makeSmallDelim = (delim: string): SymBox => {
+const makeSmallDelim = (delim: string): Box => {
   return new SymAtom("open", delim, delim, ["Main-R"]).toBox();
 };
 
-const makeLargeDelim = (delim: string, size: number): SymBox => {
+const makeLargeDelim = (delim: string, size: number): Box => {
   return new SymAtom("open", delim, delim, [("Size" + size) as Font]).toBox();
 };
 const verts = ["∣", "\\lvert", "\\rvert", "\\vert"];

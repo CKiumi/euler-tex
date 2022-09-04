@@ -14,6 +14,7 @@ export const THM_ENV: { [x: string]: ThmData } = {
   definition: { label: "Definition", italic: true },
   proposition: { label: "Proposition", italic: true },
   example: { label: "Example", italic: false },
+  assumption: { label: "Assumption", italic: true },
   exercise: { label: "Exercise", italic: false },
   remark: { label: "Remark", italic: true },
 };
@@ -78,6 +79,10 @@ export const parseCommand = (command: string): CommandData | null => {
   }
   if (AMS_NREL[command]) {
     return { kind: "rel", char: AMS_NREL[command], font: "AMS-R" };
+  }
+  if (SPACE[command]) {
+    //temporary implementation
+    return { kind: "ord", char: SPACE[command], font: "Main-R" };
   }
   return null;
 };
@@ -153,6 +158,8 @@ export const LETTER3: { [key: string]: string } = {
   "\\dag": "†",
   "\\ddag": "‡",
   "\\ ": " ",
+  // need to set kern
+  "\\vdots": "⋮",
 };
 
 export const INNER: { [key: string]: string } = {
@@ -160,6 +167,8 @@ export const INNER: { [key: string]: string } = {
   "\\ldots": "…",
   "\\cdots": "⋯",
   "\\ddots": "⋱",
+  "\\dotsc": "…",
+  "\\dots": "…",
 };
 
 export const OPEN: { [key: string]: string } = {
@@ -439,6 +448,11 @@ export const OP: string[] = [
   "\\tanh",
   "\\tg",
   "\\th",
+  //
+  "\\det",
+  "\\sgn",
+  "\\limsup",
+  "\\liminf",
 ];
 
 export const ACC: { [key: string]: string } = {
@@ -702,6 +716,8 @@ export const MISC: { [key: string]: string } = {
 
 export const SPACE: { [key: string]: string } = {
   "\\ ": " ",
+  "\\quad": " ",
+  "\\qquad": "  ",
   "\\space": " ",
   "\\nobreakspace": " ",
   // '\\nobreak': 'null',

@@ -76,7 +76,7 @@ export class ArticleAtom extends GroupAtom {
 
   toBox(options?: Options): HBox {
     const children = this.body.map((atom) => {
-      const box = atom.toBox(options);
+      const box = atom.toBox(options ?? new Options());
       atom.parent = this;
       return box;
     });

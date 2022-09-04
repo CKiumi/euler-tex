@@ -136,6 +136,20 @@ export class SymBox implements Box {
       this.font = "Main-R";
       return;
     }
+    if (this.char === " ") {
+      this.rect = { width: 0, height: 0, depth: 0 };
+      this.space.right = 1;
+      this.italic = 0;
+      this.font = "Main-R";
+      return;
+    }
+    if (this.char === "  ") {
+      this.rect = { width: 0, height: 0, depth: 0 };
+      this.space.right = 2;
+      this.italic = 0;
+      this.font = "Main-R";
+      return;
+    }
     try {
       const {
         font: f,
@@ -453,6 +467,9 @@ export class BlockBox implements Box {
       span.setAttribute("label", this.label ?? "");
     } else if (this.mode === "subsubsection") {
       span.classList.add("section", "subsub");
+      span.setAttribute("label", this.label ?? "");
+    } else if (this.mode === "section") {
+      span.classList.add("section");
       span.setAttribute("label", this.label ?? "");
     } else if (this.mode === "theorem") {
       span.append(html("span", { cls: ["label"], text: this.thmName?.label }));

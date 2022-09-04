@@ -509,6 +509,7 @@ HBox {
       "kind": "open",
       "parent": null,
     },
+    "middle": [],
     "parent": null,
     "right": SymAtom {
       "char": ")",
@@ -579,6 +580,7 @@ HBox {
             "kind": "open",
             "parent": null,
           },
+          "middle": [],
           "parent": null,
           "right": SymAtom {
             "char": ")",
@@ -626,6 +628,7 @@ HBox {
                   "kind": "open",
                   "parent": null,
                 },
+                "middle": [],
                 "parent": null,
                 "right": SymAtom {
                   "char": ")",

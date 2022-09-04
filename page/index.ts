@@ -21,6 +21,7 @@ import {
   ARROW,
   BIN,
   fontMap,
+  INNER,
   LETTER1,
   LETTER2,
   LETTER3,
@@ -29,6 +30,7 @@ import {
   PUNCT,
   REL,
 } from "../src/parser/command";
+import { article } from "./data";
 const main = document.getElementById("main") as HTMLElement;
 
 const render = (
@@ -71,7 +73,7 @@ const renderTable = (command: string[], title: string) => {
       if (!latex) break;
       const td = tr.insertCell();
       const kat = html("span", {});
-      katex.render(latex, kat, { output: "html" });
+      katex.render(latex, kat, { output: "html", throwOnError: false });
       td.append(
         kat,
         document.createTextNode(" "),
@@ -147,28 +149,17 @@ const route: { [key: string]: () => void } = {
     render("env", "Environment", align, "align");
   },
   "/article": () => {
-    const jpMath = String.raw`\[\frac{\sqrt{\text{x日本語}}}{\sqrt{\text{にほんご}}}\]`;
-    const aligned = String.raw`\[\begin{aligned}x & = a \\  & = c+d\ \text{(text mode)}\end{aligned}\]`;
-    const align = String.raw`\begin{align}\label{label1} x & = a \\  & \label{label2}= c+d\end{align}`;
-    const align2 = String.raw`\begin{align*} x & = a \\  & = c+d\end{align*}`;
-    const cor = String.raw`\begin{corollary}Corollary environment \[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]\end{corollary}`;
-    const eqt = String.raw`\begin{equation*}\begin{pmatrix}a & b \\ c & d\end{pmatrix}\begin{pmatrix}e & f \\ g & h\end{pmatrix}+\begin{pmatrix}e & f \\ g & h\end{pmatrix}\end{equation*}`;
-    const eqt2 = String.raw`\begin{equation}a\label{eq2}\end{equation}`;
-    const thm1 = String.raw`\begin{theorem}${align2}\end{theorem}\begin{proof}Proof here ${eqt2}\end{proof}`;
-    const thm2 = String.raw`\begin{theorem}\label{thm2}Second example for Theorem environment\end{theorem}`;
-    const cases = String.raw`\[\begin{cases}x+y & a\lt 0 \\ c+d & a\ge 0\end{cases}\]`;
-    const env = String.raw`\section{Introduction}\subsection{How to insert command }To insert command, type \textbf{backslash}. Ok Let's start with the following equation. You can expand and factor${jpMath}The more complicated example With trig expand, you can expand 日本語も打てるよ。 inline math-mode $x+y= z$ Multiline editing is also supported now. $\pounds \in \mathbb{C}$ aligned is also supported ${aligned} and also cases${cases}and equation number with align (\ref{label1}) (\ref{label2}) (\ref{eq2}) ${align}Matrix calculations are also supported${eqt}\subsection{Ref}\label{subsec} ${cor} \subsubsection{subsub}!!! Theorem \ref{thm2} and Subsection \ref{subsec} (\ref{label2})\section{Advanced}${thm1}${thm2}`;
     console.time("euler1");
     const line1 = html("div", {
-      children: [latexToArticle(env).toBox().toHtml()],
+      children: [latexToArticle(article).toBox().toHtml()],
       style: { border: "2px black solid" },
     });
     setLabels(line1);
-    console.timeEnd("euler1");
     main.append(
       html("h1", { text: "Article Editable" }),
       html("div", { id: "article", children: [line1] })
     );
+    console.timeEnd("euler1");
   },
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");
@@ -189,11 +180,16 @@ const route: { [key: string]: () => void } = {
     renderTable(Object.keys(ARROW), "Arrow");
     renderTable(Object.keys(PUNCT), "Punct");
     renderTable(Object.keys(MISC), "MISC");
+    renderTable(Object.keys(INNER), "Inner");
     renderTable(Object.keys(AMS_MISC), "AMS MISC");
     renderTable(Object.keys(AMS_BIN), "AMS BIN");
     renderTable(Object.keys(AMS_NBIN), "AMS NBIN");
     renderTable(Object.keys(AMS_REL), "AMS REL");
     renderTable(Object.keys(AMS_ARROW), "AMS ARROW");
+    renderTable(
+      ["\\neq", "\\ne", "\\notin", "\\notni", "\\sqrt{\\dots}", "\\vdots"],
+      "Macros"
+    );
   },
 };
 export const latexToHtmlDev = (
