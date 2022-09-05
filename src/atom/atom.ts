@@ -1,12 +1,4 @@
-import {
-  BlockBox,
-  Box,
-  FirstBox,
-  HBox,
-  RectBox,
-  SymBox,
-  VBox,
-} from "../box/box";
+import { BlockBox, Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 import { ThmData } from "../parser/command";
@@ -29,8 +21,8 @@ export class FirstAtom implements Atom {
   kind = null;
   parent = null;
   elem: HTMLSpanElement | null = null;
-  toBox(): FirstBox {
-    return new FirstBox(this);
+  toBox(): SymBox {
+    return new SymBox("&#8203;", ["Math-I"], this);
   }
 }
 

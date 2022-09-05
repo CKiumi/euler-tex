@@ -47,22 +47,6 @@ export class RectBox implements Box {
   }
 }
 
-export class FirstBox implements Box {
-  rect: Rect = { width: 0, height: 0.4306, depth: 0 };
-  space: Space = {};
-  constructor(public atom?: Atom) {}
-  toHtml(): HTMLSpanElement {
-    const span = document.createElement("span");
-    span.innerHTML = "&#8203;";
-    //same spec as "a" in math-i
-    span.style.height = "0.4306em";
-    span.style.lineHeight = "0.3621em";
-    span.classList.add("box", "math-i");
-    if (this.atom) this.atom.elem = span;
-    return span;
-  }
-}
-
 export class SymBox implements Box {
   rect: Rect;
   italic: number;
@@ -77,6 +61,12 @@ export class SymBox implements Box {
     public bold = false,
     public ref = false
   ) {
+    if (this.char === "&#8203;") {
+      this.rect = { width: 0, height: 0.4306, depth: 0 };
+      this.font = "Math-I";
+      this.italic = 0;
+      return;
+    }
     if (this.char === " ") {
       this.rect = { width: 0, height: 0, depth: 0 };
       this.space.right = 1;
