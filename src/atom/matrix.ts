@@ -26,8 +26,7 @@ export class MatrixAtom implements Atom {
   constructor(
     public children: GroupAtom[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
-    public labels: (string | null)[] = [],
-    public editable = false
+    public labels: (string | null)[] = []
   ) {}
 
   setGrid(grid: boolean) {
@@ -118,9 +117,8 @@ export class MatrixAtom implements Atom {
     const cols: Box[] = [];
     const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
     sep.space.bottom = -totalHeight + offset;
-    if (this.editable) {
-      cols.push(sep);
-    }
+
+    cols.push(sep);
 
     const tagBoxes = [];
     if (this.type === "align") {
@@ -155,35 +153,27 @@ export class MatrixAtom implements Atom {
       const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
 
       sep.space.bottom = -totalHeight + offset;
-      if (this.editable) cols.push(sep);
+      cols.push(sep);
     }
     const hbox = this.type === "matrix" ? new HBox(cols, this) : new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
     const innerDepth = hbox.rect.depth + hbox.space.bottom;
-    const lines = this.editable
-      ? Array(this.children.length + 1)
-          .fill(0)
-          .map((_, i) => {
-            //createlint width is not used, it is set to 100%
-            //currently, the width of text box is 0
-            return {
-              box: createLine(hbox.rect.width, !this.grid),
-              shift: -hlines[i].pos + offset,
-            };
-          })
-      : [];
-    if (MAT_DELIM[this.type]) {
-      const left = makeLRDelim(
-        MAT_DELIM[this.type][0],
-        innerHeight,
-        innerDepth
-      );
-      const right = makeLRDelim(
-        MAT_DELIM[this.type][1],
-        innerHeight,
-        innerDepth
+    const lines = Array(this.children.length + 1)
+      .fill(0)
+      .map((_, i) => {
+        //createlint width is not used, it is set to 100%
+        //currently, the width of text box is 0
+        return {
+          box: createLine(hbox.rect.width, !this.grid),
+          shift: -hlines[i].pos + offset,
+        };
+      });
+    const delim = MAT_DELIM[this.type];
+    if (delim) {
+      const [left, right] = delim.map((c) =>
+        makeLRDelim(c, innerHeight, innerDepth)
       );
       this.kind = "inner";
       return new HBox(

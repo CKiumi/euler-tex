@@ -30,8 +30,8 @@ export class GroupAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-  constructor(public body: Atom[], public editable = false) {
-    this.body = editable ? [new FirstAtom(), ...body] : body;
+  constructor(public body: Atom[]) {
+    this.body = [new FirstAtom(), ...body];
   }
 
   toBox(options: Options): HBox {

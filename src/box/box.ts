@@ -134,6 +134,7 @@ export class SymBox implements Box {
 export class HBox implements Box {
   rect: Rect;
   space: Space = {};
+
   constructor(
     public children: Box[],
     public atom?: Atom,

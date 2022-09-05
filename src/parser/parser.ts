@@ -300,7 +300,7 @@ export class Parser {
       body.push(this.parseSingleMath(token, body));
     }
     const right = this.asrtDelim(this.lexer.tokenize());
-    return new LRAtom(left, right, new GroupAtom(body, this.editable), middle);
+    return new LRAtom(left, right, new GroupAtom(body), middle);
   }
 
   private asrtDelim(token: Token): Delims {
@@ -319,9 +319,8 @@ export class Parser {
         if (token === Escape.EOF) throw new Error("Expected }");
         atoms.push(this.parseSingleMath(token, atoms));
       }
-      return new GroupAtom(atoms, this.editable);
-    } else
-      return new GroupAtom([this.parseSingleMath(token, atoms)], this.editable);
+      return new GroupAtom(atoms);
+    } else return new GroupAtom([this.parseSingleMath(token, atoms)]);
   }
 
   parseEnvName(): string {
@@ -334,7 +333,7 @@ export class Parser {
   }
 
   parseEnv(envName: string) {
-    const elems: GroupAtom[][] = [[new GroupAtom([], this.editable)]];
+    const elems: GroupAtom[][] = [[new GroupAtom([])]];
     const labels = [];
     let curLabel = null;
     for (;;) {
@@ -347,19 +346,14 @@ export class Parser {
         }
         const envName = this.parseEnvName();
         labels.push(curLabel);
-        return new MatrixAtom(
-          elems,
-          envName as "pmatrix",
-          labels,
-          this.editable
-        );
+        return new MatrixAtom(elems, envName as "pmatrix", labels);
       }
       if (token === Escape.And) {
-        row.push(new GroupAtom([], this.editable));
+        row.push(new GroupAtom([]));
         continue;
       }
       if (token === Escape.Newline) {
-        row = [new GroupAtom([], this.editable)];
+        row = [new GroupAtom([])];
         elems.push(row);
         labels.push(curLabel);
         curLabel = null;

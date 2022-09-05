@@ -198,7 +198,9 @@ export const latexToHtmlDev = (
   fullWidth = true
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
-  const html = new GroupAtom(prarseMath(latex, true)).toBox(options).toHtml();
+  const group = new GroupAtom(prarseMath(latex, true));
+  group.body.splice(0, 1);
+  const html = group.toBox(options).toHtml();
   fullWidth && (html.style.width = "100%");
   return html;
 };
