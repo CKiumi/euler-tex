@@ -13,8 +13,9 @@ import Style, { StyleInterface } from "../font/style";
 import { AtomKind, Font } from "../lib";
 import { Atom, GroupAtom, SymAtom } from "./atom";
 export type Delims = keyof typeof DelimMap;
+//TODO: complete DelimMap
 export const DelimMap = {
-  "\\vert": "|",
+  "\\vert": "∣",
   "(": "(",
   ")": ")",
   "[": "[",
@@ -30,8 +31,8 @@ export const DelimMap = {
 export class LRAtom implements Atom {
   parent: GroupAtom | null = null;
   kind: AtomKind;
-  left: SymAtom;
-  right: SymAtom;
+  left: string;
+  right: string;
   elem: HTMLSpanElement | null = null;
   constructor(
     left: Delims,
@@ -40,43 +41,32 @@ export class LRAtom implements Atom {
     public middle: number[] = []
   ) {
     this.kind = "inner";
-    this.left = new SymAtom("open", DelimMap[left], left, ["Main-R"]);
-    this.right = new SymAtom("open", DelimMap[right], right, ["Main-R"]);
+    this.left = DelimMap[left];
+    this.right = DelimMap[right];
   }
   toBox(options: Options): HBox {
     this.body.parent = this;
     const { left, right, body } = this;
     const innerBox = body.toBox(options);
-    const {
-      rect: { height, depth },
-    } = innerBox;
+    const [height, depth] = [innerBox.rect.height, innerBox.rect.depth];
     this.middle.forEach((i) => {
-      innerBox.children[i] =
-        left.char === " "
-          ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
-          : makeLeftRightDelim(
-              (innerBox.children[i] as SymBox).char,
-              height,
-              depth
-            );
+      const box = innerBox.children[i] as SymBox;
+      innerBox.children[i] = makeLRDelim(box.char, height, depth);
     });
-    const leftBox =
-      left.char === " "
-        ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
-        : makeLeftRightDelim(left.char, height, depth);
-    const rightBox =
-      right.char === " "
-        ? new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"])
-        : makeLeftRightDelim(right.char, height, depth);
-    return new HBox([leftBox, innerBox, rightBox], this);
+    const [lBox, rBox] = [left, right].map((c) =>
+      makeLRDelim(c, height, depth)
+    );
+    return new HBox([lBox, innerBox, rBox], this);
   }
 }
 
-export const makeLeftRightDelim = function (
+export const makeLRDelim = function (
   delim: string,
   height: number,
   depth: number
-) {
+): Box {
+  if (delim === " ")
+    return new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"]);
   // We always center \left/\right delimiters, so the axis is always shifted
   const axisHeight = getSigma("axisHeight") * 1;
 
@@ -108,10 +98,6 @@ const makeCustomSizedDelim = (delim: string, height: number): Box => {
   } else if (delimType.type === "large") {
     return makeLargeDelim(delim, delimType.size);
   } else {
-    if (delim === "&nbsp;") {
-      //null delimiter
-      return new RectBox({ width: 0.12, height: 0, depth: 0 }, ["box"]);
-    }
     return makeStackedDelim(delim, height);
   }
 };
@@ -204,15 +190,10 @@ export const traverseSequence = function (
 };
 
 const delimTypeToFont = function (type: Delimiter): Font {
-  if (type.type === "small") {
-    return "Main-R";
-  } else if (type.type === "large") {
-    return ("Size" + type.size) as Font;
-  } else if (type.type === "stack") {
-    return "Size4";
-  } else {
-    throw new Error(`Add support for delim type '${type}' here.`);
-  }
+  if (type.type === "small") return "Main-R";
+  else if (type.type === "large") return ("Size" + type.size) as Font;
+  else if (type.type === "stack") return "Size4";
+  else throw new Error(`Add support for delim type '${type}' here.`);
 };
 
 const makeSmallDelim = (delim: string): Box => {

@@ -206,7 +206,10 @@ export class HBox implements Box {
       });
     }
 
-    if (this.mode === "inline" && this.children.length === 1) {
+    if (
+      this.mode === "inline" &&
+      (this.children[0] as HBox).children.length === 1
+    ) {
       const space = document.createElement("span");
       space.innerHTML = "&nbsp;";
       span.append(space);

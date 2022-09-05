@@ -32,7 +32,7 @@ import {
 } from "../src/parser/command";
 import { article } from "./data";
 const main = document.getElementById("main") as HTMLElement;
-
+loadFont();
 const render = (
   id: string,
   title: string,
@@ -202,5 +202,5 @@ export const latexToHtmlDev = (
   fullWidth && (html.style.width = "100%");
   return html;
 };
-loadFont();
+
 route[window.location.pathname]?.();

@@ -2,7 +2,7 @@ import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, FirstAtom, GroupAtom } from "./atom";
-import { makeLeftRightDelim } from "./leftright";
+import { makeLRDelim } from "./leftright";
 
 export const ENVNAMES = [
   "pmatrix",
@@ -175,12 +175,12 @@ export class MatrixAtom implements Atom {
           })
       : [];
     if (MAT_DELIM[this.type]) {
-      const left = makeLeftRightDelim(
+      const left = makeLRDelim(
         MAT_DELIM[this.type][0],
         innerHeight,
         innerDepth
       );
-      const right = makeLeftRightDelim(
+      const right = makeLRDelim(
         MAT_DELIM[this.type][1],
         innerHeight,
         innerDepth
@@ -196,7 +196,7 @@ export class MatrixAtom implements Atom {
       );
     }
     if (this.type === "cases") {
-      const left = makeLeftRightDelim("{", innerHeight, innerDepth);
+      const left = makeLRDelim("{", innerHeight, innerDepth);
       this.kind = "inner";
       return new HBox(
         [left, new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines])],
