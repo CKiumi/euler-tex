@@ -12,7 +12,6 @@ import {
   MathBlockAtom,
   MatrixAtom,
   OverlineAtom,
-  SectionAtom,
   SqrtAtom,
   SupSubAtom,
   SymAtom,
@@ -27,7 +26,7 @@ export class Parser {
   font: Font | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
-  lastSection: SectionAtom | null = null;
+  lastSection: MathBlockAtom | null = null;
   thmLabel: string | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
@@ -75,7 +74,7 @@ export class Parser {
         continue;
       }
       if (this.lastSection && token === "\\label") {
-        this.lastSection.label = this.parseTextArg();
+        this.lastSection.tag = this.parseTextArg();
         continue;
       }
       if (token === Escape.Inline) {
@@ -109,10 +108,10 @@ export class Parser {
         const title = Array.from(this.parseTextArg()).map(
           (char) => new CharAtom(char, false, false, false)
         );
-        this.lastSection = new SectionAtom(
-          title,
+        this.lastSection = new MathBlockAtom(
+          new GroupAtom(title),
           token.slice(1) as "section",
-          this.editable
+          undefined
         );
         atoms.push(this.lastSection);
         continue;
@@ -141,7 +140,7 @@ export class Parser {
       if (token === Escape.EOF) throw new Error("Expected $ to end inline");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new MathBlockAtom(atoms, "inline");
+    return new MathBlockAtom(new GroupAtom(atoms), "inline");
   }
 
   parseDisplay(mode: "equation" | "equation*" | null) {
@@ -163,7 +162,7 @@ export class Parser {
         throw new Error("Expected \\] to end display mode");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new MathBlockAtom(atoms, "display", label);
+    return new MathBlockAtom(new GroupAtom(atoms), "display", label);
   }
 
   parseThm(envName: keyof typeof THM_ENV): ArticleAtom {

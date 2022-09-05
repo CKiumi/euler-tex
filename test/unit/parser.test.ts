@@ -9,7 +9,6 @@ import {
   LRAtom,
   MathBlockAtom,
   OverlineAtom,
-  SectionAtom,
   SqrtAtom,
   SymAtom,
 } from "../../src/atom/atom";
@@ -88,11 +87,19 @@ test("matrix atom", () => {
 });
 
 test("parse inline", () => {
-  expect(parse("a$j$a")).toEqual([a, new MathBlockAtom([j], "inline"), a]);
+  expect(parse("a$j$a")).toEqual([
+    a,
+    new MathBlockAtom(new GroupAtom([j]), "inline"),
+    a,
+  ]);
 });
 
 test("parse display", () => {
-  expect(parse("a\\[j\\]a")).toEqual([a, new MathBlockAtom([j], "display"), a]);
+  expect(parse("a\\[j\\]a")).toEqual([
+    a,
+    new MathBlockAtom(new GroupAtom([j]), "display"),
+    a,
+  ]);
 });
 
 test("parse align", () => {
@@ -114,7 +121,7 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new SectionAtom([new CharAtom("a", false)], "section", false),
+    new MathBlockAtom(new GroupAtom([new CharAtom("a", false)]), "section"),
     a,
   ]);
 });
