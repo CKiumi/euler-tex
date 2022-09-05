@@ -137,7 +137,19 @@ export class HBox implements Box {
   constructor(
     public children: Box[],
     public atom?: Atom,
-    public multiplier?: number
+    public mode:
+      | "hbox"
+      | "text"
+      | "inline"
+      | "display"
+      | "section"
+      | "subsection"
+      | "subsubsection"
+      | "theorem" = "hbox",
+
+    public multiplier?: number,
+    public thmName: ThmData | null = null,
+    public label: string | null = null
   ) {
     const width = children.reduce(
       (t, a) => t + a.rect.width + (a.space.left ?? 0) + (a.space.right ?? 0),
@@ -156,7 +168,49 @@ export class HBox implements Box {
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
+    if (this.mode === "subsection") {
+      span.classList.add("section", "sub");
+      span.setAttribute("label", this.label ?? "");
+    } else if (this.mode === "subsubsection") {
+      span.classList.add("section", "subsub");
+      span.setAttribute("label", this.label ?? "");
+    } else if (this.mode === "section") {
+      span.classList.add("section");
+      span.setAttribute("label", this.label ?? "");
+    } else if (this.mode === "theorem") {
+      span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
+      span.classList.add("theorem");
+      if (this.thmName?.nonum) span.classList.add("nonum");
+      span.setAttribute("label", this.label ?? "");
+    } else {
+      span.classList.add(this.mode);
+    }
     addSpace(span, this);
+    if (
+      this.mode === "theorem" ||
+      this.mode === "section" ||
+      this.mode === "subsection" ||
+      this.mode === "subsubsection"
+    ) {
+      const wrapper = html("span", {
+        cls: ["text"],
+        style: { fontStyle: this.thmName?.italic ? "italic" : "normal" },
+      });
+      this.children.forEach((box) => {
+        wrapper.append(box.toHtml());
+      });
+      span.append(wrapper);
+    } else {
+      this.children.forEach((box) => {
+        span.append(box.toHtml());
+      });
+    }
+
+    if (this.mode === "inline" && this.children.length === 1) {
+      const space = document.createElement("span");
+      space.innerHTML = "&nbsp;";
+      span.append(space);
+    }
     if (
       this.atom &&
       this.atom instanceof MatrixAtom &&
@@ -164,11 +218,8 @@ export class HBox implements Box {
     ) {
       span.classList.add("align");
     }
-    span.classList.add("hbox");
-    this.children.forEach((box) => {
-      span.append(box.toHtml());
-    });
-    if (this.multiplier) {
+
+    if (this.mode === "hbox" && this.multiplier) {
       span.style.fontSize = em(this.multiplier);
     }
     if (this.atom) this.atom.elem = span;
@@ -381,72 +432,3 @@ const addSpace = (span: HTMLSpanElement, box: Box) => {
   span.style.marginBottom = em(box.space.bottom);
   span.style.marginTop = em(box.space.top);
 };
-
-export class BlockBox implements Box {
-  rect: Rect = { depth: 0, height: 0, width: 0 };
-  space: Space = {};
-  constructor(
-    public mode:
-      | "text"
-      | "inline"
-      | "display"
-      | "section"
-      | "subsection"
-      | "subsubsection"
-      | "theorem",
-    public children: Box[],
-    public atom?: Atom,
-    public multiplier?: number,
-    public thmName: ThmData | null = null,
-    public label: string | null = null
-  ) {}
-
-  toHtml(): HTMLSpanElement {
-    const span = document.createElement("span");
-    if (this.mode === "subsection") {
-      span.classList.add("section", "sub");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "subsubsection") {
-      span.classList.add("section", "subsub");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "section") {
-      span.classList.add("section");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "theorem") {
-      span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
-      span.classList.add("theorem");
-      if (this.thmName?.nonum) span.classList.add("nonum");
-      span.setAttribute("label", this.label ?? "");
-    } else {
-      span.classList.add(this.mode);
-    }
-
-    if (
-      this.mode === "theorem" ||
-      this.mode === "section" ||
-      this.mode === "subsection" ||
-      this.mode === "subsubsection"
-    ) {
-      const wrapper = html("span", {
-        cls: ["text"],
-        style: { fontStyle: this.thmName?.italic ? "italic" : "normal" },
-      });
-      this.children.forEach((box) => {
-        wrapper.append(box.toHtml());
-      });
-      span.append(wrapper);
-    } else {
-      this.children.forEach((box) => {
-        span.append(box.toHtml());
-      });
-    }
-
-    if (this.children.length === 1) {
-      const space = document.createElement("span");
-      space.innerHTML = "&nbsp;";
-      span.append(space);
-    }
-    if (this.atom) this.atom.elem = span;
-    return span;
-  }
-}

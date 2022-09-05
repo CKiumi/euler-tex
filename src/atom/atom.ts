@@ -1,4 +1,4 @@
-import { BlockBox, Box, HBox, RectBox, SymBox, VBox } from "../box/box";
+import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 import { ThmData } from "../parser/command";
@@ -72,7 +72,7 @@ export class ArticleAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new BlockBox(this.mode, children, this, 1, this.thmName, this.label);
+    return new HBox(children, this, this.mode, 1, this.thmName, this.label);
   }
 }
 
@@ -111,9 +111,9 @@ export class MathBlockAtom extends GroupAtom {
       box.rect.height = body.rect.height;
       const tagBox = new VBox([{ box, shift: 0 }]);
       tagBox.tag = true;
-      return new BlockBox(this.mode, [body, tagBox], this, 1, null, this.tag);
+      return new HBox([body, tagBox], this, this.mode, 1, null, this.tag);
     }
-    return new BlockBox(this.mode, children, this, 1, null, this.tag);
+    return new HBox(children, this, this.mode, 1, null, this.tag);
   }
 }
 
@@ -136,7 +136,7 @@ export class SectionAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new BlockBox(this.mode, children, this, 1, null, this.label);
+    return new HBox(children, this, this.mode, 1, null, this.label);
   }
 }
 

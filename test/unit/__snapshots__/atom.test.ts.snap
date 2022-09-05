@@ -190,6 +190,8 @@ VStackBox {
           "space": {},
         },
       ],
+      "label": null,
+      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -197,6 +199,7 @@ VStackBox {
         "width": 0.46905,
       },
       "space": {},
+      "thmName": null,
     },
   ],
   "multiplier": undefined,
@@ -400,6 +403,8 @@ VBox {
             "space": {},
           },
         ],
+        "label": null,
+        "mode": "hbox",
         "multiplier": 1,
         "rect": {
           "depth": 0.19444,
@@ -407,6 +412,7 @@ VBox {
           "width": 0.46905,
         },
         "space": {},
+        "thmName": null,
       },
       "shift": 0.677,
     },
@@ -536,6 +542,8 @@ VBox {
             "space": {},
           },
         ],
+        "label": null,
+        "mode": "hbox",
         "multiplier": 1,
         "rect": {
           "depth": 0.19444,
@@ -543,6 +551,7 @@ VBox {
           "width": 0.46905,
         },
         "space": {},
+        "thmName": null,
       },
       "shift": -0.686,
     },
@@ -799,6 +808,8 @@ HBox {
           "space": {},
         },
       ],
+      "label": null,
+      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -806,6 +817,7 @@ HBox {
         "width": 0.46905,
       },
       "space": {},
+      "thmName": null,
     },
     SymBox {
       "atom": SymAtom {
@@ -839,6 +851,8 @@ HBox {
       "space": {},
     },
   ],
+  "label": null,
+  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.25,
@@ -846,6 +860,7 @@ HBox {
     "width": 1.24683,
   },
   "space": {},
+  "thmName": null,
 }
 `;
 
@@ -1086,6 +1101,8 @@ HBox {
                               "space": {},
                             },
                           ],
+                          "label": null,
+                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1093,6 +1110,7 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
+                          "thmName": null,
                         },
                         "shift": 0.6099999999999999,
                       },
@@ -1197,6 +1215,8 @@ HBox {
                               "space": {},
                             },
                           ],
+                          "label": null,
+                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1204,6 +1224,7 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
+                          "thmName": null,
                         },
                         "shift": -0.5900000000000001,
                       },
@@ -1324,6 +1345,8 @@ HBox {
                               "space": {},
                             },
                           ],
+                          "label": null,
+                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1331,6 +1354,7 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
+                          "thmName": null,
                         },
                         "shift": 0.6099999999999999,
                       },
@@ -1347,6 +1371,8 @@ HBox {
                     "tag": false,
                   },
                 ],
+                "label": null,
+                "mode": "hbox",
                 "multiplier": undefined,
                 "rect": {
                   "depth": 0.78444,
@@ -1357,8 +1383,11 @@ HBox {
                   "bottom": 0.16555999999999993,
                   "top": 0.18047999999999997,
                 },
+                "thmName": null,
               },
             ],
+            "label": null,
+            "mode": "hbox",
             "multiplier": undefined,
             "rect": {
               "depth": 0.95,
@@ -1366,6 +1395,7 @@ HBox {
               "width": 1.9381,
             },
             "space": {},
+            "thmName": null,
           },
           "shift": 0,
         },
@@ -1411,6 +1441,8 @@ HBox {
       "space": {},
     },
   ],
+  "label": null,
+  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.95003,
@@ -1418,6 +1450,7 @@ HBox {
     "width": 3.41032,
   },
   "space": {},
+  "thmName": null,
 }
 `;
 
@@ -1546,6 +1579,8 @@ VStackBox {
           "space": {},
         },
       ],
+      "label": null,
+      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -1553,6 +1588,7 @@ VStackBox {
         "width": 0.46905,
       },
       "space": {},
+      "thmName": null,
     },
   ],
   "multiplier": undefined,
@@ -1693,6 +1729,8 @@ VBox {
             "space": {},
           },
         ],
+        "label": null,
+        "mode": "hbox",
         "multiplier": undefined,
         "rect": {
           "depth": 0.19444,
@@ -1702,6 +1740,7 @@ VBox {
         "space": {
           "left": 0.95,
         },
+        "thmName": null,
       },
       "shift": 0,
     },
@@ -1764,6 +1803,8 @@ VBox {
           },
         },
         "children": [],
+        "label": null,
+        "mode": "hbox",
         "multiplier": undefined,
         "rect": {
           "depth": 0,
@@ -1773,6 +1814,7 @@ VBox {
         "space": {
           "left": 0.777,
         },
+        "thmName": null,
       },
       "shift": 0,
     },
@@ -2014,6 +2056,8 @@ HBox {
                 "space": {},
               },
             ],
+            "label": null,
+            "mode": "hbox",
             "multiplier": 0.7,
             "rect": {
               "depth": 0.13610799999999998,
@@ -2023,6 +2067,7 @@ HBox {
             "space": {
               "right": 0.07142857142857144,
             },
+            "thmName": null,
           },
           "shift": 0.48090799999999995,
         },
@@ -2122,6 +2167,8 @@ HBox {
                 "space": {},
               },
             ],
+            "label": null,
+            "mode": "hbox",
             "multiplier": 0.7,
             "rect": {
               "depth": 0.13610799999999998,
@@ -2132,6 +2179,7 @@ HBox {
               "left": -0.08177142857142858,
               "right": 0.07142857142857144,
             },
+            "thmName": null,
           },
           "shift": -0.276864,
         },
@@ -2146,6 +2194,8 @@ HBox {
       "tag": false,
     },
   ],
+  "label": null,
+  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.412972,
@@ -2153,5 +2203,6 @@ HBox {
     "width": 0.797385,
   },
   "space": {},
+  "thmName": null,
 }
 `;
