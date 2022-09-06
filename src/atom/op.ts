@@ -9,8 +9,7 @@ export class OpAtom implements Atom {
   constructor(public body: string) {}
   toBox(): HBox {
     return new HBox(
-      this.body.split("").map((char) => new SymBox(char, ["Main-R"])),
-      this
-    );
+      this.body.split("").map((char) => new SymBox(char, ["Main-R"]))
+    ).bind(this);
   }
 }

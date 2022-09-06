@@ -40,13 +40,10 @@ export class SqrtAtom implements Atom {
       depth: imgShift,
     });
     inner.space.left = totalWidth - width;
-    return new VBox(
-      [
-        { box: sqrtBox, shift: 0 },
-        { box: inner, shift: 0 },
-      ],
-      this
-    );
+    return new VBox([
+      { box: sqrtBox, shift: 0 },
+      { box: inner, shift: 0 },
+    ]).bind(this);
   }
 }
 

@@ -72,7 +72,7 @@ export const parseSup = (atom: SupSubAtom, options: Options): HBox => {
   const marginRight = 0.5 / SIGMAS.ptPerEm[0] / sizeMultiplier;
   sup.space.right = marginRight;
   const vbox = new VBox([{ box: sup, shift: supShift }]);
-  return new HBox([nuc, vbox], atom);
+  return new HBox([nuc, vbox]).bind(atom);
 };
 
 export const parseSub = (atom: SupSubAtom, options: Options) => {
@@ -103,7 +103,7 @@ export const parseSub = (atom: SupSubAtom, options: Options) => {
     -(nuc as SymBox).italic / (sizeMultiplier / options.sizeMultiplier);
   const vbox = new VBox([{ box: sub, shift: -subShift }]);
 
-  return new HBox([nuc, vbox], atom);
+  return new HBox([nuc, vbox]).bind(atom);
 };
 
 export const parseSupSub = (
@@ -179,10 +179,9 @@ export const parseSupSub = (
       { box: sub, shift: -subShift },
     ],
     undefined,
-    undefined,
     "start"
   );
-  return new HBox([nuc, supsub], atom);
+  return new HBox([nuc, supsub]).bind(atom);
 };
 
 export const parseLimitSupSub = (
@@ -223,13 +222,13 @@ export const parseLimitSupSub = (
       subBox.rect.depth +
       (subBox.space.top ?? 0) +
       nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox, subBox], bottom, atom);
+    return new VStackBox([supBox, nucBox, subBox], bottom).bind(atom);
   } else if (subBox) {
     const top = nucBox.rect.height;
-    return new VStackBox([nucBox, subBox], top, atom);
+    return new VStackBox([nucBox, subBox], top).bind(atom);
   } else if (supBox) {
     const bottom = nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox], bottom, atom);
+    return new VStackBox([supBox, nucBox], bottom).bind(atom);
   } else {
     throw new Error("Sup or Sub must specified");
   }

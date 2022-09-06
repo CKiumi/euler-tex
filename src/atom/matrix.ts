@@ -139,9 +139,9 @@ export class MatrixAtom implements Atom {
         .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
 
       if (isAlign(this.type) && c === 0) {
-        cols.push(new VBox(col, undefined, undefined, "end"));
+        cols.push(new VBox(col, undefined, "end"));
       } else if (isAlign(this.type) || this.type === "cases") {
-        cols.push(new VBox(col, undefined, undefined, "start"));
+        cols.push(new VBox(col, undefined, "start"));
       } else {
         cols.push(new VBox(col));
       }
@@ -155,7 +155,8 @@ export class MatrixAtom implements Atom {
       sep.space.bottom = -totalHeight + offset;
       cols.push(sep);
     }
-    const hbox = this.type === "matrix" ? new HBox(cols, this) : new HBox(cols);
+    const hbox =
+      this.type === "matrix" ? new HBox(cols).bind(this) : new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
@@ -176,36 +177,32 @@ export class MatrixAtom implements Atom {
         makeLRDelim(c, innerHeight, innerDepth)
       );
       this.kind = "inner";
-      return new HBox(
-        [
-          left,
-          new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
-          right,
-        ],
-        this
-      );
+      return new HBox([
+        left,
+        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
+        right,
+      ]).bind(this);
     }
     if (this.type === "cases") {
       const left = makeLRDelim("{", innerHeight, innerDepth);
       this.kind = "inner";
-      return new HBox(
-        [left, new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines])],
-        this
-      );
+      return new HBox([
+        left,
+        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
+      ]).bind(this);
     }
     if (this.type === "align") {
       const tags = new VBox(tagBoxes);
       tags.tag = true;
-      return new HBox(
-        [new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]), tags],
-        this
-      );
+      return new HBox([
+        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
+        tags,
+      ]).bind(this);
     }
 
-    return new HBox(
-      [new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines])],
-      this
-    );
+    return new HBox([
+      new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
+    ]).bind(this);
   }
 }
 

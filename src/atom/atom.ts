@@ -22,7 +22,7 @@ export class FirstAtom implements Atom {
   parent = null;
   elem: HTMLSpanElement | null = null;
   toBox(): SymBox {
-    return new SymBox("&#8203;", ["Math-I"], this);
+    return new SymBox("&#8203;", ["Math-I"]).bind(this);
   }
 }
 
@@ -47,7 +47,7 @@ export class GroupAtom implements Atom {
       prevKind = atom.kind;
       return box;
     });
-    return new HBox(children, this);
+    return new HBox(children).bind(this);
   }
 }
 
@@ -72,7 +72,9 @@ export class ArticleAtom extends GroupAtom {
       atom.parent = this;
       return box;
     });
-    return new HBox(children, this, this.mode, 1, this.thmName, this.label);
+    return new HBox(children, this.mode, 1, this.thmName, this.label).bind(
+      this
+    );
   }
 }
 
@@ -101,9 +103,9 @@ export class MathBlockAtom {
       [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
       const tagBox = new VBox([{ box, shift: 0 }]);
       tagBox.tag = true;
-      return new HBox([body, tagBox], this, this.mode, 1, null, this.tag);
+      return new HBox([body, tagBox], this.mode, 1, null, this.tag).bind(this);
     }
-    return new HBox([body], this, this.mode, 1, null, this.tag);
+    return new HBox([body], this.mode, 1, null, this.tag).bind(this);
   }
 }
 

@@ -2,7 +2,6 @@ import {
   AccentAtom,
   ArticleAtom,
   Atom,
-  CharAtom,
   DelimMap,
   Delims,
   FirstAtom,
@@ -18,7 +17,7 @@ import {
 } from "../atom/atom";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
-import { ACC, BLOCKOP, fontMap, OP, parseCommand, THM_ENV } from "./command";
+import { ACC, BLOCKOP, FontMap, OP, parseCommand, THM_ENV } from "./command";
 import { Escape, Lexer, Token } from "./lexer";
 
 export class Parser {
@@ -89,15 +88,15 @@ export class Parser {
       if (token === Escape.EOF) throw new Error(`Expected ${end}`);
       if (token === "\\ref") {
         const label = this.parseTextArg();
-        atoms.push(new CharAtom(label, false, false, false, undefined, true));
+        atoms.push(new SymAtom(null, label, label, [], { ref: true }));
         continue;
       }
       if (token === "\\cite") {
         this.parseTextArg();
         continue;
       }
-      if (fontMap[token]) {
-        this.font = fontMap[token];
+      if (FontMap[token]) {
+        this.font = FontMap[token];
         if (token.startsWith("\\text")) {
           atoms.push(...this.parseTextFont(token));
           this.font = null;
@@ -106,7 +105,7 @@ export class Parser {
       }
       if (/\\section|\\subsection|\\subsubsection/.test(token)) {
         const title = Array.from(this.parseTextArg()).map(
-          (char) => new CharAtom(char, false, false, false)
+          (char) => new SymAtom(null, char, char, [])
         );
         this.lastSection = new MathBlockAtom(
           new GroupAtom(title),
@@ -116,7 +115,7 @@ export class Parser {
         atoms.push(this.lastSection);
         continue;
       }
-      atoms.push(new CharAtom(token));
+      atoms.push(new SymAtom(null, token, token, []));
     }
     return atoms;
   }
@@ -127,7 +126,9 @@ export class Parser {
       const token = this.lexer.tokenize(false);
       if (token === Escape.RCurly) break;
       if (token === Escape.EOF) break;
-      atoms.push(new CharAtom(token, false, italic, bold, font));
+      atoms.push(
+        new SymAtom(null, token, token, [font ?? "Main-R"], { italic, bold })
+      );
     }
     return atoms;
   }
@@ -219,14 +220,14 @@ export class Parser {
     if (token.startsWith("\\")) {
       if (token === "\\ref") {
         const label = this.parseTextArg();
-        return new CharAtom(label, false, false, false, undefined, true);
+        return new SymAtom(null, label, label, ["Main-R"], { ref: true });
       }
       if (token === "\\text") {
         this.lexer.tokenize();
         return new GroupAtom(this.parseText());
       }
-      if (fontMap[token]) {
-        this.font = fontMap[token];
+      if (FontMap[token]) {
+        this.font = FontMap[token];
         if (token.startsWith("\\text")) {
           const atom = new GroupAtom(this.parseTextFont(token));
           this.font = null;
@@ -240,7 +241,7 @@ export class Parser {
         return atom;
       }
       if (BLOCKOP[token]) {
-        return new SymAtom("op", BLOCKOP[token], token, ["Size2"], false);
+        return new SymAtom("op", BLOCKOP[token], token, ["Size2"], {}, false);
       }
 
       if (token === "\\bra")
@@ -258,18 +259,25 @@ export class Parser {
         return new OverlineAtom(this.parseMathArg());
       }
       if (ACC[token]) {
-        const acc = new SymAtom("ord", ACC[token], token, ["Main-R"], false);
+        const acc = new SymAtom(
+          "ord",
+          ACC[token],
+          token,
+          ["Main-R"],
+          {},
+          false
+        );
         return new AccentAtom(this.parseMathArg(), acc);
       }
 
       if (token === "\\neq" || token === "\\ne") {
-        return new SymAtom("rel", "=", "\\neq", ["Main-R"], false);
+        return new SymAtom("rel", "=", "\\neq", ["Main-R"], {});
       }
       if (token === "\\notin") {
-        return new SymAtom("rel", "∈", token, ["Main-R"], false);
+        return new SymAtom("rel", "∈", token, ["Main-R"], {});
       }
       if (token === "\\notni") {
-        return new SymAtom("rel", "∋", token, ["Main-R"], false);
+        return new SymAtom("rel", "∋", token, ["Main-R"], {});
       }
       const cmd = parseCommand(token);
       if (cmd) {

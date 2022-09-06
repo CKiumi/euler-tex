@@ -34,7 +34,35 @@ export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
       continue;
     }
   }
-  throw new Error("Font metric not found for " + char + "," + fonts.join(" "));
+  if (char === "&#8203;") {
+    return {
+      width: 0,
+      height: 0.4306,
+      depth: 0,
+      italic: 0,
+      skew: 0,
+      font: "Math-I",
+    };
+  }
+  if (char === " " || char === "  " || char === "\n") {
+    return {
+      width: 0,
+      height: 0,
+      depth: 0,
+      italic: 0,
+      skew: 0,
+      font: "Main-R",
+    };
+  }
+  console.error("Font metric not found for " + char + " , " + fonts.join(" "));
+  return {
+    width: 1,
+    height: 1.17,
+    depth: 0,
+    italic: 0,
+    skew: 0,
+    font: "Main-R",
+  };
 };
 
 export const getSigma = (name: keyof typeof SIGMAS, size?: number): number => {

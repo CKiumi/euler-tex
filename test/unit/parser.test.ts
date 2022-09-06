@@ -3,7 +3,6 @@ import {
   AccentAtom,
   ArticleAtom,
   Atom,
-  CharAtom,
   FirstAtom,
   GroupAtom,
   LRAtom,
@@ -21,7 +20,7 @@ import { THM_ENV } from "../../src/parser/command";
 export const prs = (latex: string, editable = false): Atom =>
   prarseMath(latex, editable)[0];
 
-const a = new CharAtom("a");
+const a = new SymAtom(null, "a", "a", ["Main-R"]);
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("parse symbol", () => {
@@ -29,7 +28,7 @@ test("parse symbol", () => {
 });
 
 test("parse accent", () => {
-  const accent = new SymAtom("ord", "^", "\\hat", ["Main-R"], false);
+  const accent = new SymAtom("ord", "^", "\\hat", ["Main-R"], {}, false);
   const accAtom = new AccentAtom(group, accent);
   expect(prs("\\hat{j}")).toEqual(accAtom);
   const atom = prs("\\hat{j}", true) as AccentAtom;
@@ -121,7 +120,10 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new MathBlockAtom(new GroupAtom([new CharAtom("a", false)]), "section"),
+    new MathBlockAtom(
+      new GroupAtom([new SymAtom(null, "a", "a", ["Main-R"])]),
+      "section"
+    ),
     a,
   ]);
 });
@@ -129,6 +131,6 @@ test("parse section", () => {
 test("parse text font", () => {
   expect(parse("a\\textbf{a}", false)).toEqual([
     a,
-    new CharAtom("a", false, false, true, null, false),
+    new SymAtom(null, "a", "a", ["Main-R"], { bold: true, italic: false }),
   ]);
 });

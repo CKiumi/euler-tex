@@ -180,10 +180,13 @@ export const OPEN: { [key: string]: string } = {
   //
   "(": "(",
   "[": "[",
+  "⌈": "⌈",
+  "⌉": "⌉",
   "\\{": "{",
   "\\lbrace": "{",
   "\\lbrack": "[",
-  "\\lparen": "",
+  "\\lparen": "(",
+  "\\rparen": "(",
   "\\lfloor": "⌊",
   "\\lceil": "⌈",
 };
@@ -468,7 +471,7 @@ export const ACC: { [key: string]: string } = {
   "\\mathring": "˚",
 };
 
-export const fontMap: { [x: string]: Font } = {
+export const FontMap: { [x: string]: Font } = {
   //work both in math and text mode
   "\\textrm": "Main-R",
   "\\textnormal": "Main-R",
@@ -479,9 +482,9 @@ export const fontMap: { [x: string]: Font } = {
   "\\textit": "Main-R",
   "\\textup": "Main-R",
   //only in math mode
-  "\\mathbf": "Main-B",
+  "\\mathbf": "Math-BI",
   "\\mathrm": "Main-R",
-  "\\mathit": "Main-R",
+  "\\mathit": "Math-I",
   "\\mathnormal": "Math-I",
   "\\mathbb": "AMS-R",
   "\\mathcal": "Cal-R",

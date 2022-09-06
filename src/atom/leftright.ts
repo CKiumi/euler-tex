@@ -56,7 +56,7 @@ export class LRAtom implements Atom {
     const [lBox, rBox] = [left, right].map((c) =>
       makeLRDelim(c, height, depth)
     );
-    return new HBox([lBox, innerBox, rBox], this);
+    return new HBox([lBox, innerBox, rBox]).bind(this);
   }
 }
 

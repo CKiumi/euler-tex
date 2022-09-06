@@ -20,7 +20,7 @@ import {
   AMS_REL,
   ARROW,
   BIN,
-  fontMap,
+  FontMap,
   INNER,
   LETTER1,
   LETTER2,
@@ -166,7 +166,7 @@ const route: { [key: string]: () => void } = {
     renderTable(Object.keys(LETTER2), "Letter 2");
     renderTable(Object.keys(LETTER3), "Letter 3");
     renderTable(
-      Object.keys(fontMap).map((font) => `${font}{A+*}`),
+      Object.keys(FontMap).map((font) => `${font}{A+*}`),
       "Font"
     );
     renderTable(OP, "Op");

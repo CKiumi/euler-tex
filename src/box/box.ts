@@ -1,12 +1,4 @@
-import {
-  Atom,
-  FirstAtom,
-  Font,
-  getCharMetrics,
-  getSigma,
-  MatrixAtom,
-  SPEC,
-} from "../lib";
+import { Atom, Font, getCharMetrics, getSigma, MatrixAtom, SPEC } from "../lib";
 import { PathNode, SvgNode, innerPath, sqrtSvg, html } from "../html";
 import { em } from "../util";
 import { ThmData } from "../parser/command";
@@ -19,32 +11,37 @@ export interface Box {
   space: Space;
   multiplier?: number;
   atom?: Atom;
+  bind: (atom: Atom) => Box;
   toHtml(): HTMLSpanElement;
 }
 
 export class RectBox implements Box {
   space: Space = {};
-  constructor(
-    public rect: Rect,
-    public classes: string[],
-    public atom?: Atom,
-    public multiplier?: number
-  ) {}
+  atom?: Atom;
+  constructor(public rect: Rect, public classes: string[]) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     if (this.atom) this.atom.elem = span;
-    if (this.atom instanceof FirstAtom) return span;
     addSpace(span, this);
     span.style.height = em(this.rect.height);
     if (this.rect.width !== 0) {
       span.style.width = this.rect.width + "em";
-    } else {
-      span.style.width = "100%";
-    }
+    } else span.style.width = "100%";
     span.classList.add(...this.classes);
-
     return span;
   }
+}
+export interface SymStyle {
+  composite?: boolean;
+  italic?: boolean;
+  bold?: boolean;
+  ref?: boolean;
 }
 
 export class SymBox implements Box {
@@ -52,53 +49,27 @@ export class SymBox implements Box {
   italic: number;
   space: Space = {};
   font: Font;
-  constructor(
-    public char: string,
-    fonts: Font[],
-    public atom?: Atom,
-    public composite?: boolean,
-    public italicStyle = false,
-    public bold = false,
-    public ref = false
-  ) {
-    if (this.char === "&#8203;") {
-      this.rect = { width: 0, height: 0.4306, depth: 0 };
-      this.font = "Math-I";
-      this.italic = 0;
-      return;
-    }
-    if (this.char === " ") {
-      this.rect = { width: 0, height: 0, depth: 0 };
-      this.space.right = 1;
-      this.italic = 0;
-      this.font = "Main-R";
-      return;
-    }
-    if (this.char === "  ") {
-      this.rect = { width: 0, height: 0, depth: 0 };
-      this.space.right = 2;
-      this.italic = 0;
-      this.font = "Main-R";
-      return;
-    }
-    try {
-      const {
-        font: f,
-        depth,
-        height,
-        italic,
-        width,
-      } = getCharMetrics(char, fonts);
-      this.font = f;
-      this.rect = { width: width + italic, height, depth };
-      this.italic = italic;
-    } catch (error) {
-      //Case CJK
-      this.rect = { width: 1, height: 1.17, depth: 0 };
-      this.italic = 0;
-      this.font = "Main-R";
-    }
+  atom?: Atom;
+  constructor(public char: string, fonts: Font[], public style?: SymStyle) {
+    const {
+      font: f,
+      depth,
+      height,
+      italic,
+      width,
+    } = getCharMetrics(char, fonts);
+    this.font = f;
+    this.rect = { width: width + italic, height, depth };
+    this.italic = italic;
+    if (this.char === " ") this.space.right = 1;
+    if (this.char === "  ") this.space.right = 2;
   }
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
   toHtml(): HTMLSpanElement {
     const { char, font, rect, italic } = this;
     const { height, depth } = rect;
@@ -122,10 +93,10 @@ export class SymBox implements Box {
     //Deal with unknown error, these character are not contained in the rect
     if (this.char === "⎩" || this.char === "⎭")
       span.style.marginTop = "-0.25em";
-    if (this.italicStyle) span.style.fontStyle = "italic";
-    if (this.bold) span.style.fontWeight = "bold";
-    if (this.composite) span.style.textDecoration = "underline";
-    if (this.ref) span.classList.add("ref");
+    if (this.style?.italic) span.style.fontStyle = "italic";
+    if (this.style?.bold) span.style.fontWeight = "bold";
+    if (this.style?.composite) span.style.textDecoration = "underline";
+    if (this.style?.ref) span.classList.add("ref");
     if (this.atom) this.atom.elem = span;
     return span;
   }
@@ -134,10 +105,9 @@ export class SymBox implements Box {
 export class HBox implements Box {
   rect: Rect;
   space: Space = {};
-
+  atom?: Atom;
   constructor(
     public children: Box[],
-    public atom?: Atom,
     public mode:
       | "hbox"
       | "text"
@@ -165,6 +135,11 @@ export class HBox implements Box {
       ...children.map((child) => child.rect.height + (child.space.top ?? 0))
     );
     this.rect = { depth, height, width };
+  }
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
   }
 
   toHtml(): HTMLSpanElement {
@@ -235,9 +210,9 @@ export class VBox implements Box {
   rect: Rect;
   space: Space = {};
   tag = false;
+  atom?: Atom;
   constructor(
     public children: { box: Box; shift: number }[],
-    public atom?: Atom,
     public multiplier?: number,
     public align?: string
   ) {
@@ -249,6 +224,11 @@ export class VBox implements Box {
     );
     const width = Math.max(...children.map(({ box: { rect } }) => rect.width));
     this.rect = { depth, height, width };
+  }
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
   }
 
   toHtml(): HTMLSpanElement {
@@ -286,10 +266,10 @@ export class VStackBox implements Box {
   rect: Rect;
   space: Space = {};
   shift: number;
+  atom?: Atom;
   constructor(
     public children: Box[],
     public newDepth: number,
-    public atom?: Atom,
     public multiplier?: number,
     public align?: string
   ) {
@@ -307,6 +287,12 @@ export class VStackBox implements Box {
     this.rect = { depth: newDepth, height, width };
     this.shift = -(newDepth - oldDepth);
   }
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);
@@ -324,7 +310,13 @@ export class VStackBox implements Box {
 export class DelimInnerBox implements Box {
   space: Space = {};
   multiplier?: number | undefined;
+  atom: Atom | undefined;
   constructor(public repeat: string, public rect: Rect) {}
+
+  bind(_: Atom): Box {
+    throw new Error("Method not implemented." + _);
+  }
+
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     addSpace(span, this);
@@ -351,14 +343,18 @@ export class DelimInnerBox implements Box {
 
 export class SqrtBox implements Box {
   space: Space = {};
-  multiplier?: number | undefined;
+  multiplier?: number;
   constructor(
     public size: 1 | 2 | 3 | 4 | "small" | "Tall",
     public shift: number,
     public innerHeight: number,
-    public rect: Rect,
-    public atom?: Atom
+    public rect: Rect
   ) {}
+
+  bind(_: Atom): Box {
+    throw new Error("Method not implemented." + _);
+  }
+
   toHtml(): HTMLSpanElement {
     const sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
     const span = document.createElement("span");
@@ -413,7 +409,6 @@ export class SqrtBox implements Box {
     }
     span.style.height = em(spanHeight);
     span.style.display = "inline-block";
-    if (this.atom) this.atom.elem = span;
     return span;
   }
 }

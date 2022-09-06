@@ -17,7 +17,7 @@ export class AccentAtom implements Atom {
     ];
     const clearance = Math.min(box.rect.height, getSigma("xHeight"));
     accBox.space.bottom = -clearance;
-    return new VStackBox([accBox, box], box.rect.depth, this);
+    return new VStackBox([accBox, box], box.rect.depth).bind(this);
   }
 }
 
@@ -35,6 +35,6 @@ export class OverlineAtom implements Atom {
     const defaultRuleThickness = getSigma("defaultRuleThickness");
     accBox.space.top = defaultRuleThickness;
     accBox.space.bottom = 3 * defaultRuleThickness;
-    return new VStackBox([accBox, box], box.rect.depth, this);
+    return new VStackBox([accBox, box], box.rect.depth).bind(this);
   }
 }
