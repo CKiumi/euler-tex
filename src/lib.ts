@@ -1,4 +1,4 @@
-import { GroupAtom, ArticleAtom } from "./atom/atom";
+import { MathGroup, Article } from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
 import { html } from "./html";
@@ -31,20 +31,20 @@ export const MathLatexToHtml = (
 ) => {
   const html = (() => {
     if (mode === "inline") {
-      return new GroupAtom(prarseMath(latex))
+      return new MathGroup(prarseMath(latex))
         .toBox(new Options(6, TEXT))
         .toHtml();
     } else if (mode === "display") {
-      return new GroupAtom(prarseMath(latex)).toBox(new Options()).toHtml();
+      return new MathGroup(prarseMath(latex)).toBox(new Options()).toHtml();
     } else {
-      return new GroupAtom(parse(latex)).toBox(new Options()).toHtml();
+      return new MathGroup(parse(latex)).toBox(new Options()).toHtml();
     }
   })();
   html.className = mode;
   return html;
 };
 
-export const latexToArticle = (latex: string) => new ArticleAtom(parse(latex));
+export const latexToArticle = (latex: string) => new Article(parse(latex));
 
 export const setLabels = (article: HTMLSpanElement) => {
   const labelHash: { [key: string]: string } = {};

@@ -1,13 +1,18 @@
 import { VStackBox } from "../box/box";
 import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../lib";
-import { Atom, SymAtom, parseLine, GroupAtom } from "./atom";
+import { Atom, SymAtom, parseLine, MathGroup } from "./atom";
 
 export class AccentAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind = "ord";
-  constructor(public body: GroupAtom, public accent: SymAtom) {}
+  constructor(public body: MathGroup, public accent: SymAtom) {}
+
+  children(): Atom[] {
+    return [...this.body.children(), this];
+  }
+
   toBox(options: Options): VStackBox {
     this.body.parent = this;
     const { body, accent } = this;
@@ -22,12 +27,17 @@ export class AccentAtom implements Atom {
 }
 
 export class OverlineAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind = "ord";
-  constructor(public body: GroupAtom) {
+  constructor(public body: MathGroup) {
     body.parent = this;
   }
+
+  children(): Atom[] {
+    return [...this.body.children(), this];
+  }
+
   toBox(options: Options): VStackBox {
     const { body } = this;
     const accBox = parseLine();

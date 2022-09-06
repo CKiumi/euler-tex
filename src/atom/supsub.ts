@@ -2,18 +2,29 @@ import { Box, HBox, multiplyBox, SymBox, VBox, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, getSigma, SIGMAS } from "../font";
 import { LIMIT } from "../parser/command";
-import { Atom, GroupAtom, SymAtom } from "./atom";
+import { Atom, MathGroup, SymAtom } from "./atom";
 
 export class SupSubAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind | null;
   constructor(
     public nuc: Atom,
-    public sup?: GroupAtom,
-    public sub?: GroupAtom
+    public sup?: MathGroup,
+    public sub?: MathGroup
   ) {
     this.kind = nuc.kind;
+  }
+
+  children(): Atom[] {
+    const nucs = this.nuc.children();
+    nucs.pop();
+    return [
+      ...nucs,
+      ...(this.sup ? this.sup.children() : []),
+      ...(this.sub ? this.sub.children() : []),
+      this,
+    ];
   }
   toBox(options?: Options): Box {
     this.nuc.parent = this;

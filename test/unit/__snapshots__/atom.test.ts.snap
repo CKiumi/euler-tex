@@ -16,7 +16,7 @@ VStackBox {
       "parent": null,
       "style": undefined,
     },
-    "body": GroupAtom {
+    "body": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -72,7 +72,7 @@ VStackBox {
       "style": undefined,
     },
     HBox {
-      "atom": GroupAtom {
+      "atom": MathGroup {
         "body": [
           FirstAtom {
             "elem": null,
@@ -118,7 +118,7 @@ VStackBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 [Circular],
                 SymAtom {
@@ -177,7 +177,7 @@ VStackBox {
               "Math-I",
             ],
             "kind": "ord",
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -246,7 +246,7 @@ exports[`frac atom 1`] = `
 VBox {
   "align": undefined,
   "atom": FracAtom {
-    "denom": GroupAtom {
+    "denom": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -272,7 +272,7 @@ VBox {
     },
     "elem": null,
     "kind": "ord",
-    "numer": GroupAtom {
+    "numer": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -288,7 +288,7 @@ VBox {
             "Math-I",
           ],
           "kind": "ord",
-          "parent": GroupAtom {
+          "parent": MathGroup {
             "body": [
               FirstAtom {
                 "elem": null,
@@ -313,7 +313,7 @@ VBox {
   "children": [
     {
       "box": HBox {
-        "atom": GroupAtom {
+        "atom": MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -329,7 +329,7 @@ VBox {
                 "Math-I",
               ],
               "kind": "ord",
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   FirstAtom {
                     "elem": null,
@@ -354,7 +354,7 @@ VBox {
           "elem": null,
           "kind": null,
           "parent": FracAtom {
-            "denom": GroupAtom {
+            "denom": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -389,7 +389,7 @@ VBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   [Circular],
                   SymAtom {
@@ -401,7 +401,7 @@ VBox {
                       "Math-I",
                     ],
                     "kind": "ord",
-                    "parent": GroupAtom {
+                    "parent": MathGroup {
                       "body": [
                         FirstAtom {
                           "elem": null,
@@ -426,7 +426,7 @@ VBox {
                 "elem": null,
                 "kind": null,
                 "parent": FracAtom {
-                  "denom": GroupAtom {
+                  "denom": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,
@@ -478,7 +478,7 @@ VBox {
                 "Math-I",
               ],
               "kind": "ord",
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   FirstAtom {
                     "elem": null,
@@ -493,7 +493,7 @@ VBox {
                   "denom": [Circular],
                   "elem": null,
                   "kind": "ord",
-                  "numer": GroupAtom {
+                  "numer": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,
@@ -550,7 +550,7 @@ VBox {
     },
     {
       "box": HBox {
-        "atom": GroupAtom {
+        "atom": MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -576,7 +576,7 @@ VBox {
             "denom": [Circular],
             "elem": null,
             "kind": "ord",
-            "numer": GroupAtom {
+            "numer": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -608,7 +608,7 @@ VBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   [Circular],
                   SymAtom {
@@ -630,7 +630,7 @@ VBox {
                   "denom": [Circular],
                   "elem": null,
                   "kind": "ord",
-                  "numer": GroupAtom {
+                  "numer": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,
@@ -679,7 +679,7 @@ VBox {
                 "Math-I",
               ],
               "kind": "ord",
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   FirstAtom {
                     "elem": null,
@@ -694,7 +694,7 @@ VBox {
                   "denom": [Circular],
                   "elem": null,
                   "kind": "ord",
-                  "numer": GroupAtom {
+                  "numer": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,
@@ -752,7 +752,7 @@ VBox {
 exports[`leftright atom 1`] = `
 HBox {
   "atom": LRAtom {
-    "body": GroupAtom {
+    "body": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -809,7 +809,7 @@ HBox {
       "style": undefined,
     },
     HBox {
-      "atom": GroupAtom {
+      "atom": MathGroup {
         "body": [
           FirstAtom {
             "elem": null,
@@ -846,7 +846,7 @@ HBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 [Circular],
                 SymAtom {
@@ -896,7 +896,7 @@ HBox {
               "Math-I",
             ],
             "kind": "ord",
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -977,9 +977,14 @@ HBox {
 exports[`matrix atom 1`] = `
 HBox {
   "atom": MatrixAtom {
-    "children": [
+    "elem": null,
+    "grid": false,
+    "kind": "inner",
+    "labels": [],
+    "parent": null,
+    "rows": [
       [
-        GroupAtom {
+        MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -1003,7 +1008,7 @@ HBox {
           "kind": null,
           "parent": [Circular],
         },
-        GroupAtom {
+        MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -1029,7 +1034,7 @@ HBox {
         },
       ],
       [
-        GroupAtom {
+        MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -1055,11 +1060,6 @@ HBox {
         },
       ],
     ],
-    "elem": null,
-    "grid": false,
-    "kind": "inner",
-    "labels": [],
-    "parent": null,
     "type": "pmatrix",
   },
   "children": [
@@ -1119,7 +1119,7 @@ HBox {
                     "children": [
                       {
                         "box": HBox {
-                          "atom": GroupAtom {
+                          "atom": MathGroup {
                             "body": [
                               FirstAtom {
                                 "elem": null,
@@ -1142,7 +1142,12 @@ HBox {
                             "elem": null,
                             "kind": null,
                             "parent": MatrixAtom {
-                              "children": [
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "labels": [],
+                              "parent": null,
+                              "rows": [
                                 [
                                   [Circular],
                                   [Circular],
@@ -1151,11 +1156,6 @@ HBox {
                                   [Circular],
                                 ],
                               ],
-                              "elem": null,
-                              "grid": false,
-                              "kind": "inner",
-                              "labels": [],
-                              "parent": null,
                               "type": "pmatrix",
                             },
                           },
@@ -1164,7 +1164,7 @@ HBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     [Circular],
                                     SymAtom {
@@ -1183,7 +1183,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1192,11 +1197,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1222,7 +1222,7 @@ HBox {
                                   "Math-I",
                                 ],
                                 "kind": "ord",
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     FirstAtom {
                                       "elem": null,
@@ -1234,7 +1234,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1243,11 +1248,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1277,7 +1277,7 @@ HBox {
                       },
                       {
                         "box": HBox {
-                          "atom": GroupAtom {
+                          "atom": MathGroup {
                             "body": [
                               FirstAtom {
                                 "elem": null,
@@ -1300,7 +1300,12 @@ HBox {
                             "elem": null,
                             "kind": null,
                             "parent": MatrixAtom {
-                              "children": [
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "labels": [],
+                              "parent": null,
+                              "rows": [
                                 [
                                   [Circular],
                                   [Circular],
@@ -1309,11 +1314,6 @@ HBox {
                                   [Circular],
                                 ],
                               ],
-                              "elem": null,
-                              "grid": false,
-                              "kind": "inner",
-                              "labels": [],
-                              "parent": null,
                               "type": "pmatrix",
                             },
                           },
@@ -1322,7 +1322,7 @@ HBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     [Circular],
                                     SymAtom {
@@ -1341,7 +1341,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1350,11 +1355,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1380,7 +1380,7 @@ HBox {
                                   "Math-I",
                                 ],
                                 "kind": "ord",
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     FirstAtom {
                                       "elem": null,
@@ -1392,7 +1392,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1401,11 +1406,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1466,7 +1466,7 @@ HBox {
                     "children": [
                       {
                         "box": HBox {
-                          "atom": GroupAtom {
+                          "atom": MathGroup {
                             "body": [
                               FirstAtom {
                                 "elem": null,
@@ -1489,7 +1489,12 @@ HBox {
                             "elem": null,
                             "kind": null,
                             "parent": MatrixAtom {
-                              "children": [
+                              "elem": null,
+                              "grid": false,
+                              "kind": "inner",
+                              "labels": [],
+                              "parent": null,
+                              "rows": [
                                 [
                                   [Circular],
                                   [Circular],
@@ -1498,11 +1503,6 @@ HBox {
                                   [Circular],
                                 ],
                               ],
-                              "elem": null,
-                              "grid": false,
-                              "kind": "inner",
-                              "labels": [],
-                              "parent": null,
                               "type": "pmatrix",
                             },
                           },
@@ -1511,7 +1511,7 @@ HBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     [Circular],
                                     SymAtom {
@@ -1530,7 +1530,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1539,11 +1544,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1569,7 +1569,7 @@ HBox {
                                   "Math-I",
                                 ],
                                 "kind": "ord",
-                                "parent": GroupAtom {
+                                "parent": MathGroup {
                                   "body": [
                                     FirstAtom {
                                       "elem": null,
@@ -1581,7 +1581,12 @@ HBox {
                                   "elem": null,
                                   "kind": null,
                                   "parent": MatrixAtom {
-                                    "children": [
+                                    "elem": null,
+                                    "grid": false,
+                                    "kind": "inner",
+                                    "labels": [],
+                                    "parent": null,
+                                    "rows": [
                                       [
                                         [Circular],
                                         [Circular],
@@ -1590,11 +1595,6 @@ HBox {
                                         [Circular],
                                       ],
                                     ],
-                                    "elem": null,
-                                    "grid": false,
-                                    "kind": "inner",
-                                    "labels": [],
-                                    "parent": null,
                                     "type": "pmatrix",
                                   },
                                 },
@@ -1769,7 +1769,7 @@ exports[`overline atom 1`] = `
 VStackBox {
   "align": undefined,
   "atom": OverlineAtom {
-    "body": GroupAtom {
+    "body": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -1814,7 +1814,7 @@ VStackBox {
       },
     },
     HBox {
-      "atom": GroupAtom {
+      "atom": MathGroup {
         "body": [
           FirstAtom {
             "elem": null,
@@ -1848,7 +1848,7 @@ VStackBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 [Circular],
                 SymAtom {
@@ -1895,7 +1895,7 @@ VStackBox {
               "Math-I",
             ],
             "kind": "ord",
-            "parent": GroupAtom {
+            "parent": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -1952,7 +1952,7 @@ exports[`sqrt atom 1`] = `
 VBox {
   "align": undefined,
   "atom": SqrtAtom {
-    "body": GroupAtom {
+    "body": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -1998,7 +1998,7 @@ VBox {
     },
     {
       "box": HBox {
-        "atom": GroupAtom {
+        "atom": MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -2032,7 +2032,7 @@ VBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   [Circular],
                   SymAtom {
@@ -2079,7 +2079,7 @@ VBox {
                 "Math-I",
               ],
               "kind": "ord",
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   FirstAtom {
                     "elem": null,
@@ -2139,7 +2139,7 @@ exports[`sqrt atom 2`] = `
 VBox {
   "align": undefined,
   "atom": SqrtAtom {
-    "body": GroupAtom {
+    "body": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -2173,7 +2173,7 @@ VBox {
     },
     {
       "box": HBox {
-        "atom": GroupAtom {
+        "atom": MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -2195,7 +2195,7 @@ VBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
-              "parent": GroupAtom {
+              "parent": MathGroup {
                 "body": [
                   [Circular],
                 ],
@@ -2259,7 +2259,7 @@ HBox {
         "Math-I",
       ],
       "kind": "ord",
-      "parent": GroupAtom {
+      "parent": MathGroup {
         "body": [
           FirstAtom {
             "elem": null,
@@ -2275,7 +2275,7 @@ HBox {
       "style": undefined,
     },
     "parent": null,
-    "sub": GroupAtom {
+    "sub": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -2299,7 +2299,7 @@ HBox {
       "kind": null,
       "parent": [Circular],
     },
-    "sup": GroupAtom {
+    "sup": MathGroup {
       "body": [
         FirstAtom {
           "elem": null,
@@ -2335,7 +2335,7 @@ HBox {
           "Math-I",
         ],
         "kind": "ord",
-        "parent": GroupAtom {
+        "parent": MathGroup {
           "body": [
             FirstAtom {
               "elem": null,
@@ -2374,7 +2374,7 @@ HBox {
       "children": [
         {
           "box": HBox {
-            "atom": GroupAtom {
+            "atom": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -2421,7 +2421,7 @@ HBox {
                 "atom": FirstAtom {
                   "elem": null,
                   "kind": null,
-                  "parent": GroupAtom {
+                  "parent": MathGroup {
                     "body": [
                       [Circular],
                       SymAtom {
@@ -2481,7 +2481,7 @@ HBox {
                     "Math-I",
                   ],
                   "kind": "ord",
-                  "parent": GroupAtom {
+                  "parent": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,
@@ -2529,7 +2529,7 @@ HBox {
         },
         {
           "box": HBox {
-            "atom": GroupAtom {
+            "atom": MathGroup {
               "body": [
                 FirstAtom {
                   "elem": null,
@@ -2576,7 +2576,7 @@ HBox {
                 "atom": FirstAtom {
                   "elem": null,
                   "kind": null,
-                  "parent": GroupAtom {
+                  "parent": MathGroup {
                     "body": [
                       [Circular],
                       SymAtom {
@@ -2636,7 +2636,7 @@ HBox {
                     "Math-I",
                   ],
                   "kind": "ord",
-                  "parent": GroupAtom {
+                  "parent": MathGroup {
                     "body": [
                       FirstAtom {
                         "elem": null,

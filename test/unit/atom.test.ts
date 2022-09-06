@@ -8,12 +8,12 @@ import {
   OverlineAtom,
   SqrtAtom,
   SymAtom,
-  GroupAtom,
+  MathGroup,
 } from "../../src/lib";
 import { Options } from "../../src/box/style";
 const ops = new Options();
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
-const group = new GroupAtom([j]);
+const group = new MathGroup([j]);
 test("symbol atom", () => {
   expect(j.toBox()).toMatchObject({
     char: "j",
@@ -38,12 +38,12 @@ test("leftright atom", () => {
 
 test("sqrt atom", () => {
   expect(new SqrtAtom(group).toBox(ops)).matchSnapshot();
-  expect(new SqrtAtom(new GroupAtom([])).toBox(ops)).matchSnapshot();
+  expect(new SqrtAtom(new MathGroup([])).toBox(ops)).matchSnapshot();
 });
 
 test("frac atom", () => {
   expect(
-    new FracAtom(new GroupAtom([j]), new GroupAtom([j])).toBox(ops)
+    new FracAtom(new MathGroup([j]), new MathGroup([j])).toBox(ops)
   ).matchSnapshot();
 });
 

@@ -5,7 +5,7 @@ import {
   Atom,
   CharAtom,
   FirstAtom,
-  GroupAtom,
+  MathGroup,
   LRAtom,
   InlineAtom,
   OverlineAtom,
@@ -25,7 +25,7 @@ export const prs = (latex: string, editable = false): Atom =>
 
 const a = new CharAtom("a", null);
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
-const group = new GroupAtom([j]);
+const group = new MathGroup([j]);
 test("parse symbol", () => {
   expect(prs("j")).toEqual(j);
 });
@@ -39,7 +39,7 @@ test("parse accent", () => {
 });
 
 test("parse overline", () => {
-  expect(prs("\\overline {j}")).toEqual(new OverlineAtom(new GroupAtom([j])));
+  expect(prs("\\overline {j}")).toEqual(new OverlineAtom(new MathGroup([j])));
   const atom = prs("\\overline{j}", true) as OverlineAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
 });
@@ -57,7 +57,7 @@ test("leftright atom", () => {
 
 test("sqrt atom", () => {
   expect(prs("\\sqrt {  j}")).toEqual(new SqrtAtom(group));
-  expect(prs("\\sqrt {  }")).toEqual(new SqrtAtom(new GroupAtom([])));
+  expect(prs("\\sqrt {  }")).toEqual(new SqrtAtom(new MathGroup([])));
 
   const atom = prs("\\sqrt {  j}", true) as SqrtAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
@@ -85,17 +85,17 @@ test("matrix atom", () => {
     "\\begin{pmatrix}j&j\\\\j \\end{pmatrix}",
     true
   ) as MatrixAtom;
-  expect(atom.children[0][0].body[0]).instanceOf(FirstAtom);
+  expect(atom.rows[0][0].body[0]).instanceOf(FirstAtom);
 });
 
 test("parse inline", () => {
-  expect(parse("a$j$a")).toEqual([a, new InlineAtom(new GroupAtom([j])), a]);
+  expect(parse("a$j$a")).toEqual([a, new InlineAtom([j]), a]);
 });
 
 test("parse display", () => {
   expect(parse("a\\[j\\]a")).toEqual([
     a,
-    new DisplayAtom(new GroupAtom([j])),
+    new DisplayAtom(new MathGroup([j])),
     a,
   ]);
 });
@@ -103,7 +103,7 @@ test("parse display", () => {
 test("parse align", () => {
   expect(parse("a\\begin{align}j\\end{align}a", false)).toEqual([
     a,
-    new MatrixAtom([[new GroupAtom([j])]], "align", [null]),
+    new MatrixAtom([[new MathGroup([j])]], "align", [null]),
     a,
   ]);
 });
@@ -119,7 +119,7 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new SectionAtom(new GroupAtom([new CharAtom("a", null)]), "section"),
+    new SectionAtom([new CharAtom("a", null)], "section"),
     a,
   ]);
 });

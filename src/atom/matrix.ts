@@ -1,7 +1,7 @@
 import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
-import { Atom, FirstAtom, GroupAtom } from "./atom";
+import { Atom, FirstAtom, MathGroup } from "./atom";
 import { makeLRDelim } from "./leftright";
 
 export const ENVNAMES = [
@@ -18,32 +18,39 @@ export const ENVNAMES = [
 ] as const;
 
 export class MatrixAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;
 
   constructor(
-    public children: GroupAtom[][],
+    public rows: MathGroup[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
     public labels: (string | null)[] = []
   ) {}
+
+  children(): Atom[] {
+    const rows = this.rows.flatMap((row) =>
+      row.flatMap((group) => group.children())
+    );
+    return [...rows, this];
+  }
 
   setGrid(grid: boolean) {
     this.grid = grid;
   }
 
   toBox(options: Options): HBox | VBox {
-    const hLinesBeforeRow = Array(this.children.length + 1).fill([true]);
+    const hLinesBeforeRow = Array(this.rows.length + 1).fill([true]);
     const hlines: { pos: number; isDashed: boolean }[] = [];
-    this.children.forEach((row) =>
+    this.rows.forEach((row) =>
       row.forEach((group) => {
         group.parent = this;
       })
     );
 
     //align
-    const children = this.children.map((child) => {
+    const children = this.rows.map((child) => {
       return child.map((e, i) => {
         const hbox = e.toBox(
           options?.getNewOptions(isAlign(this.type) ? DISPLAY : TEXT)
@@ -161,7 +168,7 @@ export class MatrixAtom implements Atom {
     hbox.space.top = offset - hbox.rect.height;
     const innerHeight = hbox.rect.height + hbox.space.top;
     const innerDepth = hbox.rect.depth + hbox.space.bottom;
-    const lines = Array(this.children.length + 1)
+    const lines = Array(this.rows.length + 1)
       .fill(0)
       .map((_, i) => {
         //createlint width is not used, it is set to 100%

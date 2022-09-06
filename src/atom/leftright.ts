@@ -11,7 +11,7 @@ import { getCharMetrics, getSigma } from "../font";
 import METRICS from "../font/data";
 import Style, { StyleInterface } from "../font/style";
 import { AtomKind, Font } from "../lib";
-import { Atom, GroupAtom, SymAtom } from "./atom";
+import { Atom, MathGroup, SymAtom } from "./atom";
 export type Delims = keyof typeof DelimMap;
 //TODO: complete DelimMap
 export const DelimMap = {
@@ -29,7 +29,7 @@ export const DelimMap = {
   ".": " ",
 };
 export class LRAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   kind: AtomKind;
   left: string;
   right: string;
@@ -37,13 +37,18 @@ export class LRAtom implements Atom {
   constructor(
     left: Delims,
     right: Delims,
-    public body: GroupAtom,
+    public body: MathGroup,
     public middle: number[] = []
   ) {
     this.kind = "inner";
     this.left = DelimMap[left];
     this.right = DelimMap[right];
   }
+
+  children(): Atom[] {
+    return [...this.body.children(), this];
+  }
+
   toBox(options: Options): HBox {
     this.body.parent = this;
     const { left, right, body } = this;

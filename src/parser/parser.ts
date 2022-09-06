@@ -6,7 +6,7 @@ import {
   DelimMap,
   Delims,
   FracAtom,
-  GroupAtom,
+  MathGroup,
   LRAtom,
   InlineAtom,
   MatrixAtom,
@@ -110,7 +110,7 @@ export class Parser {
           (char) => new CharAtom(char, null)
         );
         this.lastSection = new SectionAtom(
-          new GroupAtom(title),
+          title,
           token.slice(1) as "section",
           undefined
         );
@@ -143,7 +143,7 @@ export class Parser {
       if (token === Escape.EOF) throw new Error("Expected $ to end inline");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new InlineAtom(new GroupAtom(atoms));
+    return new InlineAtom(atoms);
   }
 
   parseDisplay(mode: "equation" | "equation*" | null) {
@@ -165,7 +165,7 @@ export class Parser {
         throw new Error("Expected \\] to end display mode");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new DisplayAtom(new GroupAtom(atoms), label);
+    return new DisplayAtom(new MathGroup(atoms), label);
   }
 
   parseThm(envName: keyof typeof THM_ENV): ThmAtom {
@@ -225,7 +225,7 @@ export class Parser {
       }
       if (FontMap[token]) {
         if (token.startsWith("\\text")) {
-          const atom = new GroupAtom(
+          const atom = new MathGroup(
             this.parseTextFont(FontMap[token], "math")
           );
           return atom;
@@ -304,7 +304,7 @@ export class Parser {
       body.push(this.parseSingleMath(token, body));
     }
     const right = this.asrtDelim(this.lexer.tokenize());
-    return new LRAtom(left, right, new GroupAtom(body), middle);
+    return new LRAtom(left, right, new MathGroup(body), middle);
   }
 
   private asrtDelim(token: Token): Delims {
@@ -313,7 +313,7 @@ export class Parser {
     return "|";
   }
 
-  parseMathArg(): GroupAtom {
+  parseMathArg(): MathGroup {
     const atoms: Atom[] = [];
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly) {
@@ -323,8 +323,8 @@ export class Parser {
         if (token === Escape.EOF) throw new Error("Expected }");
         atoms.push(this.parseSingleMath(token, atoms));
       }
-      return new GroupAtom(atoms);
-    } else return new GroupAtom([this.parseSingleMath(token, atoms)]);
+      return new MathGroup(atoms);
+    } else return new MathGroup([this.parseSingleMath(token, atoms)]);
   }
 
   parseEnvName(): string {
@@ -337,7 +337,7 @@ export class Parser {
   }
 
   parseEnv(envName: string) {
-    const elems: GroupAtom[][] = [[new GroupAtom([])]];
+    const elems: MathGroup[][] = [[new MathGroup([])]];
     const labels = [];
     let curLabel = null;
     for (;;) {
@@ -353,11 +353,11 @@ export class Parser {
         return new MatrixAtom(elems, envName as "pmatrix", labels);
       }
       if (token === Escape.And) {
-        row.push(new GroupAtom([]));
+        row.push(new MathGroup([]));
         continue;
       }
       if (token === Escape.Newline) {
-        row = [new GroupAtom([])];
+        row = [new MathGroup([])];
         elems.push(row);
         labels.push(curLabel);
         curLabel = null;

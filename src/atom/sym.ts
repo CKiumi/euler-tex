@@ -2,10 +2,10 @@ import { CharBox, SymBox, SymStyle, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, Font } from "../lib";
 import { BLOCKOP } from "../parser/command";
-import { Atom, GroupAtom } from "./atom";
+import { Article, Atom, MathGroup, SectionAtom } from "./atom";
 
 export class SymAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   fonts: Font[];
   constructor(
@@ -22,6 +22,10 @@ export class SymAtom implements Atom {
       this.fonts = ["Main-B"];
     }
     if (fonts.length === 0) this.fonts = ["Main-R"];
+  }
+
+  children() {
+    return [this];
   }
 
   toBox(options?: Options): SymBox | VStackBox {
@@ -53,10 +57,15 @@ export class SymAtom implements Atom {
 }
 
 export class CharAtom implements Atom {
-  parent = null;
+  parent: SectionAtom | Article | null = null;
   elem = null;
   kind = null;
   constructor(public char: string, public font: Font | null) {}
+
+  children() {
+    return [this];
+  }
+
   toBox(): CharBox {
     return new CharBox(this.char, this.font).bind(this);
   }

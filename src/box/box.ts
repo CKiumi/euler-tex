@@ -313,7 +313,7 @@ export class InlineBox implements Box {
     this.children.forEach((box) => {
       span.append(box.toHtml());
     });
-    if ((this.children[0] as HBox).children.length === 1) {
+    if (this.children.length === 1) {
       const space = document.createElement("span");
       space.innerHTML = "&nbsp;";
       span.append(space);

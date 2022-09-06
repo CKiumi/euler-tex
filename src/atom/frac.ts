@@ -8,13 +8,18 @@ import {
   TEXT,
 } from "../box/style";
 import { AtomKind, getSigma } from "../font";
-import { Atom, GroupAtom, parseLine } from "./atom";
+import { Atom, MathGroup, parseLine } from "./atom";
 
 export class FracAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
-  constructor(public numer: GroupAtom, public denom: GroupAtom) {}
+  constructor(public numer: MathGroup, public denom: MathGroup) {}
+
+  children(): Atom[] {
+    return [...this.denom.children(), ...this.numer.children(), this];
+  }
+
   toBox(options: Options): VBox {
     const style = adjustStyle(options.style.id, options.style);
     this.denom.parent = this.numer.parent = this;

@@ -5,7 +5,7 @@ import "../css/font.css";
 import { Options, TEXT } from "../src/box/style";
 import { html } from "../src/html";
 import {
-  GroupAtom,
+  MathGroup,
   latexToArticle,
   loadFont,
   prarseMath,
@@ -198,7 +198,7 @@ export const latexToHtmlDev = (
   fullWidth = true
 ) => {
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
-  const group = new GroupAtom(prarseMath(latex, true));
+  const group = new MathGroup(prarseMath(latex, true));
   group.body.splice(0, 1);
   const html = group.toBox(options).toHtml();
   fullWidth && (html.style.width = "100%");

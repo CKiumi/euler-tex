@@ -2,16 +2,21 @@ import { SqrtBox, SqrtSize, VBox } from "../box/box";
 import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../font";
 import Style from "../font/style";
-import { Atom, GroupAtom } from "./atom";
+import { Atom, MathGroup } from "./atom";
 import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 
 export class SqrtAtom implements Atom {
-  parent: GroupAtom | null = null;
+  parent: MathGroup | null = null;
   kind: AtomKind;
   elem: HTMLSpanElement | null = null;
-  constructor(public body: GroupAtom) {
+  constructor(public body: MathGroup) {
     this.kind = "ord";
   }
+
+  children(): Atom[] {
+    return [...this.body.children(), this];
+  }
+
   toBox(options: Options): VBox {
     this.body.parent = this;
     const inner = this.body.toBox(options.getNewOptions(options.style.cramp()));

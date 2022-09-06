@@ -25,31 +25,46 @@ export interface Atom {
   parent: Atom | null;
   elem: HTMLSpanElement | null;
   kind: AtomKind | null;
+  children(): Atom[];
   toBox(options?: Options): Box;
+}
+
+export interface GroupAtom extends Atom {
+  body: Atom[];
 }
 
 export class FirstAtom implements Atom {
   kind = null;
   parent = null;
   elem: HTMLSpanElement | null = null;
+
+  children() {
+    return [this];
+  }
+
   toBox(): SymBox {
     return new SymBox("&#8203;", ["Math-I"]).bind(this);
   }
 }
 
-export class GroupAtom implements Atom {
+export class MathGroup implements GroupAtom {
   kind: AtomKind | null = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
+
   constructor(public body: Atom[]) {
     this.body = [new FirstAtom(), ...body];
   }
 
-  toBox(options: Options): HBox {
+  children(): Atom[] {
+    return this.body.flatMap((atom) => atom.children());
+  }
+
+  static _toBox(group: GroupAtom, options: Options) {
     let prevKind: AtomKind | null;
-    const children = this.body.map((atom) => {
+    return group.body.map((atom) => {
       const box = atom.toBox(options);
-      atom.parent = this;
+      atom.parent = group;
       if (prevKind && atom.kind) {
         box.space.left =
           (box.space.left ?? 0) +
@@ -58,17 +73,24 @@ export class GroupAtom implements Atom {
       prevKind = atom.kind;
       return box;
     });
-    return new HBox(children).bind(this);
+  }
+
+  toBox(options: Options): HBox {
+    return new HBox(MathGroup._toBox(this, options)).bind(this);
   }
 }
 
-export class ArticleAtom {
+export class Article implements GroupAtom {
   kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
 
   constructor(public body: Atom[]) {
     this.body = [new FirstAtom(), ...body];
+  }
+
+  children(): Atom[] {
+    return this.body.flatMap((atom) => atom.children());
   }
 
   toBox(): ArticleBox {
@@ -81,7 +103,7 @@ export class ArticleAtom {
   }
 }
 
-export class ThmAtom {
+export class ThmAtom implements GroupAtom {
   kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
@@ -94,6 +116,10 @@ export class ThmAtom {
     this.body = [new FirstAtom(), ...body];
   }
 
+  children(): Atom[] {
+    return this.body.flatMap((atom) => atom.children());
+  }
+
   toBox(): ThmBox {
     const children = this.body.map((atom) => {
       const box = atom.toBox(new Options());
@@ -104,30 +130,48 @@ export class ThmAtom {
   }
 }
 
-export class SectionAtom implements Atom {
+export class SectionAtom implements GroupAtom {
   kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
   label: string | null = null;
   constructor(
-    public body: GroupAtom,
+    public body: Atom[],
     public mode: "section" | "subsection" | "subsubsection",
     public tag: string | null | undefined = undefined
-  ) {}
+  ) {
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  children(): Atom[] {
+    return [...this.body.flatMap((atom) => atom.children()), this];
+  }
 
   toBox(): SectionBox {
-    const body = this.body.toBox(new Options());
-    return new SectionBox([body], this.mode, this.tag).bind(this);
+    const children = this.body.map((atom) => {
+      const box = atom.toBox(new Options());
+      atom.parent = this;
+      return box;
+    });
+    return new SectionBox(children, this.mode, this.tag).bind(this);
   }
 }
-export class InlineAtom implements Atom {
+export class InlineAtom implements GroupAtom {
   kind = null;
   elem = null;
   parent = null;
-  constructor(public body: GroupAtom) {}
+  constructor(public body: Atom[]) {
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  children(): Atom[] {
+    return [...this.body.flatMap((atom) => atom.children()), this];
+  }
+
   toBox(): InlineBox {
-    const body = this.body.toBox(new Options(6, TEXT));
-    return new InlineBox([body]).bind(this);
+    return new InlineBox(MathGroup._toBox(this, new Options(6, TEXT))).bind(
+      this
+    );
   }
 }
 
@@ -137,9 +181,13 @@ export class DisplayAtom implements Atom {
   parent: Atom | null = null;
   label: string | null = null;
   constructor(
-    public body: GroupAtom,
+    public body: MathGroup,
     public tag: string | null | undefined = undefined
   ) {}
+
+  children() {
+    return this.body.children();
+  }
 
   toBox(): DisplayBox {
     const body = this.body.toBox(new Options());
