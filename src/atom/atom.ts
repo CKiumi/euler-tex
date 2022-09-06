@@ -1,4 +1,15 @@
-import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
+import {
+  ArticleBox,
+  Box,
+  DisplayBox,
+  HBox,
+  InlineBox,
+  RectBox,
+  SectionBox,
+  SymBox,
+  ThmBox,
+  VBox,
+} from "../box/box";
 import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 import { ThmData } from "../parser/command";
@@ -27,7 +38,7 @@ export class FirstAtom implements Atom {
 }
 
 export class GroupAtom implements Atom {
-  kind: AtomKind = "ord";
+  kind: AtomKind | null = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
   constructor(public body: Atom[]) {
@@ -51,61 +62,95 @@ export class GroupAtom implements Atom {
   }
 }
 
-export class ArticleAtom extends GroupAtom {
-  kind: AtomKind = "ord";
+export class ArticleAtom {
+  kind = null;
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(public body: Atom[]) {
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  toBox(): ArticleBox {
+    const children = this.body.map((atom) => {
+      const box = atom.toBox(new Options());
+      atom.parent = this;
+      return box;
+    });
+    return new ArticleBox(children).bind(this);
+  }
+}
+
+export class ThmAtom {
+  kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
 
   constructor(
     public body: Atom[],
-    public mode: "theorem" | "text" = "text",
     public thmName: ThmData | null = null,
     public label: string | null = null
   ) {
-    super(body);
     this.body = [new FirstAtom(), ...body];
   }
 
-  toBox(options?: Options): HBox {
+  toBox(): ThmBox {
     const children = this.body.map((atom) => {
-      const box = atom.toBox(options ?? new Options());
+      const box = atom.toBox(new Options());
       atom.parent = this;
       return box;
     });
-    return new HBox(children, this.mode, 1, this.thmName, this.label).bind(
-      this
-    );
+    return new ThmBox(children, this.thmName, this.label).bind(this);
   }
 }
 
-export class MathBlockAtom {
-  kind: AtomKind = "ord";
+export class SectionAtom implements Atom {
+  kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
   label: string | null = null;
   constructor(
     public body: GroupAtom,
-    public mode:
-      | "display"
-      | "inline"
-      | "section"
-      | "subsection"
-      | "subsubsection",
+    public mode: "section" | "subsection" | "subsubsection",
     public tag: string | null | undefined = undefined
   ) {}
 
-  toBox(options?: Options): HBox {
-    const body = this.body.toBox(
-      this.mode === "inline" ? new Options(6, TEXT) : options ?? new Options()
-    );
-    if (this.mode === "display" && (this.tag || this.tag === null)) {
+  toBox(): SectionBox {
+    const body = this.body.toBox(new Options());
+    return new SectionBox([body], this.mode, this.tag).bind(this);
+  }
+}
+export class InlineAtom implements Atom {
+  kind = null;
+  elem = null;
+  parent = null;
+  constructor(public body: GroupAtom) {}
+  toBox(): InlineBox {
+    const body = this.body.toBox(new Options(6, TEXT));
+    return new InlineBox([body]).bind(this);
+  }
+}
+
+export class DisplayAtom implements Atom {
+  kind = null;
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+  label: string | null = null;
+  constructor(
+    public body: GroupAtom,
+    public tag: string | null | undefined = undefined
+  ) {}
+
+  toBox(): DisplayBox {
+    const body = this.body.toBox(new Options());
+    if (this.tag || this.tag === null) {
       const box = new SymBox(`(${this.tag ?? "?"})`, ["Main-R"]);
       [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
       const tagBox = new VBox([{ box, shift: 0 }]);
       tagBox.tag = true;
-      return new HBox([body, tagBox], this.mode, 1, null, this.tag).bind(this);
+      return new DisplayBox([body, tagBox], this.tag).bind(this);
     }
-    return new HBox([body], this.mode, 1, null, this.tag).bind(this);
+    return new DisplayBox([body], this.tag).bind(this);
   }
 }
 

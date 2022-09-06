@@ -1,20 +1,21 @@
 import {
   AccentAtom,
-  ArticleAtom,
+  ThmAtom,
   Atom,
   CharAtom,
   DelimMap,
   Delims,
-  FirstAtom,
   FracAtom,
   GroupAtom,
   LRAtom,
-  MathBlockAtom,
+  InlineAtom,
   MatrixAtom,
   OverlineAtom,
   SqrtAtom,
   SupSubAtom,
   SymAtom,
+  SectionAtom,
+  DisplayAtom,
 } from "../atom/atom";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
@@ -26,7 +27,7 @@ export class Parser {
   font: Font | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
-  lastSection: MathBlockAtom | null = null;
+  lastSection: SectionAtom | null = null;
   thmLabel: string | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
@@ -108,7 +109,7 @@ export class Parser {
         const title = Array.from(this.parseTextArg()).map(
           (char) => new CharAtom(char, null)
         );
-        this.lastSection = new MathBlockAtom(
+        this.lastSection = new SectionAtom(
           new GroupAtom(title),
           token.slice(1) as "section",
           undefined
@@ -142,7 +143,7 @@ export class Parser {
       if (token === Escape.EOF) throw new Error("Expected $ to end inline");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new MathBlockAtom(new GroupAtom(atoms), "inline");
+    return new InlineAtom(new GroupAtom(atoms));
   }
 
   parseDisplay(mode: "equation" | "equation*" | null) {
@@ -164,16 +165,15 @@ export class Parser {
         throw new Error("Expected \\] to end display mode");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new MathBlockAtom(new GroupAtom(atoms), "display", label);
+    return new DisplayAtom(new GroupAtom(atoms), label);
   }
 
-  parseThm(envName: keyof typeof THM_ENV): ArticleAtom {
+  parseThm(envName: keyof typeof THM_ENV): ThmAtom {
     if (envName in THM_ENV) {
       this.theorem = envName;
       if (THM_ENV[envName].italic) this.italic = true;
-      const atom = new ArticleAtom(
+      const atom = new ThmAtom(
         this.parse(Escape.EOF),
-        "theorem",
         THM_ENV[this.theorem],
         this.thmLabel
       );
@@ -232,11 +232,9 @@ export class Parser {
         }
         this.font = FontMap[token];
         const { body } = this.parseMathArg();
-        const atom = new GroupAtom(
-          body.slice(body[0] instanceof FirstAtom ? 1 : 0)
-        );
+        atoms.push(...body.slice(1, -1));
         this.font = null;
-        return atom;
+        return body[body.length - 1];
       }
       if (BLOCKOP[token]) {
         return new SymAtom("op", BLOCKOP[token], token, ["Size2"], {}, false);

@@ -1,4 +1,4 @@
-import { ArticleAtom, GroupAtom } from "./atom/atom";
+import { GroupAtom, ArticleAtom } from "./atom/atom";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
 import { html } from "./html";
@@ -69,7 +69,7 @@ export const setLabels = (article: HTMLSpanElement) => {
   sections.forEach((section) => {
     section.querySelectorAll(".label").forEach((lab) => lab.remove());
     const lbl = section.getAttribute("label");
-    if (section.classList.contains("sub")) {
+    if (section.classList.contains("subsection")) {
       subSecCtr++;
       const label = html("span", {
         cls: ["label"],
@@ -77,7 +77,7 @@ export const setLabels = (article: HTMLSpanElement) => {
       });
       section.insertAdjacentElement("afterbegin", label);
       if (lbl) labelHash[lbl] = `${sectCtr}.${subSecCtr}`;
-    } else if (section.classList.contains("subsub")) {
+    } else if (section.classList.contains("subsubsection")) {
       subSubsectCtr++;
       const label = html("span", {
         cls: ["label"],

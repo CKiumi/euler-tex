@@ -127,22 +127,7 @@ export class HBox implements Box {
   rect: Rect;
   space: Space = {};
   atom?: Atom;
-  constructor(
-    public children: Box[],
-    public mode:
-      | "hbox"
-      | "text"
-      | "inline"
-      | "display"
-      | "section"
-      | "subsection"
-      | "subsubsection"
-      | "theorem" = "hbox",
-
-    public multiplier?: number,
-    public thmName: ThmData | null = null,
-    public label: string | null = null
-  ) {
+  constructor(public children: Box[], public multiplier?: number) {
     const width = children.reduce(
       (t, a) => t + a.rect.width + (a.space.left ?? 0) + (a.space.right ?? 0),
       0
@@ -165,52 +150,11 @@ export class HBox implements Box {
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
-    if (this.mode === "subsection") {
-      span.classList.add("section", "sub");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "subsubsection") {
-      span.classList.add("section", "subsub");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "section") {
-      span.classList.add("section");
-      span.setAttribute("label", this.label ?? "");
-    } else if (this.mode === "theorem") {
-      span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
-      span.classList.add("theorem");
-      if (this.thmName?.nonum) span.classList.add("nonum");
-      span.setAttribute("label", this.label ?? "");
-    } else {
-      span.classList.add(this.mode);
-    }
+    span.classList.add("hbox");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
     addSpace(span, this);
-    if (
-      this.mode === "theorem" ||
-      this.mode === "section" ||
-      this.mode === "subsection" ||
-      this.mode === "subsubsection"
-    ) {
-      const wrapper = html("span", {
-        cls: ["text"],
-        style: { fontStyle: this.thmName?.italic ? "italic" : "normal" },
-      });
-      this.children.forEach((box) => {
-        wrapper.append(box.toHtml());
-      });
-      span.append(wrapper);
-    } else {
-      this.children.forEach((box) => {
-        span.append(box.toHtml());
-      });
-    }
-
-    if (
-      this.mode === "inline" &&
-      (this.children[0] as HBox).children.length === 1
-    ) {
-      const space = document.createElement("span");
-      space.innerHTML = "&nbsp;";
-      span.append(space);
-    }
     if (
       this.atom &&
       this.atom instanceof MatrixAtom &&
@@ -219,7 +163,7 @@ export class HBox implements Box {
       span.classList.add("align");
     }
 
-    if (this.mode === "hbox" && this.multiplier) {
+    if (this.multiplier) {
       span.style.fontSize = em(this.multiplier);
     }
     if (this.atom) this.atom.elem = span;
@@ -323,6 +267,139 @@ export class VStackBox implements Box {
       .reverse()
       .forEach((child) => span.append(child.toHtml()));
     span.style.verticalAlign = em(this.shift);
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
+export class ArticleBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom | undefined;
+
+  constructor(public children: Box[]) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add("text");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
+export class InlineBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom;
+
+  constructor(public children: Box[]) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add("inline");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
+    if ((this.children[0] as HBox).children.length === 1) {
+      const space = document.createElement("span");
+      space.innerHTML = "&nbsp;";
+      span.append(space);
+    }
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
+export class DisplayBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom | undefined;
+
+  constructor(public children: Box[], public label: string | null = null) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add("display");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
+export class SectionBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom | undefined;
+
+  constructor(
+    public children: Box[],
+    public mode: "section" | "subsection" | "subsubsection",
+    public label: string | null = null
+  ) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add("section", "text");
+    span.classList.add(this.mode);
+    span.setAttribute("label", this.label ?? "");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
+export class ThmBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom | undefined;
+
+  constructor(
+    public children: Box[],
+    public thmName: ThmData | null = null,
+    public label: string | null = null
+  ) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
+    span.classList.add("theorem", "text");
+    if (this.thmName?.nonum) span.classList.add("nonum");
+    span.setAttribute("label", this.label ?? "");
+    this.children.forEach((box) => {
+      span.append(box.toHtml());
+    });
     if (this.atom) this.atom.elem = span;
     return span;
   }

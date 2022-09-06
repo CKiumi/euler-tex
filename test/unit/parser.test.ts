@@ -1,16 +1,18 @@
 import { expect, test } from "vitest";
 import {
   AccentAtom,
-  ArticleAtom,
+  ThmAtom,
   Atom,
   CharAtom,
   FirstAtom,
   GroupAtom,
   LRAtom,
-  MathBlockAtom,
+  InlineAtom,
   OverlineAtom,
   SqrtAtom,
   SymAtom,
+  DisplayAtom,
+  SectionAtom,
 } from "../../src/atom/atom";
 import { FracAtom } from "../../src/atom/frac";
 import { MatrixAtom } from "../../src/atom/matrix";
@@ -87,17 +89,13 @@ test("matrix atom", () => {
 });
 
 test("parse inline", () => {
-  expect(parse("a$j$a")).toEqual([
-    a,
-    new MathBlockAtom(new GroupAtom([j]), "inline"),
-    a,
-  ]);
+  expect(parse("a$j$a")).toEqual([a, new InlineAtom(new GroupAtom([j])), a]);
 });
 
 test("parse display", () => {
   expect(parse("a\\[j\\]a")).toEqual([
     a,
-    new MathBlockAtom(new GroupAtom([j]), "display"),
+    new DisplayAtom(new GroupAtom([j])),
     a,
   ]);
 });
@@ -113,7 +111,7 @@ test("parse align", () => {
 test("parse theorem", () => {
   expect(parse("a\\begin{theorem}a\\end{theorem}a", false)).toEqual([
     a,
-    new ArticleAtom([a], "theorem", THM_ENV["theorem"]),
+    new ThmAtom([a], THM_ENV["theorem"]),
     a,
   ]);
 });
@@ -121,7 +119,7 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new MathBlockAtom(new GroupAtom([new CharAtom("a", null)]), "section"),
+    new SectionAtom(new GroupAtom([new CharAtom("a", null)]), "section"),
     a,
   ]);
 });

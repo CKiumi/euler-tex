@@ -18,6 +18,9 @@ export class SymAtom implements Atom {
   ) {
     if (char === " ") this.char = "&nbsp;";
     this.fonts = fonts.filter((e) => e) as Font[];
+    if (fonts.includes("Math-BI") && fonts.includes("Main-R")) {
+      this.fonts = ["Main-B"];
+    }
     if (fonts.length === 0) this.fonts = ["Main-R"];
   }
 
@@ -50,8 +53,8 @@ export class SymAtom implements Atom {
 }
 
 export class CharAtom implements Atom {
-  parent: Atom | null = null;
-  elem: HTMLSpanElement | null = null;
+  parent = null;
+  elem = null;
   kind = null;
   constructor(public char: string, public font: Font | null) {}
   toBox(): CharBox {

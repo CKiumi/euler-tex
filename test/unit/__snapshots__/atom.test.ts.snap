@@ -37,7 +37,7 @@ VStackBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -93,7 +93,7 @@ VStackBox {
           },
         ],
         "elem": null,
-        "kind": "ord",
+        "kind": null,
         "parent": AccentAtom {
           "accent": SymAtom {
             "char": "^",
@@ -135,7 +135,7 @@ VStackBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": AccentAtom {
                 "accent": SymAtom {
                   "char": "^",
@@ -187,7 +187,7 @@ VStackBox {
                 [Circular],
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": AccentAtom {
                 "accent": SymAtom {
                   "char": "^",
@@ -221,8 +221,6 @@ VStackBox {
           "style": undefined,
         },
       ],
-      "label": null,
-      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -230,7 +228,6 @@ VStackBox {
         "width": 0.46905,
       },
       "space": {},
-      "thmName": null,
     },
   ],
   "multiplier": undefined,
@@ -270,7 +267,7 @@ VBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -301,14 +298,14 @@ VBox {
               [Circular],
             ],
             "elem": null,
-            "kind": "ord",
+            "kind": null,
             "parent": [Circular],
           },
           "style": undefined,
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "parent": null,
@@ -342,7 +339,7 @@ VBox {
                   [Circular],
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": FracAtom {
                   "denom": [Circular],
                   "elem": null,
@@ -355,7 +352,7 @@ VBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": FracAtom {
             "denom": GroupAtom {
               "body": [
@@ -378,7 +375,7 @@ VBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": [Circular],
             },
             "elem": null,
@@ -414,7 +411,7 @@ VBox {
                         [Circular],
                       ],
                       "elem": null,
-                      "kind": "ord",
+                      "kind": null,
                       "parent": FracAtom {
                         "denom": [Circular],
                         "elem": null,
@@ -427,7 +424,7 @@ VBox {
                   },
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": FracAtom {
                   "denom": GroupAtom {
                     "body": [
@@ -450,7 +447,7 @@ VBox {
                       },
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": [Circular],
                   },
                   "elem": null,
@@ -491,7 +488,7 @@ VBox {
                   [Circular],
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": FracAtom {
                   "denom": [Circular],
                   "elem": null,
@@ -506,7 +503,7 @@ VBox {
                       [Circular],
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": [Circular],
                   },
                   "parent": null,
@@ -526,8 +523,6 @@ VBox {
             "style": undefined,
           },
         ],
-        "label": null,
-        "mode": "hbox",
         "multiplier": 1,
         "rect": {
           "depth": 0.19444,
@@ -535,7 +530,6 @@ VBox {
           "width": 0.46905,
         },
         "space": {},
-        "thmName": null,
       },
       "shift": 0.677,
     },
@@ -577,7 +571,7 @@ VBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": FracAtom {
             "denom": [Circular],
             "elem": null,
@@ -603,7 +597,7 @@ VBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": [Circular],
             },
             "parent": null,
@@ -631,7 +625,7 @@ VBox {
                   },
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": FracAtom {
                   "denom": [Circular],
                   "elem": null,
@@ -657,7 +651,7 @@ VBox {
                       },
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": [Circular],
                   },
                   "parent": null,
@@ -695,7 +689,7 @@ VBox {
                   [Circular],
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": FracAtom {
                   "denom": [Circular],
                   "elem": null,
@@ -710,7 +704,7 @@ VBox {
                       [Circular],
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": [Circular],
                   },
                   "parent": null,
@@ -730,8 +724,6 @@ VBox {
             "style": undefined,
           },
         ],
-        "label": null,
-        "mode": "hbox",
         "multiplier": 1,
         "rect": {
           "depth": 0.19444,
@@ -739,7 +731,6 @@ VBox {
           "width": 0.46905,
         },
         "space": {},
-        "thmName": null,
       },
       "shift": -0.686,
     },
@@ -782,7 +773,7 @@ HBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -839,7 +830,7 @@ HBox {
           },
         ],
         "elem": null,
-        "kind": "ord",
+        "kind": null,
         "parent": LRAtom {
           "body": [Circular],
           "elem": null,
@@ -872,7 +863,7 @@ HBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": LRAtom {
                 "body": [Circular],
                 "elem": null,
@@ -915,7 +906,7 @@ HBox {
                 [Circular],
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": LRAtom {
                 "body": [Circular],
                 "elem": null,
@@ -940,8 +931,6 @@ HBox {
           "style": undefined,
         },
       ],
-      "label": null,
-      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -949,7 +938,6 @@ HBox {
         "width": 0.46905,
       },
       "space": {},
-      "thmName": null,
     },
     SymBox {
       "atom": SymAtom {
@@ -976,8 +964,6 @@ HBox {
       "style": undefined,
     },
   ],
-  "label": null,
-  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.25,
@@ -985,7 +971,6 @@ HBox {
     "width": 1.24683,
   },
   "space": {},
-  "thmName": null,
 }
 `;
 
@@ -1015,7 +1000,7 @@ HBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": [Circular],
         },
         GroupAtom {
@@ -1039,7 +1024,7 @@ HBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": [Circular],
         },
       ],
@@ -1065,7 +1050,7 @@ HBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": [Circular],
         },
       ],
@@ -1155,7 +1140,7 @@ HBox {
                               },
                             ],
                             "elem": null,
-                            "kind": "ord",
+                            "kind": null,
                             "parent": MatrixAtom {
                               "children": [
                                 [
@@ -1196,7 +1181,7 @@ HBox {
                                     },
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1247,7 +1232,7 @@ HBox {
                                     [Circular],
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1280,8 +1265,6 @@ HBox {
                               "style": undefined,
                             },
                           ],
-                          "label": null,
-                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1289,7 +1272,6 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
-                          "thmName": null,
                         },
                         "shift": 0.6099999999999999,
                       },
@@ -1316,7 +1298,7 @@ HBox {
                               },
                             ],
                             "elem": null,
-                            "kind": "ord",
+                            "kind": null,
                             "parent": MatrixAtom {
                               "children": [
                                 [
@@ -1357,7 +1339,7 @@ HBox {
                                     },
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1408,7 +1390,7 @@ HBox {
                                     [Circular],
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1441,8 +1423,6 @@ HBox {
                               "style": undefined,
                             },
                           ],
-                          "label": null,
-                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1450,7 +1430,6 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
-                          "thmName": null,
                         },
                         "shift": -0.5900000000000001,
                       },
@@ -1508,7 +1487,7 @@ HBox {
                               },
                             ],
                             "elem": null,
-                            "kind": "ord",
+                            "kind": null,
                             "parent": MatrixAtom {
                               "children": [
                                 [
@@ -1549,7 +1528,7 @@ HBox {
                                     },
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1600,7 +1579,7 @@ HBox {
                                     [Circular],
                                   ],
                                   "elem": null,
-                                  "kind": "ord",
+                                  "kind": null,
                                   "parent": MatrixAtom {
                                     "children": [
                                       [
@@ -1633,8 +1612,6 @@ HBox {
                               "style": undefined,
                             },
                           ],
-                          "label": null,
-                          "mode": "hbox",
                           "multiplier": undefined,
                           "rect": {
                             "depth": 0.19444,
@@ -1642,7 +1619,6 @@ HBox {
                             "width": 0.46905,
                           },
                           "space": {},
-                          "thmName": null,
                         },
                         "shift": 0.6099999999999999,
                       },
@@ -1674,8 +1650,6 @@ HBox {
                     },
                   },
                 ],
-                "label": null,
-                "mode": "hbox",
                 "multiplier": undefined,
                 "rect": {
                   "depth": 0.78444,
@@ -1686,11 +1660,8 @@ HBox {
                   "bottom": 0.16555999999999993,
                   "top": -0.95,
                 },
-                "thmName": null,
               },
             ],
-            "label": null,
-            "mode": "hbox",
             "multiplier": undefined,
             "rect": {
               "depth": 0.95,
@@ -1698,7 +1669,6 @@ HBox {
               "width": 1.9981,
             },
             "space": {},
-            "thmName": null,
           },
           "shift": 0,
         },
@@ -1785,8 +1755,6 @@ HBox {
       "style": undefined,
     },
   ],
-  "label": null,
-  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.95003,
@@ -1794,7 +1762,6 @@ HBox {
     "width": 3.47032,
   },
   "space": {},
-  "thmName": null,
 }
 `;
 
@@ -1823,7 +1790,7 @@ VStackBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -1868,7 +1835,7 @@ VStackBox {
           },
         ],
         "elem": null,
-        "kind": "ord",
+        "kind": null,
         "parent": OverlineAtom {
           "body": [Circular],
           "elem": null,
@@ -1898,7 +1865,7 @@ VStackBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": OverlineAtom {
                 "body": [Circular],
                 "elem": null,
@@ -1938,7 +1905,7 @@ VStackBox {
                 [Circular],
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": OverlineAtom {
                 "body": [Circular],
                 "elem": null,
@@ -1960,8 +1927,6 @@ VStackBox {
           "style": undefined,
         },
       ],
-      "label": null,
-      "mode": "hbox",
       "multiplier": undefined,
       "rect": {
         "depth": 0.19444,
@@ -1969,7 +1934,6 @@ VStackBox {
         "width": 0.46905,
       },
       "space": {},
-      "thmName": null,
     },
   ],
   "multiplier": undefined,
@@ -2009,7 +1973,7 @@ VBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -2055,7 +2019,7 @@ VBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": SqrtAtom {
             "body": [Circular],
             "elem": null,
@@ -2085,7 +2049,7 @@ VBox {
                   },
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": SqrtAtom {
                   "body": [Circular],
                   "elem": null,
@@ -2125,7 +2089,7 @@ VBox {
                   [Circular],
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": SqrtAtom {
                   "body": [Circular],
                   "elem": null,
@@ -2147,8 +2111,6 @@ VBox {
             "style": undefined,
           },
         ],
-        "label": null,
-        "mode": "hbox",
         "multiplier": undefined,
         "rect": {
           "depth": 0.19444,
@@ -2158,7 +2120,6 @@ VBox {
         "space": {
           "left": 0.95,
         },
-        "thmName": null,
       },
       "shift": 0,
     },
@@ -2187,7 +2148,7 @@ VBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "elem": null,
@@ -2221,7 +2182,7 @@ VBox {
             },
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": SqrtAtom {
             "body": [Circular],
             "elem": null,
@@ -2239,7 +2200,7 @@ VBox {
                   [Circular],
                 ],
                 "elem": null,
-                "kind": "ord",
+                "kind": null,
                 "parent": SqrtAtom {
                   "body": [Circular],
                   "elem": null,
@@ -2260,8 +2221,6 @@ VBox {
             "style": undefined,
           },
         ],
-        "label": null,
-        "mode": "hbox",
         "multiplier": undefined,
         "rect": {
           "depth": 0,
@@ -2271,7 +2230,6 @@ VBox {
         "space": {
           "left": 0.777,
         },
-        "thmName": null,
       },
       "shift": 0,
     },
@@ -2311,7 +2269,7 @@ HBox {
           [Circular],
         ],
         "elem": null,
-        "kind": "ord",
+        "kind": null,
         "parent": [Circular],
       },
       "style": undefined,
@@ -2338,7 +2296,7 @@ HBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
     "sup": GroupAtom {
@@ -2362,7 +2320,7 @@ HBox {
         },
       ],
       "elem": null,
-      "kind": "ord",
+      "kind": null,
       "parent": [Circular],
     },
   },
@@ -2387,7 +2345,7 @@ HBox {
             [Circular],
           ],
           "elem": null,
-          "kind": "ord",
+          "kind": null,
           "parent": SupSubAtom {
             "elem": null,
             "kind": "ord",
@@ -2437,7 +2395,7 @@ HBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": SupSubAtom {
                 "elem": null,
                 "kind": "ord",
@@ -2480,7 +2438,7 @@ HBox {
                       },
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": SupSubAtom {
                       "elem": null,
                       "kind": "ord",
@@ -2533,7 +2491,7 @@ HBox {
                       [Circular],
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": SupSubAtom {
                       "elem": null,
                       "kind": "ord",
@@ -2557,8 +2515,6 @@ HBox {
                 "style": undefined,
               },
             ],
-            "label": null,
-            "mode": "hbox",
             "multiplier": 0.7,
             "rect": {
               "depth": 0.13610799999999998,
@@ -2568,7 +2524,6 @@ HBox {
             "space": {
               "right": 0.07142857142857144,
             },
-            "thmName": null,
           },
           "shift": 0.48090799999999995,
         },
@@ -2595,7 +2550,7 @@ HBox {
                 },
               ],
               "elem": null,
-              "kind": "ord",
+              "kind": null,
               "parent": SupSubAtom {
                 "elem": null,
                 "kind": "ord",
@@ -2638,7 +2593,7 @@ HBox {
                       },
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": SupSubAtom {
                       "elem": null,
                       "kind": "ord",
@@ -2691,7 +2646,7 @@ HBox {
                       [Circular],
                     ],
                     "elem": null,
-                    "kind": "ord",
+                    "kind": null,
                     "parent": SupSubAtom {
                       "elem": null,
                       "kind": "ord",
@@ -2715,8 +2670,6 @@ HBox {
                 "style": undefined,
               },
             ],
-            "label": null,
-            "mode": "hbox",
             "multiplier": 0.7,
             "rect": {
               "depth": 0.13610799999999998,
@@ -2727,7 +2680,6 @@ HBox {
               "left": -0.08177142857142858,
               "right": 0.07142857142857144,
             },
-            "thmName": null,
           },
           "shift": -0.276864,
         },
@@ -2742,8 +2694,6 @@ HBox {
       "tag": false,
     },
   ],
-  "label": null,
-  "mode": "hbox",
   "multiplier": undefined,
   "rect": {
     "depth": 0.412972,
@@ -2751,6 +2701,5 @@ HBox {
     "width": 0.797385,
   },
   "space": {},
-  "thmName": null,
 }
 `;
