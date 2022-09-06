@@ -2,6 +2,7 @@ import {
   AccentAtom,
   ArticleAtom,
   Atom,
+  CharAtom,
   DelimMap,
   Delims,
   FirstAtom,
@@ -98,14 +99,14 @@ export class Parser {
       if (FontMap[token]) {
         this.font = FontMap[token];
         if (token.startsWith("\\text")) {
-          atoms.push(...this.parseTextFont(token));
+          atoms.push(...this.parseTextFont(FontMap[token], "text"));
           this.font = null;
         }
         continue;
       }
       if (/\\section|\\subsection|\\subsubsection/.test(token)) {
         const title = Array.from(this.parseTextArg()).map(
-          (char) => new SymAtom(null, char, char, [])
+          (char) => new CharAtom(char, null)
         );
         this.lastSection = new MathBlockAtom(
           new GroupAtom(title),
@@ -115,20 +116,20 @@ export class Parser {
         atoms.push(this.lastSection);
         continue;
       }
-      atoms.push(new SymAtom(null, token, token, []));
+      atoms.push(new CharAtom(token, null));
     }
     return atoms;
   }
 
-  parseText(italic = false, bold = false, font: Font | null = null): Atom[] {
+  parseTextFont(font: Font, mode: "text" | "math"): Atom[] {
     const atoms: Atom[] = [];
+    this.lexer.tokenize();
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (token === Escape.RCurly) break;
       if (token === Escape.EOF) break;
-      atoms.push(
-        new SymAtom(null, token, token, [font ?? "Main-R"], { italic, bold })
-      );
+      if (mode === "text") atoms.push(new CharAtom(token, font));
+      else atoms.push(new SymAtom(null, token, token, [font]));
     }
     return atoms;
   }
@@ -222,17 +223,14 @@ export class Parser {
         const label = this.parseTextArg();
         return new SymAtom(null, label, label, ["Main-R"], { ref: true });
       }
-      if (token === "\\text") {
-        this.lexer.tokenize();
-        return new GroupAtom(this.parseText());
-      }
       if (FontMap[token]) {
-        this.font = FontMap[token];
         if (token.startsWith("\\text")) {
-          const atom = new GroupAtom(this.parseTextFont(token));
-          this.font = null;
+          const atom = new GroupAtom(
+            this.parseTextFont(FontMap[token], "math")
+          );
           return atom;
         }
+        this.font = FontMap[token];
         const { body } = this.parseMathArg();
         const atom = new GroupAtom(
           body.slice(body[0] instanceof FirstAtom ? 1 : 0)
@@ -381,19 +379,6 @@ export class Parser {
         this.parseSingleMath(token, row[row.length - 1].body)
       );
     }
-  }
-
-  parseTextFont(token: string) {
-    this.lexer.tokenize();
-    if (/\\textrm|\\textnormal|\\textmd|\\textup/.test(token)) {
-      return this.parseText(false, false);
-    }
-    if (token === "\\textit") return this.parseText(true, false);
-    if (token === "\\textbf") return this.parseText(false, true);
-    if (token === "\\textsf" || token === "\\texttt") {
-      return this.parseText(false, false, this.font);
-    }
-    return [];
   }
 }
 

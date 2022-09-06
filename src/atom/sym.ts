@@ -1,4 +1,4 @@
-import { SymBox, SymStyle, VStackBox } from "../box/box";
+import { CharBox, SymBox, SymStyle, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, Font } from "../lib";
 import { BLOCKOP } from "../parser/command";
@@ -46,5 +46,15 @@ export class SymAtom implements Atom {
       return box;
     }
     return new SymBox(char, fonts, style).bind(this);
+  }
+}
+
+export class CharAtom implements Atom {
+  parent: Atom | null = null;
+  elem: HTMLSpanElement | null = null;
+  kind = null;
+  constructor(public char: string, public font: Font | null) {}
+  toBox(): CharBox {
+    return new CharBox(this.char, this.font).bind(this);
   }
 }

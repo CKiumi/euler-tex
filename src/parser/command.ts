@@ -473,13 +473,14 @@ export const ACC: { [key: string]: string } = {
 
 export const FontMap: { [x: string]: Font } = {
   //work both in math and text mode
+  "\\text": "Main-R",
   "\\textrm": "Main-R",
   "\\textnormal": "Main-R",
   "\\textsf": "San-R",
-  "\\textbf": "Main-R",
+  "\\textbf": "Main-B",
   "\\textmd": "Main-R",
   "\\texttt": "Type-R",
-  "\\textit": "Main-R",
+  "\\textit": "Main-I",
   "\\textup": "Main-R",
   //only in math mode
   "\\mathbf": "Math-BI",

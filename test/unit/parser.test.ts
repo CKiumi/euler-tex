@@ -3,6 +3,7 @@ import {
   AccentAtom,
   ArticleAtom,
   Atom,
+  CharAtom,
   FirstAtom,
   GroupAtom,
   LRAtom,
@@ -20,7 +21,7 @@ import { THM_ENV } from "../../src/parser/command";
 export const prs = (latex: string, editable = false): Atom =>
   prarseMath(latex, editable)[0];
 
-const a = new SymAtom(null, "a", "a", ["Main-R"]);
+const a = new CharAtom("a", null);
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new GroupAtom([j]);
 test("parse symbol", () => {
@@ -120,10 +121,7 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a", false)).toEqual([
     a,
-    new MathBlockAtom(
-      new GroupAtom([new SymAtom(null, "a", "a", ["Main-R"])]),
-      "section"
-    ),
+    new MathBlockAtom(new GroupAtom([new CharAtom("a", null)]), "section"),
     a,
   ]);
 });
@@ -131,6 +129,6 @@ test("parse section", () => {
 test("parse text font", () => {
   expect(parse("a\\textbf{a}", false)).toEqual([
     a,
-    new SymAtom(null, "a", "a", ["Main-R"], { bold: true, italic: false }),
+    new CharAtom("a", "Main-B"),
   ]);
 });

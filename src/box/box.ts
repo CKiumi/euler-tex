@@ -37,6 +37,27 @@ export class RectBox implements Box {
     return span;
   }
 }
+
+export class CharBox implements Box {
+  space: Space = { left: 0, right: 0, top: 0, bottom: 0 };
+  rect: Rect = { height: 0, depth: 0, width: 0 };
+  atom?: Atom;
+  constructor(public char: string, public font: Font | null) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.innerText = this.char;
+    this.font && span.classList.add(this.font.toLowerCase());
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
+
 export interface SymStyle {
   composite?: boolean;
   italic?: boolean;
