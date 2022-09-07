@@ -1,7 +1,7 @@
 import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
-import { Atom, FirstAtom, MathGroup } from "./atom";
+import { Atom, MathGroup } from "./atom";
 import { makeLRDelim } from "./leftright";
 
 export const ENVNAMES = [
@@ -22,7 +22,7 @@ export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;
-
+  hPos: number[] = [0];
   constructor(
     public rows: MathGroup[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
@@ -41,59 +41,36 @@ export class MatrixAtom implements Atom {
   }
 
   toBox(options: Options): HBox | VBox {
-    const hLinesBeforeRow = Array(this.rows.length + 1).fill([true]);
-    const hlines: { pos: number; isDashed: boolean }[] = [];
-    this.rows.forEach((row) =>
-      row.forEach((group) => {
-        group.parent = this;
-      })
+    const newOptions = options?.getNewOptions(
+      isAlign(this.type) ? DISPLAY : TEXT
     );
-
-    //align
     const children = this.rows.map((child) => {
       return child.map((e, i) => {
-        const hbox = e.toBox(
-          options?.getNewOptions(isAlign(this.type) ? DISPLAY : TEXT)
-        );
+        e.parent = this;
+        const hbox = e.toBox(newOptions);
         const { children } = hbox;
         if (isAlign(this.type) && i === 1) {
-          if (e.body[0] instanceof FirstAtom && children.length > 1) {
-            children[1].space.left = getSpacing("ord", e.body[1].kind ?? "ord");
-            hbox.rect.width += children[1].space.left;
-          } else if (children.length > 0) {
-            children[0].space.left = getSpacing("ord", e.body[0].kind ?? "ord");
-            hbox.rect.width += children[0].space.left;
-          }
+          const space = getSpacing("ord", e.body[1].kind ?? "ord");
+          children[1].space.left = space;
+          hbox.rect.width += space;
         }
         return hbox;
       });
     });
-    //align
-    let r;
-    let c: number;
+
+    let r: number, c: number;
     const nr = children.length;
-    if (!children[0]) return new HBox([]);
+    if (!children[0]) return new HBox([]).bind(this);
     let nc = children[0].length;
     const body: Outrow[] = [];
     let totalHeight = 0;
-
-    // Set a position for \hline(s) at the top of the array, if any.
-    const setHLinePos = (hlinesInGap: boolean[]) => {
-      for (let i = 0; i < hlinesInGap.length; ++i) {
-        if (i > 0) totalHeight += 0.25;
-        hlines.push({ pos: totalHeight, isDashed: hlinesInGap[i] });
-      }
-    };
-    setHLinePos(hLinesBeforeRow[0]);
-
     const arraystretch = this.type === "cases" ? 1.2 : 1;
     const pt = 1 / SIGMAS.ptPerEm[0];
-    const jot = 3 * pt;
-    const arraycolsep = 5 * pt;
+    const jot = isAlign(this.type) ? 3 * pt : 0;
+    const arraycolsep = !isAlign(this.type) ? 5 * pt : 0;
     const baselineskip = 12 * pt;
     const arrayskip = arraystretch * baselineskip;
-    const arstrutHeight = 0.7 * arrayskip;
-    const arstrutDepth = 0.3 * arrayskip;
+    const [arstrutHeight, arstrutDepth] = [0.7 * arrayskip, 0.3 * arrayskip];
 
     for (r = 0; r < nr; ++r) {
       const inrow = children[r];
@@ -107,37 +84,19 @@ export class MatrixAtom implements Atom {
         ];
         outrow.children.push(children[r][c]);
       }
-      if (isAlign(this.type)) {
-        depth += jot;
-      }
-      outrow.height = height;
-      outrow.depth = depth;
+      depth += jot;
+      [outrow.height, outrow.depth] = [height, depth];
       totalHeight += height;
       outrow.pos = totalHeight;
       totalHeight += depth;
       body.push(outrow);
-      setHLinePos(hLinesBeforeRow[r + 1]);
+      this.hPos.push(totalHeight);
     }
 
     const offset = totalHeight / 2 + SIGMAS.axisHeight[0];
 
     const cols: Box[] = [];
-    const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
-    sep.space.bottom = -totalHeight + offset;
-
-    cols.push(sep);
-
-    const tagBoxes = [];
-    if (this.type === "align") {
-      for (r = 0; r < nr; ++r) {
-        const rw = body[r];
-        const shift = -(rw.pos - offset);
-        const tagBox = new SymBox(`(${this.labels[r] ?? "?"})`, ["Main-R"]);
-        tagBox.rect.depth = rw.depth;
-        tagBox.rect.height = rw.height;
-        tagBoxes.push({ box: tagBox, shift });
-      }
-    }
+    cols.push(createSep(offset, totalHeight - offset, !this.grid));
 
     for (c = 0; c < nc; c++) {
       if (c >= nc) continue;
@@ -152,64 +111,44 @@ export class MatrixAtom implements Atom {
       } else {
         cols.push(new VBox(col));
       }
-
-      if (!isAlign(this.type)) {
-        if (c > 0) cols[cols.length - 1].space.left = arraycolsep;
-        if (c < nc - 1) cols[cols.length - 1].space.right = arraycolsep;
-      }
-      const sep = createSep(totalHeight, totalHeight - offset, !this.grid);
-
-      sep.space.bottom = -totalHeight + offset;
-      cols.push(sep);
+      if (c > 0) cols[cols.length - 1].space.left = arraycolsep;
+      if (c < nc - 1) cols[cols.length - 1].space.right = arraycolsep;
+      cols.push(createSep(offset, totalHeight - offset, !this.grid));
     }
-    const hbox =
-      this.type === "matrix" ? new HBox(cols).bind(this) : new HBox(cols);
+    const hbox = new HBox(cols);
     hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
     hbox.space.top = offset - hbox.rect.height;
-    const innerHeight = hbox.rect.height + hbox.space.top;
-    const innerDepth = hbox.rect.depth + hbox.space.bottom;
-    const lines = Array(this.rows.length + 1)
-      .fill(0)
-      .map((_, i) => {
-        //createlint width is not used, it is set to 100%
-        //currently, the width of text box is 0
-        return {
-          box: createLine(hbox.rect.width, !this.grid),
-          shift: -hlines[i].pos + offset,
-        };
-      });
+    const inHeight = hbox.rect.height + hbox.space.top;
+    const inDepth = hbox.rect.depth + hbox.space.bottom;
+    const lines = createLine(
+      this.hPos.map((pos) => offset - pos),
+      !this.grid
+    );
+    const inner = new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]);
     const delim = MAT_DELIM[this.type];
     if (delim) {
-      const [left, right] = delim.map((c) =>
-        makeLRDelim(c, innerHeight, innerDepth)
-      );
+      const [left, right] = delim.map((c) => makeLRDelim(c, inHeight, inDepth));
       this.kind = "inner";
-      return new HBox([
-        left,
-        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
-        right,
-      ]).bind(this);
+      return new HBox([left, inner, right]).bind(this);
     }
     if (this.type === "cases") {
-      const left = makeLRDelim("{", innerHeight, innerDepth);
+      const left = makeLRDelim("{", inHeight, inDepth);
       this.kind = "inner";
-      return new HBox([
-        left,
-        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
-      ]).bind(this);
+      return new HBox([left, inner]).bind(this);
     }
     if (this.type === "align") {
+      const tagBoxes = [];
+      for (r = 0; r < nr; ++r) {
+        const tagBox = new SymBox(`(${this.labels[r] ?? "?"})`, ["Main-R"]);
+        tagBox.rect.depth = body[r].depth;
+        tagBox.rect.height = body[r].height;
+        tagBoxes.push({ box: tagBox, shift: -(body[r].pos - offset) });
+      }
       const tags = new VBox(tagBoxes);
       tags.tag = true;
-      return new HBox([
-        new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
-        tags,
-      ]).bind(this);
+      return new HBox([inner, tags]).bind(this);
     }
-
-    return new HBox([
-      new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]),
-    ]).bind(this);
+    return inner.bind(this);
   }
 }
 
@@ -235,11 +174,12 @@ const createSep = (height: number, depth: number, hidden = false) => {
   );
 };
 
-export const createLine = (_?: number, hidden = false): RectBox => {
-  return new RectBox(
-    { width: 0, height: 0.02, depth: 0 },
-    hidden ? ["hline", "hidden"] : ["hline"]
-  );
+export const createLine = (pos: number[], hidden = false) => {
+  const cls = hidden ? ["hline", "hidden"] : ["hline"];
+  return pos.map((p) => ({
+    box: new RectBox({ width: 0, height: 0.02, depth: 0 }, cls),
+    shift: p,
+  }));
 };
 
 const isAlign = (type: string) => {

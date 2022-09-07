@@ -18,7 +18,9 @@ export interface Box {
 export class RectBox implements Box {
   space: Space = {};
   atom?: Atom;
-  constructor(public rect: Rect, public classes: string[]) {}
+  constructor(public rect: Rect, public classes: string[]) {
+    this.space = { bottom: -rect.depth };
+  }
 
   bind(atom: Atom) {
     this.atom = atom;
@@ -29,7 +31,7 @@ export class RectBox implements Box {
     const span = document.createElement("span");
     if (this.atom) this.atom.elem = span;
     addSpace(span, this);
-    span.style.height = em(this.rect.height);
+    span.style.minHeight = em(this.rect.height + this.rect.depth);
     if (this.rect.width !== 0) {
       span.style.width = this.rect.width + "em";
     } else span.style.width = "100%";
@@ -517,13 +519,13 @@ export class SqrtBox implements Box {
 
 export type SqrtSize = 1 | 2 | 3 | 4 | "small" | "Tall";
 
-export const multiplyBox = (box: Box, multiplier: number): Box => {
+export const multiplyBox = (box: Box, m: number): Box => {
   box.rect = {
-    height: box.rect.height * multiplier,
-    depth: box.rect.depth * multiplier,
-    width: box.rect.width * multiplier,
+    height: box.rect.height * m,
+    depth: box.rect.depth * m,
+    width: box.rect.width * m,
   };
-  box.multiplier = multiplier;
+  box.multiplier = m;
   return box;
 };
 

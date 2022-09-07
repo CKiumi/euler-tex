@@ -544,7 +544,9 @@ VBox {
           "height": 0.04,
           "width": 0,
         },
-        "space": {},
+        "space": {
+          "bottom": -0,
+        },
       },
       "shift": 0.23,
     },
@@ -979,6 +981,11 @@ HBox {
   "atom": MatrixAtom {
     "elem": null,
     "grid": false,
+    "hPos": [
+      0,
+      1.2000000000000002,
+      2.4,
+    ],
     "kind": "inner",
     "labels": [],
     "parent": null,
@@ -1106,7 +1113,7 @@ HBox {
                     ],
                     "rect": {
                       "depth": 0.95,
-                      "height": 2.4,
+                      "height": 1.45,
                       "width": 0.02,
                     },
                     "space": {
@@ -1144,6 +1151,11 @@ HBox {
                             "parent": MatrixAtom {
                               "elem": null,
                               "grid": false,
+                              "hPos": [
+                                0,
+                                1.2000000000000002,
+                                2.4,
+                              ],
                               "kind": "inner",
                               "labels": [],
                               "parent": null,
@@ -1185,6 +1197,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1236,6 +1253,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1302,6 +1324,11 @@ HBox {
                             "parent": MatrixAtom {
                               "elem": null,
                               "grid": false,
+                              "hPos": [
+                                0,
+                                1.2000000000000002,
+                                2.4,
+                              ],
                               "kind": "inner",
                               "labels": [],
                               "parent": null,
@@ -1343,6 +1370,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1394,6 +1426,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1453,7 +1490,7 @@ HBox {
                     ],
                     "rect": {
                       "depth": 0.95,
-                      "height": 2.4,
+                      "height": 1.45,
                       "width": 0.02,
                     },
                     "space": {
@@ -1491,6 +1528,11 @@ HBox {
                             "parent": MatrixAtom {
                               "elem": null,
                               "grid": false,
+                              "hPos": [
+                                0,
+                                1.2000000000000002,
+                                2.4,
+                              ],
                               "kind": "inner",
                               "labels": [],
                               "parent": null,
@@ -1532,6 +1574,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1583,6 +1630,11 @@ HBox {
                                   "parent": MatrixAtom {
                                     "elem": null,
                                     "grid": false,
+                                    "hPos": [
+                                      0,
+                                      1.2000000000000002,
+                                      2.4,
+                                    ],
                                     "kind": "inner",
                                     "labels": [],
                                     "parent": null,
@@ -1642,7 +1694,7 @@ HBox {
                     ],
                     "rect": {
                       "depth": 0.95,
-                      "height": 2.4,
+                      "height": 1.45,
                       "width": 0.02,
                     },
                     "space": {
@@ -1653,12 +1705,12 @@ HBox {
                 "multiplier": undefined,
                 "rect": {
                   "depth": 0.78444,
-                  "height": 2.4,
+                  "height": 1.45,
                   "width": 1.9981,
                 },
                 "space": {
                   "bottom": 0.16555999999999993,
-                  "top": -0.95,
+                  "top": 0,
                 },
               },
             ],
@@ -1684,7 +1736,9 @@ HBox {
               "height": 0.02,
               "width": 0,
             },
-            "space": {},
+            "space": {
+              "bottom": -0,
+            },
           },
           "shift": 1.45,
         },
@@ -1700,7 +1754,9 @@ HBox {
               "height": 0.02,
               "width": 0,
             },
-            "space": {},
+            "space": {
+              "bottom": -0,
+            },
           },
           "shift": 0.24999999999999978,
         },
@@ -1716,7 +1772,9 @@ HBox {
               "height": 0.02,
               "width": 0,
             },
-            "space": {},
+            "space": {
+              "bottom": -0,
+            },
           },
           "shift": -0.95,
         },
