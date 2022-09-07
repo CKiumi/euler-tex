@@ -56,7 +56,9 @@ export class LRAtom implements Atom {
     const [height, depth] = [innerBox.rect.height, innerBox.rect.depth];
     this.middle.forEach((i) => {
       const box = innerBox.children[i] as SymBox;
-      innerBox.children[i] = makeLRDelim(box.char, height, depth);
+      innerBox.children[i] = makeLRDelim(box.char, height, depth).bind(
+        this.body.body[i]
+      );
     });
     const [lBox, rBox] = [left, right].map((c) =>
       makeLRDelim(c, height, depth)
@@ -306,21 +308,13 @@ export const makeStackedDelim = function (
         middleHeightTotal) /
         2 +
       2 * lapInEms;
-
+    const width = METRICS[font][repeat.charCodeAt(0)][4];
     return new VStackBox(
       [
         new SymAtom("ord", top, top, [font]).toBox(),
-        new DelimInnerBox(repeat, {
-          width: METRICS[font][repeat.charCodeAt(0)][4],
-          height: innerHeight,
-          depth: 0,
-        }),
+        new DelimInnerBox(repeat, { width, height: innerHeight, depth: 0 }),
         new SymAtom("ord", middle, middle, [font]).toBox(),
-        new DelimInnerBox(repeat, {
-          width: METRICS[font][repeat.charCodeAt(0)][4],
-          height: innerHeight,
-          depth: 0,
-        }),
+        new DelimInnerBox(repeat, { width, height: innerHeight, depth: 0 }),
         new SymAtom("open", bottom, bottom, [font]).toBox(),
       ],
       depth

@@ -54,10 +54,9 @@ export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
       font: "Main-R",
     };
   }
-  console.error("Font metric not found for " + char + " , " + fonts.join(" "));
   return {
     width: 1,
-    height: 1.17,
+    height: 0.71,
     depth: 0,
     italic: 0,
     skew: 0,

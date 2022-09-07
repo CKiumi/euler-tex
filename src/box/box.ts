@@ -393,12 +393,16 @@ export class ThmBox implements Box {
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
-    span.append(html("span", { cls: ["label"], text: this.thmName?.label }));
-    span.classList.add("theorem", "text");
+    const wrapper = html("span", {
+      cls: ["text"],
+      children: [html("span", { cls: ["label"], text: this.thmName?.label })],
+    });
+    span.append(wrapper);
+    span.classList.add("theorem");
     if (this.thmName?.nonum) span.classList.add("nonum");
     span.setAttribute("label", this.label ?? "");
     this.children.forEach((box) => {
-      span.append(box.toHtml());
+      wrapper.append(box.toHtml());
     });
     if (this.atom) this.atom.elem = span;
     return span;

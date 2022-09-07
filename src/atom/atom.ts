@@ -191,6 +191,7 @@ export class DisplayAtom implements Atom {
 
   toBox(): DisplayBox {
     const body = this.body.toBox(new Options());
+    this.body.parent = this;
     if (this.tag || this.tag === null) {
       const box = new SymBox(`(${this.tag ?? "?"})`, ["Main-R"]);
       [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];

@@ -44,8 +44,8 @@ export class Parser {
       const kind = cmd.kind === "bin" ? binOrOrd(atoms) : cmd.kind;
       return new SymAtom(kind, char, token, [font, this.font]);
     }
-    console.error(`Single token ${token} not supported`);
-    return new SymAtom("close", "?", token, ["Main-R"]);
+    // console.error(`Single token ${token} not supported`);
+    return new SymAtom("ord", token, token, ["Main-R"]);
   }
 
   parse(end: Token): Atom[] {
