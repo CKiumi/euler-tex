@@ -26,6 +26,7 @@ export interface Atom {
   elem: HTMLSpanElement | null;
   kind: AtomKind | null;
   children(): Atom[];
+  serialize(): string;
   toBox(options?: Options): Box;
 }
 
@@ -40,6 +41,10 @@ export class FirstAtom implements Atom {
 
   children() {
     return [this];
+  }
+
+  serialize() {
+    return "";
   }
 
   toBox(): SymBox {
@@ -75,6 +80,10 @@ export class MathGroup implements GroupAtom {
     });
   }
 
+  serialize() {
+    return this.body.map((atom) => atom.serialize()).join("");
+  }
+
   toBox(options: Options): HBox {
     return new HBox(MathGroup._toBox(this, options)).bind(this);
   }
@@ -91,6 +100,10 @@ export class Article implements GroupAtom {
 
   children(): Atom[] {
     return this.body.flatMap((atom) => atom.children());
+  }
+
+  serialize() {
+    return this.body.map((atom) => atom.serialize()).join("");
   }
 
   toBox(): ArticleBox {
@@ -110,7 +123,7 @@ export class ThmAtom implements GroupAtom {
 
   constructor(
     public body: Atom[],
-    public thmName: ThmData | null = null,
+    public thmName: ThmData,
     public label: string | null = null
   ) {
     this.body = [new FirstAtom(), ...body];
@@ -118,6 +131,13 @@ export class ThmAtom implements GroupAtom {
 
   children(): Atom[] {
     return this.body.flatMap((atom) => atom.children());
+  }
+
+  serialize() {
+    const name = this.thmName.label.toLowerCase();
+    return `\n\n\\begin{${name}}${this.body
+      .map((atom) => atom.serialize())
+      .join("")}\\end{${name}}\n\n`;
   }
 
   toBox(): ThmBox {
@@ -134,11 +154,10 @@ export class SectionAtom implements GroupAtom {
   kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-  label: string | null = null;
   constructor(
     public body: Atom[],
     public mode: "section" | "subsection" | "subsubsection",
-    public tag: string | null | undefined = undefined
+    public label: string | null | undefined = undefined
   ) {
     this.body = [new FirstAtom(), ...body];
   }
@@ -147,13 +166,20 @@ export class SectionAtom implements GroupAtom {
     return [...this.body.flatMap((atom) => atom.children()), this];
   }
 
+  serialize() {
+    const label = this.label ? `\\label{${this.label}}` : "";
+    return `\n\n\\${this.mode}{${this.body
+      .map((atom) => atom.serialize())
+      .join("")}}\n${label}`;
+  }
+
   toBox(): SectionBox {
     const children = this.body.map((atom) => {
       const box = atom.toBox(new Options());
       atom.parent = this;
       return box;
     });
-    return new SectionBox(children, this.mode, this.tag).bind(this);
+    return new SectionBox(children, this.mode, this.label).bind(this);
   }
 }
 export class InlineAtom implements GroupAtom {
@@ -166,6 +192,10 @@ export class InlineAtom implements GroupAtom {
 
   children(): Atom[] {
     return [...this.body.flatMap((atom) => atom.children()), this];
+  }
+
+  serialize() {
+    return `$${this.body.map((atom) => atom.serialize()).join("")}$`;
   }
 
   toBox(): InlineBox {
@@ -187,6 +217,12 @@ export class DisplayAtom implements Atom {
 
   children() {
     return this.body.children();
+  }
+
+  serialize() {
+    if (this.tag)
+      return `\n\n\\begin{equation}${this.body.serialize()}\\end{equation}\n\n`;
+    return `\n\n\\[${this.body.serialize()}\\]\n\n`;
   }
 
   toBox(): DisplayBox {

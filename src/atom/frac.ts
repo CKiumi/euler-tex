@@ -20,6 +20,10 @@ export class FracAtom implements Atom {
     return [...this.denom.children(), ...this.numer.children(), this];
   }
 
+  serialize() {
+    return `\\frac{${this.numer.serialize()}}{${this.denom.serialize()}}`;
+  }
+
   toBox(options: Options): VBox {
     const style = adjustStyle(options.style.id, options.style);
     this.denom.parent = this.numer.parent = this;

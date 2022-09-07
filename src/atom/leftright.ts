@@ -31,22 +31,22 @@ export const DelimMap = {
 export class LRAtom implements Atom {
   parent: MathGroup | null = null;
   kind: AtomKind;
-  left: string;
-  right: string;
   elem: HTMLSpanElement | null = null;
   constructor(
-    left: Delims,
-    right: Delims,
+    public left: Delims,
+    public right: Delims,
     public body: MathGroup,
     public middle: number[] = []
   ) {
     this.kind = "inner";
-    this.left = DelimMap[left];
-    this.right = DelimMap[right];
   }
 
   children(): Atom[] {
     return [...this.body.children(), this];
+  }
+
+  serialize() {
+    return `\\left${this.left}${this.body.serialize()}\\right${this.right}`;
   }
 
   toBox(options: Options): HBox {
@@ -61,7 +61,7 @@ export class LRAtom implements Atom {
       );
     });
     const [lBox, rBox] = [left, right].map((c) =>
-      makeLRDelim(c, height, depth)
+      makeLRDelim(DelimMap[c], height, depth)
     );
     return new HBox([lBox, innerBox, rBox]).bind(this);
   }

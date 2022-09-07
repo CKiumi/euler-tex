@@ -12,6 +12,10 @@ export class OpAtom implements Atom {
     return [this];
   }
 
+  serialize() {
+    return "\\" + this.body + " ";
+  }
+
   toBox(): HBox {
     return new HBox(
       this.body.split("").map((char) => new SymBox(char, ["Main-R"]))

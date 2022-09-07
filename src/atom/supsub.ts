@@ -26,6 +26,14 @@ export class SupSubAtom implements Atom {
       this,
     ];
   }
+
+  serialize() {
+    let [sup, sub] = ["", ""];
+    if (this.sup) sup = `^{${this.sup.serialize()}}`;
+    if (this.sub) sub = `_{${this.sub.serialize()}}`;
+    return `${this.nuc.serialize()}${sub}${sup}`;
+  }
+
   toBox(options?: Options): Box {
     this.nuc.parent = this;
     options = options ?? new Options();

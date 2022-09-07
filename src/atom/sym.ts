@@ -28,6 +28,11 @@ export class SymAtom implements Atom {
     return [this];
   }
 
+  serialize(): string {
+    if (this.style?.ref) return `\\ref{${this.command}}`;
+    return this.command.startsWith("\\") ? this.command + " " : this.command;
+  }
+
   toBox(options?: Options): SymBox | VStackBox {
     const { char, fonts, style } = this;
     if (this.command === "\\neq") {
@@ -64,6 +69,29 @@ export class CharAtom implements Atom {
 
   children() {
     return [this];
+  }
+
+  serialize(): string {
+    return this.char;
+  }
+
+  toBox(): CharBox {
+    return new CharBox(this.char, this.font).bind(this);
+  }
+}
+
+export class RefAtom implements Atom {
+  parent: SectionAtom | Article | null = null;
+  elem = null;
+  kind = null;
+  constructor(public char: string, public font: Font | null) {}
+
+  children() {
+    return [this];
+  }
+
+  serialize(): string {
+    return this.char;
   }
 
   toBox(): CharBox {

@@ -13,6 +13,10 @@ export class AccentAtom implements Atom {
     return [...this.body.children(), this];
   }
 
+  serialize(): string {
+    return this.body.serialize();
+  }
+
   toBox(options: Options): VStackBox {
     this.body.parent = this;
     const { body, accent } = this;
@@ -36,6 +40,10 @@ export class OverlineAtom implements Atom {
 
   children(): Atom[] {
     return [...this.body.children(), this];
+  }
+
+  serialize() {
+    return `\\overline{${this.body.serialize()}}`;
   }
 
   toBox(options: Options): VStackBox {

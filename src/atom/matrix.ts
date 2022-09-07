@@ -36,6 +36,21 @@ export class MatrixAtom implements Atom {
     return [...rows, this];
   }
 
+  serialize(): string {
+    let result = "";
+    for (let row = 0; row < this.rows.length; row++) {
+      this.labels[row] && (result += `\\label{${this.labels[row]}}`);
+      for (let col = 0; col < this.rows[row].length; col++) {
+        if (col > 0) result += " & ";
+        result += this.rows[row][col].serialize();
+      }
+      if (row < this.rows.length - 1) {
+        result += "\\\\\n";
+      }
+    }
+    return `\n\n\\begin{${this.type}}${result}\\end{${this.type}}\n\n`;
+  }
+
   setGrid(grid: boolean) {
     this.grid = grid;
   }
@@ -148,7 +163,7 @@ export class MatrixAtom implements Atom {
       tags.tag = true;
       return new HBox([inner, tags]).bind(this);
     }
-    return inner.bind(this);
+    return new HBox([inner]).bind(this);
   }
 }
 

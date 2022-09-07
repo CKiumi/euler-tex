@@ -152,14 +152,19 @@ const route: { [key: string]: () => void } = {
   },
   "/article": () => {
     console.time("euler1");
+    const atom = latexToArticle(article);
     const line1 = html("div", {
-      children: [latexToArticle(article).toBox().toHtml()],
+      children: [atom.toBox().toHtml()],
       style: { border: "2px black solid" },
     });
     setLabels(line1);
     main.append(
       html("h1", { text: "Article Editable" }),
-      html("div", { id: "article", children: [line1] })
+      html("div", { id: "article", children: [line1] }),
+      html("div", {
+        id: "serialize",
+        children: [html("div", { text: atom.serialize() })],
+      })
     );
     console.timeEnd("euler1");
   },

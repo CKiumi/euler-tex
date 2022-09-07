@@ -53,9 +53,10 @@ export class CharBox implements Box {
 
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
+    if (this.atom) this.atom.elem = span;
+    if (this.char === "\n") return document.createElement("br");
     span.innerText = this.char;
     this.font && span.classList.add(this.font.toLowerCase());
-    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -97,13 +98,6 @@ export class SymBox implements Box {
     const { char, font, rect, italic } = this;
     const { height, depth } = rect;
     const span = document.createElement("span");
-    if (char === "\n") {
-      const first = document.createElement("span");
-      first.innerHTML = "&#8203;";
-      span.append(document.createElement("br"), first);
-      this.atom && (this.atom.elem = span);
-      return span;
-    }
     addSpace(span, this);
     span.innerHTML = char;
     span.classList.add("box", font.toLowerCase());

@@ -27,7 +27,7 @@ export class Parser {
   font: Font | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
-  lastSection: SectionAtom | null = null;
+  lastSect: SectionAtom | null = null;
   thmLabel: string | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
@@ -74,8 +74,8 @@ export class Parser {
         this.thmLabel = this.parseTextArg();
         continue;
       }
-      if (this.lastSection && token === "\\label") {
-        this.lastSection.tag = this.parseTextArg();
+      if (this.lastSect && token === "\\label") {
+        this.lastSect.label = this.parseTextArg();
         continue;
       }
       if (token === Escape.Inline) {
@@ -109,12 +109,8 @@ export class Parser {
         const title = Array.from(this.parseTextArg()).map(
           (char) => new CharAtom(char, null)
         );
-        this.lastSection = new SectionAtom(
-          title,
-          token.slice(1) as "section",
-          undefined
-        );
-        atoms.push(this.lastSection);
+        this.lastSect = new SectionAtom(title, token.slice(1) as "section");
+        atoms.push(this.lastSect);
         continue;
       }
       atoms.push(new CharAtom(token, null));
