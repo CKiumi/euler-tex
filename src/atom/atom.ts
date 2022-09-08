@@ -89,6 +89,33 @@ export class MathGroup implements GroupAtom {
   }
 }
 
+export class TextGroup implements GroupAtom {
+  kind: AtomKind | null = null;
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(public body: Atom[]) {
+    this.body = [new FirstAtom(), ...body];
+  }
+
+  children(): Atom[] {
+    return this.body.flatMap((atom) => atom.children());
+  }
+
+  serialize() {
+    return `\\text{${this.body.map((atom) => atom.serialize()).join("")}}`;
+  }
+
+  toBox(options: Options): HBox {
+    return new HBox(
+      this.body.map((atom) => {
+        atom.parent = this;
+        return atom.toBox(options);
+      })
+    ).bind(this);
+  }
+}
+
 export class Article implements GroupAtom {
   kind = null;
   elem: HTMLSpanElement | null = null;
@@ -209,33 +236,32 @@ export class DisplayAtom implements Atom {
   kind = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
-  label: string | null = null;
-  constructor(
-    public body: MathGroup,
-    public tag: string | null | undefined = undefined
-  ) {}
+  constructor(public body: MathGroup, public label: string | null) {}
 
   children() {
     return this.body.children();
   }
 
   serialize() {
-    if (this.tag)
-      return `\n\n\\begin{equation}${this.body.serialize()}\\end{equation}\n\n`;
+    if (this.label) {
+      return `\n\n\\begin{equation}\\label{${
+        this.label
+      }}${this.body.serialize()}\\end{equation}\n\n`;
+    }
     return `\n\n\\[${this.body.serialize()}\\]\n\n`;
   }
 
   toBox(): DisplayBox {
     const body = this.body.toBox(new Options());
     this.body.parent = this;
-    if (this.tag || this.tag === null) {
-      const box = new SymBox(`(${this.tag ?? "?"})`, ["Main-R"]);
+    if (this.label) {
+      const box = new SymBox("(?)", ["Main-R"]);
       [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
       const tagBox = new VBox([{ box, shift: 0 }]);
       tagBox.tag = true;
-      return new DisplayBox([body, tagBox], this.tag).bind(this);
+      return new DisplayBox([body, tagBox], this.label).bind(this);
     }
-    return new DisplayBox([body], this.tag).bind(this);
+    return new DisplayBox([body], this.label).bind(this);
   }
 }
 

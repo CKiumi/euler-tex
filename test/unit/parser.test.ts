@@ -79,7 +79,7 @@ test("supsub atom", () => {
 
 test("matrix atom", () => {
   expect(prs("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")).toEqual(
-    new MatrixAtom([[group, group], [group]], "pmatrix", [null, null])
+    new MatrixAtom([[group, group], [group]], "pmatrix", [])
   );
   const atom = prs(
     "\\begin{pmatrix}j&j\\\\j \\end{pmatrix}",
@@ -95,15 +95,15 @@ test("parse inline", () => {
 test("parse display", () => {
   expect(parse("a\\[j\\]a")).toEqual([
     a,
-    new DisplayAtom(new MathGroup([j])),
+    new DisplayAtom(new MathGroup([j]), null),
     a,
   ]);
 });
 
 test("parse align", () => {
-  expect(parse("a\\begin{align}j\\end{align}a", false)).toEqual([
+  expect(parse("a\\begin{align}\\label{lab}j\\end{align}a", false)).toEqual([
     a,
-    new MatrixAtom([[new MathGroup([j])]], "align", [null]),
+    new MatrixAtom([[new MathGroup([j])]], "align", ["lab"]),
     a,
   ]);
 });

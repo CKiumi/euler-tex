@@ -17,13 +17,14 @@ const sec2 = String.raw`\section{Definitions and Method}
 \label{sec:2}
 \subsection{Multi-state quantum walks on the integer lattice}
 Firstly, we introduce $n$-state QWs with $n-2$ self-loops on the integer lattice $\mathbb{Z}$.
-Let $\mathcal{H}$ be a Hilbert space defined by
-\[
+Let $\mathcal{H}$ be a Hilbert space defined by \ref{eq}
+\begin{equation}
+\label{eq}
       \mathcal{H}=\ell^2(\mathbb{Z} ; \mathbb{C}^n) =
       \left\{
       \Psi : \mathbb{Z} \to \mathbb{C}^n\ \middle\vert\ \sum_{x\in\mathbb{Z}}\|\Psi(x)\|_{\mathbb{C}^n}^2 < \infty
       \right\},
-      \]
+\end{equation}
       where $n \geq 3$ and $\mathbb{C}$ denotes the set of complex numbers. We write $n$-state quantum state $\Psi:\mathbb{Z}\rightarrow \mathbb{C}^n$ as below:
       \[
       \Psi (x)=\left[\begin{matrix}

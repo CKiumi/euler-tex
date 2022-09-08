@@ -52,9 +52,9 @@ export class CharBox implements Box {
   }
 
   toHtml(): HTMLSpanElement {
-    const span = document.createElement("span");
+    const span = document.createElement(this.char === "\n" ? "br" : "span");
     if (this.atom) this.atom.elem = span;
-    if (this.char === "\n") return document.createElement("br");
+    if (this.char === "\n") return span;
     span.innerText = this.char;
     this.font && span.classList.add(this.font.toLowerCase());
     return span;
@@ -62,6 +62,7 @@ export class CharBox implements Box {
 }
 
 export interface SymStyle {
+  font?: string | null;
   composite?: boolean;
   italic?: boolean;
   bold?: boolean;
@@ -151,18 +152,21 @@ export class HBox implements Box {
       span.append(box.toHtml());
     });
     addSpace(span, this);
-    if (
-      this.atom &&
-      this.atom instanceof MatrixAtom &&
-      (this.atom.type === "align" || this.atom.type === "align*")
-    ) {
-      span.classList.add("align");
-    }
 
     if (this.multiplier) {
       span.style.fontSize = em(this.multiplier);
     }
-    if (this.atom) this.atom.elem = span;
+    if (this.atom) {
+      this.atom.elem = span;
+      const type = (this.atom as MatrixAtom).type;
+      const labels = (this.atom as MatrixAtom).labels;
+      if (type === "align" || type === "align*") {
+        span.classList.add("align");
+      }
+      if (type === "align") {
+        span.setAttribute("label", labels.join("\\"));
+      }
+    }
     return span;
   }
 }
@@ -334,6 +338,7 @@ export class DisplayBox implements Box {
   toHtml(): HTMLSpanElement {
     const span = document.createElement("span");
     span.classList.add("display");
+    span.setAttribute("label", this.label ?? "");
     this.children.forEach((box) => {
       span.append(box.toHtml());
     });

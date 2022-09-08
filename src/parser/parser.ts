@@ -16,15 +16,18 @@ import {
   SymAtom,
   SectionAtom,
   DisplayAtom,
+  TextGroup,
 } from "../atom/atom";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
+import { randStr } from "../util";
 import { ACC, BLOCKOP, FontMap, OP, parseCommand, THM_ENV } from "./command";
 import { Escape, Lexer, Token } from "./lexer";
 
 export class Parser {
   lexer: Lexer;
   font: Font | null = null;
+  mathFont: string | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
   lastSect: SectionAtom | null = null;
@@ -34,15 +37,16 @@ export class Parser {
   }
 
   parseSingle(atoms: Atom[], token: Token) {
+    const style = this.mathFont ? { font: this.mathFont } : undefined;
     if (/[A-Za-z]/.test(token))
-      return new SymAtom("ord", token, token, ["Math-I", this.font]);
+      return new SymAtom("ord", token, token, ["Math-I", this.font], style);
     if (/[0-9]/.test(token))
-      return new SymAtom("ord", token, token, ["Main-R", this.font]);
+      return new SymAtom("ord", token, token, ["Main-R", this.font], style);
     const cmd = parseCommand(token);
     if (cmd) {
       const { char, font } = cmd;
       const kind = cmd.kind === "bin" ? binOrOrd(atoms) : cmd.kind;
-      return new SymAtom(kind, char, token, [font, this.font]);
+      return new SymAtom(kind, char, token, [font, this.font], style);
     }
     // console.error(`Single token ${token} not supported`);
     return new SymAtom("ord", token, token, ["Main-R"]);
@@ -144,8 +148,8 @@ export class Parser {
 
   parseDisplay(mode: "equation" | "equation*" | null) {
     const atoms: Atom[] = [];
-    let label: string | null | undefined = undefined;
-    if (mode === "equation") label = null;
+    let label: string | null = null;
+    if (mode === "equation") label = randStr();
     for (;;) {
       const token = this.lexer.tokenize();
       if (!mode && token === Escape.DisplayEnd) break;
@@ -221,15 +225,17 @@ export class Parser {
       }
       if (FontMap[token]) {
         if (token.startsWith("\\text")) {
-          const atom = new MathGroup(
+          const atom = new TextGroup(
             this.parseTextFont(FontMap[token], "math")
           );
           return atom;
         }
         this.font = FontMap[token];
+        this.mathFont = token;
         const { body } = this.parseMathArg();
         atoms.push(...body.slice(1, -1));
         this.font = null;
+        this.mathFont = null;
         return body[body.length - 1];
       }
       if (BLOCKOP[token]) {
@@ -275,7 +281,17 @@ export class Parser {
       if (cmd) {
         const { char, font } = cmd;
         const kind = cmd.kind === "bin" ? binOrOrd(atoms) : cmd.kind;
-        return new SymAtom(kind, char, token, [font, this.font]);
+        return new SymAtom(
+          kind,
+          char,
+          token,
+          [font, this.font],
+          this.mathFont
+            ? {
+                font: this.mathFont,
+              }
+            : undefined
+        );
       }
     }
     console.error("Unexpected token: " + token);
@@ -345,8 +361,12 @@ export class Parser {
           elems.pop();
         }
         const envName = this.parseEnvName();
-        labels.push(curLabel);
-        return new MatrixAtom(elems, envName as "pmatrix", labels);
+        labels.push(curLabel ?? randStr());
+        return new MatrixAtom(
+          elems,
+          envName as "pmatrix",
+          envName === "align" ? labels : []
+        );
       }
       if (token === Escape.And) {
         row.push(new MathGroup([]));
@@ -355,7 +375,7 @@ export class Parser {
       if (token === Escape.Newline) {
         row = [new MathGroup([])];
         elems.push(row);
-        labels.push(curLabel);
+        labels.push(curLabel ?? randStr());
         curLabel = null;
         continue;
       }

@@ -88,6 +88,7 @@
   text-align: center;
   position: relative;
   padding: 1em 0;
+  white-space: nowrap;
 }
 
 .inline {
