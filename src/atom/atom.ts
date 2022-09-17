@@ -13,6 +13,7 @@ import {
 import { Options, TEXT } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
 import { ThmData } from "../parser/command";
+import { randStr } from "../util";
 export * from "./accent";
 export * from "./frac";
 export * from "./leftright";
@@ -151,7 +152,7 @@ export class ThmAtom implements GroupAtom {
   constructor(
     public body: Atom[],
     public thmName: ThmData,
-    public label: string | null = null
+    public label: string
   ) {
     this.body = [new FirstAtom(), ...body];
   }
@@ -162,9 +163,9 @@ export class ThmAtom implements GroupAtom {
 
   serialize() {
     const name = this.thmName.label.toLowerCase();
-    return `\n\n\\begin{${name}}${this.body
+    return `\n\\begin{${name}}\\label{${this.label}}${this.body
       .map((atom) => atom.serialize())
-      .join("")}\\end{${name}}\n\n`;
+      .join("")}\\end{${name}}\n`;
   }
 
   toBox(): ThmBox {
@@ -184,7 +185,7 @@ export class SectionAtom implements GroupAtom {
   constructor(
     public body: Atom[],
     public mode: "section" | "subsection" | "subsubsection",
-    public label: string | null | undefined = undefined
+    public label: string = randStr()
   ) {
     this.body = [new FirstAtom(), ...body];
   }
@@ -195,7 +196,7 @@ export class SectionAtom implements GroupAtom {
 
   serialize() {
     const label = this.label ? `\\label{${this.label}}` : "";
-    return `\n\n\\${this.mode}{${this.body
+    return `\n\\${this.mode}{${this.body
       .map((atom) => atom.serialize())
       .join("")}}\n${label}`;
   }
@@ -211,7 +212,7 @@ export class SectionAtom implements GroupAtom {
 }
 export class InlineAtom implements GroupAtom {
   kind = null;
-  elem = null;
+  elem: HTMLSpanElement | null = null;
   parent = null;
   constructor(public body: Atom[]) {
     this.body = [new FirstAtom(), ...body];
@@ -244,11 +245,44 @@ export class DisplayAtom implements Atom {
 
   serialize() {
     if (this.label) {
-      return `\n\n\\begin{equation}\\label{${
+      return `\n\\begin{equation}\\label{${
         this.label
-      }}${this.body.serialize()}\\end{equation}\n\n`;
+      }}${this.body.serialize()}\\end{equation}\n`;
     }
-    return `\n\n\\[${this.body.serialize()}\\]\n\n`;
+    return `\n\\[${this.body.serialize()}\\]\n`;
+  }
+
+  toBox(): DisplayBox {
+    const body = this.body.toBox(new Options());
+    this.body.parent = this;
+    if (this.label) {
+      const box = new SymBox("(?)", ["Main-R"]);
+      [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
+      const tagBox = new VBox([{ box, shift: 0 }]);
+      tagBox.tag = true;
+      return new DisplayBox([body, tagBox], this.label).bind(this);
+    }
+    return new DisplayBox([body], this.label).bind(this);
+  }
+}
+
+export class AlignAtom implements Atom {
+  kind = null;
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+  constructor(public body: MathGroup, public label: string | null) {}
+
+  children() {
+    return this.body.children();
+  }
+
+  serialize() {
+    if (this.label) {
+      return `\n\\begin{equation}\\label{${
+        this.label
+      }}${this.body.serialize()}\\end{equation}\n`;
+    }
+    return `\n\\[${this.body.serialize()}\\]\n`;
   }
 
   toBox(): DisplayBox {

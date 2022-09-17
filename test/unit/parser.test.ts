@@ -28,6 +28,7 @@ const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new MathGroup([j]);
 test("parse symbol", () => {
   expect(prs("j")).toEqual(j);
+  expect(prs("{j}")).toEqual(j);
 });
 
 test("parse accent", () => {
@@ -109,17 +110,17 @@ test("parse align", () => {
 });
 
 test("parse theorem", () => {
-  expect(parse("a\\begin{theorem}a\\end{theorem}a", false)).toEqual([
+  expect(parse("a\\begin{theorem}\\label{a}a\\end{theorem}a", false)).toEqual([
     a,
-    new ThmAtom([a], THM_ENV["theorem"]),
+    new ThmAtom([a], THM_ENV["theorem"], "a"),
     a,
   ]);
 });
 
 test("parse section", () => {
-  expect(parse("a\\section{a}a", false)).toEqual([
+  expect(parse("a\\section{a}a\\label{a}", false)).toEqual([
     a,
-    new SectionAtom([new CharAtom("a", null)], "section"),
+    new SectionAtom([new CharAtom("a", null)], "section", "a"),
     a,
   ]);
 });

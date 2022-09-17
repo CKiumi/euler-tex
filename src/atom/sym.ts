@@ -24,6 +24,9 @@ export class SymAtom implements Atom {
     if (fonts.length === 0) this.fonts = ["Main-R"];
   }
 
+  static newRef = (c: string) =>
+    new SymAtom("ord", c, c, ["Main-R"], { ref: true });
+
   children() {
     return [this];
   }
@@ -64,7 +67,7 @@ export class SymAtom implements Atom {
 
 export class CharAtom implements Atom {
   parent: SectionAtom | Article | null = null;
-  elem = null;
+  elem: HTMLSpanElement | null = null;
   kind = null;
   constructor(public char: string, public font: Font | null) {}
 

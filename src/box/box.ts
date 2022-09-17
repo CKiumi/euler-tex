@@ -55,7 +55,7 @@ export class CharBox implements Box {
     const span = document.createElement(this.char === "\n" ? "br" : "span");
     if (this.atom) this.atom.elem = span;
     if (this.char === "\n") return span;
-    span.innerText = this.char;
+    span.innerText = this.char === " " ? "\u00a0" : this.char;
     this.font && span.classList.add(this.font.toLowerCase());
     return span;
   }
@@ -67,6 +67,7 @@ export interface SymStyle {
   italic?: boolean;
   bold?: boolean;
   ref?: boolean;
+  middle?: boolean;
 }
 
 export class SymBox implements Box {
@@ -108,9 +109,13 @@ export class SymBox implements Box {
       (height + (SPEC[font].descent - SPEC[font].ascent) / 2) * 2
     );
 
-    //Deal with unknown error, these character are not contained in the rect
+    //Deal with negative lineHeight, these character are not contained in the rect
     if (this.char === "⎩" || this.char === "⎭")
       span.style.marginTop = "-0.25em";
+    if (this.char === ",") {
+      span.style.height = "0.5em";
+    }
+
     if (this.style?.italic) span.style.fontStyle = "italic";
     if (this.style?.bold) span.style.fontWeight = "bold";
     if (this.style?.composite) span.style.textDecoration = "underline";

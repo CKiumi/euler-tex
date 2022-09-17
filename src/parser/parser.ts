@@ -17,6 +17,7 @@ import {
   SectionAtom,
   DisplayAtom,
   TextGroup,
+  MidAtom,
 } from "../atom/atom";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
@@ -175,7 +176,7 @@ export class Parser {
       const atom = new ThmAtom(
         this.parse(Escape.EOF),
         THM_ENV[this.theorem],
-        this.thmLabel
+        this.thmLabel ?? randStr()
       );
       this.theorem = null;
       this.italic = false;
@@ -218,6 +219,16 @@ export class Parser {
       const envName = this.parseEnvName();
       return this.parseEnv(envName);
     }
+    if (token === Escape.LCurly) {
+      for (;;) {
+        const token = this.lexer.tokenize();
+        if (token === Escape.RCurly) break;
+        if (token === Escape.EOF) throw new Error("Expected }");
+        atoms.push(this.parseSingleMath(token, atoms));
+      }
+      const atom = atoms.pop();
+      return atom ? atom : this.parseSingle(atoms, this.lexer.tokenize());
+    }
     if (token.startsWith("\\")) {
       if (token === "\\ref") {
         const label = this.parseTextArg();
@@ -242,12 +253,10 @@ export class Parser {
         return new SymAtom("op", BLOCKOP[token], token, ["Size2"], {}, false);
       }
 
-      if (token === "\\bra")
-        return new LRAtom("<", "|", this.parseMathArg(), []);
-      if (token === "\\ket")
-        return new LRAtom("|", ">", this.parseMathArg(), []);
+      if (token === "\\bra") return new LRAtom("<", "|", this.parseMathArg());
+      if (token === "\\ket") return new LRAtom("|", ">", this.parseMathArg());
       if (token === "\\braket")
-        return new LRAtom("<", ">", this.parseMathArg(), []);
+        return new LRAtom("<", ">", this.parseMathArg());
       if (OP.includes(token)) return new OpAtom(token.slice(1));
       if (token === "\\sqrt") return new SqrtAtom(this.parseMathArg());
       if (token === "\\frac") {
@@ -301,22 +310,22 @@ export class Parser {
   private parseLR(): Atom {
     const left = this.asrtDelim(this.lexer.tokenize());
     const body: Atom[] = [];
-    const middle: number[] = [];
     for (;;) {
       const token = this.lexer.tokenize();
       if (token === Escape.Right) break;
       if (token === "\\middle") {
-        body.push(
-          this.parseSingleMath(this.asrtDelim(this.lexer.tokenize()), body)
-        );
-        middle.push(body.length);
+        const atom = this.parseSingleMath(
+          this.asrtDelim(this.lexer.tokenize()),
+          body
+        ) as SymAtom;
+        body.push(new MidAtom(this.asrtDelim(atom.command)));
         continue;
       }
       if (token === Escape.EOF) throw new Error("Expected \\right");
       body.push(this.parseSingleMath(token, body));
     }
     const right = this.asrtDelim(this.lexer.tokenize());
-    return new LRAtom(left, right, new MathGroup(body), middle);
+    return new LRAtom(left, right, new MathGroup(body));
   }
 
   private asrtDelim(token: Token): Delims {

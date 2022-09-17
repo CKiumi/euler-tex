@@ -22,11 +22,11 @@ export class MatrixAtom implements Atom {
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;
-  hPos: number[] = [0];
+  hPos = [0];
   constructor(
     public rows: MathGroup[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
-    public labels: (string | null)[] = []
+    public labels: string[] = []
   ) {}
 
   children(): Atom[] {
@@ -48,7 +48,7 @@ export class MatrixAtom implements Atom {
         result += "\\\\\n";
       }
     }
-    return `\n\n\\begin{${this.type}}${result}\\end{${this.type}}\n\n`;
+    return `\n\\begin{${this.type}}${result}\\end{${this.type}}\n`;
   }
 
   setGrid(grid: boolean) {
@@ -56,6 +56,7 @@ export class MatrixAtom implements Atom {
   }
 
   toBox(options: Options): HBox | VBox {
+    this.hPos = [0];
     const newOptions = options?.getNewOptions(
       isAlign(this.type) ? DISPLAY : TEXT
     );
@@ -64,7 +65,7 @@ export class MatrixAtom implements Atom {
         e.parent = this;
         const hbox = e.toBox(newOptions);
         const { children } = hbox;
-        if (isAlign(this.type) && i === 1) {
+        if (isAlign(this.type) && i === 1 && e.body.length > 1) {
           const space = getSpacing("ord", e.body[1].kind ?? "ord");
           children[1].space.left = space;
           hbox.rect.width += space;

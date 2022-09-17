@@ -26,6 +26,11 @@
   white-space: nowrap;
 }
 
+.display,
+.align {
+  line-height: 0;
+}
+
 .section {
   width: 100%;
   display: inline-block;
@@ -102,7 +107,6 @@
 .align {
   font-size: 1.21em;
   font-style: normal;
-  line-height: 0;
 }
 
 .focus {

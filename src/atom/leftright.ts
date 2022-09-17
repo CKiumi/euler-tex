@@ -28,6 +28,27 @@ export const DelimMap = {
   ">": "⟩",
   ".": " ",
 };
+
+export class MidAtom implements Atom {
+  parent: MathGroup | null = null;
+  elem: HTMLSpanElement | null = null;
+  kind = null;
+  constructor(public delim: Delims) {}
+
+  children(): Atom[] {
+    return [this];
+  }
+
+  serialize() {
+    return `\\middle${this.delim}`;
+  }
+
+  toBox(): SymBox {
+    return new SymBox(DelimMap[this.delim], ["Math-I"], { middle: true }).bind(
+      this
+    );
+  }
+}
 export class LRAtom implements Atom {
   parent: MathGroup | null = null;
   kind: AtomKind;
@@ -35,8 +56,7 @@ export class LRAtom implements Atom {
   constructor(
     public left: Delims,
     public right: Delims,
-    public body: MathGroup,
-    public middle: number[] = []
+    public body: MathGroup
   ) {
     this.kind = "inner";
   }
@@ -53,12 +73,13 @@ export class LRAtom implements Atom {
     this.body.parent = this;
     const { left, right, body } = this;
     const innerBox = body.toBox(options);
-    const [height, depth] = [innerBox.rect.height, innerBox.rect.depth];
-    this.middle.forEach((i) => {
-      const box = innerBox.children[i] as SymBox;
-      innerBox.children[i] = makeLRDelim(box.char, height, depth).bind(
-        this.body.body[i]
-      );
+    const { children: chls, rect } = innerBox;
+    const [height, depth] = [rect.height, rect.depth];
+    chls.forEach((c, i) => {
+      if ((c as SymBox).style?.middle) {
+        chls[i] = makeLRDelim((c as SymBox).char, height, depth) as SymBox;
+        if (c.atom) chls[i].atom = c.atom;
+      }
     });
     const [lBox, rBox] = [left, right].map((c) =>
       makeLRDelim(DelimMap[c], height, depth)
