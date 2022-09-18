@@ -114,7 +114,7 @@ VStackBox {
         },
       },
       "children": [
-        SymBox {
+        FirstBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
@@ -156,16 +156,12 @@ VStackBox {
               },
             },
           },
-          "char": "&#8203;",
-          "font": "Math-I",
-          "italic": 0,
           "rect": {
             "depth": 0,
             "height": 0.4306,
             "width": 0,
           },
           "space": {},
-          "style": undefined,
         },
         SymBox {
           "atom": SymAtom {
@@ -385,7 +381,7 @@ VBox {
           },
         },
         "children": [
-          SymBox {
+          FirstBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
@@ -457,16 +453,12 @@ VBox {
                 },
               },
             },
-            "char": "&#8203;",
-            "font": "Math-I",
-            "italic": 0,
             "rect": {
               "depth": 0,
               "height": 0.4306,
               "width": 0,
             },
             "space": {},
-            "style": undefined,
           },
           SymBox {
             "atom": SymAtom {
@@ -606,7 +598,7 @@ VBox {
           },
         },
         "children": [
-          SymBox {
+          FirstBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
@@ -660,16 +652,12 @@ VBox {
                 },
               },
             },
-            "char": "&#8203;",
-            "font": "Math-I",
-            "italic": 0,
             "rect": {
               "depth": 0,
               "height": 0.4306,
               "width": 0,
             },
             "space": {},
-            "style": undefined,
           },
           SymBox {
             "atom": SymAtom {
@@ -842,7 +830,7 @@ HBox {
         },
       },
       "children": [
-        SymBox {
+        FirstBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
@@ -874,16 +862,12 @@ HBox {
               },
             },
           },
-          "char": "&#8203;",
-          "font": "Math-I",
-          "italic": 0,
           "rect": {
             "depth": 0,
             "height": 0.4306,
             "width": 0,
           },
           "space": {},
-          "style": undefined,
         },
         SymBox {
           "atom": SymAtom {
@@ -1168,7 +1152,7 @@ HBox {
                             },
                           },
                           "children": [
-                            SymBox {
+                            FirstBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
@@ -1214,16 +1198,12 @@ HBox {
                                   },
                                 },
                               },
-                              "char": "&#8203;",
-                              "font": "Math-I",
-                              "italic": 0,
                               "rect": {
                                 "depth": 0,
                                 "height": 0.4306,
                                 "width": 0,
                               },
                               "space": {},
-                              "style": undefined,
                             },
                             SymBox {
                               "atom": SymAtom {
@@ -1341,7 +1321,7 @@ HBox {
                             },
                           },
                           "children": [
-                            SymBox {
+                            FirstBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
@@ -1387,16 +1367,12 @@ HBox {
                                   },
                                 },
                               },
-                              "char": "&#8203;",
-                              "font": "Math-I",
-                              "italic": 0,
                               "rect": {
                                 "depth": 0,
                                 "height": 0.4306,
                                 "width": 0,
                               },
                               "space": {},
-                              "style": undefined,
                             },
                             SymBox {
                               "atom": SymAtom {
@@ -1545,7 +1521,7 @@ HBox {
                             },
                           },
                           "children": [
-                            SymBox {
+                            FirstBox {
                               "atom": FirstAtom {
                                 "elem": null,
                                 "kind": null,
@@ -1591,16 +1567,12 @@ HBox {
                                   },
                                 },
                               },
-                              "char": "&#8203;",
-                              "font": "Math-I",
-                              "italic": 0,
                               "rect": {
                                 "depth": 0,
                                 "height": 0.4306,
                                 "width": 0,
                               },
                               "space": {},
-                              "style": undefined,
                             },
                             SymBox {
                               "atom": SymAtom {
@@ -1898,7 +1870,7 @@ VStackBox {
         },
       },
       "children": [
-        SymBox {
+        FirstBox {
           "atom": FirstAtom {
             "elem": null,
             "kind": null,
@@ -1928,16 +1900,12 @@ VStackBox {
               },
             },
           },
-          "char": "&#8203;",
-          "font": "Math-I",
-          "italic": 0,
           "rect": {
             "depth": 0,
             "height": 0.4306,
             "width": 0,
           },
           "space": {},
-          "style": undefined,
         },
         SymBox {
           "atom": SymAtom {
@@ -2082,7 +2050,7 @@ VBox {
           },
         },
         "children": [
-          SymBox {
+          FirstBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
@@ -2112,16 +2080,12 @@ VBox {
                 },
               },
             },
-            "char": "&#8203;",
-            "font": "Math-I",
-            "italic": 0,
             "rect": {
               "depth": 0,
               "height": 0.4306,
               "width": 0,
             },
             "space": {},
-            "style": undefined,
           },
           SymBox {
             "atom": SymAtom {
@@ -2245,7 +2209,7 @@ VBox {
           },
         },
         "children": [
-          SymBox {
+          FirstBox {
             "atom": FirstAtom {
               "elem": null,
               "kind": null,
@@ -2263,16 +2227,12 @@ VBox {
                 },
               },
             },
-            "char": "&#8203;",
-            "font": "Math-I",
-            "italic": 0,
             "rect": {
               "depth": 0,
               "height": 0.4306,
               "width": 0,
             },
             "space": {},
-            "style": undefined,
           },
         ],
         "multiplier": undefined,
@@ -2471,7 +2431,7 @@ HBox {
               },
             },
             "children": [
-              SymBox {
+              FirstBox {
                 "atom": FirstAtom {
                   "elem": null,
                   "kind": null,
@@ -2514,16 +2474,12 @@ HBox {
                     },
                   },
                 },
-                "char": "&#8203;",
-                "font": "Math-I",
-                "italic": 0,
                 "rect": {
                   "depth": 0,
                   "height": 0.4306,
                   "width": 0,
                 },
                 "space": {},
-                "style": undefined,
               },
               SymBox {
                 "atom": SymAtom {
@@ -2626,7 +2582,7 @@ HBox {
               },
             },
             "children": [
-              SymBox {
+              FirstBox {
                 "atom": FirstAtom {
                   "elem": null,
                   "kind": null,
@@ -2669,16 +2625,12 @@ HBox {
                     },
                   },
                 },
-                "char": "&#8203;",
-                "font": "Math-I",
-                "italic": 0,
                 "rect": {
                   "depth": 0,
                   "height": 0.4306,
                   "width": 0,
                 },
                 "space": {},
-                "style": undefined,
               },
               SymBox {
                 "atom": SymAtom {

@@ -2,6 +2,7 @@ import {
   ArticleBox,
   Box,
   DisplayBox,
+  FirstBox,
   HBox,
   InlineBox,
   RectBox,
@@ -48,8 +49,8 @@ export class FirstAtom implements Atom {
     return "";
   }
 
-  toBox(): SymBox {
-    return new SymBox("&#8203;", ["Math-I"]).bind(this);
+  toBox(): FirstBox {
+    return new FirstBox().bind(this);
   }
 }
 

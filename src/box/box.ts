@@ -6,6 +6,24 @@ import { ThmData } from "../parser/command";
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
 type Rect = { height: number; depth: number; width: number };
 
+export class FirstBox implements Box {
+  space: Space = {};
+  rect: Rect = { height: 0.4306, depth: 0, width: 0 };
+  atom?: Atom;
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    if (this.atom) this.atom.elem = span;
+    span.innerText = "\u200b";
+    span.className = "first";
+    return span;
+  }
+}
 export interface Box {
   rect: Rect;
   space: Space;
@@ -52,10 +70,10 @@ export class CharBox implements Box {
   }
 
   toHtml(): HTMLSpanElement {
-    const span = document.createElement(this.char === "\n" ? "br" : "span");
+    if (this.char === "\n") return document.createElement("br");
+    const span = document.createElement("span");
     if (this.atom) this.atom.elem = span;
-    if (this.char === "\n") return span;
-    span.innerText = this.char === " " ? "\u00a0" : this.char;
+    span.innerText = this.char;
     this.font && span.classList.add(this.font.toLowerCase());
     return span;
   }
@@ -101,7 +119,7 @@ export class SymBox implements Box {
     const { height, depth } = rect;
     const span = document.createElement("span");
     addSpace(span, this);
-    span.innerHTML = char;
+    span.innerText = char;
     span.classList.add("box", font.toLowerCase());
     span.style.height = em(height + depth);
     if (italic) span.style.paddingRight = em(italic);

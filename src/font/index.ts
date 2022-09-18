@@ -34,34 +34,11 @@ export const getCharMetrics = (char: string, fonts: Font[]): CharMetric => {
       continue;
     }
   }
-  if (char === "&#8203;") {
-    return {
-      width: 0,
-      height: 0.4306,
-      depth: 0,
-      italic: 0,
-      skew: 0,
-      font: "Math-I",
-    };
-  }
+  const font = "Main-R";
   if (char === " " || char === "  " || char === "\n") {
-    return {
-      width: 0,
-      height: 0,
-      depth: 0,
-      italic: 0,
-      skew: 0,
-      font: "Main-R",
-    };
+    return { width: 0, height: 0, depth: 0, italic: 0, skew: 0, font };
   }
-  return {
-    width: 1,
-    height: 0.71,
-    depth: 0,
-    italic: 0,
-    skew: 0,
-    font: "Main-R",
-  };
+  return { width: 1, height: 0.71, depth: 0, italic: 0, skew: 0, font };
 };
 
 export const getSigma = (name: keyof typeof SIGMAS, size?: number): number => {

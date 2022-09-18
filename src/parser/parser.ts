@@ -197,7 +197,7 @@ export class Parser {
 
   parseSingleMath(token: string, atoms: Atom[]): Atom {
     if (token.length === 1) return this.parseSingle(atoms, token);
-    if (token === Escape.Space) return new SymAtom("ord", "&nbsp;", "\\ ", []);
+    if (token === Escape.Space) return new SymAtom("ord", "\u00A0", "\\ ", []);
     if (token === Escape.Left) return this.parseLR();
     if (token === Escape.Circumfix) {
       const body = atoms.pop();

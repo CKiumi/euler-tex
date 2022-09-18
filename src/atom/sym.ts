@@ -16,7 +16,6 @@ export class SymAtom implements Atom {
     public style?: SymStyle,
     public charBox: boolean = true
   ) {
-    if (char === " ") this.char = "&nbsp;";
     this.fonts = fonts.filter((e) => e) as Font[];
     if (fonts.includes("Math-BI") && fonts.includes("Main-R")) {
       this.fonts = ["Main-B"];
