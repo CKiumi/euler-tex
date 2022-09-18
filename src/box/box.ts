@@ -1,7 +1,7 @@
-import { Atom, Font, getCharMetrics, getSigma, MatrixAtom, SPEC } from "../lib";
-import { PathNode, SvgNode, innerPath, sqrtSvg, html } from "../html";
-import { em } from "../util";
+import { html, innerPath, PathNode, sqrtSvg, SvgNode } from "../html";
+import { Atom, Font, getCharMetrics, getSigma, SPEC } from "../lib";
 import { ThmData } from "../parser/command";
+import { em } from "../util";
 
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
 type Rect = { height: number; depth: number; width: number };
@@ -70,7 +70,11 @@ export class CharBox implements Box {
   }
 
   toHtml(): HTMLSpanElement {
-    if (this.char === "\n") return document.createElement("br");
+    if (this.char === "\n") {
+      const br = document.createElement("br");
+      if (this.atom) this.atom.elem = br;
+      return br;
+    }
     const span = document.createElement("span");
     if (this.atom) this.atom.elem = span;
     span.innerText = this.char;
@@ -200,17 +204,7 @@ export class HBox implements Box {
     if (this.multiplier) {
       span.style.fontSize = em(this.multiplier);
     }
-    if (this.atom) {
-      this.atom.elem = span;
-      const type = (this.atom as MatrixAtom).type;
-      const labels = (this.atom as MatrixAtom).labels;
-      if (type === "align" || type === "align*") {
-        span.classList.add("align");
-      }
-      if (type === "align") {
-        span.setAttribute("label", labels.join("\\"));
-      }
-    }
+    if (this.atom) this.atom.elem = span;
     return span;
   }
 }
@@ -396,6 +390,29 @@ export class DisplayBox implements Box {
   }
 }
 
+export class AlignBox implements Box {
+  rect: Rect = { depth: 0, height: 0, width: 0 };
+  space: Space = { top: 0, bottom: 0, left: 0, right: 0 };
+  atom?: Atom | undefined;
+
+  constructor(public child: Box, public labels: string[] | null) {}
+
+  bind(atom: Atom) {
+    this.atom = atom;
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.classList.add("align");
+    if (this.labels) {
+      span.setAttribute("label", this.labels.join("\\"));
+    }
+    span.append(this.child.toHtml());
+    if (this.atom) this.atom.elem = span;
+    return span;
+  }
+}
 export class SectionBox implements Box {
   rect: Rect = { depth: 0, height: 0, width: 0 };
   space: Space = { top: 0, bottom: 0, left: 0, right: 0 };

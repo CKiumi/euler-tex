@@ -1,7 +1,7 @@
 import { Box, HBox, RectBox, TagBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
-import { Atom, MathGroup } from "./atom";
+import { AlignAtom, Atom, MathGroup } from "./atom";
 import { makeLRDelim } from "./leftright";
 
 export const ENVNAMES = [
@@ -18,7 +18,7 @@ export const ENVNAMES = [
 ] as const;
 
 export class MatrixAtom implements Atom {
-  parent: MathGroup | null = null;
+  parent: MathGroup | AlignAtom | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
   grid = false;

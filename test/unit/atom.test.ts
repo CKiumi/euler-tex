@@ -9,8 +9,11 @@ import {
   SqrtAtom,
   SymAtom,
   MathGroup,
+  latexToArticle,
+  Article,
 } from "../../src/lib";
 import { Options } from "../../src/box/style";
+import { article } from "../../page/data";
 const ops = new Options();
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new MathGroup([j]);
@@ -55,4 +58,21 @@ test("matrix atom", () => {
 
 test("supsub atom", () => {
   expect(new SupSubAtom(j, group, group).toBox()).matchSnapshot();
+});
+
+test("elem", () => {
+  const art = latexToArticle(article);
+  art.toBox().toHtml();
+  expect(art.children().filter((a) => !a.elem).length).toBe(0);
+});
+
+test("elem", () => {
+  const art = latexToArticle(article);
+  art.toBox().toHtml();
+  expect(
+    art.children().filter((a) => {
+      while (a.parent) a = a.parent;
+      return !(a instanceof Article);
+    }).length
+  ).toBe(0);
 });

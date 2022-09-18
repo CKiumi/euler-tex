@@ -1,4 +1,5 @@
 import {
+  AlignBox,
   ArticleBox,
   Box,
   DisplayBox,
@@ -12,7 +13,7 @@ import {
   VBox,
 } from "../box/box";
 import { Options, TEXT } from "../box/style";
-import { AtomKind, getSigma, getSpacing } from "../lib";
+import { AtomKind, getSigma, getSpacing, MatrixAtom } from "../lib";
 import { ThmData } from "../parser/command";
 import { randStr } from "../util";
 export * from "./accent";
@@ -262,6 +263,27 @@ export class DisplayAtom implements Atom {
       return new DisplayBox([body, tagBox], this.label).bind(this);
     }
     return new DisplayBox([body], this.label).bind(this);
+  }
+}
+
+export class AlignAtom implements Atom {
+  kind = null;
+  elem: HTMLSpanElement | null = null;
+  parent: Atom | null = null;
+
+  constructor(public body: MatrixAtom, public labels: string[] | null) {}
+
+  children() {
+    return this.body.children();
+  }
+
+  serialize() {
+    return this.body.serialize();
+  }
+
+  toBox(): AlignBox {
+    this.body.parent = this;
+    return new AlignBox(this.body.toBox(new Options()), this.labels).bind(this);
   }
 }
 

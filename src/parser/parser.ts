@@ -18,6 +18,7 @@ import {
   DisplayAtom,
   TextGroup,
   MidAtom,
+  AlignAtom,
 } from "../atom/atom";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
@@ -371,11 +372,15 @@ export class Parser {
         }
         const envName = this.parseEnvName();
         labels.push(curLabel ?? randStr());
-        return new MatrixAtom(
+        const mat = new MatrixAtom(
           elems,
           envName as "pmatrix",
           envName === "align" ? labels : []
         );
+        if (envName === "align" || envName === "align*") {
+          return new AlignAtom(mat, labels);
+        }
+        return mat;
       }
       if (token === Escape.And) {
         row.push(new MathGroup([]));

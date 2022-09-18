@@ -13,6 +13,7 @@ import {
   SymAtom,
   DisplayAtom,
   SectionAtom,
+  AlignAtom,
 } from "../../src/atom/atom";
 import { FracAtom } from "../../src/atom/frac";
 import { MatrixAtom } from "../../src/atom/matrix";
@@ -104,7 +105,9 @@ test("parse display", () => {
 test("parse align", () => {
   expect(parse("a\\begin{align}\\label{lab}j\\end{align}a", false)).toEqual([
     a,
-    new MatrixAtom([[new MathGroup([j])]], "align", ["lab"]),
+    new AlignAtom(new MatrixAtom([[new MathGroup([j])]], "align", ["lab"]), [
+      "lab",
+    ]),
     a,
   ]);
 });
