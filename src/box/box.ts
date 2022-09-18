@@ -143,6 +143,27 @@ export class SymBox implements Box {
   }
 }
 
+export class TagBox implements Box {
+  space: Space = {};
+  rect: Rect;
+  constructor(height: number, depth: number) {
+    this.rect = { height, depth, width: 0 };
+  }
+
+  bind() {
+    return this;
+  }
+
+  toHtml(): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.innerText = "(?)";
+    span.style.height = em(this.rect.height + this.rect.depth);
+    span.style.lineHeight = em((this.rect.height + -0.3155) * 2);
+    span.className = "main-r";
+    return span;
+  }
+}
+
 export class HBox implements Box {
   rect: Rect;
   space: Space = {};
@@ -216,6 +237,11 @@ export class VBox implements Box {
 
   bind(atom: Atom) {
     this.atom = atom;
+    return this;
+  }
+
+  setTag() {
+    this.tag = true;
     return this;
   }
 

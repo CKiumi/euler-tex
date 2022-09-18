@@ -1,4 +1,4 @@
-import { Box, HBox, RectBox, SymBox, VBox } from "../box/box";
+import { Box, HBox, RectBox, TagBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
 import { Atom, MathGroup } from "./atom";
@@ -23,11 +23,16 @@ export class MatrixAtom implements Atom {
   elem: HTMLSpanElement | null = null;
   grid = false;
   hPos = [0];
+  rows: MathGroup[][];
   constructor(
-    public rows: MathGroup[][],
+    rows: MathGroup[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
     public labels: string[] = []
-  ) {}
+  ) {
+    const cn = Math.max(...rows.map((row) => row.length));
+    for (const r of rows) while (r.length < cn) r.push(new MathGroup([]));
+    this.rows = rows;
+  }
 
   children(): Atom[] {
     const rows = this.rows.flatMap((row) =>
@@ -44,9 +49,7 @@ export class MatrixAtom implements Atom {
         if (col > 0) result += " & ";
         result += this.rows[row][col].serialize();
       }
-      if (row < this.rows.length - 1) {
-        result += "\\\\\n";
-      }
+      if (row < this.rows.length - 1) result += "\\\\\n";
     }
     return `\n\\begin{${this.type}}${result}\\end{${this.type}}\n`;
   }
@@ -55,142 +58,89 @@ export class MatrixAtom implements Atom {
     this.grid = grid;
   }
 
-  toBox(options: Options): HBox | VBox {
+  toBox(options: Options): HBox {
+    const { type, grid } = this;
     this.hPos = [0];
-    const newOptions = options?.getNewOptions(
-      isAlign(this.type) ? DISPLAY : TEXT
-    );
-    const children = this.rows.map((child) => {
-      return child.map((e, i) => {
+    const newOptions = options?.getNewOptions(isAlign(type) ? DISPLAY : TEXT);
+    const children = this.rows.map((row) => {
+      return row.map((e, i) => {
         e.parent = this;
         const hbox = e.toBox(newOptions);
-        const { children } = hbox;
-        if (isAlign(this.type) && i === 1 && e.body.length > 1) {
-          const space = getSpacing("ord", e.body[1].kind ?? "ord");
-          children[1].space.left = space;
-          hbox.rect.width += space;
+        if (isAlign(type) && i === 1) {
+          hbox.space.left = getSpacing("ord", e.body[1]?.kind ?? "ord");
         }
         return hbox;
       });
     });
-
-    let r: number, c: number;
-    const nr = children.length;
-    if (!children[0]) return new HBox([]).bind(this);
-    let nc = children[0].length;
-    const body: Outrow[] = [];
-    let totalHeight = 0;
-    const arraystretch = this.type === "cases" ? 1.2 : 1;
+    const nc = children[0].length;
     const pt = 1 / SIGMAS.ptPerEm[0];
-    const jot = isAlign(this.type) ? 3 * pt : 0;
-    const arraycolsep = !isAlign(this.type) ? 5 * pt : 0;
-    const baselineskip = 12 * pt;
-    const arrayskip = arraystretch * baselineskip;
-    const [arstrutHeight, arstrutDepth] = [0.7 * arrayskip, 0.3 * arrayskip];
-
-    for (r = 0; r < nr; ++r) {
-      const inrow = children[r];
-      let [height, depth] = [arstrutHeight, arstrutDepth];
-      nc = Math.max(nc, inrow.length);
-      const outrow: Outrow = { children: [], pos: 0, height: 0, depth: 0 };
-      for (c = 0; c < inrow.length; c++) {
-        [height, depth] = [
-          Math.max(height, children[r][c].rect.height),
-          Math.max(depth, children[r][c].rect.depth),
-        ];
-        outrow.children.push(children[r][c]);
-      }
-      depth += jot;
-      [outrow.height, outrow.depth] = [height, depth];
-      totalHeight += height;
-      outrow.pos = totalHeight;
-      totalHeight += depth;
-      body.push(outrow);
-      this.hPos.push(totalHeight);
+    const [jot, colsep] = isAlign(type) ? [3 * pt, 0] : [0, 5 * pt];
+    const skip = (type === "cases" ? 1.2 : 1) * 12 * pt;
+    const [strutH, strutD] = [0.7 * skip, 0.3 * skip];
+    let totalH = 0;
+    const outrows = children.map((r) => {
+      const height = Math.max(strutH, ...r.map((e) => e.rect.height));
+      const depth = Math.max(strutD, ...r.map((e) => e.rect.depth)) + jot;
+      totalH += height + depth;
+      this.hPos.push(totalH);
+      return { children: r, pos: totalH - depth, height, depth };
+    });
+    const offset = totalH / 2 + SIGMAS.axisHeight[0];
+    const cols: Box[] = [makeSep(offset, totalH - offset, !grid)];
+    for (let c = 0; c < nc; c++) {
+      const col = outrows.map((row) => ({
+        box: row.children[c],
+        shift: offset - row.pos,
+      }));
+      cols.push(new VBox(col, undefined, alignments(type)[c]));
+      if (c > 0) cols[cols.length - 1].space.left = colsep;
+      if (c < nc - 1) cols[cols.length - 1].space.right = colsep;
+      cols.push(makeSep(offset, totalH - offset, !grid));
     }
-
-    const offset = totalHeight / 2 + SIGMAS.axisHeight[0];
-
-    const cols: Box[] = [];
-    cols.push(createSep(offset, totalHeight - offset, !this.grid));
-
-    for (c = 0; c < nc; c++) {
-      if (c >= nc) continue;
-      const col = body
-        .filter((row) => !!row.children[c])
-        .map((row) => ({ box: row.children[c], shift: -(row.pos - offset) }));
-
-      if (isAlign(this.type) && c === 0) {
-        cols.push(new VBox(col, undefined, "end"));
-      } else if (isAlign(this.type) || this.type === "cases") {
-        cols.push(new VBox(col, undefined, "start"));
-      } else {
-        cols.push(new VBox(col));
-      }
-      if (c > 0) cols[cols.length - 1].space.left = arraycolsep;
-      if (c < nc - 1) cols[cols.length - 1].space.right = arraycolsep;
-      cols.push(createSep(offset, totalHeight - offset, !this.grid));
-    }
-    const hbox = new HBox(cols);
-    hbox.space.bottom = totalHeight - offset - hbox.rect.depth;
-    hbox.space.top = offset - hbox.rect.height;
-    const inHeight = hbox.rect.height + hbox.space.top;
-    const inDepth = hbox.rect.depth + hbox.space.bottom;
-    const lines = createLine(
-      this.hPos.map((pos) => offset - pos),
-      !this.grid
-    );
-    const inner = new VBox([{ box: new HBox([hbox]), shift: 0 }, ...lines]);
-    const delim = MAT_DELIM[this.type];
-    if (delim) {
-      const [left, right] = delim.map((c) => makeLRDelim(c, inHeight, inDepth));
+    const pos = this.hPos.map((p) => offset - p);
+    const hls = makeHl(pos, !grid);
+    const inner = new VBox([{ box: new HBox(cols), shift: 0 }, ...hls]);
+    if (MAT_DELIM[type]) {
+      const [left, right] = MAT_DELIM[type].map((c) =>
+        makeLRDelim(c, inner.rect.height, inner.rect.depth)
+      );
       this.kind = "inner";
-      return new HBox([left, inner, right]).bind(this);
+      return new HBox(right ? [left, inner, right] : [left, inner]).bind(this);
     }
-    if (this.type === "cases") {
-      const left = makeLRDelim("{", inHeight, inDepth);
-      this.kind = "inner";
-      return new HBox([left, inner]).bind(this);
-    }
-    if (this.type === "align") {
-      const tagBoxes = [];
-      for (r = 0; r < nr; ++r) {
-        const tagBox = new SymBox("(?)", ["Main-R"]);
-        tagBox.rect.depth = body[r].depth;
-        tagBox.rect.height = body[r].height;
-        tagBoxes.push({ box: tagBox, shift: -(body[r].pos - offset) });
-      }
-      const tags = new VBox(tagBoxes);
-      tags.tag = true;
-      return new HBox([inner, tags]).bind(this);
+    if (type === "align") {
+      const tgs = outrows.map((r) => ({
+        box: new TagBox(r.height, r.depth),
+        shift: offset - r.pos,
+      }));
+      return new HBox([inner, new VBox(tgs).setTag()]).bind(this);
     }
     return new HBox([inner]).bind(this);
   }
 }
 
-const MAT_DELIM: { [x: string]: [string, string] } = {
+const alignments = (type: typeof ENVNAMES[number]) => {
+  if (isAlign(type)) return ["end", "start"];
+  if (type === "cases") return ["start", "start"];
+  else return [];
+};
+
+const MAT_DELIM: { [x: string]: string[] } = {
   pmatrix: ["(", ")"],
   bmatrix: ["[", "]"],
   Bmatrix: ["{", "}"],
   vmatrix: ["∣", "∣"],
   Vmatrix: ["∥", "∥"],
+  cases: ["{"],
 };
 
-type Outrow = {
-  children: Box[];
-  height: number;
-  depth: number;
-  pos: number;
-};
-
-const createSep = (height: number, depth: number, hidden = false) => {
+const makeSep = (height: number, depth: number, hidden = false) => {
   return new RectBox(
     { width: 0.02, height, depth },
     hidden ? ["sep", "hidden"] : ["sep"]
   );
 };
 
-export const createLine = (pos: number[], hidden = false) => {
+export const makeHl = (pos: number[], hidden = false) => {
   const cls = hidden ? ["hline", "hidden"] : ["hline"];
   return pos.map((p) => ({
     box: new RectBox({ width: 0, height: 0.02, depth: 0 }, cls),
@@ -198,6 +148,6 @@ export const createLine = (pos: number[], hidden = false) => {
   }));
 };
 
-const isAlign = (type: string) => {
+const isAlign = (type: typeof ENVNAMES[number]) => {
   return type === "aligned" || type === "align" || type === "align*";
 };

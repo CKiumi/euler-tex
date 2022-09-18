@@ -7,7 +7,7 @@ import {
   InlineBox,
   RectBox,
   SectionBox,
-  SymBox,
+  TagBox,
   ThmBox,
   VBox,
 } from "../box/box";
@@ -257,43 +257,8 @@ export class DisplayAtom implements Atom {
     const body = this.body.toBox(new Options());
     this.body.parent = this;
     if (this.label) {
-      const box = new SymBox("(?)", ["Main-R"]);
-      [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
-      const tagBox = new VBox([{ box, shift: 0 }]);
-      tagBox.tag = true;
-      return new DisplayBox([body, tagBox], this.label).bind(this);
-    }
-    return new DisplayBox([body], this.label).bind(this);
-  }
-}
-
-export class AlignAtom implements Atom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-  constructor(public body: MathGroup, public label: string | null) {}
-
-  children() {
-    return this.body.children();
-  }
-
-  serialize() {
-    if (this.label) {
-      return `\n\\begin{equation}\\label{${
-        this.label
-      }}${this.body.serialize()}\\end{equation}\n`;
-    }
-    return `\n\\[${this.body.serialize()}\\]\n`;
-  }
-
-  toBox(): DisplayBox {
-    const body = this.body.toBox(new Options());
-    this.body.parent = this;
-    if (this.label) {
-      const box = new SymBox("(?)", ["Main-R"]);
-      [box.rect.depth, box.rect.height] = [body.rect.depth, body.rect.height];
-      const tagBox = new VBox([{ box, shift: 0 }]);
-      tagBox.tag = true;
+      const box = new TagBox(body.rect.height, body.rect.depth);
+      const tagBox = new VBox([{ box, shift: 0 }]).setTag();
       return new DisplayBox([body, tagBox], this.label).bind(this);
     }
     return new DisplayBox([body], this.label).bind(this);
