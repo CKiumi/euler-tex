@@ -1,4 +1,5 @@
-import { MathGroup, Article } from "./atom/atom";
+import { MathGroup } from "./atom/atom";
+import { Article } from "./atom/block";
 import { Options, TEXT } from "./box/style";
 import { FontList } from "./font/spec";
 import { html } from "./html";
@@ -37,13 +38,14 @@ export const MathLatexToHtml = (
     } else if (mode === "display") {
       return new MathGroup(prarseMath(latex)).toBox(new Options()).toHtml();
     } else {
-      return new MathGroup(parse(latex)).toBox(new Options()).toHtml();
+      return new Article(parse(latex)).render();
     }
   })();
   html.className = mode;
   return html;
 };
 
+// export const latexToArticle = (latex: string) => new Article(parse(latex));
 export const latexToArticle = (latex: string) => new Article(parse(latex));
 
 export const setLabels = (article: HTMLSpanElement) => {

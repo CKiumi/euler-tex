@@ -10,10 +10,10 @@ import {
   SymAtom,
   MathGroup,
   latexToArticle,
-  Article,
 } from "../../src/lib";
 import { Options } from "../../src/box/style";
 import { article } from "../../page/data";
+import { Article } from "../../src/atom/block";
 const ops = new Options();
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new MathGroup([j]);
@@ -62,13 +62,13 @@ test("supsub atom", () => {
 
 test("elem", () => {
   const art = latexToArticle(article);
-  art.toBox().toHtml();
+  art.render();
   expect(art.children().filter((a) => !a.elem).length).toBe(0);
 });
 
 test("elem", () => {
   const art = latexToArticle(article);
-  art.toBox().toHtml();
+  art.render();
   expect(
     art.children().filter((a) => {
       while (a.parent) a = a.parent;

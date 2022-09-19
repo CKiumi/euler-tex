@@ -10,6 +10,7 @@ import {
   loadFont,
   prarseMath,
   setLabels,
+  parse,
 } from "../src/lib";
 import {
   ACC,
@@ -151,10 +152,11 @@ const route: { [key: string]: () => void } = {
     render("env2", "Environment", align, "align");
   },
   "/article": () => {
-    console.time("euler1");
+    console.time("total");
     const atom = latexToArticle(article);
+    const elem = atom.render();
     const line1 = html("div", {
-      children: [atom.toBox().toHtml()],
+      children: [elem],
       style: { border: "2px black solid" },
     });
     setLabels(line1);
@@ -166,7 +168,7 @@ const route: { [key: string]: () => void } = {
         children: [html("div", { text: atom.serialize() })],
       })
     );
-    console.timeEnd("euler1");
+    console.timeEnd("total");
   },
   "/symbol": () => {
     renderTable(Object.keys(LETTER1), "Letter 1");
@@ -204,6 +206,7 @@ export const latexToHtmlDev = (
   mode: "inline" | "display" | "align" = "display",
   fullWidth = true
 ) => {
+  if (mode === "align") return parse(latex)[0].render();
   const options = mode === "inline" ? new Options(6, TEXT) : new Options();
   const group = new MathGroup(prarseMath(latex, true));
   group.body.splice(0, 1);

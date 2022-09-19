@@ -1,21 +1,7 @@
-import {
-  AlignBox,
-  ArticleBox,
-  Box,
-  DisplayBox,
-  FirstBox,
-  HBox,
-  InlineBox,
-  RectBox,
-  SectionBox,
-  TagBox,
-  ThmBox,
-  VBox,
-} from "../box/box";
-import { Options, TEXT } from "../box/style";
-import { AtomKind, getSigma, getSpacing, MatrixAtom } from "../lib";
-import { ThmData } from "../parser/command";
-import { randStr } from "../util";
+import { Box, FirstBox, HBox, RectBox } from "../box/box";
+import { Options } from "../box/style";
+import { AtomKind, getSigma, getSpacing } from "../lib";
+import { Block, Display, Inline } from "./block";
 export * from "./accent";
 export * from "./frac";
 export * from "./leftright";
@@ -25,7 +11,7 @@ export * from "./supsub";
 export * from "./sym";
 
 export interface Atom {
-  parent: Atom | null;
+  parent: Atom | Block | null;
   elem: HTMLSpanElement | null;
   kind: AtomKind | null;
   children(): Atom[];
@@ -39,7 +25,7 @@ export interface GroupAtom extends Atom {
 
 export class FirstAtom implements Atom {
   kind = null;
-  parent = null;
+  parent: Block | Atom | null = null;
   elem: HTMLSpanElement | null = null;
 
   children() {
@@ -58,7 +44,7 @@ export class FirstAtom implements Atom {
 export class MathGroup implements GroupAtom {
   kind: AtomKind | null = null;
   elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
+  parent: (Atom | Display) | null = null;
 
   constructor(public body: Atom[]) {
     this.body = [new FirstAtom(), ...body];
@@ -68,7 +54,7 @@ export class MathGroup implements GroupAtom {
     return this.body.flatMap((atom) => atom.children());
   }
 
-  static _toBox(group: GroupAtom, options: Options) {
+  static _toBox(group: GroupAtom | Inline, options: Options) {
     let prevKind: AtomKind | null;
     return group.body.map((atom) => {
       const box = atom.toBox(options);
@@ -119,181 +105,7 @@ export class TextGroup implements GroupAtom {
   }
 }
 
-export class Article implements GroupAtom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-
-  constructor(public body: Atom[]) {
-    this.body = [new FirstAtom(), ...body];
-  }
-
-  children(): Atom[] {
-    return this.body.flatMap((atom) => atom.children());
-  }
-
-  serialize() {
-    return this.body.map((atom) => atom.serialize()).join("");
-  }
-
-  toBox(): ArticleBox {
-    const children = this.body.map((atom) => {
-      const box = atom.toBox(new Options());
-      atom.parent = this;
-      return box;
-    });
-    return new ArticleBox(children).bind(this);
-  }
-}
-
-export class ThmAtom implements GroupAtom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-
-  constructor(
-    public body: Atom[],
-    public thmName: ThmData,
-    public label: string
-  ) {
-    this.body = [new FirstAtom(), ...body];
-  }
-
-  children(): Atom[] {
-    return this.body.flatMap((atom) => atom.children());
-  }
-
-  serialize() {
-    const name = this.thmName.label.toLowerCase();
-    return `\n\\begin{${name}}\\label{${this.label}}${this.body
-      .map((atom) => atom.serialize())
-      .join("")}\\end{${name}}\n`;
-  }
-
-  toBox(): ThmBox {
-    const children = this.body.map((atom) => {
-      const box = atom.toBox(new Options());
-      atom.parent = this;
-      return box;
-    });
-    return new ThmBox(children, this.thmName, this.label).bind(this);
-  }
-}
-
-export class SectionAtom implements GroupAtom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-  constructor(
-    public body: Atom[],
-    public mode: "section" | "subsection" | "subsubsection",
-    public label: string = randStr()
-  ) {
-    this.body = [new FirstAtom(), ...body];
-  }
-
-  children(): Atom[] {
-    return [...this.body.flatMap((atom) => atom.children()), this];
-  }
-
-  serialize() {
-    const label = this.label ? `\\label{${this.label}}` : "";
-    return `\n\\${this.mode}{${this.body
-      .map((atom) => atom.serialize())
-      .join("")}}\n${label}`;
-  }
-
-  toBox(): SectionBox {
-    const children = this.body.map((atom) => {
-      const box = atom.toBox(new Options());
-      atom.parent = this;
-      return box;
-    });
-    return new SectionBox(children, this.mode, this.label).bind(this);
-  }
-}
-export class InlineAtom implements GroupAtom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent = null;
-  constructor(public body: Atom[]) {
-    this.body = [new FirstAtom(), ...body];
-  }
-
-  children(): Atom[] {
-    return [...this.body.flatMap((atom) => atom.children()), this];
-  }
-
-  serialize() {
-    return `$${this.body.map((atom) => atom.serialize()).join("")}$`;
-  }
-
-  toBox(): InlineBox {
-    return new InlineBox(MathGroup._toBox(this, new Options(6, TEXT))).bind(
-      this
-    );
-  }
-}
-
-export class DisplayAtom implements Atom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-  constructor(public body: MathGroup, public label: string | null) {}
-
-  children() {
-    return this.body.children();
-  }
-
-  serialize() {
-    if (this.label) {
-      return `\n\\begin{equation}\\label{${
-        this.label
-      }}${this.body.serialize()}\\end{equation}\n`;
-    }
-    return `\n\\[${this.body.serialize()}\\]\n`;
-  }
-
-  toBox(): DisplayBox {
-    const body = this.body.toBox(new Options());
-    this.body.parent = this;
-    if (this.label) {
-      const box = new TagBox(body.rect.height, body.rect.depth);
-      const tagBox = new VBox([{ box, shift: 0 }]).setTag();
-      return new DisplayBox([body, tagBox], this.label).bind(this);
-    }
-    return new DisplayBox([body], this.label).bind(this);
-  }
-}
-
-export class AlignAtom implements Atom {
-  kind = null;
-  elem: HTMLSpanElement | null = null;
-  parent: Atom | null = null;
-
-  constructor(public body: MatrixAtom, public labels: string[] | null) {}
-
-  children() {
-    return this.body.children();
-  }
-
-  serialize() {
-    return this.body.serialize();
-  }
-
-  toBox(): AlignBox {
-    this.body.parent = this;
-    return new AlignBox(this.body.toBox(new Options()), this.labels).bind(this);
-  }
-}
-
-export const parseLine = (width?: number): RectBox => {
-  return new RectBox(
-    {
-      width: width ?? 0,
-      height: getSigma("defaultRuleThickness"),
-      depth: 0,
-    },
-    ["line"]
-  );
+export const parseLine = (width = 0): RectBox => {
+  const height = getSigma("defaultRuleThickness");
+  return new RectBox({ width, height, depth: 0 }, ["line"]);
 };

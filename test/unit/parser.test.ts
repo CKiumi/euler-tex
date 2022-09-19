@@ -1,30 +1,32 @@
 import { expect, test } from "vitest";
 import {
   AccentAtom,
-  ThmAtom,
   Atom,
-  CharAtom,
   FirstAtom,
   MathGroup,
   LRAtom,
-  InlineAtom,
   OverlineAtom,
   SqrtAtom,
   SymAtom,
-  DisplayAtom,
-  SectionAtom,
-  AlignAtom,
 } from "../../src/atom/atom";
 import { FracAtom } from "../../src/atom/frac";
 import { MatrixAtom } from "../../src/atom/matrix";
 import { SupSubAtom } from "../../src/atom/supsub";
 import { parse, prarseMath } from "../../src/parser/parser";
 import { THM_ENV } from "../../src/parser/command";
+import {
+  Align,
+  Char,
+  Display,
+  Inline,
+  Section,
+  Theorem,
+} from "../../src/atom/block";
 
 export const prs = (latex: string, editable = false): Atom =>
   prarseMath(latex, editable)[0];
 
-const a = new CharAtom("a", null);
+const a = new Char("a", null);
 const j = new SymAtom("ord", "j", "j", ["Math-I"]);
 const group = new MathGroup([j]);
 test("parse symbol", () => {
@@ -91,13 +93,13 @@ test("matrix atom", () => {
 });
 
 test("parse inline", () => {
-  expect(parse("a$j$a")).toEqual([a, new InlineAtom([j]), a]);
+  expect(parse("a$j$a")).toEqual([a, new Inline([j]), a]);
 });
 
 test("parse display", () => {
   expect(parse("a\\[j\\]a")).toEqual([
     a,
-    new DisplayAtom(new MathGroup([j]), null),
+    new Display(new MathGroup([j]), null),
     a,
   ]);
 });
@@ -105,7 +107,7 @@ test("parse display", () => {
 test("parse align", () => {
   expect(parse("a\\begin{align}\\label{lab}j\\end{align}a", false)).toEqual([
     a,
-    new AlignAtom(new MatrixAtom([[new MathGroup([j])]], "align", ["lab"]), [
+    new Align(new MatrixAtom([[new MathGroup([j])]], "align", ["lab"]), [
       "lab",
     ]),
     a,
@@ -115,7 +117,7 @@ test("parse align", () => {
 test("parse theorem", () => {
   expect(parse("a\\begin{theorem}\\label{a}a\\end{theorem}a", false)).toEqual([
     a,
-    new ThmAtom([a], THM_ENV["theorem"], "a"),
+    new Theorem([a], THM_ENV["theorem"], "a"),
     a,
   ]);
 });
@@ -123,14 +125,11 @@ test("parse theorem", () => {
 test("parse section", () => {
   expect(parse("a\\section{a}a\\label{a}", false)).toEqual([
     a,
-    new SectionAtom([new CharAtom("a", null)], "section", "a"),
+    new Section([new Char("a", null)], "section", "a"),
     a,
   ]);
 });
 
 test("parse text font", () => {
-  expect(parse("a\\textbf{a}", false)).toEqual([
-    a,
-    new CharAtom("a", "Main-B"),
-  ]);
+  expect(parse("a\\textbf{a}", false)).toEqual([a, new Char("a", "Main-B")]);
 });

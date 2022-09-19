@@ -1,25 +1,29 @@
 import {
   AccentAtom,
-  ThmAtom,
   Atom,
-  CharAtom,
   DelimMap,
   Delims,
   FracAtom,
   MathGroup,
   LRAtom,
-  InlineAtom,
   MatrixAtom,
   OverlineAtom,
   SqrtAtom,
   SupSubAtom,
   SymAtom,
-  SectionAtom,
-  DisplayAtom,
   TextGroup,
   MidAtom,
-  AlignAtom,
 } from "../atom/atom";
+import {
+  Align,
+  Block,
+  Char,
+  Display,
+  Inline,
+  Ref,
+  Section,
+  Theorem,
+} from "../atom/block";
 import { OpAtom } from "../atom/op";
 import { AtomKind, Font } from "../font";
 import { randStr } from "../util";
@@ -32,7 +36,7 @@ export class Parser {
   mathFont: string | null = null;
   theorem: keyof typeof THM_ENV | null = null;
   italic = false;
-  lastSect: SectionAtom | null = null;
+  lastSect: Section | null = null;
   thmLabel: string | null = null;
   constructor(latex: string, public editable = false) {
     this.lexer = new Lexer(latex);
@@ -54,8 +58,8 @@ export class Parser {
     return new SymAtom("ord", token, token, ["Main-R"]);
   }
 
-  parse(end: Token): Atom[] {
-    const atoms: Atom[] = [];
+  parse(end: Token): (Char | Block)[] {
+    const atoms: (Char | Block)[] = [];
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (this.theorem && token === Escape.End) {
@@ -65,7 +69,7 @@ export class Parser {
       if (token === Escape.Begin) {
         const envName = this.parseEnvName();
         if (envName === "align" || envName === "align*") {
-          atoms.push(this.parseEnv(envName));
+          atoms.push(this.parseEnv(envName) as Align);
           continue;
         } else if (envName === "equation*" || envName === "equation") {
           atoms.push(this.parseDisplay(envName));
@@ -96,7 +100,7 @@ export class Parser {
       if (token === Escape.EOF) throw new Error(`Expected ${end}`);
       if (token === "\\ref") {
         const label = this.parseTextArg();
-        atoms.push(new SymAtom(null, label, label, [], { ref: true }));
+        atoms.push(new Ref(label, null));
         continue;
       }
       if (token === "\\cite") {
@@ -106,32 +110,32 @@ export class Parser {
       if (FontMap[token]) {
         this.font = FontMap[token];
         if (token.startsWith("\\text")) {
-          atoms.push(...this.parseTextFont(FontMap[token], "text"));
+          atoms.push(...(this.parseTextFont(FontMap[token], "text") as Char[]));
           this.font = null;
         }
         continue;
       }
       if (/\\section|\\subsection|\\subsubsection/.test(token)) {
         const title = Array.from(this.parseTextArg()).map(
-          (char) => new CharAtom(char, null)
+          (char) => new Char(char, null)
         );
-        this.lastSect = new SectionAtom(title, token.slice(1) as "section");
+        this.lastSect = new Section(title, token.slice(1) as "section");
         atoms.push(this.lastSect);
         continue;
       }
-      atoms.push(new CharAtom(token, null));
+      atoms.push(new Char(token, null));
     }
     return atoms;
   }
 
-  parseTextFont(font: Font, mode: "text" | "math"): Atom[] {
-    const atoms: Atom[] = [];
+  parseTextFont(font: Font, mode: "text" | "math"): (Atom | Char)[] {
+    const atoms: (Atom | Char)[] = [];
     this.lexer.tokenize();
     for (;;) {
       const token = this.lexer.tokenize(false);
       if (token === Escape.RCurly) break;
       if (token === Escape.EOF) break;
-      if (mode === "text") atoms.push(new CharAtom(token, font));
+      if (mode === "text") atoms.push(new Char(token, font));
       else atoms.push(new SymAtom(null, token, token, [font]));
     }
     return atoms;
@@ -145,7 +149,7 @@ export class Parser {
       if (token === Escape.EOF) throw new Error("Expected $ to end inline");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new InlineAtom(atoms);
+    return new Inline(atoms);
   }
 
   parseDisplay(mode: "equation" | "equation*" | null) {
@@ -167,14 +171,14 @@ export class Parser {
         throw new Error("Expected \\] to end display mode");
       atoms.push(this.parseSingleMath(token, atoms));
     }
-    return new DisplayAtom(new MathGroup(atoms), label);
+    return new Display(new MathGroup(atoms), label);
   }
 
-  parseThm(envName: keyof typeof THM_ENV): ThmAtom {
+  parseThm(envName: keyof typeof THM_ENV): Theorem {
     if (envName in THM_ENV) {
       this.theorem = envName;
       if (THM_ENV[envName].italic) this.italic = true;
-      const atom = new ThmAtom(
+      const atom = new Theorem(
         this.parse(Escape.EOF),
         THM_ENV[this.theorem],
         this.thmLabel ?? randStr()
@@ -218,7 +222,7 @@ export class Parser {
     }
     if (token === Escape.Begin) {
       const envName = this.parseEnvName();
-      return this.parseEnv(envName);
+      return this.parseEnv(envName) as MatrixAtom;
     }
     if (token === Escape.LCurly) {
       for (;;) {
@@ -238,7 +242,7 @@ export class Parser {
       if (FontMap[token]) {
         if (token.startsWith("\\text")) {
           const atom = new TextGroup(
-            this.parseTextFont(FontMap[token], "math")
+            this.parseTextFont(FontMap[token], "math") as Atom[]
           );
           return atom;
         }
@@ -378,7 +382,7 @@ export class Parser {
           envName === "align" ? labels : []
         );
         if (envName === "align" || envName === "align*") {
-          return new AlignAtom(mat, labels);
+          return new Align(mat, labels);
         }
         return mat;
       }
@@ -418,7 +422,7 @@ export const binOrOrd = (atoms: Atom[]): AtomKind => {
   return kind;
 };
 
-export const parse = (latex: string, editable = true): Atom[] => {
+export const parse = (latex: string, editable = true): (Char | Block)[] => {
   return new Parser(latex, editable).parse(Escape.EOF);
 };
 

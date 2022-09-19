@@ -1,8 +1,8 @@
-import { CharBox, SymBox, SymStyle, VStackBox } from "../box/box";
+import { SymBox, SymStyle, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, Font } from "../lib";
 import { BLOCKOP } from "../parser/command";
-import { Article, Atom, MathGroup, SectionAtom } from "./atom";
+import { Atom, MathGroup } from "./atom";
 
 export class SymAtom implements Atom {
   parent: MathGroup | null = null;
@@ -62,23 +62,8 @@ export class SymAtom implements Atom {
     }
     return new SymBox(char, fonts, style).bind(this);
   }
-}
-
-export class CharAtom implements Atom {
-  parent: SectionAtom | Article | null = null;
-  elem: HTMLSpanElement | null = null;
-  kind = null;
-  constructor(public char: string, public font: Font | null) {}
-
-  children() {
-    return [this];
-  }
-
-  serialize(): string {
-    return this.char;
-  }
-
-  toBox(): CharBox {
-    return new CharBox(this.char, this.font).bind(this);
+  render() {
+    this.elem = this.toBox().toHtml();
+    return this.elem;
   }
 }
