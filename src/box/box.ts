@@ -1,5 +1,5 @@
 import { innerPath, PathNode, sqrtSvg, SvgNode } from "../html";
-import { Atom, Font, getCharMetrics, getSigma, SPEC } from "../lib";
+import { Atom, Font, getCharMetrics, getSigma, MathAtom, SPEC } from "../lib";
 import { em } from "../util";
 
 type Space = { left?: number; right?: number; top?: number; bottom?: number };
@@ -8,9 +8,9 @@ type Rect = { height: number; depth: number; width: number };
 export class FirstBox implements Box {
   space: Space = {};
   rect: Rect = { height: 0.4306, depth: 0, width: 0 };
-  atom?: Atom;
+  atom?: MathAtom;
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -27,19 +27,19 @@ export interface Box {
   rect: Rect;
   space: Space;
   multiplier?: number;
-  atom?: Atom;
-  bind: (atom: Atom) => Box;
+  atom?: MathAtom;
+  bind: (atom: MathAtom) => Box;
   toHtml(): HTMLSpanElement;
 }
 
 export class RectBox implements Box {
   space: Space = {};
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(public rect: Rect, public classes: string[]) {
     this.space = { bottom: -rect.depth };
   }
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -60,10 +60,10 @@ export class RectBox implements Box {
 export class CharBox implements Box {
   space: Space = { left: 0, right: 0, top: 0, bottom: 0 };
   rect: Rect = { height: 0, depth: 0, width: 0 };
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(public char: string, public font: Font | null) {}
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -84,7 +84,6 @@ export class CharBox implements Box {
 
 export interface SymStyle {
   font?: string | null;
-  composite?: boolean;
   italic?: boolean;
   bold?: boolean;
   ref?: boolean;
@@ -96,7 +95,7 @@ export class SymBox implements Box {
   italic: number;
   space: Space = {};
   font: Font;
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(public char: string, fonts: Font[], public style?: SymStyle) {
     const {
       font: f,
@@ -108,11 +107,11 @@ export class SymBox implements Box {
     this.font = f;
     this.rect = { width: width + italic, height, depth };
     this.italic = italic;
-    if (this.char === " ") this.space.right = 1;
-    if (this.char === "  ") this.space.right = 2;
+    if (this.char === " ") this.italic = 1;
+    if (this.char === "  ") this.italic = 2;
   }
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -139,8 +138,10 @@ export class SymBox implements Box {
 
     if (this.style?.italic) span.style.fontStyle = "italic";
     if (this.style?.bold) span.style.fontWeight = "bold";
-    if (this.style?.composite) span.style.textDecoration = "underline";
-    if (this.style?.ref) span.classList.add("ref");
+    if (this.style?.ref) {
+      span.setAttribute("label", char);
+      span.classList.add("ref");
+    }
     if (this.atom) this.atom.elem = span;
     return span;
   }
@@ -170,7 +171,7 @@ export class TagBox implements Box {
 export class HBox implements Box {
   rect: Rect;
   space: Space = {};
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(public children: Box[], public multiplier?: number) {
     const width = children.reduce(
       (t, a) => t + a.rect.width + (a.space.left ?? 0) + (a.space.right ?? 0),
@@ -187,7 +188,7 @@ export class HBox implements Box {
     this.rect = { depth, height, width };
   }
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -212,7 +213,7 @@ export class VBox implements Box {
   rect: Rect;
   space: Space = {};
   tag = false;
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(
     public children: { box: Box; shift: number }[],
     public multiplier?: number,
@@ -228,7 +229,7 @@ export class VBox implements Box {
     this.rect = { depth, height, width };
   }
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -273,7 +274,7 @@ export class VStackBox implements Box {
   rect: Rect;
   space: Space = {};
   shift: number;
-  atom?: Atom;
+  atom?: MathAtom;
   constructor(
     public children: Box[],
     public newDepth: number,
@@ -295,7 +296,7 @@ export class VStackBox implements Box {
     this.shift = -(newDepth - oldDepth);
   }
 
-  bind(atom: Atom) {
+  bind(atom: MathAtom) {
     this.atom = atom;
     return this;
   }
@@ -317,7 +318,7 @@ export class VStackBox implements Box {
 export class DelimInnerBox implements Box {
   space: Space = {};
   multiplier?: number | undefined;
-  atom: Atom | undefined;
+  atom: MathAtom | undefined;
   constructor(public repeat: string, public rect: Rect) {}
 
   bind(_: Atom): Box {

@@ -2,10 +2,10 @@ import { SqrtBox, SqrtSize, VBox } from "../box/box";
 import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../font";
 import Style from "../font/style";
-import { Atom, MathGroup } from "./atom";
+import { Atom, MathAtom, MathGroup } from "./atom";
 import { stackLargeDelimiterSequence, traverseSequence } from "./leftright";
 
-export class SqrtAtom implements Atom {
+export class SqrtAtom implements MathAtom {
   parent: MathGroup | null = null;
   kind: AtomKind;
   elem: HTMLSpanElement | null = null;

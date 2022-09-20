@@ -2,14 +2,14 @@ import { Box, HBox, multiplyBox, SymBox, VBox, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, getSigma, SIGMAS } from "../font";
 import { LIMIT } from "../parser/command";
-import { Atom, MathGroup, SymAtom } from "./atom";
+import { Atom, MathAtom, MathGroup, SymAtom } from "./atom";
 
-export class SupSubAtom implements Atom {
+export class SupSubAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind | null;
   constructor(
-    public nuc: Atom,
+    public nuc: MathAtom,
     public sup?: MathGroup,
     public sub?: MathGroup
   ) {

@@ -1,7 +1,8 @@
 import { Box, FirstBox, HBox, RectBox } from "../box/box";
 import { Options } from "../box/style";
 import { AtomKind, getSigma, getSpacing } from "../lib";
-import { Block, Display, Inline } from "./block";
+import { Display, Inline } from "./block";
+export * from "./block";
 export * from "./accent";
 export * from "./frac";
 export * from "./leftright";
@@ -11,21 +12,24 @@ export * from "./supsub";
 export * from "./sym";
 
 export interface Atom {
-  parent: Atom | Block | null;
+  parent: Atom | null;
   elem: HTMLSpanElement | null;
-  kind: AtomKind | null;
   children(): Atom[];
   serialize(): string;
+}
+
+export interface MathAtom extends Atom {
+  kind: AtomKind | null;
   toBox(options?: Options): Box;
 }
 
-export interface GroupAtom extends Atom {
+export interface Group {
   body: Atom[];
 }
 
 export class FirstAtom implements Atom {
   kind = null;
-  parent: Block | Atom | null = null;
+  parent: Atom | null = null;
   elem: HTMLSpanElement | null = null;
 
   children() {
@@ -41,12 +45,12 @@ export class FirstAtom implements Atom {
   }
 }
 
-export class MathGroup implements GroupAtom {
+export class MathGroup implements Group {
   kind: AtomKind | null = null;
   elem: HTMLSpanElement | null = null;
   parent: (Atom | Display) | null = null;
 
-  constructor(public body: Atom[]) {
+  constructor(public body: MathAtom[]) {
     this.body = [new FirstAtom(), ...body];
   }
 
@@ -54,7 +58,7 @@ export class MathGroup implements GroupAtom {
     return this.body.flatMap((atom) => atom.children());
   }
 
-  static _toBox(group: GroupAtom | Inline, options: Options) {
+  static _toBox(group: MathGroup | Inline, options: Options) {
     let prevKind: AtomKind | null;
     return group.body.map((atom) => {
       const box = atom.toBox(options);
@@ -78,12 +82,12 @@ export class MathGroup implements GroupAtom {
   }
 }
 
-export class TextGroup implements GroupAtom {
+export class TextGroup implements Group {
   kind: AtomKind | null = null;
   elem: HTMLSpanElement | null = null;
   parent: Atom | null = null;
 
-  constructor(public body: Atom[]) {
+  constructor(public body: MathAtom[]) {
     this.body = [new FirstAtom(), ...body];
   }
 

@@ -11,7 +11,7 @@ import { getCharMetrics, getSigma } from "../font";
 import METRICS from "../font/data";
 import Style, { StyleInterface } from "../font/style";
 import { AtomKind, Font } from "../lib";
-import { Atom, MathGroup, SymAtom } from "./atom";
+import { Atom, MathAtom, MathGroup, SymAtom } from "./atom";
 export type Delims = keyof typeof DelimMap;
 //TODO: complete DelimMap
 export const DelimMap = {
@@ -29,7 +29,7 @@ export const DelimMap = {
   ".": " ",
 };
 
-export class MidAtom implements Atom {
+export class MidAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind = null;
@@ -49,7 +49,7 @@ export class MidAtom implements Atom {
     );
   }
 }
-export class LRAtom implements Atom {
+export class LRAtom implements MathAtom {
   parent: MathGroup | null = null;
   kind: AtomKind;
   elem: HTMLSpanElement | null = null;

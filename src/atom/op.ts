@@ -1,8 +1,8 @@
 import { AtomKind } from "../font";
 import { HBox, SymBox } from "../lib";
-import { Atom, MathGroup } from "./atom";
+import { MathAtom, MathGroup } from "./atom";
 
-export class OpAtom implements Atom {
+export class OpAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind = "op";

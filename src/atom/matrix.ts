@@ -1,7 +1,7 @@
 import { Box, HBox, RectBox, TagBox, VBox } from "../box/box";
 import { DISPLAY, Options, TEXT } from "../box/style";
 import { AtomKind, getSpacing, SIGMAS } from "../font";
-import { Atom, MathGroup } from "./atom";
+import { Atom, MathAtom, MathGroup } from "./atom";
 import { Align } from "./block";
 import { makeLRDelim } from "./leftright";
 
@@ -18,7 +18,7 @@ export const ENVNAMES = [
   "align*",
 ] as const;
 
-export class MatrixAtom implements Atom {
+export class MatrixAtom implements MathAtom {
   parent: MathGroup | Align | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;
@@ -59,7 +59,7 @@ export class MatrixAtom implements Atom {
     this.grid = grid;
   }
 
-  toBox(options: Options): HBox {
+  toBox(options: Options): HBox | VBox {
     const { type, grid } = this;
     this.hPos = [0];
     const newOptions = options?.getNewOptions(isAlign(type) ? DISPLAY : TEXT);
@@ -115,7 +115,7 @@ export class MatrixAtom implements Atom {
       }));
       return new HBox([inner, new VBox(tgs).setTag()]).bind(this);
     }
-    return new HBox([inner]).bind(this);
+    return inner.bind(this);
   }
 }
 

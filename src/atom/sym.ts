@@ -2,9 +2,9 @@ import { SymBox, SymStyle, VStackBox } from "../box/box";
 import { DISPLAY, Options } from "../box/style";
 import { AtomKind, Font } from "../lib";
 import { BLOCKOP } from "../parser/command";
-import { Atom, MathGroup } from "./atom";
+import { MathAtom, MathGroup } from "./atom";
 
-export class SymAtom implements Atom {
+export class SymAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   fonts: Font[];
@@ -61,9 +61,5 @@ export class SymAtom implements Atom {
       return box;
     }
     return new SymBox(char, fonts, style).bind(this);
-  }
-  render() {
-    this.elem = this.toBox().toHtml();
-    return this.elem;
   }
 }

@@ -1,9 +1,9 @@
 import { VStackBox } from "../box/box";
 import { Options } from "../box/style";
 import { AtomKind, getSigma } from "../lib";
-import { Atom, SymAtom, parseLine, MathGroup } from "./atom";
+import { Atom, SymAtom, parseLine, MathGroup, MathAtom } from "./atom";
 
-export class AccentAtom implements Atom {
+export class AccentAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind = "ord";
@@ -30,7 +30,7 @@ export class AccentAtom implements Atom {
   }
 }
 
-export class OverlineAtom implements Atom {
+export class OverlineAtom implements MathAtom {
   parent: MathGroup | null = null;
   elem: HTMLSpanElement | null = null;
   kind: AtomKind = "ord";

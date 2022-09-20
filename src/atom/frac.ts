@@ -8,9 +8,9 @@ import {
   TEXT,
 } from "../box/style";
 import { AtomKind, getSigma } from "../font";
-import { Atom, MathGroup, parseLine } from "./atom";
+import { Atom, MathAtom, MathGroup, parseLine } from "./atom";
 
-export class FracAtom implements Atom {
+export class FracAtom implements MathAtom {
   parent: MathGroup | null = null;
   kind: AtomKind = "ord";
   elem: HTMLSpanElement | null = null;

@@ -3,12 +3,19 @@ import { html } from "../html";
 import { Font, TagBox, VBox } from "../lib";
 import { ThmData } from "../parser/command";
 import { randStr } from "../util";
-import { Atom, FirstAtom, MathGroup, MatrixAtom } from "./atom";
+import {
+  Atom,
+  FirstAtom,
+  Group,
+  MathAtom,
+  MathGroup,
+  MatrixAtom,
+} from "./atom";
 
-export abstract class Block {
+export abstract class Block implements Atom {
   elem = document.createElement("span");
-  abstract parent: Atom | Block | null;
-  abstract children(): (Atom | Block)[];
+  abstract parent: Article | Theorem | Section | null;
+  abstract children(): Atom[];
   abstract serialize(): string;
   abstract render(): HTMLSpanElement;
 }
@@ -49,14 +56,15 @@ export class Ref extends Block {
   }
 
   render(): HTMLSpanElement {
+    this.elem.setAttribute("label", this.label);
     this.elem.innerText = this.label;
     this.elem.classList.add("ref");
     return this.elem;
   }
 }
 
-export class Article extends Block {
-  parent: Atom | null = null;
+export class Article extends Block implements Group {
+  parent = null;
   constructor(public body: Block[]) {
     super();
     this.body = [new Char("\u200b", null), ...body];
@@ -73,18 +81,19 @@ export class Article extends Block {
   render(): HTMLSpanElement {
     this.elem.innerHTML = "";
     this.elem.classList.add("text");
-    this.body.forEach((atom) => {
-      if (!atom.parent) this.elem.append(atom.render());
-      else this.elem.append(atom.elem);
+    const elems = this.body.map((atom) => {
+      const elem = !atom.parent ? atom.render() : atom.elem;
       atom.parent = this;
+      return elem;
     });
+    this.elem.append(...elems);
     return this.elem;
   }
 }
 
-export class Theorem extends Block {
+export class Theorem extends Block implements Group {
   kind = null;
-  parent: Atom | null = null;
+  parent: Article | null = null;
   constructor(
     public body: Block[],
     public thmName: ThmData,
@@ -124,7 +133,7 @@ export class Theorem extends Block {
   }
 }
 
-export class Section extends Block {
+export class Section extends Block implements Group {
   parent: Article | null = null;
   constructor(
     public body: Char[],
@@ -158,14 +167,14 @@ export class Section extends Block {
   }
 }
 
-export class Inline extends Block {
+export class Inline extends Block implements Group {
   parent = null;
-  constructor(public body: Atom[]) {
+  constructor(public body: MathAtom[]) {
     super();
     this.body = [new FirstAtom(), ...body];
   }
 
-  children() {
+  children(): Atom[] {
     return [...this.body.flatMap((atom) => atom.children()), this];
   }
 
@@ -189,7 +198,7 @@ export class Inline extends Block {
 }
 
 export class Display extends Block {
-  parent: Atom | null = null;
+  parent: Article | Theorem | null = null;
   constructor(public body: MathGroup, public label: string | null) {
     super();
   }
@@ -224,14 +233,14 @@ export class Display extends Block {
 }
 
 export class Align extends Block {
-  parent: Atom | null = null;
+  parent: Article | Theorem | null = null;
 
   constructor(public body: MatrixAtom, public labels: string[] | null) {
     super();
   }
 
   children() {
-    return this.body.children();
+    return this.body.children().slice(0, -1);
   }
 
   serialize() {

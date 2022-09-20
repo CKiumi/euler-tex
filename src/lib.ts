@@ -45,7 +45,6 @@ export const MathLatexToHtml = (
   return html;
 };
 
-// export const latexToArticle = (latex: string) => new Article(parse(latex));
 export const latexToArticle = (latex: string) => new Article(parse(latex));
 
 export const setLabels = (article: HTMLSpanElement) => {
@@ -53,14 +52,15 @@ export const setLabels = (article: HTMLSpanElement) => {
   const thmCtr: { [x: string]: number } = {};
   const thms = article.querySelectorAll(".theorem");
   thms.forEach((thm) => {
-    const lbl = thm.getAttribute("label");
     if (thm.classList.contains("nonum")) return;
     const label = thm.querySelector(".label");
-    const lbName = label?.textContent ?? "";
     label?.querySelector(".counter")?.remove();
+    const lbName = label?.textContent ?? "";
     thmCtr[lbName] ? thmCtr[lbName]++ : (thmCtr[lbName] = 1);
-    const num = html("span", { cls: ["counter"], text: ` ${thmCtr[lbName]}.` });
-    label?.append(num);
+    label?.append(
+      html("span", { cls: ["counter"], text: ` ${thmCtr[lbName]}.` })
+    );
+    const lbl = thm.getAttribute("label");
     if (lbl) labelHash[lbl] = `${thmCtr[lbName]}`;
   });
   let [sectCtr, subSecCtr, subSubsectCtr] = [0, 0, 0];
@@ -105,7 +105,7 @@ export const setLabels = (article: HTMLSpanElement) => {
   });
   const refs = article.querySelectorAll(".ref");
   refs.forEach((ref) => {
-    const label = ref.textContent?.replace("(", "").replace(")", "");
-    label && (ref.innerHTML = `${labelHash[label] ?? "?"}`);
+    const lbl = ref.getAttribute("label");
+    lbl && (ref.innerHTML = `${labelHash[lbl] ?? "?"}`);
   });
 };

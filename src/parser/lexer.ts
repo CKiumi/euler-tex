@@ -47,7 +47,7 @@ export class Lexer {
       while (/[ \r\t]/.test(this.peek())) {
         this.readChar();
       }
-      return " ";
+      return "\u00a0";
     }
     if (cur === null) return Escape.EOF;
     if (cur === "$") return Escape.Inline;

@@ -13,6 +13,7 @@ import {
   SymAtom,
   TextGroup,
   MidAtom,
+  MathAtom,
 } from "../atom/atom";
 import {
   Align,
@@ -42,7 +43,7 @@ export class Parser {
     this.lexer = new Lexer(latex);
   }
 
-  parseSingle(atoms: Atom[], token: Token) {
+  parseSingle(atoms: MathAtom[], token: Token) {
     const style = this.mathFont ? { font: this.mathFont } : undefined;
     if (/[A-Za-z]/.test(token))
       return new SymAtom("ord", token, token, ["Math-I", this.font], style);
@@ -142,7 +143,7 @@ export class Parser {
   }
 
   parseInline() {
-    const atoms: Atom[] = [];
+    const atoms: MathAtom[] = [];
     for (;;) {
       const token = this.lexer.tokenize();
       if (token === Escape.Inline) break;
@@ -153,7 +154,7 @@ export class Parser {
   }
 
   parseDisplay(mode: "equation" | "equation*" | null) {
-    const atoms: Atom[] = [];
+    const atoms: MathAtom[] = [];
     let label: string | null = null;
     if (mode === "equation") label = randStr();
     for (;;) {
@@ -200,7 +201,7 @@ export class Parser {
     return "";
   }
 
-  parseSingleMath(token: string, atoms: Atom[]): Atom {
+  parseSingleMath(token: string, atoms: MathAtom[]): MathAtom {
     if (token.length === 1) return this.parseSingle(atoms, token);
     if (token === Escape.Space) return new SymAtom("ord", "\u00A0", "\\ ", []);
     if (token === Escape.Left) return this.parseLR();
@@ -242,7 +243,7 @@ export class Parser {
       if (FontMap[token]) {
         if (token.startsWith("\\text")) {
           const atom = new TextGroup(
-            this.parseTextFont(FontMap[token], "math") as Atom[]
+            this.parseTextFont(FontMap[token], "math") as MathAtom[]
           );
           return atom;
         }
@@ -312,9 +313,9 @@ export class Parser {
     return new SymAtom("close", "?", token, ["Main-R"]);
   }
 
-  private parseLR(): Atom {
+  private parseLR(): MathAtom {
     const left = this.asrtDelim(this.lexer.tokenize());
-    const body: Atom[] = [];
+    const body: MathAtom[] = [];
     for (;;) {
       const token = this.lexer.tokenize();
       if (token === Escape.Right) break;
@@ -340,7 +341,7 @@ export class Parser {
   }
 
   parseMathArg(): MathGroup {
-    const atoms: Atom[] = [];
+    const atoms: MathAtom[] = [];
     const token = this.lexer.tokenize();
     if (token === Escape.LCurly) {
       for (;;) {
@@ -414,7 +415,7 @@ export class Parser {
   }
 }
 
-export const binOrOrd = (atoms: Atom[]): AtomKind => {
+export const binOrOrd = (atoms: MathAtom[]): AtomKind => {
   const lastAtom = atoms[atoms.length - 1];
   const kind = /bin|op|rel|open|punct/.test(lastAtom?.kind ?? "bin")
     ? "ord"
@@ -426,9 +427,9 @@ export const parse = (latex: string, editable = true): (Char | Block)[] => {
   return new Parser(latex, editable).parse(Escape.EOF);
 };
 
-export const prarseMath = (latex: string, editable = true): Atom[] => {
+export const prarseMath = (latex: string, editable = true): MathAtom[] => {
   const parser = new Parser(latex, editable);
-  const atoms: Atom[] = [];
+  const atoms: MathAtom[] = [];
   for (;;) {
     const token = parser.lexer.tokenize();
     if (token === Escape.EOF) break;
