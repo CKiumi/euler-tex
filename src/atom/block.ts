@@ -31,6 +31,7 @@ export class Char extends Block {
   }
 
   serialize(): string {
+    if (this.char === "\u00a0") return " ";
     return this.char;
   }
 
