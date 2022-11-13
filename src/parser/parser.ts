@@ -364,6 +364,18 @@ export class Parser {
   }
 
   parseEnv(envName: string) {
+    const aligns = (() => {
+      if (envName === "array") {
+        if (this.lexer.peek() !== "{") {
+          throw new Error("Expected { after \\begin{array}");
+        }
+        return Array.from(this.parseTextArg()).map(
+          (c) => ({ l: "start", c: "center", r: "end" }[c] as string)
+        );
+      }
+      return [];
+    })();
+
     const elems: MathGroup[][] = [[new MathGroup([])]];
     const labels = [];
     let curLabel = null;
@@ -380,7 +392,8 @@ export class Parser {
         const mat = new MatrixAtom(
           elems,
           envName as "pmatrix",
-          envName === "align" ? labels : []
+          envName === "align" ? labels : [],
+          aligns
         );
         if (envName === "align" || envName === "align*") {
           return new Align(mat, labels);

@@ -125,7 +125,7 @@ const route: { [key: string]: () => void } = {
   "/matrix": () => {
     const matrix1 = String.raw`\begin{bmatrix}a&a\\a&a\end{bmatrix}\begin{Bmatrix}a&a\\a&a\end{Bmatrix}\begin{vmatrix}a&a\\a&a\end{vmatrix}\begin{Vmatrix}a&a\\a&a\end{Vmatrix}`;
     const matrix2 = String.raw`\begin{pmatrix}a\\a&a\end{pmatrix} \begin{pmatrix}&\\&a\end{pmatrix} \begin{pmatrix}a&&a\\&\prod_b^{a}\\a&&a\end{pmatrix}`;
-    const matrix3 = String.raw`\begin{matrix} a\\  a&a \end{matrix}\begin{pmatrix} a\\  a&a \end{pmatrix} `;
+    const matrix3 = String.raw`\begin{matrix} a\\  a&a \end{matrix}\begin{pmatrix} a\\  a&a \end{pmatrix} \begin{array}{lcr}a&abc&a\\abc&a&add\end{array}`;
     render("mat1", "Matrix", matrix1);
     render("mat2", "Matrix", matrix2);
     render("mat3", "Matrix", matrix3);

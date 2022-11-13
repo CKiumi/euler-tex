@@ -6,6 +6,7 @@ import { Align } from "./block";
 import { makeLRDelim } from "./leftright";
 
 export const ENVNAMES = [
+  "array",
   "pmatrix",
   "bmatrix",
   "Bmatrix",
@@ -28,7 +29,8 @@ export class MatrixAtom implements MathAtom {
   constructor(
     rows: MathGroup[][],
     public type: typeof ENVNAMES[number] = "pmatrix",
-    public labels: string[] = []
+    public labels: string[] = [],
+    public aligns: string[] = []
   ) {
     const cn = Math.max(...rows.map((row) => row.length));
     for (const r of rows) while (r.length < cn) r.push(new MathGroup([]));
@@ -52,7 +54,10 @@ export class MatrixAtom implements MathAtom {
       }
       if (row < this.rows.length - 1) result += "\\\\\n";
     }
-    return `\n\\begin{${this.type}}${result}\\end{${this.type}}\n`;
+    //TODO support serialize aligns (lcr)
+    return `\n\\begin{${this.type}}${
+      this.type === "array" ? "{}" : ""
+    }${result}\\end{${this.type}}\n`;
   }
 
   setGrid(grid: boolean) {
@@ -93,9 +98,15 @@ export class MatrixAtom implements MathAtom {
         box: row.children[c],
         shift: offset - row.pos,
       }));
-      cols.push(new VBox(col, undefined, alignments(type)[c]));
-      if (c > 0) cols[cols.length - 1].space.left = colsep;
-      if (c < nc - 1) cols[cols.length - 1].space.right = colsep;
+      cols.push(
+        new VBox(col, undefined, this.aligns[c] ?? alignments(type)[c])
+      );
+      if (this.type === "array" || c > 0) {
+        cols[cols.length - 1].space.left = colsep;
+      }
+      if (this.type === "array" || c < nc - 1) {
+        cols[cols.length - 1].space.right = colsep;
+      }
       cols.push(makeSep(offset, totalH - offset, !grid));
     }
     const pos = this.hPos.map((p) => offset - p);

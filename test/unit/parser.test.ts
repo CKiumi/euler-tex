@@ -85,6 +85,17 @@ test("matrix atom", () => {
   expect(prs("\\begin{pmatrix}j&j\\\\j \\end{pmatrix}")).toEqual(
     new MatrixAtom([[group, group], [group]], "pmatrix", [])
   );
+  expect(() => {
+    prs("\\begin{array}j&j\\\\j \\end{array}");
+  }).toThrow();
+  expect(prs("\\begin{array}{lcr}j&j\\\\j \\end{array}")).toEqual(
+    new MatrixAtom(
+      [[group, group], [group]],
+      "array",
+      [],
+      ["start", "center", "end"]
+    )
+  );
   const atom = prs(
     "\\begin{pmatrix}j&j\\\\j \\end{pmatrix}",
     true

@@ -959,6 +959,7 @@ HBox {
 exports[`matrix atom 1`] = `
 HBox {
   "atom": MatrixAtom {
+    "aligns": [],
     "elem": null,
     "grid": false,
     "hPos": [
@@ -1138,6 +1139,7 @@ HBox {
                         "elem": null,
                         "kind": null,
                         "parent": MatrixAtom {
+                          "aligns": [],
                           "elem": null,
                           "grid": false,
                           "hPos": [
@@ -1196,6 +1198,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1260,6 +1263,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1343,6 +1347,7 @@ HBox {
                         "elem": null,
                         "kind": null,
                         "parent": MatrixAtom {
+                          "aligns": [],
                           "elem": null,
                           "grid": false,
                           "hPos": [
@@ -1401,6 +1406,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1465,6 +1471,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1579,6 +1586,7 @@ HBox {
                         "elem": null,
                         "kind": null,
                         "parent": MatrixAtom {
+                          "aligns": [],
                           "elem": null,
                           "grid": false,
                           "hPos": [
@@ -1637,6 +1645,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1701,6 +1710,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
@@ -1772,6 +1782,7 @@ HBox {
                         "elem": null,
                         "kind": null,
                         "parent": MatrixAtom {
+                          "aligns": [],
                           "elem": null,
                           "grid": false,
                           "hPos": [
@@ -1876,6 +1887,7 @@ HBox {
                               "elem": null,
                               "kind": null,
                               "parent": MatrixAtom {
+                                "aligns": [],
                                 "elem": null,
                                 "grid": false,
                                 "hPos": [
