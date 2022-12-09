@@ -140,7 +140,7 @@ const route: { [key: string]: () => void } = {
     render("supsub2", "SupSub2", supsub2);
 
     const supsub3 =
-      "\\sum_{a+b}^{a+b} \\sum^{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
+      "a\\sum_{a+b}^{a+b} \\sum^{a+b} \\sum_{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
     render("supsub3", "SupSub3", supsub3);
     render("supsub3", "SupSub3", supsub3, "inline");
   },

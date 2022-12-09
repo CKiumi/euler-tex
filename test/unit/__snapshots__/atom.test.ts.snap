@@ -226,14 +226,14 @@ VStackBox {
       "space": {},
     },
   ],
+  "depth": 0.19444,
   "multiplier": undefined,
-  "newDepth": 0.19444,
   "rect": {
     "depth": 0.19444,
     "height": 0.92296,
     "width": 0.5,
   },
-  "shift": -0,
+  "shift": 0.22852000000000006,
   "space": {},
 }
 `;
@@ -2303,14 +2303,14 @@ VStackBox {
       "space": {},
     },
   ],
+  "depth": 0.19444,
   "multiplier": undefined,
-  "newDepth": 0.19444,
   "rect": {
     "depth": 0.19444,
     "height": 0.8595200000000001,
     "width": 0.46905,
   },
-  "shift": -0,
+  "shift": 0.77952,
   "space": {},
 }
 `;
@@ -2348,21 +2348,6 @@ VBox {
     "parent": null,
   },
   "children": [
-    {
-      "box": SqrtBox {
-        "innerHeight": 1.0417100000000001,
-        "multiplier": undefined,
-        "rect": {
-          "depth": 0.273585,
-          "height": 0.926415,
-          "width": 1.41905,
-        },
-        "shift": -0.273585,
-        "size": 1,
-        "space": {},
-      },
-      "shift": 0,
-    },
     {
       "box": HBox {
         "atom": MathGroup {
@@ -2486,6 +2471,21 @@ VBox {
       },
       "shift": 0,
     },
+    {
+      "box": SqrtBox {
+        "innerHeight": 1.0417100000000001,
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.273585,
+          "height": 0.926415,
+          "width": 1.41905,
+        },
+        "shift": -0.273585,
+        "size": 1,
+        "space": {},
+      },
+      "shift": 0,
+    },
   ],
   "multiplier": undefined,
   "rect": {
@@ -2519,21 +2519,6 @@ VBox {
     "parent": null,
   },
   "children": [
-    {
-      "box": SqrtBox {
-        "innerHeight": 0.61835,
-        "multiplier": undefined,
-        "rect": {
-          "depth": 0.190825,
-          "height": 0.809175,
-          "width": 0.777,
-        },
-        "shift": -0.190825,
-        "size": "small",
-        "space": {},
-      },
-      "shift": 0,
-    },
     {
       "box": HBox {
         "atom": MathGroup {
@@ -2589,6 +2574,21 @@ VBox {
         "space": {
           "left": 0.777,
         },
+      },
+      "shift": 0,
+    },
+    {
+      "box": SqrtBox {
+        "innerHeight": 0.61835,
+        "multiplier": undefined,
+        "rect": {
+          "depth": 0.190825,
+          "height": 0.809175,
+          "width": 0.777,
+        },
+        "shift": -0.190825,
+        "size": "small",
+        "space": {},
       },
       "shift": 0,
     },

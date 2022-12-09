@@ -235,19 +235,29 @@ export const parseLimitSupSub = (
       ) / subSizeMultiplier;
   }
   if (supBox && subBox) {
-    const bottom =
-      getSigma("bigOpSpacing5") +
+    const m = subBox.multiplier ?? 1;
+    const d =
+      nucBox.rect.depth +
+      (nucBox.space.bottom ?? 0) +
       subBox.rect.height +
       subBox.rect.depth +
-      (subBox.space.top ?? 0) +
-      nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox, subBox], bottom).bind(atom);
+      (subBox.space.top ?? 0) * m +
+      (subBox.space.bottom ?? 0) * m;
+    return new VStackBox([supBox, nucBox, subBox], d).bind(atom);
   } else if (subBox) {
-    const top = nucBox.rect.height;
-    return new VStackBox([nucBox, subBox], top).bind(atom);
+    const { height, depth } = subBox.rect;
+    const { top, bottom } = subBox.space;
+    const d =
+      nucBox.rect.depth +
+      (nucBox.space.bottom ?? 0) +
+      height +
+      depth +
+      (top ?? 0) * (subBox.multiplier ?? 1) +
+      (bottom ?? 0) * (subBox.multiplier ?? 1);
+    return new VStackBox([nucBox, subBox], d).bind(atom);
   } else if (supBox) {
-    const bottom = nucBox.rect.depth;
-    return new VStackBox([supBox, nucBox], bottom).bind(atom);
+    const d = nucBox.rect.depth + (nucBox.space.bottom ?? 0);
+    return new VStackBox([supBox, nucBox], d).bind(atom);
   } else {
     throw new Error("Sup or Sub must specified");
   }

@@ -38,29 +38,30 @@ exports[`symbol box 1`] = `
 exports[`vBox box 1`] = `
 <span
   class="vlist"
-  style="height: 1.9306em; vertical-align: -0.5000em;"
+  style="vertical-align: 1.0000em; height: 1.9306em;"
 >
   <span
-    class="hbox"
-  >
-    <span
-      class="box math-i"
-      style="height: 0.4306em; line-height: 0.3621em;"
-    >
-      a
-    </span>
-    <span
-      class="box math-i"
-      style="height: 0.4306em; line-height: 0.3621em;"
-    >
-      a
-    </span>
-  </span>
-  <span
     class="box math-i"
-    style="height: 0.4306em; line-height: 0.3621em; bottom: 1.0694em;"
+    style="height: 0.4306em; line-height: 0.3621em;"
   >
     a
+  </span>
+  <span
+    class="hbox"
+    style="top: 1.0694em;"
+  >
+    <span
+      class="box math-i"
+      style="height: 0.4306em; line-height: 0.3621em;"
+    >
+      a
+    </span>
+    <span
+      class="box math-i"
+      style="height: 0.4306em; line-height: 0.3621em;"
+    >
+      a
+    </span>
   </span>
 </span>
 `;
@@ -68,7 +69,7 @@ exports[`vBox box 1`] = `
 exports[`vBox box 2`] = `
 <span
   class="vlist"
-  style="height: 0.4306em; vertical-align: 1.0000em;"
+  style="vertical-align: 1.0000em; height: 0.4306em;"
 >
   <span
     class="box math-i"
@@ -82,8 +83,14 @@ exports[`vBox box 2`] = `
 exports[`vStackBox box 1`] = `
 <span
   class="vlist"
-  style="vertical-align: -3.0000em;"
+  style="vertical-align: -2.5694em;"
 >
+  <span
+    class="box math-i"
+    style="height: 0.4306em; line-height: 0.3621em;"
+  >
+    a
+  </span>
   <span
     class="hbox"
   >
@@ -99,12 +106,6 @@ exports[`vStackBox box 1`] = `
     >
       a
     </span>
-  </span>
-  <span
-    class="box math-i"
-    style="height: 0.4306em; line-height: 0.3621em;"
-  >
-    a
   </span>
 </span>
 `;

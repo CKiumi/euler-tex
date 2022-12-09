@@ -50,8 +50,8 @@ export class SqrtAtom implements MathAtom {
     });
     inner.space.left = totalWidth - width;
     return new VBox([
-      { box: sqrtBox, shift: 0 },
       { box: inner, shift: 0 },
+      { box: sqrtBox, shift: 0 },
     ]).bind(this);
   }
 }

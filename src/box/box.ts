@@ -243,27 +243,22 @@ export class VBox implements Box {
     const span = document.createElement("span");
     addSpace(span, this);
     let stackHeight = 0;
-    this.children
-      .slice()
-      .reverse()
-      .forEach(({ box, shift }) => {
-        const { rect } = box;
-        const html = box.toHtml();
-        span.append(html);
-        html.style.bottom = em(
-          (this.rect.depth - stackHeight - rect.depth + shift) /
-            (box.multiplier ?? 1)
-        );
-        stackHeight += rect.depth + rect.height;
-      });
-    const oldDepth = this.children[this.children.length - 1].box.rect.depth;
+    this.children.forEach(({ box, shift }) => {
+      const { rect } = box;
+      const html = box.toHtml();
+      span.append(html);
+      html.style.top = em(
+        (this.rect.height - stackHeight - rect.height - shift) /
+          (box.multiplier ?? 1)
+      );
+      stackHeight += rect.depth + rect.height;
+    });
+    const oldDepth =
+      this.rect.height + this.rect.depth - this.children[0].box.rect.height;
     span.classList.add("vlist");
-
+    span.style.verticalAlign = em(oldDepth - this.rect.depth);
     span.style.height = em(this.rect.height + this.rect.depth);
     if (this.align) span.style.alignItems = this.align;
-
-    span.style.verticalAlign = em(-this.rect.depth + oldDepth);
-
     if (this.atom) this.atom.elem = span;
     if (this.tag) span.classList.add("tag");
     return span;
@@ -277,23 +272,26 @@ export class VStackBox implements Box {
   atom?: MathAtom;
   constructor(
     public children: Box[],
-    public newDepth: number,
+    public depth: number,
     public multiplier?: number,
     public align?: string
   ) {
     const height =
       children
         .map(
-          ({ rect, space }) =>
-            rect.height + rect.depth + (space.bottom ?? 0) + (space.top ?? 0)
+          ({ rect, space, multiplier }) =>
+            rect.height +
+            rect.depth +
+            (space.bottom ?? 0) * (multiplier ?? 1) +
+            (space.top ?? 0) * (multiplier ?? 1)
         )
-        .reduce((t, a) => t + a, 0) - newDepth;
+        .reduce((t, a) => t + a, 0) - depth;
     const width = Math.max(...children.map(({ rect }) => rect.width));
-    const revChildren = children.slice().reverse();
-    const oldDepth =
-      revChildren[0].rect.depth + (revChildren[0].space?.bottom ?? 0);
-    this.rect = { depth: newDepth, height, width };
-    this.shift = -(newDepth - oldDepth);
+    this.rect = { depth, height, width };
+    this.shift =
+      height -
+      children[0].rect.height -
+      (children[0].space.top ?? 0) * (children[0].multiplier ?? 1);
   }
 
   bind(atom: MathAtom) {
@@ -305,10 +303,7 @@ export class VStackBox implements Box {
     const span = document.createElement("span");
     addSpace(span, this);
     span.classList.add("vlist");
-    this.children
-      .slice()
-      .reverse()
-      .forEach((child) => span.append(child.toHtml()));
+    this.children.forEach((child) => span.append(child.toHtml()));
     span.style.verticalAlign = em(this.shift);
     if (this.atom) this.atom.elem = span;
     return span;
