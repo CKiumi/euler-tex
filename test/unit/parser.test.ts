@@ -144,3 +144,10 @@ test("parse section", () => {
 test("parse text font", () => {
   expect(parse("a\\textbf{a}", false)).toEqual([a, new Char("a", "Main-B")]);
 });
+
+test("serialize OP", () => {
+  expect(prarseMath("\\sin", false)[0].serialize()).toEqual("\\sin ");
+  expect(prarseMath("\\operatorname{CNOT}", false)[0].serialize()).toEqual(
+    "\\operatorname{CNOT}"
+  );
+});

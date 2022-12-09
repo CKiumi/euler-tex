@@ -92,7 +92,7 @@ const renderTable = (command: string[], title: string) => {
 const route: { [key: string]: () => void } = {
   "/": () => {
     const mathfont =
-      "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im";
+      "\\mathbb{aABCZ\\mathcal{Z}\\mathcal{HZ}}\\mathfrak{RI}\\Re\\Im\\operatorname{CNOTf}";
     render("mathfont", "Font command", mathfont);
     const acc = "\\overline{x^a}\\hat{x^a}";
     render("acc", "Accent", acc);
@@ -140,7 +140,7 @@ const route: { [key: string]: () => void } = {
     render("supsub2", "SupSub2", supsub2);
 
     const supsub3 =
-      "a\\sum_{a+b}^{a+b} \\sum^{a+b} \\sum_{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
+      "\\sum_{a+b}^{a+b} \\sum^{a+b} \\sum_{a+b} \\int^{a+b} \\int_{a+b} \\int_{a+b}^{a+b}\\prod^{\\prod^x}_{\\prod^x_x} ";
     render("supsub3", "SupSub3", supsub3);
     render("supsub3", "SupSub3", supsub3, "inline");
   },

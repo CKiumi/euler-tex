@@ -264,6 +264,7 @@ export class Parser {
       if (token === "\\braket")
         return new LRAtom("<", ">", this.parseMathArg());
       if (OP.includes(token)) return new OpAtom(token.slice(1));
+      if (token === "\\operatorname") return new OpAtom(this.parseTextArg());
       if (token === "\\sqrt") return new SqrtAtom(this.parseMathArg());
       if (token === "\\frac") {
         return new FracAtom(this.parseMathArg(), this.parseMathArg());

@@ -1,5 +1,6 @@
 import { AtomKind } from "../font";
 import { HBox, SymBox } from "../lib";
+import { OP } from "../parser/command";
 import { MathAtom, MathGroup } from "./atom";
 
 export class OpAtom implements MathAtom {
@@ -13,7 +14,9 @@ export class OpAtom implements MathAtom {
   }
 
   serialize() {
-    return "\\" + this.body + " ";
+    return OP.includes("\\" + this.body)
+      ? "\\" + this.body + " "
+      : "\\operatorname{" + this.body + "}";
   }
 
   toBox(): HBox {
