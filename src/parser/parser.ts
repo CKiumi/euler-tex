@@ -316,6 +316,7 @@ export class Parser {
 
   private parseLR(): MathAtom {
     const left = this.asrtDelim(this.lexer.tokenize());
+    console.log(left);
     const body: MathAtom[] = [];
     for (;;) {
       const token = this.lexer.tokenize();
@@ -336,7 +337,8 @@ export class Parser {
   }
 
   private asrtDelim(token: Token): Delims {
-    if (token in DelimMap) return token as Delims;
+    const ntoken = token.replace("\\rangle", ">").replace("\\langle", "<");
+    if (ntoken in DelimMap) return ntoken as Delims;
     console.error("Unexpected Delim: " + token);
     return "|";
   }

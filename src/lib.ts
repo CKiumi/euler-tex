@@ -97,7 +97,7 @@ export const setLabels = (article: HTMLSpanElement) => {
     const lbls = eq.getAttribute("label")?.split("\\");
     const labels = eq.querySelector(".tag")?.children;
     if (!labels) return;
-    (Array.from(labels) as HTMLElement[]).reverse().forEach((label, i) => {
+    (Array.from(labels) as HTMLElement[]).forEach((label, i) => {
       label.innerText = `(${counter})`;
       if (lbls) labelHash[lbls[i]] = `${counter}`;
       counter++;

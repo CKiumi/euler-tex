@@ -54,6 +54,10 @@ test("leftright atom", () => {
   expect(prs("\\left|j \\right|")).toEqual(new LRAtom("|", "|", group));
   expect(prs("\\left\\|j \\right\\|")).toEqual(new LRAtom("\\|", "\\|", group));
   expect(prs("\\left<j\\right>")).toEqual(new LRAtom("<", ">", group));
+  expect(prs("\\left\\langle j\\right|")).toEqual(new LRAtom("<", "|", group));
+  expect(prs("\\left\\langle j\\right\\rangle")).toEqual(
+    new LRAtom("<", ">", group)
+  );
 
   const atom = prs("\\left(j \\right)", true) as LRAtom;
   expect(atom.body.body[0]).instanceOf(FirstAtom);
